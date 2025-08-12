@@ -3,7 +3,7 @@ BOT_NAME = "roeum_crawler"
 SPIDER_MODULES = ["crawler.spiders"]
 NEWSPIDER_MODULE = "crawler.spiders"
 
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 AUTOTHROTTLE_ENABLED = True
 CONCURRENT_REQUESTS_PER_DOMAIN = 1
 DOWNLOAD_TIMEOUT = 60
@@ -28,3 +28,11 @@ DUPEFILTER_CLASS = "scrapy.dupefilters.RFPDupeFilter"
 
 # ★ 출력 인코딩 (JSON이 한글 그대로 나오게)
 FEED_EXPORT_ENCODING = "utf-8"
+
+
+ITEM_PIPELINES = {
+    "crawler.pipelines.EmbeddingQueuePipeline": 300,
+}
+
+# DB 접속
+# export DB_DSN="dbname=roeum user=roeum password=roeum host=127.0.0.1"

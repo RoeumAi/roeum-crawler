@@ -1,0 +1,13 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: roeum_pg
+    environment:
+      POSTGRES_DB: roeum
+      POSTGRES_USER: roeum
+      POSTGRES_PASSWORD: roeum
+    ports:
+      - "5432:5432"               # 로컬 5432 사용 중이면 "5433:5432"로 바꿔
+    volumes:
+      - ./dbdata:/var/lib/postgresql/data
+      - ./sql/init:/docker-entrypoint-initdb.d

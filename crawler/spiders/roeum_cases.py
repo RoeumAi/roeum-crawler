@@ -5,15 +5,23 @@ from urllib.parse import urljoin
 import scrapy
 from scrapy_playwright.page import PageMethod
 
+# ==============================================================================
+# 상수 정의 (Constants Definition)
+# ==============================================================================
+# 메인페이지 목록 테이블의 CSS 선택자
 LIST_SEL = "#resultTableDiv"
+# 판례 상세 페이지에서 내용이 준비되었는지 확인하는 CSS 선택자
 CASE_READY_SEL = 'h2[data-brl-use="PH/H1"]'
 
+# ==============================================================================
+# 텍스트 클리닝 유틸리티 함수 (Text Cleaning Utility Functions)
+# ==============================================================================
 def _clean_inline(s: str) -> str:
     """한 줄 텍스트용: NBSP/nbsp 제거 + 공백 정돈"""
-    s = (s or "").replace("\xa0", " ")
-    s = re.sub(r"(?i)\bNBSP\b", " ", s)       # 'NBSP' 글자 제거
-    s = re.sub(r"(?i)&nbsp;", " ", s)         # HTML 엔티티 제거
-    s = re.sub(r"\s+", " ", s).strip()
+    s = (s or "").replace("\xa0", " ")        # 유니코드 NBSP 제거
+    s = re.sub(r"(?i)\bNBSP\b", " ", s)       # 'NBSP' 문자열 제거 (대소문자 구분 없음)
+    s = re.sub(r"(?i)&nbsp;", " ", s)         # HTML 엔티티 &nbsp; 제거 (대소문자 구분 없음)
+    s = re.sub(r"\s+", " ", s).strip()        # 여러 공백을 단일 공백으로 줄이고 앞뒤 공백 제거
     return s
 
 def _clean_block(s: str) -> str:
@@ -22,35 +30,51 @@ def _clean_block(s: str) -> str:
     s = re.sub(r"(?i)\bNBSP\b", " ", s)
     s = re.sub(r"(?i)&nbsp;", " ", s)
     # 줄바꿈은 살리고, 줄 내부 공백 정리
-    s = re.sub(r"[ \t]+", " ", s)
-    s = re.sub(r"[ \t]*\n[ \t]*", "\n", s)
-    s = re.sub(r"\n{3,}", "\n\n", s)
+    s = re.sub(r"[ \t]+", " ", s)           # 줄 내부의 여러 공백을 단일 공백으로
+    s = re.sub(r"[ \t]*\n[ \t]*", "\n", s)  # 줄바꿈 앞뒤의 공백 제거
+    s = re.sub(r"\n{3,}", "\n\n", s)        # 3개 이상의 연속된 줄바꿈을 2개로 줄임
     return s.strip()
 
 def _node_text(sel) -> str:
-    """블록 내부 텍스트를 줄바꿈 정리해 수집"""
+    """
+    Scrapy Selector 노드에서 텍스트를 추출하고 줄바꿈을 정리합니다.
+    <br> 태그를 줄바꿈으로 변환하고, 모든 텍스트 노드를 결합하여 블록 텍스트를 생성합니다.
+    """
     html = sel.get() or ""
-    html = re.sub(r"(?i)<br\s*/?>", "\n", html)
-    parts = [t for t in sel.xpath(".//text()").getall()]
-    txt = "\n".join([p for p in (p.strip() for p in parts) if p])
-    txt = _clean_block(txt)
+    html = re.sub(r"(?i)<br\s*/?>", "\n", html)       # <br> 태그를 줄바꿈으로 변환
+    parts = [t for t in sel.xpath(".//text()").getall()]           # 모든 하위 텍스트 노드 추출
+    txt = "\n".join([p for p in (p.strip() for p in parts) if p])  # 각 텍스트 노드를 줄바꿈으로 연결
+    txt = _clean_block(txt)                                        # 블록 텍스트 클리닝 적용
     return txt
 
 def _collect_until(nodes, stop_if):
+    """
+    주어진 노드 리스트를 순회하며 특정 조건(`stop_if`)이 만족될 때까지 텍스트를 수집합니다.
+    주로 섹션별 텍스트를 추출할 때 다음 섹션의 시작 태그를 만나면 중단하는 데 사용됩니다.
+    """
     chunks = []
     for n in nodes:
         tag = getattr(n.root, "tag", "").lower()
         if stop_if(n, tag):
             break
+        # 특정 HTML 태그(p, div, ul, ol, table, blockquote) 내의 텍스트만 수집
         if tag in {"p", "div", "ul", "ol", "table", "blockquote"}:
             t = _node_text(n)
             if t:
                 chunks.append(t)
-    return "\n\n".join(chunks).strip()
+    return "\n\n".join(chunks).strip() # 수집된 텍스트 덩어리들을 두 개의 줄바꿈으로 연결
 
-
+# ==============================================================================
+# Scrapy 스파이더 클래스 (Scrapy Spider Class)
+# ==============================================================================
 class RoeumCasesSpider(scrapy.Spider):
     name = "roeum_cases"
+
+    # Scrapy의 사용자 정의 설정.
+    # AUTOTHROTTLE_ENABLED: 요청 간 지연 시간을 자동으로 조절하여 서버 부하를 줄임.
+    # CONCURRENT_REQUESTS_PER_DOMAIN: 도메인당 동시 요청 수.
+    # DOWNLOAD_DELAY: 요청 간 최소 지연 시간.
+    # FEED_EXPORT_ENCODING: 피드(Feed) 내보내기 시 사용할 인코딩.
     custom_settings = {
         "AUTOTHROTTLE_ENABLED": True,
         "CONCURRENT_REQUESTS_PER_DOMAIN": 1,
@@ -59,6 +83,11 @@ class RoeumCasesSpider(scrapy.Spider):
     }
 
     def __init__(self, dept: str = "1492000", max_pages: int = 3, *args, **kwargs):
+        """
+        스파이더 초기화 메서드.
+        dept: 크롤링할 부서 ID (기본값: 1492000).
+        max_pages: 크롤링할 최대 페이지 수 (기본값: 3).
+        """
         super().__init__(*args, **kwargs)
         self.dept_id = str(dept)
         self.max_pages = int(max_pages)
@@ -67,10 +96,20 @@ class RoeumCasesSpider(scrapy.Spider):
         "https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&query=#AJAX"
     ]
 
+    # ==============================================================================
+    # Playwright 관련 헬퍼 메서드 (Playwright Helper Methods)
+    # ==============================================================================
+
     async def _route(self, route, request):
+        """
+        Playwright 요청 라우팅: 불필요한 리소스(이미지, 폰트, 미디어, 광고/분석 스크립트) 로드를 차단합니다.
+        이를 통해 크롤링 속도를 높이고 리소스 사용량을 줄입니다.
+        """
         rt, url = request.resource_type, request.url
+        # 이미지, 폰트, 미디어 파일 차단
         if rt in ("image", "font", "media"):
             return await route.abort()
+        # 특정 도메인의 스크립트 차단 (광고, 분석 등)
         if any(h in url for h in (
                 "googletagmanager.com", "google-analytics.com", "gstatic.com",
                 "doubleclick.net", "stats.g.doubleclick.net"
@@ -79,6 +118,10 @@ class RoeumCasesSpider(scrapy.Spider):
         return await route.continue_()
 
     def _wait_mask_clear_js(self) -> str:
+        """
+        페이지 로딩 마스크(loadmask)가 사라질 때까지 기다리는 JavaScript 함수를 반환합니다.
+        동적 콘텐츠 로딩 시 화면을 가리는 마스크가 사라진 후 다음 작업을 진행하기 위해 사용됩니다.
+        """
         return """
             () => {
               const nodes = Array.from(document.querySelectorAll('.loadmask, .loadmask-msg'));
@@ -90,6 +133,10 @@ class RoeumCasesSpider(scrapy.Spider):
         """
 
     def _wait_list_ready_js(self) -> str:
+        """
+        판례 목록이 로드되어 준비될 때까지 기다리는 JavaScript 함수를 반환합니다.
+        목록 테이블 내에 특정 링크(precInfoP.do)가 나타나는지 확인하여 목록 로딩 완료를 판단합니다.
+        """
         return f"""
             () => {{
               const box = document.querySelector('{LIST_SEL}');
@@ -99,18 +146,31 @@ class RoeumCasesSpider(scrapy.Spider):
             }}
         """
 
+    # ==============================================================================
+    # 요청 시작 및 처리 (Request Initiation and Processing)
+    # ==============================================================================
     def start_requests(self):
+        """
+        스파이더의 초기 요청을 생성합니다.
+        Playwright를 사용하여 초기 URL에 접속하고, 특정 부서(dept_id)를 선택하는 등
+        페이지와 상호작용하여 판례 목록을 로드합니다.
+        """
         yield scrapy.Request(
             self.start_urls[0],
             meta={
-                "playwright": True,
+                "playwright": True, # Playwright 사용 활성화
                 "playwright_page_methods": [
+                    # 요청 라우팅 설정 (불필요한 리소스 차단)
                     PageMethod("route", "**/*", self._route),
+                    # DOM 콘텐츠가 로드될 때까지 대기
                     PageMethod("wait_for_load_state", "domcontentloaded"),
+                    # 로딩 마스크가 사라질 때까지 대기
                     PageMethod("wait_for_function", self._wait_mask_clear_js(), timeout=60000),
+                    # 특정 부서 선택 요소가 보일 때까지 대기
                     PageMethod("wait_for_selector",
                                f"#cptOfi{self.dept_id}, a[onclick*=\"clickCptOfi({self.dept_id})\"]",
                                state="visible", timeout=60000),
+                    # JavaScript를 실행하여 해당 부서 요소를 스크롤하고 클릭
                     PageMethod("evaluate", f"""
                         () => {{
                           const el = document.querySelector('#cptOfi{self.dept_id}')
@@ -118,27 +178,38 @@ class RoeumCasesSpider(scrapy.Spider):
                           el?.scrollIntoView?.({{block:'center'}});
                           el?.click();
                         }}
-                    """),
+                    """
+                               ),
+                    # 부서 선택 후 로딩 마스크가 다시 사라질 때까지 대기
                     PageMethod("wait_for_function", self._wait_mask_clear_js(), timeout=60000),
+                    # 판례 목록이 로드되어 준비될 때까지 대기
                     PageMethod("wait_for_function", self._wait_list_ready_js(), timeout=60000),
+                    # 목록 테이블 요소가 보일 때까지 대기
                     PageMethod("wait_for_selector", LIST_SEL, state="visible", timeout=30000),
                 ],
             },
-            callback=self.parse_list,
+            callback=self.parse_list, # 페이지 로드 후 parse_list 메서드 호출
         )
 
     def parse_list(self, resp: scrapy.http.Response):
+        """
+        판례 목록 페이지를 파싱하여 각 판례의 상세 페이지 링크를 추출하고,
+        추가 페이지가 있다면 다음 페이지로 이동하는 요청을 생성합니다.
+        """
         links = set()
 
+        # 1. href 속성을 통해 링크 추출
         for h in resp.css(f'{LIST_SEL} a[href*="/LSW/precInfoP.do"]::attr(href)').getall():
             links.add(urljoin(resp.url, h))
 
+        # 2. onclick 속성을 통해 링크 추출 (JavaScript로 이동하는 경우)
         for a in resp.css(f"{LIST_SEL} a[onclick]"):
             oc = a.attrib.get("onclick", "")
             m = re.search(r"(precInfoP\.do\?[^'\"()]+)", oc)
             if m:
                 links.add(urljoin(resp.url, "/LSW/" + m.group(1)))
 
+        # 추출된 각 상세 페이지 링크에 대해 Request 생성
         for url in links:
             yield scrapy.Request(
                 url,

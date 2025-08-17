@@ -8,6 +8,8 @@
 BASE_DIR=$(dirname "$0")/..
 DEPT_CODE=$1
 MAX_PAGES_ARG=$2
+CONCURRENCY=${3:-5}
+
 LIST_PAGE_URL="https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=${DEPT_CODE}"
 RAW_DATA_DIR="${BASE_DIR}/data/raw/${DEPT_CODE}"
 FINAL_DATA_DIR="${BASE_DIR}/data/final/${DEPT_CODE}"
@@ -20,6 +22,8 @@ export SCRAPER_RUN_ID=$(date +"%Y%m%d-%H%M%S")
 # --- 사전 실행 체크 ---
 if [ -z "$DEPT_CODE" ]; then
     echo "\n ERROR >>> 사용법: $0 [부처코드] (선택: [테스트 페이지 수])"
+    echo "   예시 (전체, 10개 병렬): $0 1492000 '' 10"
+    echo "   예시 (2페이지만, 5개 병렬): $0 1492000 2 5"
     exit 1
 fi
 
@@ -51,11 +55,33 @@ if [ ! -f "${URL_LIST_FILE}" ]; then
 fi
 
 # --- 3. 상세 페이지 크롤링 ---
+
+# -L 1: 한 번에 한 줄씩 처리
+# -P ${CONCURRENCY}: 동시에 실행할 프로세스 개수
+# -I {}: 읽어온 한 줄을 대체할 플레이스홀더
+
 echo -e "\n>>> 3. 상세 페이지 스크레이핑을 시작합니다..."
+
+#run_single_scraper() {
+#    line="$1"
+#    URL=$(echo "$line" | jq -r ".url")
+#    NAME=$(echo "$line" | jq -r ".name")
+#
+#    echo "   - [병렬 실행 시작] $NAME"
+#    python "${SCRIPTS_DIR}/run_scraper.py" "$URL" -d "${DEPT_CODE}" -o "$NAME"
+#    echo "   - [병렬 실행 완료] $NAME"
+#}
+#
+#export -f run_single_scraper
+#export SCRIPTS_DIR
+#export DEPT_CODE
+#
+#cat "${URL_LIST_FILE}" | xargs -L 1 -P ${CONCURRENCY} -I {} bash -c 'run_single_scraper "{}"'
+
 while IFS= read -r line; do
     URL=$(echo "$line" | jq -r '.url')
     NAME=$(echo "$line" | jq -r '.name')
-    python "${SCRIPTS_DIR}/run_scraper.py" "$URL" -o "$NAME"
+    python "${SCRIPTS_DIR}/run_scraper.py" "$URL" -d "${DEPT_CODE}" -o "$NAME"
     sleep 1
 done < "${URL_LIST_FILE}"
 

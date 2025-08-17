@@ -1,0 +1,1151 @@
+2025-08-17 16:34:30,178 - INFO - [scripts.law.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1270000
+2025-08-17 16:34:30,699 - INFO - [scripts.law.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1270000
+2025-08-17 16:34:32,709 - INFO - [scripts.law.list_scraper] - 총 8 페이지를 확인했습니다.
+2025-08-17 16:34:32,709 - INFO - [scripts.law.list_scraper] - --- 1 / 8 페이지 처리 중 ---
+2025-08-17 16:34:32,745 - INFO - [scripts.law.list_scraper] -   - 발견: 5ㆍ18민주화운동 등에 관한 특별법
+2025-08-17 16:34:32,749 - INFO - [scripts.law.list_scraper] -   - 발견: 가등기담보 등에 관한 법률
+2025-08-17 16:34:32,753 - INFO - [scripts.law.list_scraper] -   - 발견: 가사소송법
+2025-08-17 16:34:32,757 - INFO - [scripts.law.list_scraper] -   - 발견: 가석방자관리규정
+2025-08-17 16:34:32,761 - INFO - [scripts.law.list_scraper] -   - 발견: 가정폭력범죄의 처벌 등에 관한 특례법
+2025-08-17 16:34:32,766 - INFO - [scripts.law.list_scraper] -   - 발견: 가정폭력범죄의 처벌 등에 관한 특례법 시행령
+2025-08-17 16:34:32,769 - INFO - [scripts.law.list_scraper] -   - 발견: 가족관계의 등록 등에 관한 법률
+2025-08-17 16:34:32,773 - INFO - [scripts.law.list_scraper] -   - 발견: 거절증서령
+2025-08-17 16:34:32,777 - INFO - [scripts.law.list_scraper] -   - 발견: 검사복무평정규칙
+2025-08-17 16:34:32,781 - INFO - [scripts.law.list_scraper] -   - 발견: 검사 선서에 관한 규정
+2025-08-17 16:34:32,784 - INFO - [scripts.law.list_scraper] -   - 발견: 검사와 사법경찰관의 상호협력과 일반적 수사준칙에 관한 규정
+2025-08-17 16:34:32,788 - INFO - [scripts.law.list_scraper] -   - 발견: 검사의 국선변호사 선정 등에 관한 규칙
+2025-08-17 16:34:32,791 - INFO - [scripts.law.list_scraper] -   - 발견: 검사의 법복에 관한 규칙
+2025-08-17 16:34:32,796 - INFO - [scripts.law.list_scraper] -   - 발견: 검사의 보수에 관한 법률
+2025-08-17 16:34:32,800 - INFO - [scripts.law.list_scraper] -   - 발견: 검사의 보수에 관한 법률 시행령
+2025-08-17 16:34:32,803 - INFO - [scripts.law.list_scraper] -   - 발견: 검사의 수사개시 범죄 범위에 관한 규정
+2025-08-17 16:34:32,806 - INFO - [scripts.law.list_scraper] -   - 발견: 검사의 직무를 대리하는 사법연수생에 대한 실비 지급 규정
+2025-08-17 16:34:32,811 - INFO - [scripts.law.list_scraper] -   - 발견: 검사인사규정
+2025-08-17 16:34:32,814 - INFO - [scripts.law.list_scraper] -   - 발견: 검사적격심사위원회 규정
+2025-08-17 16:34:32,817 - INFO - [scripts.law.list_scraper] -   - 발견: 검사정원법
+2025-08-17 16:34:32,821 - INFO - [scripts.law.list_scraper] -   - 발견: 검사정원법 시행령
+2025-08-17 16:34:32,824 - INFO - [scripts.law.list_scraper] -   - 발견: 검사직무대리 운영규정
+2025-08-17 16:34:32,828 - INFO - [scripts.law.list_scraper] -   - 발견: 검사징계법
+2025-08-17 16:34:32,831 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰근무 규칙
+2025-08-17 16:34:32,834 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰 및 특별사법경찰관리 등의 개인정보 처리에 관한 규정
+2025-08-17 16:34:32,837 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰보고사무규칙
+2025-08-17 16:34:32,841 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰보존사무규칙
+2025-08-17 16:34:32,844 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰사건사무규칙
+2025-08-17 16:34:32,847 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰압수물사무규칙
+2025-08-17 16:34:32,851 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰인사위원회규정
+2025-08-17 16:34:32,855 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰청 관인 관리 규칙
+2025-08-17 16:34:32,858 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰청법
+2025-08-17 16:34:32,862 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰청 사무기구에 관한 규정
+2025-08-17 16:34:32,865 - INFO - [scripts.law.list_scraper] -   - 발견: 검찰총장후보추천위원회 운영규정
+2025-08-17 16:34:32,868 - INFO - [scripts.law.list_scraper] -   - 발견: 경비교도대 폐지에 따른 보상 등에 관한 법률
+2025-08-17 16:34:32,872 - INFO - [scripts.law.list_scraper] -   - 발견: 경비교도대 폐지에 따른 보상 등에 관한 법률 시행령
+2025-08-17 16:34:32,876 - INFO - [scripts.law.list_scraper] -   - 발견: 고등검찰청 검사의 지방검찰청 소재지에서의 사무처리에 관한 규칙
+2025-08-17 16:34:32,879 - INFO - [scripts.law.list_scraper] -   - 발견: 공군 20전투비행단 이예람 중사 사망 사건 관련 군 내 성폭력 및 2차 피해 등의 진상규명을 위한 특별검사 임명 등에 관한 법률
+2025-08-17 16:34:32,884 - INFO - [scripts.law.list_scraper] -   - 발견: 공무원범죄에 관한 몰수 특례법
+2025-08-17 16:34:32,888 - INFO - [scripts.law.list_scraper] -   - 발견: 공문서에 대한 아포스티유 및 본부영사확인서 발급에 관한 규정
+2025-08-17 16:34:32,891 - INFO - [scripts.law.list_scraper] -   - 발견: 공문서에 대한 아포스티유 및 본부영사확인서 발급에 관한 규정 시행규칙
+2025-08-17 16:34:32,896 - INFO - [scripts.law.list_scraper] -   - 발견: 공소보류자관찰규칙
+2025-08-17 16:34:32,899 - INFO - [scripts.law.list_scraper] -   - 발견: 공익법무관에 관한 법률
+2025-08-17 16:34:32,902 - INFO - [scripts.law.list_scraper] -   - 발견: 공익법무관에 관한 법률 시행령
+2025-08-17 16:34:32,905 - INFO - [scripts.law.list_scraper] -   - 발견: 공익법무관에 관한 법률 시행규칙
+2025-08-17 16:34:32,909 - INFO - [scripts.law.list_scraper] -   - 발견: 공익법인의 설립ㆍ운영에 관한 법률
+2025-08-17 16:34:32,912 - INFO - [scripts.law.list_scraper] -   - 발견: 공익법인의 설립ㆍ운영에 관한 법률 시행령
+2025-08-17 16:34:32,916 - INFO - [scripts.law.list_scraper] -   - 발견: 공익신탁법
+2025-08-17 16:34:32,920 - INFO - [scripts.law.list_scraper] -   - 발견: 공익신탁법 시행령
+2025-08-17 16:34:32,923 - INFO - [scripts.law.list_scraper] -   - 발견: 공장 및 광업재단 저당법
+2025-08-17 16:34:32,923 - INFO - [scripts.law.list_scraper] - --- 2 / 8 페이지 처리 중 ---
+2025-08-17 16:34:32,923 - INFO - [scripts.law.list_scraper] - 2 페이지로 이동합니다...
+2025-08-17 16:34:33,306 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:33,342 - INFO - [scripts.law.list_scraper] -   - 발견: 공증사무 이의신청사건의 처리에 관한 규칙
+2025-08-17 16:34:33,346 - INFO - [scripts.law.list_scraper] -   - 발견: 공증 서류의 보존에 관한 규칙
+2025-08-17 16:34:33,351 - INFO - [scripts.law.list_scraper] -   - 발견: 공증서식의 사용 등에 관한 규칙
+2025-08-17 16:34:33,356 - INFO - [scripts.law.list_scraper] -   - 발견: 공증인법
+2025-08-17 16:34:33,359 - INFO - [scripts.law.list_scraper] -   - 발견: 공증인법 시행령
+2025-08-17 16:34:33,363 - INFO - [scripts.law.list_scraper] -   - 발견: 공증인 수수료 규칙
+2025-08-17 16:34:33,367 - INFO - [scripts.law.list_scraper] -   - 발견: 공증인의 정원 및 신원보증금에 관한 규칙
+2025-08-17 16:34:33,370 - INFO - [scripts.law.list_scraper] -   - 발견: 공탁법
+2025-08-17 16:34:33,374 - INFO - [scripts.law.list_scraper] -   - 발견: 교도관직무규칙
+2025-08-17 16:34:33,379 - INFO - [scripts.law.list_scraper] -   - 발견: 교도작업의 운영 및 특별회계에 관한 법률
+2025-08-17 16:34:33,382 - INFO - [scripts.law.list_scraper] -   - 발견: 교도작업의 운영 및 특별회계에 관한 법률 시행령
+2025-08-17 16:34:33,385 - INFO - [scripts.law.list_scraper] -   - 발견: 교도작업의 운영 및 특별회계에 관한 법률 시행규칙
+2025-08-17 16:34:33,389 - INFO - [scripts.law.list_scraper] -   - 발견: 교정공무원 복제규칙
+2025-08-17 16:34:33,391 - INFO - [scripts.law.list_scraper] -   - 발견: 교정공제회법
+2025-08-17 16:34:33,394 - INFO - [scripts.law.list_scraper] -   - 발견: 교정직공무원 승진임용 규정
+2025-08-17 16:34:33,398 - INFO - [scripts.law.list_scraper] -   - 발견: 교정직공무원 임용시험의 체력검사에 관한 규칙
+2025-08-17 16:34:33,402 - INFO - [scripts.law.list_scraper] -   - 발견: 교통사고처리 특례법
+2025-08-17 16:34:33,405 - INFO - [scripts.law.list_scraper] -   - 발견: 교통사고처리 특례법 시행령
+2025-08-17 16:34:33,408 - INFO - [scripts.law.list_scraper] -   - 발견: 국가를 당사자로 하는 소송에 관한 법률
+2025-08-17 16:34:33,412 - INFO - [scripts.law.list_scraper] -   - 발견: 국가를 당사자로 하는 소송에 관한 법률 시행령
+2025-08-17 16:34:33,415 - INFO - [scripts.law.list_scraper] -   - 발견: 국가를 당사자로 하는 소송에 관한 법률 시행규칙
+2025-08-17 16:34:33,418 - INFO - [scripts.law.list_scraper] -   - 발견: 국가를 당사자로 하는 소송의 수행자에 대한 포상금 지급 규칙
+2025-08-17 16:34:33,422 - INFO - [scripts.law.list_scraper] -   - 발견: 국가배상법
+2025-08-17 16:34:33,425 - INFO - [scripts.law.list_scraper] -   - 발견: 국가배상법 시행령
+2025-08-17 16:34:33,428 - INFO - [scripts.law.list_scraper] -   - 발견: 국가배상법 시행규칙
+2025-08-17 16:34:33,431 - INFO - [scripts.law.list_scraper] -   - 발견: 국가보안법
+2025-08-17 16:34:33,434 - INFO - [scripts.law.list_scraper] -   - 발견: 국가보안유공자 상금지급 등에 관한 규정
+2025-08-17 16:34:33,437 - INFO - [scripts.law.list_scraper] -   - 발견: 국가보안유공자상금지급등에관한규정제8조단서의규정에의한무기지정규칙
+2025-08-17 16:34:33,440 - INFO - [scripts.law.list_scraper] -   - 발견: 국가에 귀속하는 상속재산 이전에 관한 법률
+2025-08-17 16:34:33,444 - INFO - [scripts.law.list_scraper] -   - 발견: 국ㆍ공유 부동산의 등기 촉탁에 관한 법률
+2025-08-17 16:34:33,447 - INFO - [scripts.law.list_scraper] -   - 발견: 국내재산 도피 방지법
+2025-08-17 16:34:33,450 - INFO - [scripts.law.list_scraper] -   - 발견: 국내재산 도피 방지법 시행령
+2025-08-17 16:34:33,453 - INFO - [scripts.law.list_scraper] -   - 발견: 국민의 형사재판 참여에 관한 법률
+2025-08-17 16:34:33,457 - INFO - [scripts.law.list_scraper] -   - 발견: 국적법
+2025-08-17 16:34:33,460 - INFO - [scripts.law.list_scraper] -   - 발견: 국적법 시행령
+2025-08-17 16:34:33,463 - INFO - [scripts.law.list_scraper] -   - 발견: 국적법 시행규칙
+2025-08-17 16:34:33,466 - INFO - [scripts.law.list_scraper] -   - 발견: 국제민사사법공조법
+2025-08-17 16:34:33,469 - INFO - [scripts.law.list_scraper] -   - 발견: 국제사법
+2025-08-17 16:34:33,472 - INFO - [scripts.law.list_scraper] -   - 발견: 국제상거래에 있어서 외국공무원에 대한 뇌물방지법
+2025-08-17 16:34:33,475 - INFO - [scripts.law.list_scraper] -   - 발견: 국제수형자이송법
+2025-08-17 16:34:33,479 - INFO - [scripts.law.list_scraper] -   - 발견: 국제형사사법 공조법
+2025-08-17 16:34:33,482 - INFO - [scripts.law.list_scraper] -   - 발견: 국제형사재판소 관할 범죄의 처벌 등에 관한 법률
+2025-08-17 16:34:33,485 - INFO - [scripts.law.list_scraper] -   - 발견: 군용물 등 범죄에 관한 특별조치법
+2025-08-17 16:34:33,488 - INFO - [scripts.law.list_scraper] -   - 발견: 김건희와 명태균ㆍ건진법사 관련 국정농단 및 불법 선거 개입 사건 등 진상규명을 위한 특별검사 임명 등에 관한 법률
+2025-08-17 16:34:33,491 - INFO - [scripts.law.list_scraper] -   - 발견: 난민법
+2025-08-17 16:34:33,495 - INFO - [scripts.law.list_scraper] -   - 발견: 난민법 시행령
+2025-08-17 16:34:33,498 - INFO - [scripts.law.list_scraper] -   - 발견: 난민법 시행규칙
+2025-08-17 16:34:33,502 - INFO - [scripts.law.list_scraper] -   - 발견: 남북 주민 사이의 가족관계와 상속 등에 관한 특례법
+2025-08-17 16:34:33,505 - INFO - [scripts.law.list_scraper] -   - 발견: 남북 주민 사이의 가족관계와 상속 등에 관한 특례법 시행령
+2025-08-17 16:34:33,508 - INFO - [scripts.law.list_scraper] -   - 발견: 남북 주민 사이의 가족관계와 상속 등에 관한 특례법 시행규칙
+2025-08-17 16:34:33,509 - INFO - [scripts.law.list_scraper] - --- 3 / 8 페이지 처리 중 ---
+2025-08-17 16:34:33,509 - INFO - [scripts.law.list_scraper] - 3 페이지로 이동합니다...
+2025-08-17 16:34:33,883 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:33,911 - INFO - [scripts.law.list_scraper] -   - 발견: 대검찰청 검사급 이상 검사의 보직범위에 관한 규정
+2025-08-17 16:34:33,914 - INFO - [scripts.law.list_scraper] -   - 발견: 대검찰청의 위치와 각급 검찰청의 명칭 및 위치에 관한 규정
+2025-08-17 16:34:33,918 - INFO - [scripts.law.list_scraper] -   - 발견: 대한민국과 아메리카합중국 간의 상호방위조약 제4조에 의한 시설과 구역 및 대한민국에서의 합중국 군대의 지위에 관한 협정의 시행에 관한 민사특별법
+2025-08-17 16:34:33,922 - INFO - [scripts.law.list_scraper] -   - 발견: 대한민국과 아메리카합중국 간의 상호방위조약 제4조에 의한 시설과 구역 및 대한민국에서의 합중국 군대의 지위에 관한 협정의 시행에 관한 형사특별법
+2025-08-17 16:34:33,926 - INFO - [scripts.law.list_scraper] -   - 발견: 대한민국과 아메리카합중국 간의 상호방위조약 제4조에 의한 시설과 구역 및 대한민국에서의 합중국 군대의 지위에 관한 협정의 시행에 관한 민사특별법 시행규칙
+2025-08-17 16:34:33,930 - INFO - [scripts.law.list_scraper] -   - 발견: 대한민국과아메리카합중국간의상호방위조약제4조에의한시설과구역및대한민국에서의합중국군대의지위에관한협정의시행에관한민사특별법시행령
+2025-08-17 16:34:33,934 - INFO - [scripts.law.list_scraper] -   - 발견: 대한민국재향교정동우회법
+2025-08-17 16:34:33,938 - INFO - [scripts.law.list_scraper] -   - 발견: 동산ㆍ채권 등의 담보에 관한 법률
+2025-08-17 16:34:33,941 - INFO - [scripts.law.list_scraper] -   - 발견: 동산ㆍ채권 등의 담보에 관한 법률 시행령
+2025-08-17 16:34:33,944 - INFO - [scripts.law.list_scraper] -   - 발견: 드루킹의 인터넷상 불법 댓글 조작 사건과 관련된 진상규명을 위한 특별검사의 임명 등에 관한 법률
+2025-08-17 16:34:33,949 - INFO - [scripts.law.list_scraper] -   - 발견: 등기특별회계법
+2025-08-17 16:34:33,953 - INFO - [scripts.law.list_scraper] -   - 발견: 디엔에이신원확인정보의 이용 및 보호에 관한 법률
+2025-08-17 16:34:33,957 - INFO - [scripts.law.list_scraper] -   - 발견: 디엔에이신원확인정보의 이용 및 보호에 관한 법률 시행령
+2025-08-17 16:34:33,961 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류보상금 지급규칙
+2025-08-17 16:34:33,964 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류 불법거래 방지에 관한 특례법
+2025-08-17 16:34:33,967 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류 불법거래 방지에 관한 특례법 시행령
+2025-08-17 16:34:33,971 - INFO - [scripts.law.list_scraper] -   - 발견: 몰수금품 등 처리에 관한 임시특례법
+2025-08-17 16:34:33,974 - INFO - [scripts.law.list_scraper] -   - 발견: 몰수금품등처리에관한임시특례법시행령
+2025-08-17 16:34:33,978 - INFO - [scripts.law.list_scraper] -   - 발견: 민법
+2025-08-17 16:34:33,981 - INFO - [scripts.law.list_scraper] -   - 발견: 민법
+2025-08-17 16:34:33,984 - INFO - [scripts.law.list_scraper] -   - 발견: 민법제312조의2단서의시행에관한규정
+2025-08-17 16:34:33,988 - INFO - [scripts.law.list_scraper] -   - 발견: 민사소송 등에서의 전자문서 이용 등에 관한 법률
+2025-08-17 16:34:33,992 - INFO - [scripts.law.list_scraper] -   - 발견: 민사소송 등 인지법
+2025-08-17 16:34:33,996 - INFO - [scripts.law.list_scraper] -   - 발견: 민사소송법
+2025-08-17 16:34:33,999 - INFO - [scripts.law.list_scraper] -   - 발견: 민사소송비용법
+2025-08-17 16:34:34,004 - INFO - [scripts.law.list_scraper] -   - 발견: 민사조정법
+2025-08-17 16:34:34,007 - INFO - [scripts.law.list_scraper] -   - 발견: 민사집행법
+2025-08-17 16:34:34,011 - INFO - [scripts.law.list_scraper] -   - 발견: 민사집행법
+2025-08-17 16:34:34,014 - INFO - [scripts.law.list_scraper] -   - 발견: 민사집행법 시행령
+2025-08-17 16:34:34,017 - INFO - [scripts.law.list_scraper] -   - 발견: 민영교도소 등의 설치ㆍ운영에 관한 법률
+2025-08-17 16:34:34,021 - INFO - [scripts.law.list_scraper] -   - 발견: 민영교도소 등의 설치ㆍ운영에 관한 법률 시행령
+2025-08-17 16:34:34,024 - INFO - [scripts.law.list_scraper] -   - 발견: 민영교도소 등의 설치ㆍ운영에 관한 법률 시행규칙
+2025-08-17 16:34:34,027 - INFO - [scripts.law.list_scraper] -   - 발견: 밀항단속법
+2025-08-17 16:34:34,031 - INFO - [scripts.law.list_scraper] -   - 발견: 박근혜 정부의 최순실 등 민간인에 의한 국정농단 의혹 사건 규명을 위한 특별검사의 임명 등에 관한 법률
+2025-08-17 16:34:34,036 - INFO - [scripts.law.list_scraper] -   - 발견: 배타적경제수역에서의외국인어업제한위반선박등에대한사법절차에관한규칙
+2025-08-17 16:34:34,041 - INFO - [scripts.law.list_scraper] -   - 발견: 벌금 등 임시조치법
+2025-08-17 16:34:34,046 - INFO - [scripts.law.list_scraper] -   - 발견: 벌금 미납자의 사회봉사 집행에 관한 특례법
+2025-08-17 16:34:34,050 - INFO - [scripts.law.list_scraper] -   - 발견: 벌금 미납자의 사회봉사 집행에 관한 특례법 시행령
+2025-08-17 16:34:34,055 - INFO - [scripts.law.list_scraper] -   - 발견: 벌금 미납자의 사회봉사 집행에 관한 특례법 시행규칙
+2025-08-17 16:34:34,059 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄수익은닉의 규제 및 처벌 등에 관한 법률
+2025-08-17 16:34:34,067 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄수익은닉의 규제 및 처벌 등에 관한 법률 시행령
+2025-08-17 16:34:34,071 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄인 인도법
+2025-08-17 16:34:34,075 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄피해자보호기금법
+2025-08-17 16:34:34,079 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄피해자보호기금법 시행령
+2025-08-17 16:34:34,092 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄피해자 보호법
+2025-08-17 16:34:34,134 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄피해자 보호법 시행령
+2025-08-17 16:34:34,145 - INFO - [scripts.law.list_scraper] -   - 발견: 범죄피해자 보호법 시행규칙
+2025-08-17 16:34:34,150 - INFO - [scripts.law.list_scraper] -   - 발견: 법관의 보수에 관한 법률
+2025-08-17 16:34:34,159 - INFO - [scripts.law.list_scraper] -   - 발견: 법교육지원법
+2025-08-17 16:34:34,163 - INFO - [scripts.law.list_scraper] -   - 발견: 법교육지원법 시행령
+2025-08-17 16:34:34,164 - INFO - [scripts.law.list_scraper] - --- 4 / 8 페이지 처리 중 ---
+2025-08-17 16:34:34,164 - INFO - [scripts.law.list_scraper] - 4 페이지로 이동합니다...
+2025-08-17 16:34:34,543 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:34,577 - INFO - [scripts.law.list_scraper] -   - 발견: 법률구조법
+2025-08-17 16:34:34,580 - INFO - [scripts.law.list_scraper] -   - 발견: 법률구조법 시행령
+2025-08-17 16:34:34,583 - INFO - [scripts.law.list_scraper] -   - 발견: 법률구조법 시행규칙
+2025-08-17 16:34:34,587 - INFO - [scripts.law.list_scraper] -   - 발견: 법률 제16908호 검찰청법 일부개정법률 및 법률 제16924호 형사소송법 일부개정법률의 시행일에 관한 규정
+2025-08-17 16:34:34,590 - INFO - [scripts.law.list_scraper] -   - 발견: 법무부감찰위원회 규정
+2025-08-17 16:34:34,594 - INFO - [scripts.law.list_scraper] -   - 발견: 법무부 소관 비영리법인의 설립 및 감독에 관한 규칙
+2025-08-17 16:34:34,597 - INFO - [scripts.law.list_scraper] -   - 발견: 법무부와 그 소속기관 직제
+2025-08-17 16:34:34,600 - INFO - [scripts.law.list_scraper] -   - 발견: 법무부와 그 소속기관 직제 시행규칙
+2025-08-17 16:34:34,604 - INFO - [scripts.law.list_scraper] -   - 발견: 법무사법
+2025-08-17 16:34:34,607 - INFO - [scripts.law.list_scraper] -   - 발견: 법무자문위원회규정
+2025-08-17 16:34:34,610 - INFO - [scripts.law.list_scraper] -   - 발견: 법무자문위원회 운영규칙
+2025-08-17 16:34:34,613 - INFO - [scripts.law.list_scraper] -   - 발견: 법인 아닌 사단ㆍ재단 및 외국인의 부동산등기용 등록번호 부여절차에 관한 규정
+2025-08-17 16:34:34,616 - INFO - [scripts.law.list_scraper] -   - 발견: 법인 아닌 사단ㆍ재단 및 외국인의 부동산등기용 등록번호 부여절차에 관한 규정 시행규칙
+2025-08-17 16:34:34,619 - INFO - [scripts.law.list_scraper] -   - 발견: 법인의 등기사항 등에 관한 특례법
+2025-08-17 16:34:34,623 - INFO - [scripts.law.list_scraper] -   - 발견: 변호사법
+2025-08-17 16:34:34,627 - INFO - [scripts.law.list_scraper] -   - 발견: 변호사ㆍ법무사의 자격이 있는 보증인의 보수에 관한 규칙
+2025-08-17 16:34:34,630 - INFO - [scripts.law.list_scraper] -   - 발견: 변호사법 시행령
+2025-08-17 16:34:34,634 - INFO - [scripts.law.list_scraper] -   - 발견: 변호사시험법
+2025-08-17 16:34:34,638 - INFO - [scripts.law.list_scraper] -   - 발견: 변호사시험법 시행령
+2025-08-17 16:34:34,648 - INFO - [scripts.law.list_scraper] -   - 발견: 변호사시험법 시행규칙
+2025-08-17 16:34:34,651 - INFO - [scripts.law.list_scraper] -   - 발견: 보건범죄 단속에 관한 특별조치법
+2025-08-17 16:34:34,655 - INFO - [scripts.law.list_scraper] -   - 발견: 보안관찰법
+2025-08-17 16:34:34,658 - INFO - [scripts.law.list_scraper] -   - 발견: 보안관찰법 시행령
+2025-08-17 16:34:34,661 - INFO - [scripts.law.list_scraper] -   - 발견: 보안관찰법 시행규칙
+2025-08-17 16:34:34,664 - INFO - [scripts.law.list_scraper] -   - 발견: 보증인 보호를 위한 특별법
+2025-08-17 16:34:34,667 - INFO - [scripts.law.list_scraper] -   - 발견: 보호관찰 등에 관한 법률
+2025-08-17 16:34:34,670 - INFO - [scripts.law.list_scraper] -   - 발견: 보호관찰 등에 관한 법률 시행령
+2025-08-17 16:34:34,673 - INFO - [scripts.law.list_scraper] -   - 발견: 보호관찰 등에 관한 법률 시행규칙
+2025-08-17 16:34:34,677 - INFO - [scripts.law.list_scraper] -   - 발견: 보호소년 등의 처우에 관한 법률
+2025-08-17 16:34:34,681 - INFO - [scripts.law.list_scraper] -   - 발견: 보호소년 등의 처우에 관한 법률 시행령
+2025-08-17 16:34:34,683 - INFO - [scripts.law.list_scraper] -   - 발견: 보호소년 등의 처우에 관한 법률 시행규칙
+2025-08-17 16:34:34,686 - INFO - [scripts.law.list_scraper] -   - 발견: 부동산등기법
+2025-08-17 16:34:34,690 - INFO - [scripts.law.list_scraper] -   - 발견: 부동산등기 특별조치법
+2025-08-17 16:34:34,693 - INFO - [scripts.law.list_scraper] -   - 발견: 부동산 실권리자명의 등기에 관한 법률
+2025-08-17 16:34:34,697 - INFO - [scripts.law.list_scraper] -   - 발견: 부동산 실권리자명의 등기에 관한 법률 시행령
+2025-08-17 16:34:34,700 - INFO - [scripts.law.list_scraper] -   - 발견: 부동산 실권리자명의 등기에 관한 법률 시행규칙
+2025-08-17 16:34:34,703 - INFO - [scripts.law.list_scraper] -   - 발견: 부재선고등에관한특별조치법시행령
+2025-08-17 16:34:34,706 - INFO - [scripts.law.list_scraper] -   - 발견: 부재선고에 관한 특별조치법
+2025-08-17 16:34:34,709 - INFO - [scripts.law.list_scraper] -   - 발견: 부정수표 단속법
+2025-08-17 16:34:34,713 - INFO - [scripts.law.list_scraper] -   - 발견: 부정수표 단속법 시행령
+2025-08-17 16:34:34,716 - INFO - [scripts.law.list_scraper] -   - 발견: 부패재산의 몰수 및 회복에 관한 특례법
+2025-08-17 16:34:34,719 - INFO - [scripts.law.list_scraper] -   - 발견: 부패재산의 몰수 및 회복에 관한 특례법 시행령
+2025-08-17 16:34:34,722 - INFO - [scripts.law.list_scraper] -   - 발견: 부패재산의 몰수 및 회복에 관한 특례법 시행규칙
+2025-08-17 16:34:34,725 - INFO - [scripts.law.list_scraper] -   - 발견: 북한인권기록보존소 운영규칙
+2025-08-17 16:34:34,728 - INFO - [scripts.law.list_scraper] -   - 발견: 불법정치자금 등의 몰수에 관한 특례법
+2025-08-17 16:34:34,731 - INFO - [scripts.law.list_scraper] -   - 발견: 비송사건절차법
+2025-08-17 16:34:34,735 - INFO - [scripts.law.list_scraper] -   - 발견: 비영리법인의 임원 처벌에 관한 법률
+2025-08-17 16:34:34,738 - INFO - [scripts.law.list_scraper] -   - 발견: 사건기록 열람ㆍ등사의 방법 및 수수료 등에 관한 규칙
+2025-08-17 16:34:34,740 - INFO - [scripts.law.list_scraper] -   - 발견: 사면법
+2025-08-17 16:34:34,744 - INFO - [scripts.law.list_scraper] -   - 발견: 사면법 시행규칙
+2025-08-17 16:34:34,744 - INFO - [scripts.law.list_scraper] - --- 5 / 8 페이지 처리 중 ---
+2025-08-17 16:34:34,744 - INFO - [scripts.law.list_scraper] - 5 페이지로 이동합니다...
+2025-08-17 16:34:36,640 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:36,679 - INFO - [scripts.law.list_scraper] -   - 발견: 사법경찰관리의 직무를 수행할 자와 그 직무범위에 관한 법률
+2025-08-17 16:34:36,683 - INFO - [scripts.law.list_scraper] -   - 발견: 상가건물 임대차계약서상의 확정일자 부여 및 임대차 정보제공에 관한 규칙
+2025-08-17 16:34:36,688 - INFO - [scripts.law.list_scraper] -   - 발견: 상가건물 임대차보호법
+2025-08-17 16:34:36,692 - INFO - [scripts.law.list_scraper] -   - 발견: 상가건물 임대차보호법 시행령
+2025-08-17 16:34:36,696 - INFO - [scripts.law.list_scraper] -   - 발견: 상고심절차에 관한 특례법
+2025-08-17 16:34:36,700 - INFO - [scripts.law.list_scraper] -   - 발견: 상법
+2025-08-17 16:34:36,704 - INFO - [scripts.law.list_scraper] -   - 발견: 상법
+2025-08-17 16:34:36,708 - INFO - [scripts.law.list_scraper] -   - 발견: 상법
+2025-08-17 16:34:36,713 - INFO - [scripts.law.list_scraper] -   - 발견: 상법 시행령
+2025-08-17 16:34:36,717 - INFO - [scripts.law.list_scraper] -   - 발견: 상법시행법
+2025-08-17 16:34:36,721 - INFO - [scripts.law.list_scraper] -   - 발견: 상법의 전자선하증권 규정의 시행에 관한 규정
+2025-08-17 16:34:36,725 - INFO - [scripts.law.list_scraper] -   - 발견: 상업등기법
+2025-08-17 16:34:36,729 - INFO - [scripts.law.list_scraper] -   - 발견: 선거범죄 신고포상금 지급에 관한 규칙
+2025-08-17 16:34:36,732 - INFO - [scripts.law.list_scraper] -   - 발견: 선박등기법
+2025-08-17 16:34:36,736 - INFO - [scripts.law.list_scraper] -   - 발견: 선박 및 해상구조물에 대한 위해행위의 처벌 등에 관한 법률
+2025-08-17 16:34:36,739 - INFO - [scripts.law.list_scraper] -   - 발견: 선박소유자 등의 책임제한절차에 관한 법률
+2025-08-17 16:34:36,742 - INFO - [scripts.law.list_scraper] -   - 발견: 성매매알선 등 행위의 처벌에 관한 법률
+2025-08-17 16:34:36,746 - INFO - [scripts.law.list_scraper] -   - 발견: 성매매알선 등 행위의 처벌에 관한 법률 시행령
+2025-08-17 16:34:36,749 - INFO - [scripts.law.list_scraper] -   - 발견: 성매매알선 등 행위의 처벌에 관한 법률 시행규칙
+2025-08-17 16:34:36,752 - INFO - [scripts.law.list_scraper] -   - 발견: 성폭력범죄의 처벌 등에 관한 특례법
+2025-08-17 16:34:36,756 - INFO - [scripts.law.list_scraper] -   - 발견: 성폭력범죄의 처벌 등에 관한 특례법 시행령
+2025-08-17 16:34:36,759 - INFO - [scripts.law.list_scraper] -   - 발견: 성폭력범죄의 처벌 등에 관한 특례법 시행규칙
+2025-08-17 16:34:36,763 - INFO - [scripts.law.list_scraper] -   - 발견: 성폭력범죄자의 성충동 약물치료에 관한 법률
+2025-08-17 16:34:36,765 - INFO - [scripts.law.list_scraper] -   - 발견: 성폭력범죄자의 성충동 약물치료에 관한 법률 시행령
+2025-08-17 16:34:36,769 - INFO - [scripts.law.list_scraper] -   - 발견: 성폭력범죄자의 성충동 약물치료에 관한 법률 시행규칙
+2025-08-17 16:34:36,773 - INFO - [scripts.law.list_scraper] -   - 발견: 소년법
+2025-08-17 16:34:36,776 - INFO - [scripts.law.list_scraper] -   - 발견: 소년원 및 소년분류심사원 공무원 복제규칙
+2025-08-17 16:34:36,779 - INFO - [scripts.law.list_scraper] -   - 발견: 소년원 및 소년분류심사원 급여규칙
+2025-08-17 16:34:36,782 - INFO - [scripts.law.list_scraper] -   - 발견: 소송촉진 등에 관한 특례법
+2025-08-17 16:34:36,786 - INFO - [scripts.law.list_scraper] -   - 발견: 소송촉진 등에 관한 특례법 제3조제1항 본문의 법정이율에 관한 규정
+2025-08-17 16:34:36,789 - INFO - [scripts.law.list_scraper] -   - 발견: 소액사건심판법
+2025-08-17 16:34:36,792 - INFO - [scripts.law.list_scraper] -   - 발견: 수복지역내소유자미복구토지의복구등록과보존등기등에관한특별조치법
+2025-08-17 16:34:36,796 - INFO - [scripts.law.list_scraper] -   - 발견: 수복지역내소유자미복구토지의복구등록과보존등기등에관한특별조치법시행령
+2025-08-17 16:34:36,799 - INFO - [scripts.law.list_scraper] -   - 발견: 수표법
+2025-08-17 16:34:36,803 - INFO - [scripts.law.list_scraper] -   - 발견: 수표법 적용 시 은행과 동일시되는 사람 또는 시설의 지정에 관한 규정
+2025-08-17 16:34:36,807 - INFO - [scripts.law.list_scraper] -   - 발견: 수형자 등 호송 규정
+2025-08-17 16:34:36,811 - INFO - [scripts.law.list_scraper] -   - 발견: 순직 해병 수사 방해 및 사건 은폐 등의 진상규명을 위한 특별검사의 임명 등에 관한 법률
+2025-08-17 16:34:36,814 - INFO - [scripts.law.list_scraper] -   - 발견: 스토킹범죄의 처벌 등에 관한 법률
+2025-08-17 16:34:36,817 - INFO - [scripts.law.list_scraper] -   - 발견: 스토킹범죄의 처벌 등에 관한 법률 시행령
+2025-08-17 16:34:36,821 - INFO - [scripts.law.list_scraper] -   - 발견: 신원보증법
+2025-08-17 16:34:36,824 - INFO - [scripts.law.list_scraper] -   - 발견: 신탁법
+2025-08-17 16:34:36,827 - INFO - [scripts.law.list_scraper] -   - 발견: 신탁법 시행령
+2025-08-17 16:34:36,831 - INFO - [scripts.law.list_scraper] -   - 발견: 실화책임에 관한 법률
+2025-08-17 16:34:36,834 - INFO - [scripts.law.list_scraper] -   - 발견: 아동학대범죄의 처벌 등에 관한 특례법
+2025-08-17 16:34:36,838 - INFO - [scripts.law.list_scraper] -   - 발견: 아동학대범죄의 처벌 등에 관한 특례법 시행령
+2025-08-17 16:34:36,842 - INFO - [scripts.law.list_scraper] -   - 발견: 아동학대범죄의 처벌 등에 관한 특례법 시행규칙
+2025-08-17 16:34:36,845 - INFO - [scripts.law.list_scraper] -   - 발견: 어음교환소 지정에 관한 규칙
+2025-08-17 16:34:36,848 - INFO - [scripts.law.list_scraper] -   - 발견: 어음법
+2025-08-17 16:34:36,852 - INFO - [scripts.law.list_scraper] -   - 발견: 영장심의위원회 규칙
+2025-08-17 16:34:36,856 - INFO - [scripts.law.list_scraper] -   - 발견: 외국법자문사법
+2025-08-17 16:34:36,857 - INFO - [scripts.law.list_scraper] - --- 6 / 8 페이지 처리 중 ---
+2025-08-17 16:34:36,857 - INFO - [scripts.law.list_scraper] - 6 페이지로 이동합니다...
+2025-08-17 16:34:37,741 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:37,785 - INFO - [scripts.law.list_scraper] -   - 발견: 외국법자문사법 시행령
+2025-08-17 16:34:37,790 - INFO - [scripts.law.list_scraper] -   - 발견: 외국법자문사법 시행규칙
+2025-08-17 16:34:37,795 - INFO - [scripts.law.list_scraper] -   - 발견: 외국인보호규칙
+2025-08-17 16:34:37,799 - INFO - [scripts.law.list_scraper] -   - 발견: 외국인의 서명날인에 관한 법률
+2025-08-17 16:34:37,803 - INFO - [scripts.law.list_scraper] -   - 발견: 유실물법
+2025-08-17 16:34:37,807 - INFO - [scripts.law.list_scraper] -   - 발견: 유실물법 시행령
+2025-08-17 16:34:37,810 - INFO - [scripts.law.list_scraper] -   - 발견: 윤석열 전 대통령 등에 의한 내란ㆍ외환 행위의 진상규명을 위한 특별검사 임명 등에 관한 법률
+2025-08-17 16:34:37,814 - INFO - [scripts.law.list_scraper] -   - 발견: 이자제한법
+2025-08-17 16:34:37,817 - INFO - [scripts.law.list_scraper] -   - 발견: 이자제한법 제2조제1항의 최고이자율에 관한 규정
+2025-08-17 16:34:37,820 - INFO - [scripts.law.list_scraper] -   - 발견: 인권보호수사규칙
+2025-08-17 16:34:37,823 - INFO - [scripts.law.list_scraper] -   - 발견: 인권침해 사건 조사ㆍ처리 및 구금ㆍ보호시설의 실태조사에 관한 규칙
+2025-08-17 16:34:37,826 - INFO - [scripts.law.list_scraper] -   - 발견: 인신보호법
+2025-08-17 16:34:37,829 - INFO - [scripts.law.list_scraper] -   - 발견: 인지 첩부·첨부 및 공탁 제공에 관한 특례법
+2025-08-17 16:34:37,832 - INFO - [scripts.law.list_scraper] -   - 발견: 입목에 관한 법률
+2025-08-17 16:34:37,835 - INFO - [scripts.law.list_scraper] -   - 발견: 입목에 관한 법률 시행령
+2025-08-17 16:34:37,838 - INFO - [scripts.law.list_scraper] -   - 발견: 자동차 등 특정동산 저당법
+2025-08-17 16:34:37,841 - INFO - [scripts.law.list_scraper] -   - 발견: 자동차 등 특정동산 저당법 시행령
+2025-08-17 16:34:37,845 - INFO - [scripts.law.list_scraper] -   - 발견: 자유형등에 관한 검찰집행사무규칙
+2025-08-17 16:34:37,848 - INFO - [scripts.law.list_scraper] -   - 발견: 재산형 등에 관한 검찰 집행사무규칙
+2025-08-17 16:34:37,850 - INFO - [scripts.law.list_scraper] -   - 발견: 재외국민등록법 시행령
+2025-08-17 16:34:37,853 - INFO - [scripts.law.list_scraper] -   - 발견: 재외국민등록법 시행규칙
+2025-08-17 16:34:37,857 - INFO - [scripts.law.list_scraper] -   - 발견: 재외국민의 가족관계등록 창설, 가족관계등록부 정정 및 가족관계등록부 정리에 관한 특례법
+2025-08-17 16:34:37,860 - INFO - [scripts.law.list_scraper] -   - 발견: 재외동포의 출입국과 법적 지위에 관한 법률
+2025-08-17 16:34:37,863 - INFO - [scripts.law.list_scraper] -   - 발견: 재외동포의 출입국과 법적 지위에 관한 법률 시행령
+2025-08-17 16:34:37,867 - INFO - [scripts.law.list_scraper] -   - 발견: 재외동포의 출입국과 법적 지위에 관한 법률 시행규칙
+2025-08-17 16:34:37,869 - INFO - [scripts.law.list_scraper] -   - 발견: 재한외국인 처우 기본법
+2025-08-17 16:34:37,872 - INFO - [scripts.law.list_scraper] -   - 발견: 재한외국인 처우 기본법 시행령
+2025-08-17 16:34:37,876 - INFO - [scripts.law.list_scraper] -   - 발견: 전문수사자문위원 운영규칙
+2025-08-17 16:34:37,879 - INFO - [scripts.law.list_scraper] -   - 발견: 전자문서 및 전자거래 기본법
+2025-08-17 16:34:37,881 - INFO - [scripts.law.list_scraper] -   - 발견: 전자문서 및 전자거래 기본법 시행령
+2025-08-17 16:34:37,884 - INFO - [scripts.law.list_scraper] -   - 발견: 전자문서 및 전자거래 기본법 시행규칙
+2025-08-17 16:34:37,888 - INFO - [scripts.law.list_scraper] -   - 발견: 전자어음의 발행 및 유통에 관한 법률
+2025-08-17 16:34:37,891 - INFO - [scripts.law.list_scraper] -   - 발견: 전자어음의 발행 및 유통에 관한 법률 시행령
+2025-08-17 16:34:37,895 - INFO - [scripts.law.list_scraper] -   - 발견: 전자어음의 발행 및 유통에 관한 법률 시행규칙
+2025-08-17 16:34:37,899 - INFO - [scripts.law.list_scraper] -   - 발견: 전자장치 부착 등에 관한 법률
+2025-08-17 16:34:37,903 - INFO - [scripts.law.list_scraper] -   - 발견: 전자장치 부착 등에 관한 법률 시행령
+2025-08-17 16:34:37,906 - INFO - [scripts.law.list_scraper] -   - 발견: 전자장치 부착 등에 관한 법률 시행규칙
+2025-08-17 16:34:37,909 - INFO - [scripts.law.list_scraper] -   - 발견: 정부법무공단법
+2025-08-17 16:34:37,912 - INFO - [scripts.law.list_scraper] -   - 발견: 정부법무공단법 시행령
+2025-08-17 16:34:37,915 - INFO - [scripts.law.list_scraper] -   - 발견: 제조물 책임법
+2025-08-17 16:34:37,919 - INFO - [scripts.law.list_scraper] -   - 발견: 제주특별자치도 설치 및 국제자유도시 조성을 위한 특별법 제363조제5항에 따른 범칙금 양정기준에 관한 규칙
+2025-08-17 16:34:37,923 - INFO - [scripts.law.list_scraper] -   - 발견: 주식ㆍ사채 등의 전자등록에 관한 법률
+2025-08-17 16:34:37,926 - INFO - [scripts.law.list_scraper] -   - 발견: 주식ㆍ사채 등의 전자등록에 관한 법률 시행령
+2025-08-17 16:34:37,929 - INFO - [scripts.law.list_scraper] -   - 발견: 주택임대차계약증서상의 확정일자 부여 및 임대차 정보제공에 관한 규칙
+2025-08-17 16:34:37,932 - INFO - [scripts.law.list_scraper] -   - 발견: 주택임대차보호법
+2025-08-17 16:34:37,936 - INFO - [scripts.law.list_scraper] -   - 발견: 주택임대차보호법 시행령
+2025-08-17 16:34:37,939 - INFO - [scripts.law.list_scraper] -   - 발견: 중대재해 처벌 등에 관한 법률
+2025-08-17 16:34:37,943 - INFO - [scripts.law.list_scraper] -   - 발견: 중대재해 처벌 등에 관한 법률 시행령
+2025-08-17 16:34:37,946 - INFO - [scripts.law.list_scraper] -   - 발견: 중재법
+2025-08-17 16:34:37,948 - INFO - [scripts.law.list_scraper] -   - 발견: 중재산업 진흥에 관한 법률
+2025-08-17 16:34:37,949 - INFO - [scripts.law.list_scraper] - --- 7 / 8 페이지 처리 중 ---
+2025-08-17 16:34:37,949 - INFO - [scripts.law.list_scraper] - 7 페이지로 이동합니다...
+2025-08-17 16:34:38,325 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:38,362 - INFO - [scripts.law.list_scraper] -   - 발견: 중재산업 진흥에 관한 법률 시행령
+2025-08-17 16:34:38,367 - INFO - [scripts.law.list_scraper] -   - 발견: 즉결심판에 관한 절차법
+2025-08-17 16:34:38,372 - INFO - [scripts.law.list_scraper] -   - 발견: 증권관련 집단소송법
+2025-08-17 16:34:38,375 - INFO - [scripts.law.list_scraper] -   - 발견: 지문을채취할형사피의자의범위에관한규칙
+2025-08-17 16:34:38,379 - INFO - [scripts.law.list_scraper] -   - 발견: 지정공증인의 사무처리 등에 관한 규칙
+2025-08-17 16:34:38,383 - INFO - [scripts.law.list_scraper] -   - 발견: 진술조력인의 선정 등에 관한 규칙
+2025-08-17 16:34:38,386 - INFO - [scripts.law.list_scraper] -   - 발견: 질서위반행위규제법
+2025-08-17 16:34:38,390 - INFO - [scripts.law.list_scraper] -   - 발견: 질서위반행위규제법 시행령
+2025-08-17 16:34:38,394 - INFO - [scripts.law.list_scraper] -   - 발견: 집합건물의 소유 및 관리에 관한 법률
+2025-08-17 16:34:38,398 - INFO - [scripts.law.list_scraper] -   - 발견: 집합건물의 소유 및 관리에 관한 법률 시행령
+2025-08-17 16:34:38,401 - INFO - [scripts.law.list_scraper] -   - 발견: 집행관법
+2025-08-17 16:34:38,405 - INFO - [scripts.law.list_scraper] -   - 발견: 채권의 공정한 추심에 관한 법률
+2025-08-17 16:34:38,408 - INFO - [scripts.law.list_scraper] -   - 발견: 채권의 공정한 추심에 관한 법률 시행령
+2025-08-17 16:34:38,412 - INFO - [scripts.law.list_scraper] -   - 발견: 채무자 회생 및 파산에 관한 법률
+2025-08-17 16:34:38,415 - INFO - [scripts.law.list_scraper] -   - 발견: 채무자 회생 및 파산에 관한 법률
+2025-08-17 16:34:38,418 - INFO - [scripts.law.list_scraper] -   - 발견: 채무자 회생 및 파산에 관한 법률
+2025-08-17 16:34:38,422 - INFO - [scripts.law.list_scraper] -   - 발견: 채무자 회생 및 파산에 관한 법률 시행령
+2025-08-17 16:34:38,424 - INFO - [scripts.law.list_scraper] -   - 발견: 축사의 부동산등기에 관한 특례법
+2025-08-17 16:34:38,427 - INFO - [scripts.law.list_scraper] -   - 발견: 출국대기실 운영 규칙
+2025-08-17 16:34:38,430 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리공무원 복제규칙
+2025-08-17 16:34:38,434 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리법
+2025-08-17 16:34:38,437 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리법
+2025-08-17 16:34:38,439 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리법
+2025-08-17 16:34:38,444 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리법 시행령
+2025-08-17 16:34:38,447 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리법 시행규칙
+2025-08-17 16:34:38,450 - INFO - [scripts.law.list_scraper] -   - 발견: 출입국관리법 시행규칙
+2025-08-17 16:34:38,453 - INFO - [scripts.law.list_scraper] -   - 발견: 치료감호 등에 관한 법률
+2025-08-17 16:34:38,456 - INFO - [scripts.law.list_scraper] -   - 발견: 치료감호 등에 관한 법률 시행령
+2025-08-17 16:34:38,459 - INFO - [scripts.law.list_scraper] -   - 발견: 치료감호 등에 관한 법률 시행규칙
+2025-08-17 16:34:38,462 - INFO - [scripts.law.list_scraper] -   - 발견: 친일반민족행위자 재산의 국가귀속에 관한 특별법
+2025-08-17 16:34:38,466 - INFO - [scripts.law.list_scraper] -   - 발견: 친일반민족행위자 재산의 국가귀속에 관한 특별법 시행령
+2025-08-17 16:34:38,469 - INFO - [scripts.law.list_scraper] -   - 발견: 통신비밀보호법
+2025-08-17 16:34:38,471 - INFO - [scripts.law.list_scraper] -   - 발견: 통신비밀보호법 시행령
+2025-08-17 16:34:38,474 - INFO - [scripts.law.list_scraper] -   - 발견: 특별감찰관법
+2025-08-17 16:34:38,478 - INFO - [scripts.law.list_scraper] -   - 발견: 특별감찰관법 시행령
+2025-08-17 16:34:38,481 - INFO - [scripts.law.list_scraper] -   - 발견: 특별검사의 임명 등에 관한 법률
+2025-08-17 16:34:38,484 - INFO - [scripts.law.list_scraper] -   - 발견: 특별검사의 임명 등에 관한 법률 시행령
+2025-08-17 16:34:38,487 - INFO - [scripts.law.list_scraper] -   - 발견: 특별사법경찰관리에 대한 검사의 수사지휘 및 특별사법경찰관리의 수사준칙에 관한 규칙
+2025-08-17 16:34:38,490 - INFO - [scripts.law.list_scraper] -   - 발견: 특정강력범죄의 처벌에 관한 특례법
+2025-08-17 16:34:38,493 - INFO - [scripts.law.list_scraper] -   - 발견: 특정경제범죄 가중처벌 등에 관한 법률
+2025-08-17 16:34:38,496 - INFO - [scripts.law.list_scraper] -   - 발견: 특정경제범죄 가중처벌 등에 관한 법률 시행령
+2025-08-17 16:34:38,499 - INFO - [scripts.law.list_scraper] -   - 발견: 특정 금융거래정보의 보고 및 이용 등에 관한 법률
+2025-08-17 16:34:38,502 - INFO - [scripts.law.list_scraper] -   - 발견: 특정 금융거래정보의 보고 및 이용 등에 관한 법률 시행령
+2025-08-17 16:34:38,504 - INFO - [scripts.law.list_scraper] -   - 발견: 특정범죄 가중처벌 등에 관한 법률
+2025-08-17 16:34:38,507 - INFO - [scripts.law.list_scraper] -   - 발견: 특정범죄 가중처벌 등에 관한 법률 시행령
+2025-08-17 16:34:38,511 - INFO - [scripts.law.list_scraper] -   - 발견: 특정범죄신고자 등 보호법
+2025-08-17 16:34:38,514 - INFO - [scripts.law.list_scraper] -   - 발견: 특정범죄신고자등보호법시행령
+2025-08-17 16:34:38,516 - INFO - [scripts.law.list_scraper] -   - 발견: 특정범죄신고자 등 보호법 시행규칙
+2025-08-17 16:34:38,519 - INFO - [scripts.law.list_scraper] -   - 발견: 특정중대범죄 피의자 등 신상정보 공개에 관한 법률
+2025-08-17 16:34:38,523 - INFO - [scripts.law.list_scraper] -   - 발견: 특정중대범죄 피의자 등 신상정보 공개에 관한 법률 시행령
+2025-08-17 16:34:38,523 - INFO - [scripts.law.list_scraper] - --- 8 / 8 페이지 처리 중 ---
+2025-08-17 16:34:38,523 - INFO - [scripts.law.list_scraper] - 8 페이지로 이동합니다...
+2025-08-17 16:34:38,901 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 16:34:38,936 - INFO - [scripts.law.list_scraper] -   - 발견: 포획심판소및고등포획심판소개설에관한건
+2025-08-17 16:34:38,941 - INFO - [scripts.law.list_scraper] -   - 발견: 폭력행위 등 처벌에 관한 법률
+2025-08-17 16:34:38,946 - INFO - [scripts.law.list_scraper] -   - 발견: 한국법학원 육성법
+2025-08-17 16:34:38,951 - INFO - [scripts.law.list_scraper] -   - 발견: 한국법학원 육성법 시행령
+2025-08-17 16:34:38,955 - INFO - [scripts.law.list_scraper] -   - 발견: 행정소송법
+2025-08-17 16:34:38,960 - INFO - [scripts.law.list_scraper] -   - 발견: 헌정질서 파괴범죄의 공소시효 등에 관한 특례법
+2025-08-17 16:34:38,964 - INFO - [scripts.law.list_scraper] -   - 발견: 헤이그 국제아동탈취협약 이행에 관한 법률
+2025-08-17 16:34:38,967 - INFO - [scripts.law.list_scraper] -   - 발견: 헤이그 국제아동탈취협약 이행에 관한 법률 시행규칙
+2025-08-17 16:34:38,971 - INFO - [scripts.law.list_scraper] -   - 발견: 형법
+2025-08-17 16:34:38,974 - INFO - [scripts.law.list_scraper] -   - 발견: 형사보상 및 명예회복에 관한 법률
+2025-08-17 16:34:38,977 - INFO - [scripts.law.list_scraper] -   - 발견: 형사보상 및 명예회복에 관한 법률 시행령
+2025-08-17 16:34:38,981 - INFO - [scripts.law.list_scraper] -   - 발견: 형사사법절차에서의 전자문서 이용 등에 관한 법률
+2025-08-17 16:34:38,984 - INFO - [scripts.law.list_scraper] -   - 발견: 형사사법절차에서의 전자문서 이용 등에 관한 법률 시행령
+2025-08-17 16:34:38,987 - INFO - [scripts.law.list_scraper] -   - 발견: 형사사법절차 전자화 촉진법
+2025-08-17 16:34:38,990 - INFO - [scripts.law.list_scraper] -   - 발견: 형사사법절차 전자화 촉진법 시행령
+2025-08-17 16:34:38,994 - INFO - [scripts.law.list_scraper] -   - 발견: 형사소송법
+2025-08-17 16:34:38,996 - INFO - [scripts.law.list_scraper] -   - 발견: 형사소송법
+2025-08-17 16:34:38,999 - INFO - [scripts.law.list_scraper] -   - 발견: 형사소송비용 등에 관한 법률
+2025-08-17 16:34:39,002 - INFO - [scripts.law.list_scraper] -   - 발견: 형의 실효 등에 관한 법률
+2025-08-17 16:34:39,005 - INFO - [scripts.law.list_scraper] -   - 발견: 형의 실효 등에 관한 법률 시행령
+2025-08-17 16:34:39,008 - INFO - [scripts.law.list_scraper] -   - 발견: 형의 집행 및 수용자의 처우에 관한 법률
+2025-08-17 16:34:39,011 - INFO - [scripts.law.list_scraper] -   - 발견: 형의 집행 및 수용자의 처우에 관한 법률 시행령
+2025-08-17 16:34:39,015 - INFO - [scripts.law.list_scraper] -   - 발견: 형의 집행 및 수용자의 처우에 관한 법률 시행규칙
+2025-08-17 16:34:39,018 - INFO - [scripts.law.list_scraper] -   - 발견: 형집행정지자관찰규정
+2025-08-17 16:34:39,020 - INFO - [scripts.law.list_scraper] -   - 발견: 혼인신고특례법
+2025-08-17 16:34:39,023 - INFO - [scripts.law.list_scraper] -   - 발견: 혼인신고특례법시행령
+2025-08-17 16:34:39,027 - INFO - [scripts.law.list_scraper] -   - 발견: 확정일자부 및 일자인 조제에 관한 규정
+2025-08-17 16:34:39,030 - INFO - [scripts.law.list_scraper] -   - 발견: 후견등기에 관한 법률
+2025-08-17 16:34:40,047 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:40,048 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:40,048 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:40,048 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:40,053 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,053 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,053 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,055 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,076 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:40,080 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,334 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:40,334 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:40,386 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:40,386 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:40,386 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:40,386 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:40,386 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:40,386 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:40,940 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:40,943 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,032 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:41,032 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:41,312 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:41,316 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:41,320 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:41,320 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,327 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,327 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,330 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:41,337 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,385 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:41,385 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:41,406 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:41,406 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:41,406 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:41,406 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:41,421 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:41,421 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:42,342 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:42,342 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:42,343 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:42,345 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:42,347 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:42,348 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,349 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,350 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,352 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,353 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,414 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:42,415 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:42,433 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:42,434 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:42,435 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:42,435 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:42,436 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:42,436 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:42,512 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:42,512 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:43,455 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:43,456 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:43,457 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:43,457 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:43,460 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:43,460 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,461 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,461 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,462 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,465 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,534 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:43,534 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:43,537 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:43,538 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:43,541 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:43,541 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:43,557 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:43,557 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:43,559 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:43,560 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:44,519 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:44,520 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:44,520 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:44,521 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:44,521 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:44,524 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,524 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,525 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,525 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,526 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,603 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:44,603 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:44,604 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:44,604 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:44,610 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:44,610 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:44,622 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:44,622 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:44,626 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:44,628 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:45,583 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:45,583 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:45,587 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,590 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,605 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:45,606 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:45,607 - INFO - [scripts.law.scraper] - 페이지로 이동 중: 
+2025-08-17 16:34:45,612 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,612 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,614 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,650 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:45,650 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:45,679 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:45,679 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:45,695 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:45,695 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:45,701 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:45,701 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html
+2025-08-17 16:34:45,703 - INFO - [scripts.law.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.png
+2025-08-17 16:34:45,703 - INFO - [scripts.law.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/scripts/debug/_error.html

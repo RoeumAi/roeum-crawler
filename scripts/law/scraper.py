@@ -76,7 +76,7 @@ def save_to_file(data, filename):
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
     logger.info(f"데이터 {len(data)}건을 '{filename}' 파일로 성공적으로 저장했습니다.")
 
-async def scrape_and_save(url: str, output_name: str):
+async def scrape_and_save(url: str, output_dir: str, output_name: str):
     """Playwright를 실행하여 웹페이지 컨텐츠를 가져오고 파일로 저장합니다."""
     # ... (기존 main 함수의 모든 내용이 여기에 위치)
     async with async_playwright() as p:
@@ -98,8 +98,9 @@ async def scrape_and_save(url: str, output_name: str):
             html = await page.content()
             logger.info("데이터 파싱 중...")
             doc_data, chunk_data = parse_law_html(html, url)
-            doc_filename = os.path.join('data', 'raw', f'{output_name}_document.jsonl')
-            chunk_filename = os.path.join('data', 'raw', f'{output_name}_chunks.jsonl')
+
+            doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
+            chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
             if doc_data.get("title"):
                 save_to_file(doc_data, doc_filename)
             else:

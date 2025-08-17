@@ -16,11 +16,14 @@ logger = get_logger(__name__)
 async def main():
     parser = argparse.ArgumentParser(description="국가법령정보센터 법령 페이지를 스크레이핑하여 파일을 저장합니다.")
     parser.add_argument("url", help="스크레이핑할 법령 페이지의 전체 URL")
+    parser.add_argument("-d", "--dept", required=True, help="데이터를 저장할 하위 폴더 이름 (보통 부처 코드)")
     parser.add_argument("-o", "--output", required=True, help="출력 파일의 기본 이름 (예: gasa-law)")
     args = parser.parse_args()
 
+    output_dir = os.path.join(project_root, 'data', 'raw', args.dept)
+
     logger.info(f"상세 페이지 스크레이퍼 실행: {args.url}")
-    await scrape_and_save(args.url, args.output)
+    await scrape_and_save(args.url, output_dir, args.output)
     logger.info(f"상세 페이지 스크레이퍼 완료: {args.output}")
 
 if __name__ == "__main__":

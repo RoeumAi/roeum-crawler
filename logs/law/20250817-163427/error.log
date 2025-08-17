@@ -1,0 +1,660 @@
+2025-08-17 16:34:40,053 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,053 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,053 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,055 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,080 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:40,943 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,320 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,327 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,327 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:41,337 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,348 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,349 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,350 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,352 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:42,353 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,460 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,461 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,461 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,462 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:43,465 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,524 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,524 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,525 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,525 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:44,526 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,587 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,590 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,612 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,612 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+
+2025-08-17 16:34:45,614 - ERROR - [scripts.law.scraper] - 스크레이핑 중 에러 발생: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/law/scraper.py", line 87, in scrape_and_save
+    await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 8805, in goto
+    await self._impl_obj.goto(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 524, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 145, in goto
+    await self._channel.send("goto", locals_to_params(locals()))
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+Call log:
+navigating to "", waiting until "domcontentloaded"
+

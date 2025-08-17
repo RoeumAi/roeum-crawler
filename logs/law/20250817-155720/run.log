@@ -1,0 +1,406 @@
+2025-08-17 15:57:23,741 - INFO - [scripts.law.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1352000
+2025-08-17 15:57:24,225 - INFO - [scripts.law.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1352000
+2025-08-17 15:57:26,283 - INFO - [scripts.law.list_scraper] - 총 8 페이지를 확인했습니다.
+2025-08-17 15:57:26,284 - INFO - [scripts.law.list_scraper] - --- 1 / 8 페이지 처리 중 ---
+2025-08-17 15:57:26,321 - INFO - [scripts.law.list_scraper] -   - 발견: 가족돌봄 등 위기아동ㆍ청년 지원에 관한 법률
+2025-08-17 15:57:26,324 - INFO - [scripts.law.list_scraper] -   - 발견: 가족돌봄 등 위기아동ㆍ청년 지원에 관한 법률
+2025-08-17 15:57:26,328 - INFO - [scripts.law.list_scraper] -   - 발견: 간호법
+2025-08-17 15:57:26,332 - INFO - [scripts.law.list_scraper] -   - 발견: 간호법 시행령
+2025-08-17 15:57:26,335 - INFO - [scripts.law.list_scraper] -   - 발견: 간호법 시행규칙
+2025-08-17 15:57:26,338 - INFO - [scripts.law.list_scraper] -   - 발견: 감염병의 예방 및 관리에 관한 법률
+2025-08-17 15:57:26,342 - INFO - [scripts.law.list_scraper] -   - 발견: 감염병의 예방 및 관리에 관한 법률
+2025-08-17 15:57:26,345 - INFO - [scripts.law.list_scraper] -   - 발견: 감염병의 예방 및 관리에 관한 법률 시행령
+2025-08-17 15:57:26,348 - INFO - [scripts.law.list_scraper] -   - 발견: 감염병의 예방 및 관리에 관한 법률 시행규칙
+2025-08-17 15:57:26,352 - INFO - [scripts.law.list_scraper] -   - 발견: 건강검진기본법
+2025-08-17 15:57:26,355 - INFO - [scripts.law.list_scraper] -   - 발견: 건강검진기본법 시행령
+2025-08-17 15:57:26,359 - INFO - [scripts.law.list_scraper] -   - 발견: 건강검진기본법 시행규칙
+2025-08-17 15:57:26,363 - INFO - [scripts.law.list_scraper] -   - 발견: 경제자유구역 내 외국의료기관의 개설허가절차 등에 관한 규칙
+2025-08-17 15:57:26,366 - INFO - [scripts.law.list_scraper] -   - 발견: 고독사 예방 및 관리에 관한 법률
+2025-08-17 15:57:26,369 - INFO - [scripts.law.list_scraper] -   - 발견: 고독사 예방 및 관리에 관한 법률 시행령
+2025-08-17 15:57:26,372 - INFO - [scripts.law.list_scraper] -   - 발견: 고독사 예방 및 관리에 관한 법률 시행규칙
+2025-08-17 15:57:26,376 - INFO - [scripts.law.list_scraper] -   - 발견: 고령친화산업 진흥법
+2025-08-17 15:57:26,379 - INFO - [scripts.law.list_scraper] -   - 발견: 고령친화산업 진흥법 시행령
+2025-08-17 15:57:26,383 - INFO - [scripts.law.list_scraper] -   - 발견: 공공보건의료에 관한 법률
+2025-08-17 15:57:26,387 - INFO - [scripts.law.list_scraper] -   - 발견: 공공보건의료에 관한 법률 시행령
+2025-08-17 15:57:26,390 - INFO - [scripts.law.list_scraper] -   - 발견: 공공보건의료에 관한 법률 시행규칙
+2025-08-17 15:57:26,394 - INFO - [scripts.law.list_scraper] -   - 발견: 공중보건장학을 위한 특례법
+2025-08-17 15:57:26,397 - INFO - [scripts.law.list_scraper] -   - 발견: 공중보건장학을 위한 특례법 시행령
+2025-08-17 15:57:26,400 - INFO - [scripts.law.list_scraper] -   - 발견: 공중보건장학을 위한 특례법 시행규칙
+2025-08-17 15:57:26,403 - INFO - [scripts.law.list_scraper] -   - 발견: 공중위생관리법
+2025-08-17 15:57:26,407 - INFO - [scripts.law.list_scraper] -   - 발견: 공중위생관리법 시행령
+2025-08-17 15:57:26,410 - INFO - [scripts.law.list_scraper] -   - 발견: 공중위생관리법 시행규칙
+2025-08-17 15:57:26,412 - INFO - [scripts.law.list_scraper] -   - 발견: 구강보건법
+2025-08-17 15:57:26,416 - INFO - [scripts.law.list_scraper] -   - 발견: 구강보건법 시행령
+2025-08-17 15:57:26,420 - INFO - [scripts.law.list_scraper] -   - 발견: 구강보건법 시행규칙
+2025-08-17 15:57:26,422 - INFO - [scripts.law.list_scraper] -   - 발견: 구급차의 기준 및 응급환자이송업의 시설 등 기준에 관한 규칙
+2025-08-17 15:57:26,425 - INFO - [scripts.law.list_scraper] -   - 발견: 국가바이오위원회의 설치 및 운영에 관한 규정
+2025-08-17 15:57:26,428 - INFO - [scripts.law.list_scraper] -   - 발견: 국내입양에 관한 특별법
+2025-08-17 15:57:26,431 - INFO - [scripts.law.list_scraper] -   - 발견: 국내입양에 관한 특별법 시행령
+2025-08-17 15:57:26,433 - INFO - [scripts.law.list_scraper] -   - 발견: 국내입양에 관한 특별법 시행규칙
+2025-08-17 15:57:26,436 - INFO - [scripts.law.list_scraper] -   - 발견: 국립소록도병원 운영규칙
+2025-08-17 15:57:26,439 - INFO - [scripts.law.list_scraper] -   - 발견: 국립중앙의료원의 설립 및 운영에 관한 법률
+2025-08-17 15:57:26,443 - INFO - [scripts.law.list_scraper] -   - 발견: 국립중앙의료원의 설립 및 운영에 관한 법률 시행령
+2025-08-17 15:57:26,447 - INFO - [scripts.law.list_scraper] -   - 발견: 국립중앙의료원의 설립 및 운영에 관한 법률 시행규칙
+2025-08-17 15:57:26,451 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강보험법
+2025-08-17 15:57:26,455 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강보험법 시행령
+2025-08-17 15:57:26,458 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강보험법 시행규칙
+2025-08-17 15:57:26,462 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강보험 요양급여의 기준에 관한 규칙
+2025-08-17 15:57:26,474 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강증진법
+2025-08-17 15:57:26,480 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강증진법
+2025-08-17 15:57:26,483 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강증진법
+2025-08-17 15:57:26,486 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강증진법
+2025-08-17 15:57:26,489 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강증진법 시행령
+2025-08-17 15:57:26,492 - INFO - [scripts.law.list_scraper] -   - 발견: 국민건강증진법 시행규칙
+2025-08-17 15:57:26,494 - INFO - [scripts.law.list_scraper] -   - 발견: 국민기초생활 보장법
+2025-08-17 15:57:26,494 - INFO - [scripts.law.list_scraper] - --- 2 / 8 페이지 처리 중 ---
+2025-08-17 15:57:26,494 - INFO - [scripts.law.list_scraper] - 2 페이지로 이동합니다...
+2025-08-17 15:57:26,878 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:26,916 - INFO - [scripts.law.list_scraper] -   - 발견: 국민기초생활 보장법 시행령
+2025-08-17 15:57:26,921 - INFO - [scripts.law.list_scraper] -   - 발견: 국민기초생활 보장법 시행규칙
+2025-08-17 15:57:26,925 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금과 직역연금의 연계에 관한 법률
+2025-08-17 15:57:26,929 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금과 직역연금의 연계에 관한 법률 시행령
+2025-08-17 15:57:26,933 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금과 직역연금의 연계에 관한 법률 시행규칙
+2025-08-17 15:57:26,937 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금법
+2025-08-17 15:57:26,943 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금법
+2025-08-17 15:57:26,948 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금법 시행령
+2025-08-17 15:57:26,952 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금법 시행령
+2025-08-17 15:57:26,956 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금법 시행규칙
+2025-08-17 15:57:26,960 - INFO - [scripts.law.list_scraper] -   - 발견: 국민연금법 시행규칙
+2025-08-17 15:57:26,963 - INFO - [scripts.law.list_scraper] -   - 발견: 국민영양관리법
+2025-08-17 15:57:26,967 - INFO - [scripts.law.list_scraper] -   - 발견: 국민영양관리법 시행령
+2025-08-17 15:57:26,974 - INFO - [scripts.law.list_scraper] -   - 발견: 국민영양관리법 시행규칙
+2025-08-17 15:57:26,978 - INFO - [scripts.law.list_scraper] -   - 발견: 국제입양에 관한 법률
+2025-08-17 15:57:26,983 - INFO - [scripts.law.list_scraper] -   - 발견: 국제입양에 관한 법률 시행령
+2025-08-17 15:57:26,986 - INFO - [scripts.law.list_scraper] -   - 발견: 국제입양에 관한 법률 시행규칙
+2025-08-17 15:57:26,991 - INFO - [scripts.law.list_scraper] -   - 발견: 기초연금법
+2025-08-17 15:57:26,995 - INFO - [scripts.law.list_scraper] -   - 발견: 기초연금법 시행령
+2025-08-17 15:57:27,000 - INFO - [scripts.law.list_scraper] -   - 발견: 기초연금법 시행규칙
+2025-08-17 15:57:27,003 - INFO - [scripts.law.list_scraper] -   - 발견: 긴급복지지원법
+2025-08-17 15:57:27,006 - INFO - [scripts.law.list_scraper] -   - 발견: 긴급복지지원법 시행령
+2025-08-17 15:57:27,010 - INFO - [scripts.law.list_scraper] -   - 발견: 긴급복지지원법 시행규칙
+2025-08-17 15:57:27,013 - INFO - [scripts.law.list_scraper] -   - 발견: 노숙인 등의 복지 및 자립지원에 관한 법률
+2025-08-17 15:57:27,016 - INFO - [scripts.law.list_scraper] -   - 발견: 노숙인 등의 복지 및 자립지원에 관한 법률
+2025-08-17 15:57:27,019 - INFO - [scripts.law.list_scraper] -   - 발견: 노숙인 등의 복지 및 자립지원에 관한 법률 시행령
+2025-08-17 15:57:27,022 - INFO - [scripts.law.list_scraper] -   - 발견: 노숙인 등의 복지 및 자립지원에 관한 법률 시행규칙
+2025-08-17 15:57:27,025 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법
+2025-08-17 15:57:27,028 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법
+2025-08-17 15:57:27,030 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법
+2025-08-17 15:57:27,033 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법
+2025-08-17 15:57:27,036 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법
+2025-08-17 15:57:27,039 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법 시행령
+2025-08-17 15:57:27,041 - INFO - [scripts.law.list_scraper] -   - 발견: 노인복지법 시행규칙
+2025-08-17 15:57:27,045 - INFO - [scripts.law.list_scraper] -   - 발견: 노인 일자리 및 사회활동 지원에 관한 법률
+2025-08-17 15:57:27,048 - INFO - [scripts.law.list_scraper] -   - 발견: 노인 일자리 및 사회활동 지원에 관한 법률
+2025-08-17 15:57:27,051 - INFO - [scripts.law.list_scraper] -   - 발견: 노인 일자리 및 사회활동 지원에 관한 법률
+2025-08-17 15:57:27,054 - INFO - [scripts.law.list_scraper] -   - 발견: 노인 일자리 및 사회활동 지원에 관한 법률 시행령
+2025-08-17 15:57:27,058 - INFO - [scripts.law.list_scraper] -   - 발견: 노인 일자리 및 사회활동 지원에 관한 법률 시행규칙
+2025-08-17 15:57:27,061 - INFO - [scripts.law.list_scraper] -   - 발견: 노인장기요양보험법
+2025-08-17 15:57:27,063 - INFO - [scripts.law.list_scraper] -   - 발견: 노인장기요양보험법 시행령
+2025-08-17 15:57:27,066 - INFO - [scripts.law.list_scraper] -   - 발견: 노인장기요양보험법 시행규칙
+2025-08-17 15:57:27,070 - INFO - [scripts.law.list_scraper] -   - 발견: 노후준비 지원법
+2025-08-17 15:57:27,073 - INFO - [scripts.law.list_scraper] -   - 발견: 노후준비 지원법 시행령
+2025-08-17 15:57:27,076 - INFO - [scripts.law.list_scraper] -   - 발견: 노후준비 지원법 시행규칙
+2025-08-17 15:57:27,079 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌 등 보건의료를 위한 특별조치법
+2025-08-17 15:57:27,083 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌 등 보건의료를 위한 특별조치법 시행령
+2025-08-17 15:57:27,087 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌 등 보건의료를 위한 특별조치법 시행규칙
+2025-08-17 15:57:27,092 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌주민의 보건복지 증진을 위한 특별법
+2025-08-17 15:57:27,096 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌주민의 보건복지 증진을 위한 특별법
+2025-08-17 15:57:27,096 - INFO - [scripts.law.list_scraper] - --- 3 / 8 페이지 처리 중 ---
+2025-08-17 15:57:27,096 - INFO - [scripts.law.list_scraper] - 3 페이지로 이동합니다...
+2025-08-17 15:57:27,473 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:27,511 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌주민의 보건복지 증진을 위한 특별법 시행령
+2025-08-17 15:57:27,516 - INFO - [scripts.law.list_scraper] -   - 발견: 농어촌주민의 보건복지 증진을 위한 특별법 시행규칙
+2025-08-17 15:57:27,520 - INFO - [scripts.law.list_scraper] -   - 발견: 담배의 유해성 관리에 관한 법률
+2025-08-17 15:57:27,525 - INFO - [scripts.law.list_scraper] -   - 발견: 대한노인회 지원에 관한 법률
+2025-08-17 15:57:27,530 - INFO - [scripts.law.list_scraper] -   - 발견: 대한노인회 지원에 관한 법률 시행령
+2025-08-17 15:57:27,534 - INFO - [scripts.law.list_scraper] -   - 발견: 대한노인회 지원에 관한 법률 시행규칙
+2025-08-17 15:57:27,538 - INFO - [scripts.law.list_scraper] -   - 발견: 대한적십자사 조직법
+2025-08-17 15:57:27,542 - INFO - [scripts.law.list_scraper] -   - 발견: 대한적십자사 조직법 시행령
+2025-08-17 15:57:27,546 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류 관리에 관한 법률
+2025-08-17 15:57:27,549 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류 관리에 관한 법률
+2025-08-17 15:57:27,553 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류 관리에 관한 법률
+2025-08-17 15:57:27,555 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류중독자 치료보호규정
+2025-08-17 15:57:27,558 - INFO - [scripts.law.list_scraper] -   - 발견: 마약류 중독자 치료보호 등에 관한 규칙
+2025-08-17 15:57:27,561 - INFO - [scripts.law.list_scraper] -   - 발견: 모자보건법
+2025-08-17 15:57:27,565 - INFO - [scripts.law.list_scraper] -   - 발견: 모자보건법
+2025-08-17 15:57:27,568 - INFO - [scripts.law.list_scraper] -   - 발견: 모자보건법 시행령
+2025-08-17 15:57:27,571 - INFO - [scripts.law.list_scraper] -   - 발견: 모자보건법 시행규칙
+2025-08-17 15:57:27,575 - INFO - [scripts.law.list_scraper] -   - 발견: 발달장애인 권리보장 및 지원에 관한 법률
+2025-08-17 15:57:27,578 - INFO - [scripts.law.list_scraper] -   - 발견: 발달장애인 권리보장 및 지원에 관한 법률
+2025-08-17 15:57:27,580 - INFO - [scripts.law.list_scraper] -   - 발견: 발달장애인 권리보장 및 지원에 관한 법률
+2025-08-17 15:57:27,584 - INFO - [scripts.law.list_scraper] -   - 발견: 발달장애인 권리보장 및 지원에 관한 법률 시행령
+2025-08-17 15:57:27,588 - INFO - [scripts.law.list_scraper] -   - 발견: 발달장애인 권리보장 및 지원에 관한 법률 시행규칙
+2025-08-17 15:57:27,592 - INFO - [scripts.law.list_scraper] -   - 발견: 병상 수급계획의 수립 및 조정에 관한 규칙
+2025-08-17 15:57:27,596 - INFO - [scripts.law.list_scraper] -   - 발견: 보건범죄단속에관한특별조치법시행령
+2025-08-17 15:57:27,598 - INFO - [scripts.law.list_scraper] -   - 발견: 보건범죄단속에관한특별조치법시행규칙
+2025-08-17 15:57:27,602 - INFO - [scripts.law.list_scraper] -   - 발견: 보건복지부 및 질병관리청 소관 비영리법인의 설립 및 감독에 관한 규칙
+2025-08-17 15:57:27,606 - INFO - [scripts.law.list_scraper] -   - 발견: 보건복지부 소관 비상대비에 관한 법률 시행규칙
+2025-08-17 15:57:27,608 - INFO - [scripts.law.list_scraper] -   - 발견: 보건복지부 소속 국립병원 및 국립재활원 임상연구비 지급규칙
+2025-08-17 15:57:27,611 - INFO - [scripts.law.list_scraper] -   - 발견: 보건복지부와 그 소속기관 직제
+2025-08-17 15:57:27,613 - INFO - [scripts.law.list_scraper] -   - 발견: 보건복지부와 그 소속기관 직제 시행규칙
+2025-08-17 15:57:27,617 - INFO - [scripts.law.list_scraper] -   - 발견: 보건복지부장관의 소속 청장 지휘에 관한 규칙
+2025-08-17 15:57:27,620 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료기본법
+2025-08-17 15:57:27,622 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료기본법
+2025-08-17 15:57:27,626 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료기본법 시행령
+2025-08-17 15:57:27,629 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료기술 진흥법
+2025-08-17 15:57:27,633 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료기술 진흥법 시행령
+2025-08-17 15:57:27,644 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료기술 진흥법 시행규칙
+2025-08-17 15:57:27,652 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료요원장학금규정
+2025-08-17 15:57:27,657 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료인력 수급추계위원회 규칙
+2025-08-17 15:57:27,662 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료인력지원법
+2025-08-17 15:57:27,665 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료인력지원법
+2025-08-17 15:57:27,670 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료인력지원법 시행령
+2025-08-17 15:57:27,675 - INFO - [scripts.law.list_scraper] -   - 발견: 보건의료인력지원법 시행규칙
+2025-08-17 15:57:27,677 - INFO - [scripts.law.list_scraper] -   - 발견: 보호시설에 있는 미성년자의 후견 직무에 관한 법률
+2025-08-17 15:57:27,680 - INFO - [scripts.law.list_scraper] -   - 발견: 보호시설에 있는 미성년자의 후견 직무에 관한 법률 시행령
+2025-08-17 15:57:27,684 - INFO - [scripts.law.list_scraper] -   - 발견: 사회보장급여의 이용ㆍ제공 및 수급권자 발굴에 관한 법률
+2025-08-17 15:57:27,687 - INFO - [scripts.law.list_scraper] -   - 발견: 사회보장급여의 이용ㆍ제공 및 수급권자 발굴에 관한 법률 시행령
+2025-08-17 15:57:27,690 - INFO - [scripts.law.list_scraper] -   - 발견: 사회보장급여의 이용ㆍ제공 및 수급권자 발굴에 관한 법률 시행규칙
+2025-08-17 15:57:27,693 - INFO - [scripts.law.list_scraper] -   - 발견: 사회보장기본법
+2025-08-17 15:57:27,696 - INFO - [scripts.law.list_scraper] -   - 발견: 사회보장기본법 시행령
+2025-08-17 15:57:27,696 - INFO - [scripts.law.list_scraper] - --- 4 / 8 페이지 처리 중 ---
+2025-08-17 15:57:27,696 - INFO - [scripts.law.list_scraper] - 4 페이지로 이동합니다...
+2025-08-17 15:57:28,073 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:28,110 - INFO - [scripts.law.list_scraper] -   - 발견: 사회보장기본법 시행규칙
+2025-08-17 15:57:28,114 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지공동모금회법
+2025-08-17 15:57:28,118 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지공동모금회법
+2025-08-17 15:57:28,123 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지공동모금회법 시행규칙
+2025-08-17 15:57:28,126 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지법인 및 사회복지시설 재무ㆍ회계 규칙
+2025-08-17 15:57:28,130 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지사 등의 처우 및 지위 향상을 위한 법률
+2025-08-17 15:57:28,133 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지사 등의 처우 및 지위 향상을 위한 법률 시행령
+2025-08-17 15:57:28,137 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지사업법
+2025-08-17 15:57:28,140 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지사업법
+2025-08-17 15:57:28,144 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지사업법 시행령
+2025-08-17 15:57:28,147 - INFO - [scripts.law.list_scraper] -   - 발견: 사회복지사업법 시행규칙
+2025-08-17 15:57:28,150 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 이용 및 이용권 관리에 관한 법률
+2025-08-17 15:57:28,153 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 이용 및 이용권 관리에 관한 법률 시행령
+2025-08-17 15:57:28,157 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 이용 및 이용권 관리에 관한 법률 시행규칙
+2025-08-17 15:57:28,160 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 지원 및 사회서비스원 설립ㆍ운영에 관한 법률
+2025-08-17 15:57:28,163 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 지원 및 사회서비스원 설립ㆍ운영에 관한 법률
+2025-08-17 15:57:28,168 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 지원 및 사회서비스원 설립ㆍ운영에 관한 법률 시행령
+2025-08-17 15:57:28,171 - INFO - [scripts.law.list_scraper] -   - 발견: 사회서비스 지원 및 사회서비스원 설립ㆍ운영에 관한 법률 시행규칙
+2025-08-17 15:57:28,175 - INFO - [scripts.law.list_scraper] -   - 발견: 상급종합병원의 지정 및 평가에 관한 규칙
+2025-08-17 15:57:28,185 - INFO - [scripts.law.list_scraper] -   - 발견: 생명윤리 및 안전에 관한 법률
+2025-08-17 15:57:28,188 - INFO - [scripts.law.list_scraper] -   - 발견: 생명윤리 및 안전에 관한 법률 시행령
+2025-08-17 15:57:28,191 - INFO - [scripts.law.list_scraper] -   - 발견: 생명윤리 및 안전에 관한 법률 시행규칙
+2025-08-17 15:57:28,195 - INFO - [scripts.law.list_scraper] -   - 발견: 생명윤리 및 안전에 관한 법률 시행규칙
+2025-08-17 15:57:28,197 - INFO - [scripts.law.list_scraper] -   - 발견: 시체 해부 및 보존 등에 관한 법률
+2025-08-17 15:57:28,200 - INFO - [scripts.law.list_scraper] -   - 발견: 시체 해부 및 보존 등에 관한 법률 시행규칙
+2025-08-17 15:57:28,203 - INFO - [scripts.law.list_scraper] -   - 발견: 시체 해부 및 보존에 관한 법률 시행령
+2025-08-17 15:57:28,206 - INFO - [scripts.law.list_scraper] -   - 발견: 식품등 기부 활성화에 관한 법률
+2025-08-17 15:57:28,209 - INFO - [scripts.law.list_scraper] -   - 발견: 식품등 기부 활성화에 관한 법률 시행령
+2025-08-17 15:57:28,212 - INFO - [scripts.law.list_scraper] -   - 발견: 식품등 기부 활성화에 관한 법률 시행규칙
+2025-08-17 15:57:28,216 - INFO - [scripts.law.list_scraper] -   - 발견: 신의료기술평가에 관한 규칙
+2025-08-17 15:57:28,218 - INFO - [scripts.law.list_scraper] -   - 발견: 신의료기술평가에 관한 규칙
+2025-08-17 15:57:28,221 - INFO - [scripts.law.list_scraper] -   - 발견: 실종아동등의 보호 및 지원에 관한 법률
+2025-08-17 15:57:28,225 - INFO - [scripts.law.list_scraper] -   - 발견: 실종아동등의 보호 및 지원에 관한 법률 시행령
+2025-08-17 15:57:28,227 - INFO - [scripts.law.list_scraper] -   - 발견: 실종아동등의 보호 및 지원에 관한 법률 시행규칙
+2025-08-17 15:57:28,230 - INFO - [scripts.law.list_scraper] -   - 발견: 심뇌혈관질환의 예방 및 관리에 관한 법률
+2025-08-17 15:57:28,233 - INFO - [scripts.law.list_scraper] -   - 발견: 심뇌혈관질환의 예방 및 관리에 관한 법률 시행령
+2025-08-17 15:57:28,236 - INFO - [scripts.law.list_scraper] -   - 발견: 심뇌혈관질환의 예방 및 관리에 관한 법률 시행규칙
+2025-08-17 15:57:28,239 - INFO - [scripts.law.list_scraper] -   - 발견: 아동복지법
+2025-08-17 15:57:28,241 - INFO - [scripts.law.list_scraper] -   - 발견: 아동복지법
+2025-08-17 15:57:28,244 - INFO - [scripts.law.list_scraper] -   - 발견: 아동복지법
+2025-08-17 15:57:28,247 - INFO - [scripts.law.list_scraper] -   - 발견: 아동복지법 시행령
+2025-08-17 15:57:28,250 - INFO - [scripts.law.list_scraper] -   - 발견: 아동복지법 시행규칙
+2025-08-17 15:57:28,253 - INFO - [scripts.law.list_scraper] -   - 발견: 아동수당법
+2025-08-17 15:57:28,255 - INFO - [scripts.law.list_scraper] -   - 발견: 아동수당법 시행령
+2025-08-17 15:57:28,259 - INFO - [scripts.law.list_scraper] -   - 발견: 아동수당법 시행규칙
+2025-08-17 15:57:28,262 - INFO - [scripts.law.list_scraper] -   - 발견: 아동의 빈곤예방 및 지원 등에 관한 법률
+2025-08-17 15:57:28,265 - INFO - [scripts.law.list_scraper] -   - 발견: 아동의 빈곤예방 및 지원 등에 관한 법률
+2025-08-17 15:57:28,268 - INFO - [scripts.law.list_scraper] -   - 발견: 아동의 빈곤예방 및 지원 등에 관한 법률 시행령
+2025-08-17 15:57:28,272 - INFO - [scripts.law.list_scraper] -   - 발견: 아동의 빈곤예방 및 지원 등에 관한 법률 시행규칙
+2025-08-17 15:57:28,274 - INFO - [scripts.law.list_scraper] -   - 발견: 안마사에 관한 규칙
+2025-08-17 15:57:28,274 - INFO - [scripts.law.list_scraper] - --- 5 / 8 페이지 처리 중 ---
+2025-08-17 15:57:28,274 - INFO - [scripts.law.list_scraper] - 5 페이지로 이동합니다...
+2025-08-17 15:57:28,647 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:28,676 - INFO - [scripts.law.list_scraper] -   - 발견: 암관리법
+2025-08-17 15:57:28,680 - INFO - [scripts.law.list_scraper] -   - 발견: 암관리법 시행령
+2025-08-17 15:57:28,684 - INFO - [scripts.law.list_scraper] -   - 발견: 암관리법 시행규칙
+2025-08-17 15:57:28,687 - INFO - [scripts.law.list_scraper] -   - 발견: 약사법
+2025-08-17 15:57:28,692 - INFO - [scripts.law.list_scraper] -   - 발견: 약사법
+2025-08-17 15:57:28,696 - INFO - [scripts.law.list_scraper] -   - 발견: 약사법 시행령
+2025-08-17 15:57:28,698 - INFO - [scripts.law.list_scraper] -   - 발견: 약사법 시행규칙
+2025-08-17 15:57:28,702 - INFO - [scripts.law.list_scraper] -   - 발견: 약사법 시행규칙
+2025-08-17 15:57:28,705 - INFO - [scripts.law.list_scraper] -   - 발견: 어린이ㆍ노인 및 장애인 보호구역의 지정 및 관리에 관한 규칙
+2025-08-17 15:57:28,708 - INFO - [scripts.law.list_scraper] -   - 발견: 위기 임신 및 보호출산 지원과 아동 보호에 관한 특별법
+2025-08-17 15:57:28,711 - INFO - [scripts.law.list_scraper] -   - 발견: 위기 임신 및 보호출산 지원과 아동 보호에 관한 특별법 시행령
+2025-08-17 15:57:28,715 - INFO - [scripts.law.list_scraper] -   - 발견: 위기 임신 및 보호출산 지원과 아동 보호에 관한 특별법 시행규칙
+2025-08-17 15:57:28,718 - INFO - [scripts.law.list_scraper] -   - 발견: 응급의료에 관한 법률
+2025-08-17 15:57:28,721 - INFO - [scripts.law.list_scraper] -   - 발견: 응급의료에 관한 법률
+2025-08-17 15:57:28,724 - INFO - [scripts.law.list_scraper] -   - 발견: 응급의료에 관한 법률
+2025-08-17 15:57:28,727 - INFO - [scripts.law.list_scraper] -   - 발견: 응급의료에 관한 법률
+2025-08-17 15:57:28,729 - INFO - [scripts.law.list_scraper] -   - 발견: 응급의료에 관한 법률 시행령
+2025-08-17 15:57:28,732 - INFO - [scripts.law.list_scraper] -   - 발견: 응급의료에 관한 법률 시행규칙
+2025-08-17 15:57:28,736 - INFO - [scripts.law.list_scraper] -   - 발견: 의료관계 행정처분 규칙
+2025-08-17 15:57:28,738 - INFO - [scripts.law.list_scraper] -   - 발견: 의료급여법
+2025-08-17 15:57:28,741 - INFO - [scripts.law.list_scraper] -   - 발견: 의료급여법 시행령
+2025-08-17 15:57:28,744 - INFO - [scripts.law.list_scraper] -   - 발견: 의료급여법 시행규칙
+2025-08-17 15:57:28,747 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기관세탁물 관리규칙
+2025-08-17 15:57:28,750 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기관 회계기준 규칙
+2025-08-17 15:57:28,753 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기기법
+2025-08-17 15:57:28,755 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기기법 시행령
+2025-08-17 15:57:28,759 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기기산업 육성 및 혁신의료기기 지원법
+2025-08-17 15:57:28,761 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기기산업 육성 및 혁신의료기기 지원법 시행령
+2025-08-17 15:57:28,764 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기기산업 육성 및 혁신의료기기 지원법 시행규칙
+2025-08-17 15:57:28,768 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기기 유통 및 판매질서 유지에 관한 규칙
+2025-08-17 15:57:28,771 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기사 등에 관한 법률
+2025-08-17 15:57:28,774 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기사 등에 관한 법률 시행령
+2025-08-17 15:57:28,777 - INFO - [scripts.law.list_scraper] -   - 발견: 의료기사 등에 관한 법률 시행규칙
+2025-08-17 15:57:28,781 - INFO - [scripts.law.list_scraper] -   - 발견: 의료법
+2025-08-17 15:57:28,783 - INFO - [scripts.law.list_scraper] -   - 발견: 의료법
+2025-08-17 15:57:28,786 - INFO - [scripts.law.list_scraper] -   - 발견: 의료법
+2025-08-17 15:57:28,789 - INFO - [scripts.law.list_scraper] -   - 발견: 의료법 시행령
+2025-08-17 15:57:28,792 - INFO - [scripts.law.list_scraper] -   - 발견: 의료법 시행규칙
+2025-08-17 15:57:28,795 - INFO - [scripts.law.list_scraper] -   - 발견: 의료사고 피해구제 및 의료분쟁 조정 등에 관한 법률
+2025-08-17 15:57:28,798 - INFO - [scripts.law.list_scraper] -   - 발견: 의료사고 피해구제 및 의료분쟁 조정 등에 관한 법률 시행령
+2025-08-17 15:57:28,803 - INFO - [scripts.law.list_scraper] -   - 발견: 의료사고 피해구제 및 의료분쟁 조정 등에 관한 법률 시행규칙
+2025-08-17 15:57:28,806 - INFO - [scripts.law.list_scraper] -   - 발견: 의료ㆍ요양 등 지역 돌봄의 통합지원에 관한 법률
+2025-08-17 15:57:28,809 - INFO - [scripts.law.list_scraper] -   - 발견: 의료유사업자에 관한 규칙
+2025-08-17 15:57:28,813 - INFO - [scripts.law.list_scraper] -   - 발견: 의료 해외진출 및 외국인환자 유치 지원에 관한 법률
+2025-08-17 15:57:28,815 - INFO - [scripts.law.list_scraper] -   - 발견: 의료 해외진출 및 외국인환자 유치 지원에 관한 법률 시행령
+2025-08-17 15:57:28,818 - INFO - [scripts.law.list_scraper] -   - 발견: 의료 해외진출 및 외국인환자 유치 지원에 관한 법률 시행규칙
+2025-08-17 15:57:28,821 - INFO - [scripts.law.list_scraper] -   - 발견: 의사상자 등 예우 및 지원에 관한 법률
+2025-08-17 15:57:28,824 - INFO - [scripts.law.list_scraper] -   - 발견: 의사상자 등 예우 및 지원에 관한 법률 시행령
+2025-08-17 15:57:28,826 - INFO - [scripts.law.list_scraper] -   - 발견: 의사상자 등 예우 및 지원에 관한 법률 시행규칙
+2025-08-17 15:57:28,829 - INFO - [scripts.law.list_scraper] -   - 발견: 의사의 조건부 면허에 관한 규칙
+2025-08-17 15:57:28,829 - INFO - [scripts.law.list_scraper] - --- 6 / 8 페이지 처리 중 ---
+2025-08-17 15:57:28,829 - INFO - [scripts.law.list_scraper] - 6 페이지로 이동합니다...
+2025-08-17 15:57:29,208 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:29,251 - INFO - [scripts.law.list_scraper] -   - 발견: 인체조직안전 및 관리 등에 관한 법률
+2025-08-17 15:57:29,256 - INFO - [scripts.law.list_scraper] -   - 발견: 인체조직안전 및 관리 등에 관한 법률 시행령
+2025-08-17 15:57:29,259 - INFO - [scripts.law.list_scraper] -   - 발견: 인체조직안전 및 관리 등에 관한 법률 시행규칙
+2025-08-17 15:57:29,263 - INFO - [scripts.law.list_scraper] -   - 발견: 자살예방 및 생명존중문화 조성을 위한 법률
+2025-08-17 15:57:29,268 - INFO - [scripts.law.list_scraper] -   - 발견: 자살예방 및 생명존중문화 조성을 위한 법률 시행령
+2025-08-17 15:57:29,271 - INFO - [scripts.law.list_scraper] -   - 발견: 자살예방 및 생명존중문화 조성을 위한 법률 시행규칙
+2025-08-17 15:57:29,275 - INFO - [scripts.law.list_scraper] -   - 발견: 장기등 이식에 관한 법률
+2025-08-17 15:57:29,279 - INFO - [scripts.law.list_scraper] -   - 발견: 장기등 이식에 관한 법률
+2025-08-17 15:57:29,282 - INFO - [scripts.law.list_scraper] -   - 발견: 장기등 이식에 관한 법률 시행령
+2025-08-17 15:57:29,284 - INFO - [scripts.law.list_scraper] -   - 발견: 장기등 이식에 관한 법률 시행규칙
+2025-08-17 15:57:29,287 - INFO - [scripts.law.list_scraper] -   - 발견: 장기등 이식에 관한 법률 시행규칙
+2025-08-17 15:57:29,291 - INFO - [scripts.law.list_scraper] -   - 발견: 장기요양기관 재무ㆍ회계 규칙
+2025-08-17 15:57:29,294 - INFO - [scripts.law.list_scraper] -   - 발견: 장사 등에 관한 법률
+2025-08-17 15:57:29,296 - INFO - [scripts.law.list_scraper] -   - 발견: 장사 등에 관한 법률 시행령
+2025-08-17 15:57:29,300 - INFO - [scripts.law.list_scraper] -   - 발견: 장사 등에 관한 법률 시행규칙
+2025-08-17 15:57:29,303 - INFO - [scripts.law.list_scraper] -   - 발견: 장애물 없는 생활환경 인증에 관한 규칙
+2025-08-17 15:57:29,306 - INFO - [scripts.law.list_scraper] -   - 발견: 장애아동 복지지원법
+2025-08-17 15:57:29,308 - INFO - [scripts.law.list_scraper] -   - 발견: 장애아동 복지지원법
+2025-08-17 15:57:29,311 - INFO - [scripts.law.list_scraper] -   - 발견: 장애아동 복지지원법 시행령
+2025-08-17 15:57:29,314 - INFO - [scripts.law.list_scraper] -   - 발견: 장애아동 복지지원법 시행규칙
+2025-08-17 15:57:29,317 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인 건강권 및 의료접근성 보장에 관한 법률
+2025-08-17 15:57:29,319 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인 건강권 및 의료접근성 보장에 관한 법률
+2025-08-17 15:57:29,322 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인 건강권 및 의료접근성 보장에 관한 법률 시행령
+2025-08-17 15:57:29,325 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인 건강권 및 의료접근성 보장에 관한 법률 시행규칙
+2025-08-17 15:57:29,328 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인 등을 위한 보조기기 지원 및 활용촉진에 관한 법률
+2025-08-17 15:57:29,331 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인 등을 위한 보조기기 지원 및 활용촉진에 관한 법률 시행령
+2025-08-17 15:57:29,334 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인 등을 위한 보조기기 지원 및 활용촉진에 관한 법률 시행규칙
+2025-08-17 15:57:29,336 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인ㆍ임산부 등의 편의증진 보장에 관한 법률
+2025-08-17 15:57:29,338 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인ㆍ임산부 등의 편의증진 보장에 관한 법률
+2025-08-17 15:57:29,342 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인ㆍ임산부 등의 편의증진 보장에 관한 법률 시행령
+2025-08-17 15:57:29,345 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인ㆍ노인ㆍ임산부 등의 편의증진 보장에 관한 법률 시행규칙
+2025-08-17 15:57:29,347 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인복지법
+2025-08-17 15:57:29,349 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인복지법
+2025-08-17 15:57:29,353 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인복지법
+2025-08-17 15:57:29,356 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인복지법 시행령
+2025-08-17 15:57:29,359 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인복지법 시행규칙
+2025-08-17 15:57:29,361 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인연금법
+2025-08-17 15:57:29,364 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인연금법 시행령
+2025-08-17 15:57:29,367 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인연금법 시행규칙
+2025-08-17 15:57:29,372 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인의 지역사회 자립 및 주거 전환 지원에 관한 법률
+2025-08-17 15:57:29,378 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인차별금지 및 권리구제 등에 관한 법률
+2025-08-17 15:57:29,381 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인차별금지 및 권리구제 등에 관한 법률
+2025-08-17 15:57:29,384 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인차별금지 및 권리구제 등에 관한 법률 시행령
+2025-08-17 15:57:29,388 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인활동 지원에 관한 법률
+2025-08-17 15:57:29,392 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인활동 지원에 관한 법률 시행령
+2025-08-17 15:57:29,394 - INFO - [scripts.law.list_scraper] -   - 발견: 장애인활동 지원에 관한 법률 시행규칙
+2025-08-17 15:57:29,397 - INFO - [scripts.law.list_scraper] -   - 발견: 재난적의료비 지원에 관한 법률
+2025-08-17 15:57:29,401 - INFO - [scripts.law.list_scraper] -   - 발견: 재난적의료비 지원에 관한 법률 시행령
+2025-08-17 15:57:29,405 - INFO - [scripts.law.list_scraper] -   - 발견: 재난적의료비 지원에 관한 법률 시행규칙
+2025-08-17 15:57:29,408 - INFO - [scripts.law.list_scraper] -   - 발견: 저출산ㆍ고령사회기본법
+2025-08-17 15:57:29,408 - INFO - [scripts.law.list_scraper] - --- 7 / 8 페이지 처리 중 ---
+2025-08-17 15:57:29,408 - INFO - [scripts.law.list_scraper] - 7 페이지로 이동합니다...
+2025-08-17 15:57:29,788 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:29,828 - INFO - [scripts.law.list_scraper] -   - 발견: 저출산ㆍ고령사회기본법 시행령
+2025-08-17 15:57:29,832 - INFO - [scripts.law.list_scraper] -   - 발견: 저출산ㆍ고령사회 기본법 시행규칙
+2025-08-17 15:57:29,836 - INFO - [scripts.law.list_scraper] -   - 발견: 전공의의 수련환경 개선 및 지위 향상을 위한 법률
+2025-08-17 15:57:29,841 - INFO - [scripts.law.list_scraper] -   - 발견: 전공의의 수련환경 개선 및 지위 향상을 위한 법률
+2025-08-17 15:57:29,844 - INFO - [scripts.law.list_scraper] -   - 발견: 전공의의 수련환경 개선 및 지위 향상을 위한 법률 시행령
+2025-08-17 15:57:29,849 - INFO - [scripts.law.list_scraper] -   - 발견: 전공의의 수련환경 개선 및 지위 향상을 위한 법률 시행규칙
+2025-08-17 15:57:29,852 - INFO - [scripts.law.list_scraper] -   - 발견: 전문간호사 자격인정 등에 관한 규칙
+2025-08-17 15:57:29,855 - INFO - [scripts.law.list_scraper] -   - 발견: 전문병원의 지정 및 평가 등에 관한 규칙
+2025-08-17 15:57:29,859 - INFO - [scripts.law.list_scraper] -   - 발견: 전문약사의 자격 인정 등에 관한 규정
+2025-08-17 15:57:29,863 - INFO - [scripts.law.list_scraper] -   - 발견: 전문약사의 자격 인정 등에 관한 규칙
+2025-08-17 15:57:29,866 - INFO - [scripts.law.list_scraper] -   - 발견: 전문약사의 자격 인정 등에 관한 규칙
+2025-08-17 15:57:29,870 - INFO - [scripts.law.list_scraper] -   - 발견: 전문의의 수련 및 자격 인정 등에 관한 규정
+2025-08-17 15:57:29,873 - INFO - [scripts.law.list_scraper] -   - 발견: 전문의의 수련 및 자격 인정 등에 관한 규정 시행규칙
+2025-08-17 15:57:29,876 - INFO - [scripts.law.list_scraper] -   - 발견: 정신건강증진 및 정신질환자 복지서비스 지원에 관한 법률
+2025-08-17 15:57:29,879 - INFO - [scripts.law.list_scraper] -   - 발견: 정신건강증진 및 정신질환자 복지서비스 지원에 관한 법률
+2025-08-17 15:57:29,883 - INFO - [scripts.law.list_scraper] -   - 발견: 정신건강증진 및 정신질환자 복지서비스 지원에 관한 법률
+2025-08-17 15:57:29,885 - INFO - [scripts.law.list_scraper] -   - 발견: 정신건강증진 및 정신질환자 복지서비스 지원에 관한 법률 시행령
+2025-08-17 15:57:29,888 - INFO - [scripts.law.list_scraper] -   - 발견: 정신건강증진 및 정신질환자 복지서비스 지원에 관한 법률 시행규칙
+2025-08-17 15:57:29,892 - INFO - [scripts.law.list_scraper] -   - 발견: 제대혈 관리 및 연구에 관한 법률
+2025-08-17 15:57:29,895 - INFO - [scripts.law.list_scraper] -   - 발견: 제대혈 관리 및 연구에 관한 법률 시행령
+2025-08-17 15:57:29,897 - INFO - [scripts.law.list_scraper] -   - 발견: 제대혈 관리 및 연구에 관한 법률 시행규칙
+2025-08-17 15:57:29,901 - INFO - [scripts.law.list_scraper] -   - 발견: 제약산업 육성 및 지원에 관한 특별법
+2025-08-17 15:57:29,905 - INFO - [scripts.law.list_scraper] -   - 발견: 제약산업 육성 및 지원에 관한 특별법 시행령
+2025-08-17 15:57:29,909 - INFO - [scripts.law.list_scraper] -   - 발견: 제약산업 육성 및 지원에 관한 특별법 시행규칙
+2025-08-17 15:57:29,912 - INFO - [scripts.law.list_scraper] -   - 발견: 중증장애인생산품 우선구매 특별법
+2025-08-17 15:57:29,916 - INFO - [scripts.law.list_scraper] -   - 발견: 중증장애인생산품 우선구매 특별법 시행령
+2025-08-17 15:57:29,918 - INFO - [scripts.law.list_scraper] -   - 발견: 중증장애인생산품 우선구매 특별법 시행규칙
+2025-08-17 15:57:29,921 - INFO - [scripts.law.list_scraper] -   - 발견: 지방의료원의 설립 및 운영에 관한 법률
+2025-08-17 15:57:29,924 - INFO - [scripts.law.list_scraper] -   - 발견: 지방의료원의 설립 및 운영에 관한 법률 시행령
+2025-08-17 15:57:29,926 - INFO - [scripts.law.list_scraper] -   - 발견: 지방의료원의 설립 및 운영에 관한 법률 시행규칙
+2025-08-17 15:57:29,929 - INFO - [scripts.law.list_scraper] -   - 발견: 지역보건법
+2025-08-17 15:57:29,932 - INFO - [scripts.law.list_scraper] -   - 발견: 지역보건법 시행령
+2025-08-17 15:57:29,936 - INFO - [scripts.law.list_scraper] -   - 발견: 지역보건법 시행규칙
+2025-08-17 15:57:29,938 - INFO - [scripts.law.list_scraper] -   - 발견: 진단용 방사선 발생장치의 안전관리에 관한 규칙
+2025-08-17 15:57:29,942 - INFO - [scripts.law.list_scraper] -   - 발견: 천연물신약 연구개발 촉진법
+2025-08-17 15:57:29,946 - INFO - [scripts.law.list_scraper] -   - 발견: 천연물신약 연구개발 촉진법 시행령
+2025-08-17 15:57:29,948 - INFO - [scripts.law.list_scraper] -   - 발견: 첨단의료복합단지 육성에 관한 특별법
+2025-08-17 15:57:29,952 - INFO - [scripts.law.list_scraper] -   - 발견: 첨단의료복합단지 육성에 관한 특별법 시행령
+2025-08-17 15:57:29,956 - INFO - [scripts.law.list_scraper] -   - 발견: 첨단의료복합단지 육성에 관한 특별법 시행규칙
+2025-08-17 15:57:29,959 - INFO - [scripts.law.list_scraper] -   - 발견: 첨단재생의료 및 첨단바이오의약품 안전 및 지원에 관한 법률
+2025-08-17 15:57:29,962 - INFO - [scripts.law.list_scraper] -   - 발견: 첨단재생의료 및 첨단바이오의약품 안전 및 지원에 관한 법률 시행령
+2025-08-17 15:57:29,966 - INFO - [scripts.law.list_scraper] -   - 발견: 첨단재생의료 안전 및 지원에 관한 규칙
+2025-08-17 15:57:29,970 - INFO - [scripts.law.list_scraper] -   - 발견: 치과의사전문의의 수련 및 자격 인정 등에 관한 규정
+2025-08-17 15:57:29,973 - INFO - [scripts.law.list_scraper] -   - 발견: 치과의사전문의의 수련 및 자격 인정 등에 관한 규정 시행규칙
+2025-08-17 15:57:29,977 - INFO - [scripts.law.list_scraper] -   - 발견: 치매관리법
+2025-08-17 15:57:29,980 - INFO - [scripts.law.list_scraper] -   - 발견: 치매관리법 시행령
+2025-08-17 15:57:29,982 - INFO - [scripts.law.list_scraper] -   - 발견: 치매관리법 시행규칙
+2025-08-17 15:57:29,985 - INFO - [scripts.law.list_scraper] -   - 발견: 특수의료장비의 설치 및 운영에 관한 규칙
+2025-08-17 15:57:29,987 - INFO - [scripts.law.list_scraper] -   - 발견: 한국국제보건의료재단법
+2025-08-17 15:57:29,990 - INFO - [scripts.law.list_scraper] -   - 발견: 한국국제보건의료재단법 시행령
+2025-08-17 15:57:29,990 - INFO - [scripts.law.list_scraper] - --- 8 / 8 페이지 처리 중 ---
+2025-08-17 15:57:29,990 - INFO - [scripts.law.list_scraper] - 8 페이지로 이동합니다...
+2025-08-17 15:57:30,368 - INFO - [scripts.law.list_scraper] - 페이지 이동 완료.
+2025-08-17 15:57:30,398 - INFO - [scripts.law.list_scraper] -   - 발견: 한국보건복지인재원법
+2025-08-17 15:57:30,403 - INFO - [scripts.law.list_scraper] -   - 발견: 한국보건복지인재원법 시행령
+2025-08-17 15:57:30,408 - INFO - [scripts.law.list_scraper] -   - 발견: 한국보건산업진흥원법
+2025-08-17 15:57:30,412 - INFO - [scripts.law.list_scraper] -   - 발견: 한국보건산업진흥원법 시행령
+2025-08-17 15:57:30,417 - INFO - [scripts.law.list_scraper] -   - 발견: 한국보건의료인국가시험원법
+2025-08-17 15:57:30,421 - INFO - [scripts.law.list_scraper] -   - 발견: 한국보건의료인국가시험원법 시행령
+2025-08-17 15:57:30,426 - INFO - [scripts.law.list_scraper] -   - 발견: 한국인 원자폭탄 피해자 지원을 위한 특별법
+2025-08-17 15:57:30,430 - INFO - [scripts.law.list_scraper] -   - 발견: 한국인 원자폭탄 피해자 지원을 위한 특별법 시행령
+2025-08-17 15:57:30,433 - INFO - [scripts.law.list_scraper] -   - 발견: 한센인피해사건의 진상규명 및 피해자 지원 등에 관한 법률
+2025-08-17 15:57:30,436 - INFO - [scripts.law.list_scraper] -   - 발견: 한센인피해사건의 진상규명 및 피해자 지원 등에 관한 법률 시행령
+2025-08-17 15:57:30,440 - INFO - [scripts.law.list_scraper] -   - 발견: 한센인피해사건의 진상규명 및 피해자 지원 등에 관한 법률 시행규칙
+2025-08-17 15:57:30,443 - INFO - [scripts.law.list_scraper] -   - 발견: 한의사전문의의 수련 및 자격 인정 등에 관한 규정
+2025-08-17 15:57:30,446 - INFO - [scripts.law.list_scraper] -   - 발견: 한의사전문의의 수련 및 자격 인정 등에 관한 규정 시행규칙
+2025-08-17 15:57:30,449 - INFO - [scripts.law.list_scraper] -   - 발견: 한의약 육성법
+2025-08-17 15:57:30,452 - INFO - [scripts.law.list_scraper] -   - 발견: 한의약 육성법 시행령
+2025-08-17 15:57:30,455 - INFO - [scripts.law.list_scraper] -   - 발견: 혈액관리법
+2025-08-17 15:57:30,457 - INFO - [scripts.law.list_scraper] -   - 발견: 혈액관리법 시행령
+2025-08-17 15:57:30,460 - INFO - [scripts.law.list_scraper] -   - 발견: 혈액관리법 시행규칙
+2025-08-17 15:57:30,463 - INFO - [scripts.law.list_scraper] -   - 발견: 호스피스ㆍ완화의료 및 임종과정에 있는 환자의 연명의료결정에 관한 법률
+2025-08-17 15:57:30,465 - INFO - [scripts.law.list_scraper] -   - 발견: 호스피스ㆍ완화의료 및 임종과정에 있는 환자의 연명의료결정에 관한 법률
+2025-08-17 15:57:30,468 - INFO - [scripts.law.list_scraper] -   - 발견: 호스피스ㆍ완화의료 및 임종과정에 있는 환자의 연명의료결정에 관한 법률 시행령
+2025-08-17 15:57:30,471 - INFO - [scripts.law.list_scraper] -   - 발견: 호스피스ㆍ완화의료 및 임종과정에 있는 환자의 연명의료결정에 관한 법률 시행규칙
+2025-08-17 15:57:30,474 - INFO - [scripts.law.list_scraper] -   - 발견: 환자안전법
+2025-08-17 15:57:30,476 - INFO - [scripts.law.list_scraper] -   - 발견: 환자안전법 시행령
+2025-08-17 15:57:30,479 - INFO - [scripts.law.list_scraper] -   - 발견: 환자안전법 시행규칙
+2025-08-17 15:57:30,483 - INFO - [scripts.law.list_scraper] -   - 발견: 효행 장려 및 지원에 관한 법률
+2025-08-17 15:57:30,485 - INFO - [scripts.law.list_scraper] -   - 발견: 효행 장려 및 지원에 관한 법률 시행령
+2025-08-17 15:57:30,488 - INFO - [scripts.law.list_scraper] -   - 발견: 효행 장려 및 지원에 관한 법률 시행규칙
+2025-08-17 15:57:30,491 - INFO - [scripts.law.list_scraper] -   - 발견: 희귀질환관리법
+2025-08-17 15:57:30,494 - INFO - [scripts.law.list_scraper] -   - 발견: 희귀질환관리법 시행령
+2025-08-17 15:57:30,497 - INFO - [scripts.law.list_scraper] -   - 발견: 희귀질환관리법 시행규칙

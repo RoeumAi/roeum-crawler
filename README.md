@@ -28,3 +28,11 @@ crawler for roeumAi
  python scripts/run_scraper.py "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=232959&efYd=20220616" -o "가사근로자법_테스트"
   ```
 
+### jsonl 파일 csv로 변환 (notion 공유를 위함)
+```Bash
+ # documents 파일 변환 
+ python scripts/utils/jsonl_to_csv.py -i "data/final/1492000/all_documents.jsonl" -o "data/final/1492000/for_notion_documents.csv"
+ # chunks 파일 변환
+ python scripts/utils/jsonl_to_csv.py -i "data/final/1492000/all_chunks.jsonl" -o "data/final/1492000/for_notion_chunks.csv"
+  ```
+

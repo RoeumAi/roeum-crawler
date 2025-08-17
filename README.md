@@ -2,7 +2,9 @@
 crawler for roeumAi
 
 
-## 판례 파이프라인 통합 실행 (run_law_scraper.sh)
+## 법령 파이프라인 통합 실행 (run_law_scraper.sh)
+고용노동부 1492000 / 보건복지부 1352000, 법무부 1270000
+
 ```Bash
  ./bin/run_law_scraper.sh 1492000 2
   ```

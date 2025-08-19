@@ -4,11 +4,11 @@ import sys
 import os
 
 # 실행 파일의 위치를 기준으로 프로젝트 루트 경로를 sys.path에 추가
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
 # 분리된 모듈에서 필요한 함수를 임포트
-from scripts.law.url_checker import check_url_validity
+from scripts.law.logic.url_checker import check_url_validity
 
 async def main():
     # argparse 로직을 이곳으로 이동

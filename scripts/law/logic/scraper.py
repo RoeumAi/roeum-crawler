@@ -7,9 +7,10 @@ import os
 from urllib.parse import urlparse, parse_qs
 import sys
 
-project_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
-from utils.logger_config import get_logger
+
+from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__)
 

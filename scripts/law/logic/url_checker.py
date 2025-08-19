@@ -3,10 +3,10 @@ from playwright.async_api import async_playwright, TimeoutError
 import sys
 import os
 
-# ⭐️ 1. 상대 경로 임포트를 위해 경로 설정 코드 수정
-project_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
-from utils.logger_config import get_logger
+
+from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__)
 

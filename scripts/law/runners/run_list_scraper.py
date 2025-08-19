@@ -6,11 +6,11 @@ import os
 
 # 1. 실행 파일의 위치를 기준으로 프로젝트 루트 경로를 sys.path에 추가
 # 현재 파일(.../scripts)의 부모 폴더(...)가 프로젝트 루트
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
 # 2. 분리된 모듈에서 필요한 함수와 로거를 임포트
-from scripts.law.list_scraper import fetch_law_urls
+from scripts.law.logic.list_scraper import fetch_law_urls
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__)

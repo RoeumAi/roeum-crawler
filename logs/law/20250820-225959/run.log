@@ -1,0 +1,95 @@
+2025-08-20 23:00:01,708 - INFO - [scripts.law.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1492000
+2025-08-20 23:00:02,233 - INFO - [scripts.law.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1492000
+2025-08-20 23:00:03,568 - INFO - [scripts.law.logic.list_scraper] - 총 4 페이지를 확인했습니다.
+2025-08-20 23:00:03,569 - INFO - [scripts.law.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-08-20 23:00:03,569 - INFO - [scripts.law.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---
+2025-08-20 23:00:03,607 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 가사근로자의 고용개선 등에 관한 법률
+2025-08-20 23:00:03,611 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 가사근로자의 고용개선 등에 관한 법률 시행령
+2025-08-20 23:00:03,615 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 가사근로자의 고용개선 등에 관한 법률 시행규칙
+2025-08-20 23:00:03,620 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 건설근로자의 고용개선 등에 관한 법률
+2025-08-20 23:00:03,624 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 건설근로자의 고용개선 등에 관한 법률 시행령
+2025-08-20 23:00:03,630 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 건설근로자의 고용개선 등에 관한 법률 시행규칙
+2025-08-20 23:00:03,634 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 경제사회노동위원회법
+2025-08-20 23:00:03,640 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 경제사회노동위원회법 시행령
+2025-08-20 23:00:03,644 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용노동부 소관 비상대비에 관한 법률 시행규칙
+2025-08-20 23:00:03,649 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용노동부 소관 비영리법인의 설립 및 감독에 관한 규칙
+2025-08-20 23:00:03,654 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용노동부와 그 소속기관 직제
+2025-08-20 23:00:03,658 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용노동부와 그 소속기관 직제 시행규칙
+2025-08-20 23:00:03,663 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률
+2025-08-20 23:00:03,667 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률 시행령
+2025-08-20 23:00:03,671 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험 및 산업재해보상보험의 보험료징수 등에 관한 법률 시행규칙
+2025-08-20 23:00:03,675 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험법
+2025-08-20 23:00:03,679 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험법 시행령
+2025-08-20 23:00:03,684 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험법 시행규칙
+2025-08-20 23:00:03,688 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용보험ㆍ산업재해보상보험의 보험관계 성립신고 등의 촉진을 위한 특별조치법
+2025-08-20 23:00:03,691 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용상 연령차별금지 및 고령자고용촉진에 관한 법률
+2025-08-20 23:00:03,696 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용상 연령차별금지 및 고령자고용촉진에 관한 법률 시행령
+2025-08-20 23:00:03,699 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용상 연령차별금지 및 고령자고용촉진에 관한 법률 시행규칙
+2025-08-20 23:00:03,703 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용정책 기본법
+2025-08-20 23:00:03,707 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용정책 기본법 시행령
+2025-08-20 23:00:03,710 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 고용정책 기본법 시행규칙
+2025-08-20 23:00:03,714 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공무원의 노동조합 설립 및 운영 등에 관한 법률
+2025-08-20 23:00:03,718 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공무원의 노동조합 설립 및 운영 등에 관한 법률 시행령
+2025-08-20 23:00:03,721 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공무원의 노동조합 설립 및 운영 등에 관한 법률 시행규칙
+2025-08-20 23:00:03,725 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공인노무사법
+2025-08-20 23:00:03,729 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공인노무사법 시행령
+2025-08-20 23:00:03,731 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공인노무사법 시행규칙
+2025-08-20 23:00:03,735 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 공휴일에 관한 법률
+2025-08-20 23:00:03,739 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 교원의 노동조합 설립 및 운영 등에 관한 법률
+2025-08-20 23:00:03,742 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 교원의 노동조합 설립 및 운영 등에 관한 법률 시행령
+2025-08-20 23:00:03,746 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 교원의 노동조합 설립 및 운영 등에 관한 법률 시행규칙
+2025-08-20 23:00:03,750 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 구직자 취업촉진 및 생활안정지원에 관한 법률
+2025-08-20 23:00:03,753 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 구직자 취업촉진 및 생활안정지원에 관한 법률 시행령
+2025-08-20 23:00:03,761 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 구직자 취업촉진 및 생활안정지원에 관한 법률 시행규칙
+2025-08-20 23:00:03,765 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법
+2025-08-20 23:00:03,769 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법 시행령
+2025-08-20 23:00:03,773 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법 시행령
+2025-08-20 23:00:03,776 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법 시행령
+2025-08-20 23:00:03,779 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법 시행규칙
+2025-08-20 23:00:03,784 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법 시행규칙
+2025-08-20 23:00:03,788 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국가기술자격법 시행규칙
+2025-08-20 23:00:03,794 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국민 평생 직업능력 개발법
+2025-08-20 23:00:03,797 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국민 평생 직업능력 개발법 시행령
+2025-08-20 23:00:03,801 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국민 평생 직업능력 개발법 시행규칙
+2025-08-20 23:00:03,805 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 국민 평생 직업능력 개발법 시행규칙
+2025-08-20 23:00:03,809 - INFO - [scripts.law.logic.list_scraper] -   - 발견: 근로감독관규정
+2025-08-20 23:00:04,351 - INFO - [scripts.law.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=232959&efYd=20220616
+2025-08-20 23:00:04,949 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-20 23:00:04,973 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-20 23:00:05,054 - INFO - [scripts.law.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-20 23:00:06,058 - INFO - [scripts.law.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-20 23:00:06,086 - INFO - [scripts.law.logic.scraper] - 데이터 파싱 중...
+2025-08-20 23:00:06,164 - INFO - [scripts.law.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/가사근로자의 고용개선 등에 관한 법률_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:06,165 - INFO - [scripts.law.logic.scraper] - 데이터 28건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/가사근로자의 고용개선 등에 관한 법률_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:07,750 - INFO - [scripts.law.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=267779&efYd=20241231
+2025-08-20 23:00:08,424 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-20 23:00:08,445 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-20 23:00:08,628 - INFO - [scripts.law.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-20 23:00:09,631 - INFO - [scripts.law.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-20 23:00:09,657 - INFO - [scripts.law.logic.scraper] - 데이터 파싱 중...
+2025-08-20 23:00:09,716 - INFO - [scripts.law.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/가사근로자의 고용개선 등에 관한 법률 시행령_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:09,716 - INFO - [scripts.law.logic.scraper] - 데이터 12건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/가사근로자의 고용개선 등에 관한 법률 시행령_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:11,298 - INFO - [scripts.law.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=243269&efYd=20220616
+2025-08-20 23:00:11,911 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-20 23:00:11,932 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-20 23:00:12,117 - INFO - [scripts.law.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-20 23:00:13,120 - INFO - [scripts.law.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-20 23:00:13,147 - INFO - [scripts.law.logic.scraper] - 데이터 파싱 중...
+2025-08-20 23:00:13,219 - INFO - [scripts.law.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/가사근로자의 고용개선 등에 관한 법률 시행규칙_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:13,219 - INFO - [scripts.law.logic.scraper] - 데이터 8건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/가사근로자의 고용개선 등에 관한 법률 시행규칙_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:15,043 - INFO - [scripts.law.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=234693&efYd=20220218
+2025-08-20 23:00:15,694 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-20 23:00:15,788 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-20 23:00:15,796 - INFO - [scripts.law.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-20 23:00:16,800 - INFO - [scripts.law.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-20 23:00:16,832 - INFO - [scripts.law.logic.scraper] - 데이터 파싱 중...
+2025-08-20 23:00:16,937 - INFO - [scripts.law.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/건설근로자의 고용개선 등에 관한 법률_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:16,937 - INFO - [scripts.law.logic.scraper] - 데이터 42건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/건설근로자의 고용개선 등에 관한 법률_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:18,521 - INFO - [scripts.law.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=270619&efYd=20250415
+2025-08-20 23:00:20,448 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-20 23:00:20,468 - INFO - [scripts.law.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-20 23:00:20,760 - INFO - [scripts.law.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-20 23:00:21,763 - INFO - [scripts.law.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-20 23:00:21,798 - INFO - [scripts.law.logic.scraper] - 데이터 파싱 중...
+2025-08-20 23:00:21,903 - INFO - [scripts.law.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/건설근로자의 고용개선 등에 관한 법률 시행령_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-20 23:00:21,903 - INFO - [scripts.law.logic.scraper] - 데이터 35건을 '/Users/woong/Roeum/roeum-crawler/data/raw/law/1492000/건설근로자의 고용개선 등에 관한 법률 시행령_chunks.jsonl' 파일로 성공적으로 저장했습니다.

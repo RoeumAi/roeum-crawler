@@ -9,6 +9,9 @@ sys.path.append(project_root)
 
 # 분리된 모듈에서 필요한 함수를 임포트
 from scripts.law.logic.url_checker import check_url_validity
+from scripts.utils.logger_config import get_logger
+
+logger = get_logger(__name__, scraper_type='law')
 
 async def main():
     # argparse 로직을 이곳으로 이동

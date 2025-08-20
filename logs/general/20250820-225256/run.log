@@ -1,0 +1,34 @@
+2025-08-20 22:55:26,807 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=253641&efYd=20240209
+2025-08-20 22:55:31,817 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 구직자 취업촉진 및 생활안정지원에 관한 법률
+2025-08-20 22:55:33,040 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=260081&efYd=20240209
+2025-08-20 22:55:35,282 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 구직자 취업촉진 및 생활안정지원에 관한 법률 시행령
+2025-08-20 22:55:36,505 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=260439&efYd=20240213
+2025-08-20 22:55:38,830 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 구직자 취업촉진 및 생활안정지원에 관한 법률 시행규칙
+2025-08-20 22:55:40,051 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=243041&efYd=20220610
+2025-08-20 22:55:42,958 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법
+2025-08-20 22:55:44,174 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=263305&efYd=20240627
+2025-08-20 22:55:47,171 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법 시행령
+2025-08-20 22:55:48,402 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=269697&efYd=20260101
+2025-08-20 22:55:51,322 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법 시행령
+2025-08-20 22:55:52,505 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=265027&efYd=20260101
+2025-08-20 22:55:54,900 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법 시행령
+2025-08-20 22:55:56,120 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=266183&efYd=20250101
+2025-08-20 22:55:59,475 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법 시행규칙
+2025-08-20 22:56:00,706 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=266183&efYd=20260101
+2025-08-20 22:56:03,813 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법 시행규칙
+2025-08-20 22:56:05,045 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=256115&efYd=20260101
+2025-08-20 22:56:08,599 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국가기술자격법 시행규칙
+2025-08-20 22:56:09,831 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=247245&efYd=20230704
+2025-08-20 22:56:12,849 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국민 평생 직업능력 개발법
+2025-08-20 22:56:14,067 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=271475&efYd=20250602
+2025-08-20 22:56:16,596 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국민 평생 직업능력 개발법 시행령
+2025-08-20 22:56:17,821 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=271525&efYd=20250602
+2025-08-20 22:56:20,270 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국민 평생 직업능력 개발법 시행규칙
+2025-08-20 22:56:21,496 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=271525&efYd=20250903
+2025-08-20 22:56:24,638 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 국민 평생 직업능력 개발법 시행규칙
+2025-08-20 22:56:25,860 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=108467&efYd=20101027
+2025-08-20 22:56:28,225 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 근로감독관규정
+2025-08-20 22:56:30,647 - INFO - [__main__] - './bin/../data/final/law/1492000/all_law_documents.jsonl' 파일을 CSV로 변환 시작...
+2025-08-20 22:56:30,647 - WARNING - [__main__] - 입력 파일 './bin/../data/final/law/1492000/all_law_documents.jsonl'에 데이터가 없어 변환을 건너뜁니다.
+2025-08-20 22:56:30,886 - INFO - [__main__] - './bin/../data/final/law/1492000/all_law_chunks.jsonl' 파일을 CSV로 변환 시작...
+2025-08-20 22:56:30,886 - WARNING - [__main__] - 입력 파일 './bin/../data/final/law/1492000/all_law_chunks.jsonl'에 데이터가 없어 변환을 건너뜁니다.

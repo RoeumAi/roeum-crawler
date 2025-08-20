@@ -11,7 +11,7 @@ sys.path.append(project_root)
 from scripts.law.logic.scraper import scrape_and_save
 from scripts.utils.logger_config import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, scraper_type='law')
 
 async def main():
     parser = argparse.ArgumentParser(description="국가법령정보센터 법령 페이지를 스크레이핑하여 파일을 저장합니다.")
@@ -20,7 +20,7 @@ async def main():
     parser.add_argument("-o", "--output", required=True, help="출력 파일의 기본 이름 (예: gasa-law)")
     args = parser.parse_args()
 
-    output_dir = os.path.join(project_root, 'data', 'raw', args.dept)
+    output_dir = os.path.join(project_root, 'data', 'raw', 'law', args.dept)
 
     logger.info(f"상세 페이지 스크레이퍼 실행: {args.url}")
     await scrape_and_save(args.url, output_dir, args.output)

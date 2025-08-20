@@ -13,7 +13,7 @@ sys.path.append(project_root)
 from scripts.law.logic.list_scraper import fetch_law_urls
 from scripts.utils.logger_config import get_logger
 
-logger = get_logger(__name__)
+logger = get_logger(__name__, scraper_type='law')
 
 async def main():
     # 3. 기존 list_scraper.py의 if __name__ == "__main__" 블록에 있던

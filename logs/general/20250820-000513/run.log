@@ -1,6 +1,0 @@
-2025-08-20 00:05:17,780 - INFO - [__main__] - 총 50개의 URL을 './bin/../data/raw/law/1492000/urls.jsonl' 파일에 저장했습니다.
-2025-08-20 00:05:18,010 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=232959&efYd=20220616
-2025-08-20 00:05:30,262 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가사근로자의 고용개선 등에 관한 법률
-2025-08-20 00:05:31,484 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=267779&efYd=20241231
-2025-08-20 00:05:33,746 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가사근로자의 고용개선 등에 관한 법률 시행령
-2025-08-20 00:05:34,963 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=243269&efYd=20220616

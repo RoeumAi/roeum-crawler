@@ -1,0 +1,2 @@
+2025-08-20 22:56:30,647 - WARNING - [__main__] - 입력 파일 './bin/../data/final/law/1492000/all_law_documents.jsonl'에 데이터가 없어 변환을 건너뜁니다.
+2025-08-20 22:56:30,886 - WARNING - [__main__] - 입력 파일 './bin/../data/final/law/1492000/all_law_chunks.jsonl'에 데이터가 없어 변환을 건너뜁니다.

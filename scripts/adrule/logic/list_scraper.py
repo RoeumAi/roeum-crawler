@@ -11,11 +11,11 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 
-logger = get_logger(__name__, scraper_type='law')
+logger = get_logger(__name__, scraper_type='adrule')
 
 def build_detail_url(onclick_attr: str):
     """onclick 속성값에서 lsiSeq, efYd 등을 추출하여 상세 페이지 URL을 생성합니다."""
-    m = re.search(r"lsReturnSearch\((.*?)\)", onclick_attr or "")
+    m = re.search(r"admRulReturnSearch\((.*?)\)", onclick_attr or "")
     if not m:
         return None
 
@@ -31,13 +31,13 @@ def build_detail_url(onclick_attr: str):
     if not lsiSeq:
         return None
 
-    url = f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={lsiSeq}"
+    url = f"https://www.law.go.kr/admRulInfoP.do?admRulSeq={lsiSeq}"
     if efYd:
         url += f"&efYd={efYd}"
 
     return url
 
-async def fetch_law_urls(start_url: str, max_pages_arg: int | None):
+async def fetch_urls(start_url: str, max_pages_arg: int | None):
     """법령 목록 페이지를 순회하며 상세 페이지 URL을 추출하여 반환합니다."""
     urls_found = []
     async with async_playwright() as p:
@@ -69,12 +69,12 @@ async def fetch_law_urls(start_url: str, max_pages_arg: int | None):
                 logger.info(f"--- {page_num} / {pages_to_crawl} 페이지 처리 중 ---")
                 if page_num > 1:
                     logger.info(f"{page_num} 페이지로 이동합니다...")
-                    first_item_before = await page.locator("#resultTableDiv tbody tr:first-child a").first.inner_text()
-                    await page.evaluate(f"pageSearch('lsListDiv','{page_num}')")
-                    await expect(page.locator("#resultTableDiv tbody tr:first-child a").first).not_to_have_text(first_item_before, timeout=20000)
+                    first_item_before = await page.locator("#resultAdmRulTableDiv tbody tr:first-child a").first.inner_text()
+                    await page.evaluate(f"pageSearch('admRulListDiv','{page_num}')")
+                    await expect(page.locator("#resultAdmRulTableDiv tbody tr:first-child a").first).not_to_have_text(first_item_before, timeout=20000)
                     logger.info("페이지 이동 완료.")
 
-                law_links = await page.query_selector_all("#resultTableDiv a[onclick*='lsReturnSearch']")
+                law_links = await page.query_selector_all("#resultAdmRulTableDiv a[onclick*='admRulReturnSearch']")
                 for link in law_links:
                     onclick = await link.get_attribute("onclick")
                     law_name = await link.inner_text()

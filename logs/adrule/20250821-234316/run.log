@@ -1,0 +1,112 @@
+2025-08-21 23:43:18,002 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-21 23:43:18,534 - INFO - [scripts.adrule.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-21 23:43:20,013 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-08-21 23:43:20,013 - INFO - [scripts.adrule.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-08-21 23:43:20,013 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---
+2025-08-21 23:43:20,056 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 건설업 월평균보수
+2025-08-21 23:43:20,061 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 사업종류별 산재보험료율
+2025-08-21 23:43:20,065 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금 고시
+2025-08-21 23:43:20,070 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금 고시
+2025-08-21 23:43:20,074 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금안 고시
+2025-08-21 23:43:20,078 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가사근로자 사회보험료 지원에 관한 고시
+2025-08-21 23:43:20,082 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가설공사 표준안전 작업지침
+2025-08-21 23:43:20,085 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-21 23:43:20,089 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  감전재해 예방을 위한 기술상의 지침
+2025-08-21 23:43:20,093 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-21 23:43:20,096 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-21 23:43:20,100 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-21 23:43:20,104 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-21 23:43:20,107 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사의 노무비율
+2025-08-21 23:43:20,111 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설근로자고용개선전문위원회 운영규정
+2025-08-21 23:43:20,115 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-21 23:43:20,118 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-21 23:43:20,122 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-21 23:43:20,125 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-21 23:43:20,128 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업체의 산업재해예방활동 실적 평가기준
+2025-08-21 23:43:20,132 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고기압 작업에 관한 기준
+2025-08-21 23:43:20,136 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-21 23:43:20,139 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자 고용안정지원금 지급 규정
+2025-08-21 23:43:20,143 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자고용연장지원금액 등
+2025-08-21 23:43:20,146 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-21 23:43:20,149 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-21 23:43:20,153 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관 업무처리지침
+2025-08-21 23:43:20,156 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-21 23:43:20,166 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 갈등관리 운영규정
+2025-08-21 23:43:20,170 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 감사규정
+2025-08-21 23:43:20,172 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 개인정보 보호지침
+2025-08-21 23:43:20,176 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 기본운영규정
+2025-08-21 23:43:20,180 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 위임전결규정
+2025-08-21 23:43:20,183 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고객지원실 운영규정
+2025-08-21 23:43:20,186 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고용장려금 운영에 관한 규정
+2025-08-21 23:43:20,190 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원의 국제기구 파견에 관한 지침
+2025-08-21 23:43:20,194 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 정원배정표
+2025-08-21 23:43:20,198 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 행동강령
+2025-08-21 23:43:20,202 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무직근로자 운영규정
+2025-08-21 23:43:20,207 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공사감독 업무규정
+2025-08-21 23:43:20,216 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공직자의 이해충돌 방지제도 운영지침
+2025-08-21 23:43:20,221 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 관사의 운영 및 관리규정
+2025-08-21 23:43:20,225 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국가정보자료관리세부시행규칙
+2025-08-21 23:43:20,234 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국제고용노동정책에 관한 규정
+2025-08-21 23:43:20,237 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 규제심사위원회 운영규정
+2025-08-21 23:43:20,242 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 기간제근로자 운영규정
+2025-08-21 23:43:20,264 - INFO - [__main__] - 총 46개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-08-21 23:43:20,526 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-21 23:43:21,021 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-21 23:43:21,724 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-21 23:43:21,757 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-21 23:43:21,840 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-21 23:43:22,844 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-21 23:43:22,866 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-21 23:43:22,894 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-21 23:43:22,895 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 183, in scrape_and_save
+    doc_data, chunk_data = parse_law_html(html, url)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 146, in parse_law_html
+    chunks = _parse_unstructured_content(content_div, doc_id, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+2025-08-21 23:43:22,980 - INFO - [scripts.adrule.logic.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.png
+2025-08-21 23:43:22,980 - INFO - [scripts.adrule.logic.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.html
+2025-08-21 23:43:23,004 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 건설업 월평균보수
+2025-08-21 23:43:24,214 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-21 23:43:24,579 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-21 23:43:25,171 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-21 23:43:25,191 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-21 23:43:25,269 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-21 23:43:26,273 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-21 23:43:26,288 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-21 23:43:26,320 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-21 23:43:26,321 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 183, in scrape_and_save
+    doc_data, chunk_data = parse_law_html(html, url)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 146, in parse_law_html
+    chunks = _parse_unstructured_content(content_div, doc_id, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+2025-08-21 23:43:26,394 - INFO - [scripts.adrule.logic.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 사업종류별 산재보험료율_error.png
+2025-08-21 23:43:26,394 - INFO - [scripts.adrule.logic.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 사업종류별 산재보험료율_error.html
+2025-08-21 23:43:26,414 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 사업종류별 산재보험료율
+2025-08-21 23:43:27,631 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-21 23:43:27,980 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-21 23:43:28,498 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-21 23:43:28,519 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-21 23:43:28,548 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-21 23:43:29,552 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-21 23:43:29,569 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-21 23:43:29,601 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-21 23:43:29,601 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 183, in scrape_and_save
+    doc_data, chunk_data = parse_law_html(html, url)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 146, in parse_law_html
+    chunks = _parse_unstructured_content(content_div, doc_id, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+2025-08-21 23:43:29,675 - INFO - [scripts.adrule.logic.scraper] - 에러 발생 시점의 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년 적용 최저임금 고시_error.png
+2025-08-21 23:43:29,675 - INFO - [scripts.adrule.logic.scraper] - 에러 발생 시점의 HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년 적용 최저임금 고시_error.html
+2025-08-21 23:43:29,697 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년 적용 최저임금 고시

@@ -1,0 +1,36 @@
+2025-08-21 00:24:49,828 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:24:50,845 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:24:50,845 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:24:50,845 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:25:02,978 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:25:04,000 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:25:04,000 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:25:04,001 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:25:16,184 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:25:17,204 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:25:17,204 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:25:17,204 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:25:29,379 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:25:30,402 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:25:30,402 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:25:30,402 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:25:42,618 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:25:43,639 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:25:43,639 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:25:43,639 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:25:55,748 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:25:56,764 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:25:56,765 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:25:56,765 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:26:08,893 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:26:09,914 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:26:09,914 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:26:09,914 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:26:22,092 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:26:23,124 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:26:23,124 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:26:23,124 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:26:36,370 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-21 00:26:37,396 - ERROR - [scripts.adrule.logic.scraper] - 법률 내용이 담긴 메인 컨테이너를 찾지 못했습니다.
+2025-08-21 00:26:37,396 - WARNING - [scripts.adrule.logic.scraper] - 문서 제목을 찾지 못해 document 파일을 저장하지 않습니다.
+2025-08-21 00:26:37,397 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.

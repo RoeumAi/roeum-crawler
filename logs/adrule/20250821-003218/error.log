@@ -1,0 +1,21 @@
+2025-08-21 00:32:25,926 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-21 00:32:25,930 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:32:30,008 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-21 00:32:30,010 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:32:33,353 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-21 00:32:33,356 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:32:37,174 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-21 00:32:37,176 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:32:41,018 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-21 00:32:41,021 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:32:45,116 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-21 00:32:48,573 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-21 00:32:52,098 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-21 00:32:55,574 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186120
+2025-08-21 00:32:59,026 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217661
+2025-08-21 00:32:59,028 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:33:02,285 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217662
+2025-08-21 00:33:02,288 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:33:05,915 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000043197
+2025-08-21 00:33:05,917 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-21 00:33:09,372 - WARNING - [scripts.adrule.logic.scraper] - URL에서 문서 ID(lsiSeq, lsId)를 찾을 수 없습니다. 제목 기반으로 ID를 생성합니다. URL: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000243390

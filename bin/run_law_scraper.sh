@@ -29,8 +29,10 @@ if [ -z "$DEPT_CODE" ]; then
     exit 1
 fi
 
+echo ">>> ${SCRAPER_TYPE}의 ${DEPT_CODE} 스크래핑 작업 START"
+
 # --- 0. 환경 정리 ---
-echo ">>> 0. 이전 작업 환경을 정리합니다..."
+echo -e ">>> 0. 이전 작업 환경을 정리합니다..."
 rm -f "${URL_LIST_FILE}"
 rm -rf "${RAW_DATA_DIR:?}"/*
 mkdir -p "${RAW_DATA_DIR}" "${FINAL_DATA_DIR}" "${LOG_DIR}"

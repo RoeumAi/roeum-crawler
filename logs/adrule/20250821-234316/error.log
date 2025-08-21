@@ -1,0 +1,27 @@
+2025-08-21 23:43:22,895 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 183, in scrape_and_save
+    doc_data, chunk_data = parse_law_html(html, url)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 146, in parse_law_html
+    chunks = _parse_unstructured_content(content_div, doc_id, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+2025-08-21 23:43:26,321 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 183, in scrape_and_save
+    doc_data, chunk_data = parse_law_html(html, url)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 146, in parse_law_html
+    chunks = _parse_unstructured_content(content_div, doc_id, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+2025-08-21 23:43:29,601 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 183, in scrape_and_save
+    doc_data, chunk_data = parse_law_html(html, url)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 146, in parse_law_html
+    chunks = _parse_unstructured_content(content_div, doc_id, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _parse_unstructured_content() missing 1 required positional argument: 'doc_title'

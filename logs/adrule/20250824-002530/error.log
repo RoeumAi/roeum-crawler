@@ -1,0 +1,15 @@
+2025-08-24 00:25:36,824 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:25:40,400 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:25:45,880 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/6b9f5e93-95fb-43cf-b299-d5998bd842c4'
+2025-08-24 00:25:49,493 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/792eb477-576e-464f-9c03-9921aa04939e'
+2025-08-24 00:25:53,167 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/5308524b-f836-4382-91e9-133082b490f6'
+2025-08-24 00:26:11,966 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:26:15,549 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:26:19,135 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:26:26,795 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:26:38,059 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:26:41,815 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:27:02,782 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:27:15,804 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:28:09,855 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:28:28,966 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.

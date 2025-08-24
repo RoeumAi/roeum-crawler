@@ -1,0 +1,150 @@
+2025-08-24 00:31:04,856 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-24 00:31:05,357 - INFO - [scripts.adrule.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-24 00:31:06,677 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-08-24 00:31:06,677 - INFO - [scripts.adrule.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-08-24 00:31:06,677 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---
+2025-08-24 00:31:06,715 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 건설업 월평균보수
+2025-08-24 00:31:06,719 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 사업종류별 산재보험료율
+2025-08-24 00:31:06,722 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금 고시
+2025-08-24 00:31:06,726 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금 고시
+2025-08-24 00:31:06,730 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금안 고시
+2025-08-24 00:31:06,734 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가사근로자 사회보험료 지원에 관한 고시
+2025-08-24 00:31:06,738 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가설공사 표준안전 작업지침
+2025-08-24 00:31:06,742 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-24 00:31:06,746 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  감전재해 예방을 위한 기술상의 지침
+2025-08-24 00:31:06,750 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-24 00:31:06,753 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-24 00:31:06,756 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-24 00:31:06,760 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-24 00:31:06,764 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사의 노무비율
+2025-08-24 00:31:06,768 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설근로자고용개선전문위원회 운영규정
+2025-08-24 00:31:06,772 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-24 00:31:06,775 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-24 00:31:06,779 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-24 00:31:06,783 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-24 00:31:06,786 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업체의 산업재해예방활동 실적 평가기준
+2025-08-24 00:31:06,790 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고기압 작업에 관한 기준
+2025-08-24 00:31:06,793 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-24 00:31:06,797 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자 고용안정지원금 지급 규정
+2025-08-24 00:31:06,800 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자고용연장지원금액 등
+2025-08-24 00:31:06,804 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-24 00:31:06,807 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-24 00:31:06,811 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관 업무처리지침
+2025-08-24 00:31:06,815 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-24 00:31:06,825 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 갈등관리 운영규정
+2025-08-24 00:31:06,828 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 감사규정
+2025-08-24 00:31:06,832 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 개인정보 보호지침
+2025-08-24 00:31:06,836 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 기본운영규정
+2025-08-24 00:31:06,839 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 위임전결규정
+2025-08-24 00:31:06,842 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고객지원실 운영규정
+2025-08-24 00:31:06,846 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고용장려금 운영에 관한 규정
+2025-08-24 00:31:06,850 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원의 국제기구 파견에 관한 지침
+2025-08-24 00:31:06,854 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 정원배정표
+2025-08-24 00:31:06,858 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 행동강령
+2025-08-24 00:31:06,861 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무직근로자 운영규정
+2025-08-24 00:31:06,864 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공사감독 업무규정
+2025-08-24 00:31:06,872 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공직자의 이해충돌 방지제도 운영지침
+2025-08-24 00:31:06,874 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 관사의 운영 및 관리규정
+2025-08-24 00:31:06,878 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국가정보자료관리세부시행규칙
+2025-08-24 00:31:06,885 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국제고용노동정책에 관한 규정
+2025-08-24 00:31:06,888 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 규제심사위원회 운영규정
+2025-08-24 00:31:06,892 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 기간제근로자 운영규정
+2025-08-24 00:31:06,913 - INFO - [__main__] - 총 46개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-08-24 00:31:07,456 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-24 00:31:07,805 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-24 00:31:08,375 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:08,395 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:08,475 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:09,478 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:09,494 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:09,537 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:31:09,541 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년도 건설업 월평균보수_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:09,541 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:31:09,562 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 건설업 월평균보수
+2025-08-24 00:31:11,035 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-24 00:31:11,404 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-24 00:31:12,185 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:12,204 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:12,388 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:13,391 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:13,406 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:13,451 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:31:13,456 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년도 사업종류별 산재보험료율_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:13,456 - WARNING - [scripts.adrule.logic.scraper] - 페이지에서 청크(조문) 데이터를 찾지 못했습니다.
+2025-08-24 00:31:13,479 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 사업종류별 산재보험료율
+2025-08-24 00:31:14,954 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-24 00:31:15,309 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-24 00:31:15,924 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:15,943 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:16,024 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:17,027 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:17,044 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:17,090 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:31:17,103 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:31:17,107 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/596be643-2785-41ad-b3c4-0f906e059120
+2025-08-24 00:31:17,113 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/596be643-2785-41ad-b3c4-0f906e059120'
+2025-08-24 00:31:17,113 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:17,114 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:17,149 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년 적용 최저임금 고시
+2025-08-24 00:31:18,620 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-24 00:31:18,972 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-24 00:31:19,604 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:19,624 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:19,703 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:20,705 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:20,720 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:20,766 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:31:20,777 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:31:20,781 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/c038802a-92b4-4312-ac12-675c679584cf
+2025-08-24 00:31:20,783 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/c038802a-92b4-4312-ac12-675c679584cf'
+2025-08-24 00:31:20,783 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:20,783 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:20,807 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2026년 적용 최저임금 고시
+2025-08-24 00:31:22,279 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-24 00:31:22,627 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-24 00:31:23,221 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:23,243 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:23,326 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:24,329 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:24,343 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:24,388 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:31:24,399 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:31:24,404 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/716208f7-76d2-4597-bcf7-ed42a199aadf
+2025-08-24 00:31:24,406 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/716208f7-76d2-4597-bcf7-ed42a199aadf'
+2025-08-24 00:31:24,406 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금안 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:24,406 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금안 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:24,429 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2026년 적용 최저임금안 고시
+2025-08-24 00:31:25,892 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-24 00:31:26,244 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-24 00:31:26,845 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:26,866 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:26,945 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:27,948 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:27,966 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:28,017 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:31:28,030 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가사근로자 사회보험료 지원에 관한 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:28,030 - INFO - [scripts.adrule.logic.scraper] - 데이터 7건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가사근로자 사회보험료 지원에 관한 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:28,051 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가사근로자 사회보험료 지원에 관한 고시
+2025-08-24 00:31:29,526 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-24 00:31:29,875 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-24 00:31:30,503 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:30,524 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:30,707 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:31,710 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:31,730 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:31,794 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:31:31,846 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가설공사 표준안전 작업지침_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:31,847 - INFO - [scripts.adrule.logic.scraper] - 데이터 29건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가설공사 표준안전 작업지침_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:31,871 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가설공사 표준안전 작업지침
+2025-08-24 00:31:33,336 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-24 00:31:33,699 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-24 00:31:34,402 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:31:34,423 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:31:34,503 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:31:35,505 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:31:35,519 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:31:35,570 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:31:35,585 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가스누출감지경보기 설치에 관한 기술상의 지침_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:35,585 - INFO - [scripts.adrule.logic.scraper] - 데이터 10건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가스누출감지경보기 설치에 관한 기술상의 지침_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:31:35,606 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-24 00:31:37,502 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186120

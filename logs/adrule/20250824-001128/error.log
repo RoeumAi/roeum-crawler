@@ -1,0 +1,70 @@
+2025-08-24 00:11:35,324 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(고용보험기획과), 044-202-7358 Ⅰ. 2025년도 건설업 월평균보수 건설업의 상시근로자수 산정을 위한 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 182, in parse_law_html
+    content_html = await page.locator('#contentBody, #conScroll').inner_html()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 16415, in inner_html
+    return mapping.from_maybe_impl(await self._impl_obj.inner_html(timeout=timeout))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_locator.py", line 436, in inner_html
+    return await self._frame.inner_html(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 623, in inner_html
+    return await self._channel.send("innerHTML", locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(고용보험기획과), 044-202-7358 Ⅰ. 2025년도 건설업 월평균보수 건설업의 상시근로자수 산정을 위한 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+
+2025-08-24 00:11:39,093 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(산재보상정책과), 044-202-8838, 8834 Ⅰ. 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 182, in parse_law_html
+    content_html = await page.locator('#contentBody, #conScroll').inner_html()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 16415, in inner_html
+    return mapping.from_maybe_impl(await self._impl_obj.inner_html(timeout=timeout))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_locator.py", line 436, in inner_html
+    return await self._frame.inner_html(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 623, in inner_html
+    return await self._channel.send("innerHTML", locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(산재보상정책과), 044-202-8838, 8834 Ⅰ. 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+
+2025-08-24 00:11:43,548 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/703951ba-7b47-406f-b3f4-15eff5d52bf5'
+2025-08-24 00:11:47,193 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/924d0107-7f88-4c4c-9ea2-9ac228c6acf8'

@@ -1,0 +1,3 @@
+2025-08-24 00:39:51,584 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/af3f6240-7837-46ce-ad89-305fd04c5441'
+2025-08-24 00:39:55,769 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/85b0d7bb-fa8d-4385-abeb-dff62b546114'
+2025-08-24 00:39:59,389 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/57ec72f4-c0b6-45bf-b465-45f386e3e12f'

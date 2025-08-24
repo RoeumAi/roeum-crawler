@@ -1,0 +1,30 @@
+2025-08-24 00:29:59,304 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'NoneType' object is not callable
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 203, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 149, in parse_law_html
+    return _parse_structured_content(content_soup, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 46, in _parse_structured_content
+    soup = BeautifulSoup(html, 'html.parser') # <-- 수정된 부분: 함수 내부에서 BeautifulSoup 객체 생성
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/bs4/__init__.py", line 440, in __init__
+    markup = markup.read()
+             ^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not callable
+2025-08-24 00:30:02,938 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'NoneType' object is not callable
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 203, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 149, in parse_law_html
+    return _parse_structured_content(content_soup, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 46, in _parse_structured_content
+    soup = BeautifulSoup(html, 'html.parser') # <-- 수정된 부분: 함수 내부에서 BeautifulSoup 객체 생성
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/bs4/__init__.py", line 440, in __init__
+    markup = markup.read()
+             ^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not callable

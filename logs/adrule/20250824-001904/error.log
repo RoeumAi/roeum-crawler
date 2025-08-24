@@ -1,0 +1,12 @@
+2025-08-24 00:19:11,468 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 236, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 179, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'

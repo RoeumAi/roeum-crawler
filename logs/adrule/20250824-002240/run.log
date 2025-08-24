@@ -1,0 +1,746 @@
+2025-08-24 00:22:42,513 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-24 00:22:43,071 - INFO - [scripts.adrule.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-24 00:22:44,483 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-08-24 00:22:44,483 - INFO - [scripts.adrule.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-08-24 00:22:44,483 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---
+2025-08-24 00:22:44,520 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 건설업 월평균보수
+2025-08-24 00:22:44,524 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 사업종류별 산재보험료율
+2025-08-24 00:22:44,528 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금 고시
+2025-08-24 00:22:44,531 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금안 고시
+2025-08-24 00:22:44,535 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금 고시
+2025-08-24 00:22:44,539 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금안 고시
+2025-08-24 00:22:44,542 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가사근로자 사회보험료 지원에 관한 고시
+2025-08-24 00:22:44,546 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가설공사 표준안전 작업지침
+2025-08-24 00:22:44,549 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-24 00:22:44,553 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  감전재해 예방을 위한 기술상의 지침
+2025-08-24 00:22:44,557 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-24 00:22:44,561 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-24 00:22:44,564 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-24 00:22:44,567 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-24 00:22:44,571 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사의 노무비율
+2025-08-24 00:22:44,575 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설근로자고용개선전문위원회 운영규정
+2025-08-24 00:22:44,579 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-24 00:22:44,583 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-24 00:22:44,587 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-24 00:22:44,590 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-24 00:22:44,593 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업체의 산업재해예방활동 실적 평가기준
+2025-08-24 00:22:44,596 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고기압 작업에 관한 기준
+2025-08-24 00:22:44,601 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-24 00:22:44,604 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자 고용안정지원금 지급 규정
+2025-08-24 00:22:44,607 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자고용연장지원금액 등
+2025-08-24 00:22:44,611 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-24 00:22:44,615 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-24 00:22:44,618 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관 업무처리지침
+2025-08-24 00:22:44,621 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-24 00:22:44,631 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 갈등관리 운영규정
+2025-08-24 00:22:44,635 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 감사규정
+2025-08-24 00:22:44,639 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 개인정보 보호지침
+2025-08-24 00:22:44,643 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 기본운영규정
+2025-08-24 00:22:44,647 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 위임전결규정
+2025-08-24 00:22:44,650 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고객지원실 운영규정
+2025-08-24 00:22:44,655 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고용장려금 운영에 관한 규정
+2025-08-24 00:22:44,658 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원의 국제기구 파견에 관한 지침
+2025-08-24 00:22:44,662 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 정원배정표
+2025-08-24 00:22:44,666 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 행동강령
+2025-08-24 00:22:44,670 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무직근로자 운영규정
+2025-08-24 00:22:44,674 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공사감독 업무규정
+2025-08-24 00:22:44,681 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공직자의 이해충돌 방지제도 운영지침
+2025-08-24 00:22:44,685 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 관사의 운영 및 관리규정
+2025-08-24 00:22:44,688 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국가정보자료관리세부시행규칙
+2025-08-24 00:22:44,695 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국제고용노동정책에 관한 규정
+2025-08-24 00:22:44,699 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 규제심사위원회 운영규정
+2025-08-24 00:22:44,720 - INFO - [__main__] - 총 46개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-08-24 00:22:45,281 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-24 00:22:45,636 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-24 00:22:46,217 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:22:46,236 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:22:46,316 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:22:47,320 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:22:47,336 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:22:47,378 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:22:47,381 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:22:47,447 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.html
+2025-08-24 00:22:47,466 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 건설업 월평균보수
+2025-08-24 00:22:48,932 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-24 00:22:49,292 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-24 00:22:51,288 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-24 00:22:51,637 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-24 00:22:52,293 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:22:52,313 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:22:52,503 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:22:53,507 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:22:53,522 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:22:53,566 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:22:53,578 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:22:53,582 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/ab6f99c5-e590-4b84-8ca2-7c764cedda50
+2025-08-24 00:22:53,584 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/ab6f99c5-e590-4b84-8ca2-7c764cedda50'
+2025-08-24 00:22:53,585 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:22:53,585 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:22:53,609 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년 적용 최저임금 고시
+2025-08-24 00:22:55,090 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000244478
+2025-08-24 00:22:55,448 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000244478
+2025-08-24 00:22:56,006 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:22:56,028 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:22:56,214 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:22:57,216 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:22:57,228 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:22:57,272 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:22:57,282 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:22:57,287 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/06218014-83ee-4c98-b60a-276e90eca5ce
+2025-08-24 00:22:57,288 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/06218014-83ee-4c98-b60a-276e90eca5ce'
+2025-08-24 00:22:57,288 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금안 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:22:57,289 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금안 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:22:57,311 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년 적용 최저임금안 고시
+2025-08-24 00:22:58,805 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-24 00:22:59,171 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-24 00:22:59,792 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:22:59,813 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:22:59,994 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:00,997 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:01,018 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:01,078 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:23:01,088 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:23:01,092 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/4d9b9a04-fe5e-4b11-bd2a-4c18e6b00c53
+2025-08-24 00:23:01,093 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/4d9b9a04-fe5e-4b11-bd2a-4c18e6b00c53'
+2025-08-24 00:23:01,094 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:23:01,094 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:23:01,120 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2026년 적용 최저임금 고시
+2025-08-24 00:23:03,356 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-24 00:23:03,977 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-24 00:23:04,617 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:04,645 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:04,830 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:05,833 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:05,844 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:05,883 - INFO - [scripts.adrule.logic.scraper] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 00:23:05,895 - INFO - [scripts.adrule.logic.scraper] - 1개의 PDF 페이지 이미지 발견
+2025-08-24 00:23:05,900 - INFO - [scripts.adrule.logic.scraper] - 이미지 OCR 시작: blob:https://www.law.go.kr/fba07cd6-bbf8-4965-b443-df66c78f1e63
+2025-08-24 00:23:05,903 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/fba07cd6-bbf8-4965-b443-df66c78f1e63'
+2025-08-24 00:23:05,904 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금안 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:23:05,904 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금안 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 00:23:05,932 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2026년 적용 최저임금안 고시
+2025-08-24 00:23:07,510 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-24 00:23:08,035 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-24 00:23:08,637 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:08,658 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:08,841 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:09,845 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:09,862 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:09,903 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:09,907 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:09,986 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/가사근로자 사회보험료 지원에 관한 고시_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/가사근로자 사회보험료 지원에 관한 고시_error.html
+2025-08-24 00:23:10,008 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가사근로자 사회보험료 지원에 관한 고시
+2025-08-24 00:23:11,472 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-24 00:23:11,859 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-24 00:23:12,548 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:12,568 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:13,363 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:14,368 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:14,381 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:14,431 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:14,437 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:14,502 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/가설공사 표준안전 작업지침_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/가설공사 표준안전 작업지침_error.html
+2025-08-24 00:23:14,526 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가설공사 표준안전 작업지침
+2025-08-24 00:23:16,003 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-24 00:23:16,356 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-24 00:23:17,015 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:17,035 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:17,217 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:18,235 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:18,273 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:18,363 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:18,370 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:18,461 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/가스누출감지경보기 설치에 관한 기술상의 지침_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/가스누출감지경보기 설치에 관한 기술상의 지침_error.html
+2025-08-24 00:23:18,488 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-24 00:23:20,024 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186120
+2025-08-24 00:23:20,455 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186120
+2025-08-24 00:23:21,077 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:21,134 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:21,171 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:22,175 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:22,190 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:22,240 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:22,247 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:22,356 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/감전재해 예방을 위한 기술상의 지침_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/감전재해 예방을 위한 기술상의 지침_error.html
+2025-08-24 00:23:22,418 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 감전재해 예방을 위한 기술상의 지침
+2025-08-24 00:23:24,035 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217661
+2025-08-24 00:23:24,445 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217661
+2025-08-24 00:23:25,044 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:25,084 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:25,109 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:26,114 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:26,130 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:26,169 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:26,173 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:26,239 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/개별연장급여 수급요건 중 학업 중인 사람에 대한 고시_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/개별연장급여 수급요건 중 학업 중인 사람에 대한 고시_error.html
+2025-08-24 00:23:26,263 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-24 00:23:27,850 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217662
+2025-08-24 00:23:28,243 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217662
+2025-08-24 00:23:28,809 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:28,830 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:29,015 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:30,018 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:30,027 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:30,055 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:30,085 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:30,180 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/개별연장급여 지급을 위한 임금 및 재산기준 고시_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/개별연장급여 지급을 위한 임금 및 재산기준 고시_error.html
+2025-08-24 00:23:30,202 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-24 00:23:31,693 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000043197
+2025-08-24 00:23:32,071 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000043197
+2025-08-24 00:23:32,686 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:32,708 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:32,794 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:33,798 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:33,809 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:33,853 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:33,857 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:33,929 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/개인형퇴직연금제도로의 이전 예외사유 해당금액 고시_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/개인형퇴직연금제도로의 이전 예외사유 해당금액 고시_error.html
+2025-08-24 00:23:33,950 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-24 00:23:35,737 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000243390
+2025-08-24 00:23:36,313 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000243390
+2025-08-24 00:23:37,049 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:47,069 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:23:47,070 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:48,074 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:48,086 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:48,139 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:48,145 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:48,221 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설공사 안전보건대장의 작성 등에 관한 고시_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설공사 안전보건대장의 작성 등에 관한 고시_error.html
+2025-08-24 00:23:48,253 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-24 00:23:49,946 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252112
+2025-08-24 00:23:50,456 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252112
+2025-08-24 00:23:51,080 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:51,105 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:51,207 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:52,211 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:52,223 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:52,273 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:52,277 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:52,352 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설공사의 노무비율_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설공사의 노무비율_error.html
+2025-08-24 00:23:52,394 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설공사의 노무비율
+2025-08-24 00:23:54,235 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000025542
+2025-08-24 00:23:54,798 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000025542
+2025-08-24 00:23:55,427 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:55,450 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:55,531 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:23:56,537 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:23:56,549 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:23:56,605 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:23:56,617 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:56,703 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설근로자고용개선전문위원회 운영규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설근로자고용개선전문위원회 운영규정_error.html
+2025-08-24 00:23:56,731 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설근로자고용개선전문위원회 운영규정
+2025-08-24 00:23:58,332 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254546
+2025-08-24 00:23:58,788 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254546
+2025-08-24 00:23:59,360 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:23:59,385 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:23:59,578 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:00,581 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:00,596 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:00,664 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:00,672 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:00,765 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설업 산업안전보건관리비 계상 및 사용기준_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설업 산업안전보건관리비 계상 및 사용기준_error.html
+2025-08-24 00:24:00,805 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-24 00:24:02,383 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000253016
+2025-08-24 00:24:02,800 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000253016
+2025-08-24 00:24:03,501 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:03,524 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:03,604 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:04,606 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:04,626 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:04,692 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:04,697 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:04,766 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액_error.html
+2025-08-24 00:24:04,793 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-24 00:24:06,497 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186089
+2025-08-24 00:24:07,797 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186089
+2025-08-24 00:24:08,582 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:18,622 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:24:18,622 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:19,630 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:19,646 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:19,695 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:19,701 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:19,777 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건_error.html
+2025-08-24 00:24:19,801 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-24 00:24:21,391 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217765
+2025-08-24 00:24:21,882 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217765
+2025-08-24 00:24:22,487 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:22,529 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:22,631 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:23,639 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:23,659 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:23,727 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:23,732 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:23,841 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정_error.html
+2025-08-24 00:24:23,889 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-24 00:24:25,422 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000228660
+2025-08-24 00:24:25,825 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000228660
+2025-08-24 00:24:26,424 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:26,444 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:26,533 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:27,537 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:27,560 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:27,615 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:27,620 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:27,696 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/건설업체의 산업재해예방활동 실적 평가기준_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/건설업체의 산업재해예방활동 실적 평가기준_error.html
+2025-08-24 00:24:27,717 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업체의 산업재해예방활동 실적 평가기준
+2025-08-24 00:24:29,188 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186106
+2025-08-24 00:24:29,547 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186106
+2025-08-24 00:24:30,272 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:30,292 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:30,474 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:31,476 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:31,489 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:31,540 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:31,545 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:31,614 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고기압 작업에 관한 기준_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고기압 작업에 관한 기준_error.html
+2025-08-24 00:24:31,638 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고기압 작업에 관한 기준
+2025-08-24 00:24:33,100 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000076692
+2025-08-24 00:24:33,466 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000076692
+2025-08-24 00:24:33,999 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:34,021 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:34,115 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:35,119 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:35,138 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:35,190 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:35,194 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:35,263 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정_error.html
+2025-08-24 00:24:35,284 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-24 00:24:36,939 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000253946
+2025-08-24 00:24:37,545 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000253946
+2025-08-24 00:24:38,210 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:48,232 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:24:48,233 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:49,240 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:49,269 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:49,336 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:49,341 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:49,419 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고령자 고용안정지원금 지급 규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고령자 고용안정지원금 지급 규정_error.html
+2025-08-24 00:24:49,442 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고령자 고용안정지원금 지급 규정
+2025-08-24 00:24:51,018 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2000000018010
+2025-08-24 00:24:51,408 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2000000018010
+2025-08-24 00:24:51,972 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:52,024 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:52,059 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:53,072 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:53,129 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:53,216 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:53,222 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:53,316 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고령자고용연장지원금액 등_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고령자고용연장지원금액 등_error.html
+2025-08-24 00:24:53,353 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고령자고용연장지원금액 등
+2025-08-24 00:24:55,099 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000216935
+2025-08-24 00:24:55,498 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000216935
+2025-08-24 00:24:56,052 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:56,073 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:24:56,258 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:24:57,262 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:24:57,284 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:24:57,349 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:24:57,354 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:57,429 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고령자인재은행 및 중견전문인력 고용지원센터 운영규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고령자인재은행 및 중견전문인력 고용지원센터 운영규정_error.html
+2025-08-24 00:24:57,450 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-24 00:24:58,945 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261300
+2025-08-24 00:24:59,321 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261300
+2025-08-24 00:24:59,902 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:24:59,968 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:00,105 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:01,111 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:01,139 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:01,207 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:01,215 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:01,295 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규_error.html
+2025-08-24 00:25:01,321 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-24 00:25:02,804 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2000000017617
+2025-08-24 00:25:03,205 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2000000017617
+2025-08-24 00:25:03,740 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:03,761 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:03,843 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:04,846 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:04,858 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:04,907 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:04,913 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:04,993 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동관 업무처리지침_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동관 업무처리지침_error.html
+2025-08-24 00:25:05,016 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동관 업무처리지침
+2025-08-24 00:25:06,525 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000215557
+2025-08-24 00:25:06,905 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000215557
+2025-08-24 00:25:07,468 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:07,493 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:07,573 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:08,576 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:08,592 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:08,643 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:08,648 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:08,735 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 2030 자문단 설치 및 운영에 관한 규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 2030 자문단 설치 및 운영에 관한 규정_error.html
+2025-08-24 00:25:08,787 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-24 00:25:10,305 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000182989
+2025-08-24 00:25:10,706 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000182989
+2025-08-24 00:25:11,296 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:11,317 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:11,501 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:12,503 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:12,515 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:12,594 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:12,603 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:12,674 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 갈등관리 운영규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 갈등관리 운영규정_error.html
+2025-08-24 00:25:12,697 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동부 갈등관리 운영규정
+2025-08-24 00:25:14,174 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252674
+2025-08-24 00:25:14,534 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252674
+2025-08-24 00:25:15,083 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:15,104 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:15,285 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:16,288 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:16,314 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:16,416 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:16,424 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:16,499 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 감사규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 감사규정_error.html
+2025-08-24 00:25:16,523 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동부 감사규정
+2025-08-24 00:25:17,990 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000239678
+2025-08-24 00:25:18,361 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000239678
+2025-08-24 00:25:19,204 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:19,227 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:19,476 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:20,478 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:20,497 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:20,604 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:20,613 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:20,698 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 개인정보 보호지침_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동부 개인정보 보호지침_error.html
+2025-08-24 00:25:20,721 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동부 개인정보 보호지침
+2025-08-24 00:25:22,290 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000250460
+2025-08-24 00:25:22,668 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000250460
+2025-08-24 00:25:23,310 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:23,332 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:23,517 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:24,521 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:24,546 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:24,621 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:24,628 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:24,712 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동부고객상담센터 기본운영규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동부고객상담센터 기본운영규정_error.html
+2025-08-24 00:25:24,733 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동부고객상담센터 기본운영규정
+2025-08-24 00:25:26,238 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000210067
+2025-08-24 00:25:26,631 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000210067
+2025-08-24 00:25:27,215 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:25:27,244 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:25:27,327 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:25:28,333 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:25:28,350 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:25:28,403 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:25:28,408 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    logger.info("페이지 최종 렌더링을 잠시 대기합니다...")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    chunks = []
+                
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:28,476 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/고용노동부고객상담센터 위임전결규정_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/고용노동부고객상담센터 위임전결규정_error.html
+2025-08-24 00:25:28,497 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 고용노동부고객상담센터 위임전결규정

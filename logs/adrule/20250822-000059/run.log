@@ -1,0 +1,646 @@
+2025-08-22 00:01:01,838 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-22 00:01:02,411 - INFO - [scripts.adrule.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-22 00:01:03,725 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-08-22 00:01:03,725 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 9 페이지 처리 중 ---
+2025-08-22 00:01:03,767 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 건설업 월평균보수
+2025-08-22 00:01:03,772 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 사업종류별 산재보험료율
+2025-08-22 00:01:03,777 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금 고시
+2025-08-22 00:01:03,783 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금안 고시
+2025-08-22 00:01:03,790 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금 고시
+2025-08-22 00:01:03,796 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금안 고시
+2025-08-22 00:01:03,804 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가사근로자 사회보험료 지원에 관한 고시
+2025-08-22 00:01:03,837 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가설공사 표준안전 작업지침
+2025-08-22 00:01:03,848 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-22 00:01:03,852 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  감전재해 예방을 위한 기술상의 지침
+2025-08-22 00:01:03,856 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-22 00:01:03,860 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-22 00:01:03,864 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-22 00:01:03,868 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-22 00:01:03,871 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사의 노무비율
+2025-08-22 00:01:03,875 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설근로자고용개선전문위원회 운영규정
+2025-08-22 00:01:03,878 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-22 00:01:03,882 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-22 00:01:03,885 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-22 00:01:03,889 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-22 00:01:03,893 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업체의 산업재해예방활동 실적 평가기준
+2025-08-22 00:01:03,897 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고기압 작업에 관한 기준
+2025-08-22 00:01:03,900 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-22 00:01:03,904 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자 고용안정지원금 지급 규정
+2025-08-22 00:01:03,908 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자고용연장지원금액 등
+2025-08-22 00:01:03,911 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-22 00:01:03,914 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-22 00:01:03,918 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관 업무처리지침
+2025-08-22 00:01:03,921 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-22 00:01:03,933 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 갈등관리 운영규정
+2025-08-22 00:01:03,936 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 감사규정
+2025-08-22 00:01:03,940 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 개인정보 보호지침
+2025-08-22 00:01:03,944 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 기본운영규정
+2025-08-22 00:01:03,947 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 위임전결규정
+2025-08-22 00:01:03,951 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고객지원실 운영규정
+2025-08-22 00:01:03,954 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고용장려금 운영에 관한 규정
+2025-08-22 00:01:03,958 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원의 국제기구 파견에 관한 지침
+2025-08-22 00:01:03,963 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 정원배정표
+2025-08-22 00:01:03,966 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 행동강령
+2025-08-22 00:01:03,969 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무직근로자 운영규정
+2025-08-22 00:01:03,975 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공사감독 업무규정
+2025-08-22 00:01:03,981 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공직자의 이해충돌 방지제도 운영지침
+2025-08-22 00:01:03,985 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 관사의 운영 및 관리규정
+2025-08-22 00:01:03,988 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국가정보자료관리세부시행규칙
+2025-08-22 00:01:03,995 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국제고용노동정책에 관한 규정
+2025-08-22 00:01:03,998 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 규제심사위원회 운영규정
+2025-08-22 00:01:03,998 - INFO - [scripts.adrule.logic.list_scraper] - --- 2 / 9 페이지 처리 중 ---
+2025-08-22 00:01:03,998 - INFO - [scripts.adrule.logic.list_scraper] - 2 페이지로 이동합니다...
+2025-08-22 00:01:04,382 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:04,419 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 기간제근로자 운영규정
+2025-08-22 00:01:04,427 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 기록관리기준표
+2025-08-22 00:01:04,433 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 기록관 운영규정
+2025-08-22 00:01:04,438 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 당직 및 비상근무규칙
+2025-08-22 00:01:04,443 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 데이터 품질관리 지침
+2025-08-22 00:01:04,460 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 민원담당공무원 수당지급 규정
+2025-08-22 00:01:04,465 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 방첩업무규정
+2025-08-22 00:01:04,469 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 법제업무 운영규정
+2025-08-22 00:01:04,474 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 별관 출입·경비·보안 지침
+2025-08-22 00:01:04,478 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 보안업무규정 시행세칙
+2025-08-22 00:01:04,481 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부보통고충심사위원회운영규정
+2025-08-22 00:01:04,487 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 소관 국고보조사업 위임사무 고시
+2025-08-22 00:01:04,491 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 소관 기타공공기관 경영평가에 관한 규정
+2025-08-22 00:01:04,495 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 소속책임운영기관운영심의회 규정
+2025-08-22 00:01:04,498 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 소송수행 예규
+2025-08-22 00:01:04,501 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 양성평등위원회 운영규정
+2025-08-22 00:01:04,508 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부와 그 소속기관 위임전결규정
+2025-08-22 00:01:04,512 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 인사혁신규정
+2025-08-22 00:01:04,519 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 자체평가위원회 운영규정
+2025-08-22 00:01:04,522 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 적극행정위원회 운영규정
+2025-08-22 00:01:04,526 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 전문용어 표준화협의회 운영 규정
+2025-08-22 00:01:04,530 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 정보공개에 관한 규정
+2025-08-22 00:01:04,534 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 정보화업무 운영 및 이용에 관한 규정
+2025-08-22 00:01:04,537 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 정책연구 관리 규정
+2025-08-22 00:01:04,541 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 정책자문위원회 규정
+2025-08-22 00:01:04,545 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 정책홍보업무 관리 규정
+2025-08-22 00:01:04,552 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 중앙사고수습본부 구성 및 운영 등에 관한 규정
+2025-08-22 00:01:04,560 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 청렴시민감사관 설치 및 운영에 관한 규정
+2025-08-22 00:01:04,563 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 청원심의회 운영 규정
+2025-08-22 00:01:04,565 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부통계관리규정
+2025-08-22 00:01:04,573 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 회계관계공무원 재정보증 규정
+2025-08-22 00:01:04,577 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동분야 국고보조사업 관리규정
+2025-08-22 00:01:04,581 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동 사이버안전센터 운영규정
+2025-08-22 00:01:04,585 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동통계조사 응답사례품 지급·관리 규정
+2025-08-22 00:01:04,591 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동행정기관 지역협의회 운영 규정
+2025-08-22 00:01:04,597 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동행정서비스헌장 운영 규정
+2025-08-22 00:01:04,601 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동행정 신산업 지원 및 규제혁신심의회 운영규정
+2025-08-22 00:01:04,605 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동행정 옴부즈만위원회 운영 규정
+2025-08-22 00:01:04,609 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험 가입대상인 고유번호증 보유 자영업자 사업 고시
+2025-08-22 00:01:04,614 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험료 산정범위에 속하는 금품
+2025-08-22 00:01:04,618 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험료의 지원 대상 및 지원 수준 등에 관한 고시
+2025-08-22 00:01:04,618 - INFO - [scripts.adrule.logic.list_scraper] - --- 3 / 9 페이지 처리 중 ---
+2025-08-22 00:01:04,618 - INFO - [scripts.adrule.logic.list_scraper] - 3 페이지로 이동합니다...
+2025-08-22 00:01:05,023 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:05,057 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험법 및 고용산재보험료징수법에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:05,061 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험사업 평가기관 지정 고시
+2025-08-22 00:01:05,065 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험수사관 집무규정
+2025-08-22 00:01:05,072 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험심사관 및 고용보험심사위원회 운영규정
+2025-08-22 00:01:05,080 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용보험지급사무규정
+2025-08-22 00:01:05,084 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용·산재보험료 완납증명 제외 대상 및 완납증명 방법에 관한 기준
+2025-08-22 00:01:05,088 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용·산재정보통신망 이용에 관한 고시
+2025-08-22 00:01:05,093 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용상 성차별 등 시정절차 등에 관한 고시
+2025-08-22 00:01:05,096 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용상 연령차별금지 및 고령자고용촉진에 관한 법률에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:05,100 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용서비스 우수기관 인증제 운영규정
+2025-08-22 00:01:05,103 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용센터 및 고용관련 부서 운영 규정
+2025-08-22 00:01:05,107 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용센터혁신추진단 설치 및 운영에 관한 규정
+2025-08-22 00:01:05,111 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용안정사업 지원금 부정수급 방지업무 처리규정
+2025-08-22 00:01:05,114 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용영향평가 대행기관 지정 고시
+2025-08-22 00:01:05,117 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용위기 선제대응지역의 지정기준 등에 관한 고시
+2025-08-22 00:01:05,120 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용위기지역의 지정기준 등에 관한 고시
+2025-08-22 00:01:05,125 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용위기지역 지정 고시
+2025-08-22 00:01:05,128 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용유지를 위한 노사합의에 대한 지원 규정
+2025-08-22 00:01:05,131 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용유지 비용의 대부 규정
+2025-08-22 00:01:05,134 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용유지조치에 대한 특별 지원 고시
+2025-08-22 00:01:05,137 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용유지지원금 신청 및 지급에 관한 규정
+2025-08-22 00:01:05,141 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용유지지원금 지원금액 상한액 고시
+2025-08-22 00:01:05,145 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용정보시스템 운영 및 보안규정
+2025-08-22 00:01:05,149 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용창출장려금·고용안정장려금의 신청 및 지급에 관한 규정
+2025-08-22 00:01:05,151 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용행정데이터 제공 규정
+2025-08-22 00:01:05,156 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용허가제 고용업무 대행기관 운영에 관한 규정
+2025-08-22 00:01:05,160 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용형태별근로실태조사의 한국표준직업분류 대분류 2 직업 종사자의 근로소득 상위 100분의 25에 해당하는 금액 공고
+2025-08-22 00:01:05,163 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공공기관의 안전활동 수준평가에 관한 고시
+2025-08-22 00:01:05,166 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공공기관의 장애인 표준사업장 생산품의 구매목표 비율
+2025-08-22 00:01:05,170 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공공기관의 청년고용의무 적용제외에 관한 고시
+2025-08-22 00:01:05,173 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공공기관이 자회사 등과 수의계약을 할 수 있는 고용 기준에 관한 고시
+2025-08-22 00:01:05,177 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공공행정 등에서 현업업무에 종사하는 사람의 기준
+2025-08-22 00:01:05,180 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공동근로복지기금 지원사업 운영규정
+2025-08-22 00:01:05,183 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공무원 근무시간 면제 한도
+2025-08-22 00:01:05,187 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공인노무사에게 지원하는 체불 임금등 대지급금 관련업무 지원금액
+2025-08-22 00:01:05,191 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공인노무사자격심의·징계위원회 운영규정
+2025-08-22 00:01:05,195 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공인노무사 자격 취득을 위한 노동행정경력자 연수 규정
+2025-08-22 00:01:05,198 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공작기계 안전기준 일반에 관한 기술상의 지침
+2025-08-22 00:01:05,201 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  공정안전보고서의 제출·심사·확인 및 이행상태평가 등에 관한 규정
+2025-08-22 00:01:05,204 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  과거근로기간에 대한 확정급여형퇴직연금제도의 최소적립비율
+2025-08-22 00:01:05,209 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  과정평가형 자격 지원단의 구성 및 운영에 관한 규정
+2025-08-22 00:01:05,212 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  광역구직활동비 중 숙박료 고시
+2025-08-22 00:01:05,215 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  교원 근무시간 면제 한도
+2025-08-22 00:01:05,223 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  구직급여 수급자 중 직업능력개발 훈련지시 우선 고려대상자 고시
+2025-08-22 00:01:05,226 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가기술자격 검정시설·장비 구입자금 지원규정
+2025-08-22 00:01:05,229 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가기술자격의 종목별 관련학과 고시
+2025-08-22 00:01:05,232 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가기술자격 정책심의위원회 운영규정
+2025-08-22 00:01:05,237 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가별·업종별 취업교육기관 지정 고시
+2025-08-22 00:01:05,244 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가인적자원개발컨소시엄운영규정
+2025-08-22 00:01:05,244 - INFO - [scripts.adrule.logic.list_scraper] - --- 4 / 9 페이지 처리 중 ---
+2025-08-22 00:01:05,244 - INFO - [scripts.adrule.logic.list_scraper] - 4 페이지로 이동합니다...
+2025-08-22 00:01:05,618 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:05,651 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가직무능력표준 개발·개선 및 폐지 등에 관한 규정
+2025-08-22 00:01:05,657 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국가직무능력표준 고시
+2025-08-22 00:01:05,662 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국내 근로자공급사업 허가관리 규정
+2025-08-22 00:01:05,665 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국내유료직업소개요금 등 고시
+2025-08-22 00:01:05,669 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국민내일배움카드 운영규정
+2025-08-22 00:01:05,674 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국민임대주택 및 통합공공임대주택 우선공급 대상에 해당하는 비정규직 근로자
+2025-08-22 00:01:05,677 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국민취업지원제도 운영규정
+2025-08-22 00:01:05,681 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국민취업지원제도 지급금 등 지급사무규정
+2025-08-22 00:01:05,685 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국외유료직업소개요금등 고시
+2025-08-22 00:01:05,689 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국외취업희망자 등록 및 알선규정
+2025-08-22 00:01:05,693 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국제고용노동정책협의회 운영규정
+2025-08-22 00:01:05,697 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  국제기능올림픽대회 한국위원회 및 전국기능경기위원회의 구성 및 운영에 관한 규정
+2025-08-22 00:01:05,701 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  굴착공사 표준안전 작업지침
+2025-08-22 00:01:05,705 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  권리구제업무 대리인 선임 신청을 할 수 있는 사람의 기준이 되는 월평균임금 고시
+2025-08-22 00:01:05,709 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근골격계부담작업의 범위 및 유해요인조사 방법에 관한 고시
+2025-08-22 00:01:05,714 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로감독관집무규정
+2025-08-22 00:01:05,722 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로감독행정발전위원회규정
+2025-08-22 00:01:05,726 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로기준법 및 공인노무사법에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:05,736 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로복지사업 운영규정
+2025-08-22 00:01:05,740 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로시간면제 한도
+2025-08-22 00:01:05,745 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자 건강증진활동 지침
+2025-08-22 00:01:05,749 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자 건강진단 관리규정
+2025-08-22 00:01:05,752 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자 건강진단 실시기준
+2025-08-22 00:01:05,757 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자 신용보증지원사업 관리·운영규정
+2025-08-22 00:01:05,760 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자의 기준보수 고시
+2025-08-22 00:01:05,763 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자의 날 포상규정
+2025-08-22 00:01:05,767 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자퇴직급여 보장법 제4조제1항 단서 해석기준
+2025-08-22 00:01:05,770 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  근로자파견사업 허가관리규정
+2025-08-22 00:01:05,774 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  급여기초임금일액 산정규정
+2025-08-22 00:01:05,778 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  급여 전액지급 예외사유가 되는 비율고시
+2025-08-22 00:01:05,781 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  기간제 및 단시간근로자 보호 등에 관한 법률과 파견근로자 보호 등에 관한 법률에 따른 과태료 및 행정처분의 가중처분에 관한 세부 지침
+2025-08-22 00:01:05,784 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  기능대학 설립 및 공공직업훈련시설 설치 타당성조사 운용 등에 관한 고시
+2025-08-22 00:01:05,788 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  기준기간 연장사유 고시
+2025-08-22 00:01:05,794 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  남녀고용평등 업무처리 규정
+2025-08-22 00:01:05,801 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노동부소속기관 업무편람 관리규정
+2025-08-22 00:01:05,805 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노동상황실 운영규정
+2025-08-22 00:01:05,810 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노동위원회규칙
+2025-08-22 00:01:05,813 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노동위원회 위임전결규정
+2025-08-22 00:01:05,816 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노동조합 및 노동관계조정법과 노동위원회법에 따른 과태료 가중처분에 관한 세부 지침
+2025-08-22 00:01:05,821 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노동행정인공지능혁신과 설치 및 운영에 관한 규정
+2025-08-22 00:01:05,825 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자의 기준보수 및 보수액에서 제외하는 필요경비 고시
+2025-08-22 00:01:05,828 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자의 보수액에서 제외하는 필요경비
+2025-08-22 00:01:05,832 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자의 실업인정대상기간 중 발생한 1일 평균소득에서 제외하는 금액 고시
+2025-08-22 00:01:05,835 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자의 출산전후급여등의 지급기간 중 소득허용금액에 관한 고시
+2025-08-22 00:01:05,840 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자 직종별 산재보험료율
+2025-08-22 00:01:05,844 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자 최저 휴업급여 보장액
+2025-08-22 00:01:05,848 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노무제공자 출산전후급여등 상한액 및 하한액 고시
+2025-08-22 00:01:05,851 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노사관계 전문가 육성사업 운영규정
+2025-08-22 00:01:05,857 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  노사발전재단에 위탁·보조하는 사업 고시
+2025-08-22 00:01:05,857 - INFO - [scripts.adrule.logic.list_scraper] - --- 5 / 9 페이지 처리 중 ---
+2025-08-22 00:01:05,857 - INFO - [scripts.adrule.logic.list_scraper] - 5 페이지로 이동합니다...
+2025-08-22 00:01:06,236 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:06,272 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  뇌혈관 질병 또는 심장 질병 및 근골격계 질병의 업무상 질병 인정 여부 결정에 필요한 사항
+2025-08-22 00:01:06,277 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  능력개발비용대부규정
+2025-08-22 00:01:06,283 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  대한민국명장의 직종 고시
+2025-08-22 00:01:06,288 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  도산등사실인정 및 확인업무 처리규정
+2025-08-22 00:01:06,294 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  등록취소 등에 따라 퇴직연금사업자가 취하여야 할 사용자 및 가입자 보호조치 고시
+2025-08-22 00:01:06,297 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  명예고용평등감독관 운영규정
+2025-08-22 00:01:06,302 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  명예산업안전감독관 운영규정
+2025-08-22 00:01:06,307 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  무급가족종사자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금
+2025-08-22 00:01:06,311 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  무급휴업·휴직 고용유지지원금 지급규정
+2025-08-22 00:01:06,317 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  무역조정 지원 등에 관한 법률에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:06,321 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  민간단체 고용평등상담실 운영지원규정
+2025-08-22 00:01:06,325 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  민간직업상담원 보수 지급기준
+2025-08-22 00:01:06,329 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  발파 표준안전 작업지침
+2025-08-22 00:01:06,332 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  방호장치 안전인증 고시
+2025-08-22 00:01:06,335 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  방호장치 자율안전기준 고시
+2025-08-22 00:01:06,338 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  벌목업의 노무비율
+2025-08-22 00:01:06,342 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  벌목 표준안전 작업지침
+2025-08-22 00:01:06,346 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  보험사무대행기관의 교육 등에 관한 규정
+2025-08-22 00:01:06,349 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  보험사무대행지원금 지급기준
+2025-08-22 00:01:06,352 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  보호구 안전인증 고시
+2025-08-22 00:01:06,356 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  보호구 자율안전확인 고시
+2025-08-22 00:01:06,360 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  부정·비리 신고 및 포상 등에 관한 규정
+2025-08-22 00:01:06,363 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  불법직업소개등 신고 포상금제 운영규정
+2025-08-22 00:01:06,366 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사내·공동근로복지기금 업무처리지침
+2025-08-22 00:01:06,370 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사무실 공기관리 지침
+2025-08-22 00:01:06,373 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사업 또는 사업장 변경자에 대한 재입국 취업 제한의 특례 인정기준
+2025-08-22 00:01:06,376 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사업장 위험성평가에 관한 지침
+2025-08-22 00:01:06,380 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사업주 및 장애인 등에 대한 융자·지원규정
+2025-08-22 00:01:06,384 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사업주의 재취업지원서비스 제공에 관한 규정
+2025-08-22 00:01:06,387 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사업주자격 인정 규정
+2025-08-22 00:01:06,392 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사업주 직업능력개발훈련 지원규정
+2025-08-22 00:01:06,395 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사전지정운용방법의 승인 요건 및 가입자에 대한 정보제공 사항에 대한 고시
+2025-08-22 00:01:06,398 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사회적기업 육성을 위한 보조금의 교부 및 관리에 관한 사무위임규정
+2025-08-22 00:01:06,402 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  사회적기업 재정지원대상이 되는 상법상 회사의 범위
+2025-08-22 00:01:06,405 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업기사응시자격 인정 및 기능사필기시험 면제 등에 관한 고시
+2025-08-22 00:01:06,409 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업기사 응시자격 인정 및 기능사 필기시험 면제 등에 관한 규정
+2025-08-22 00:01:06,413 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업보건의 관리규정
+2025-08-22 00:01:06,416 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업안전보건 강조기간 설정에 관한 규정
+2025-08-22 00:01:06,419 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업안전보건업무 수수료
+2025-08-22 00:01:06,422 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업안전·보건표준제정위원회 규정
+2025-08-22 00:01:06,427 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업안전지도사 및 산업보건지도사 시험위원회 구성·운영 등에 관한 규정
+2025-08-22 00:01:06,430 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업안전지도사 및 산업보건지도사 지도 실적으로 인정할 수 있는 기관·단체에 관한 고시
+2025-08-22 00:01:06,433 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업재해보상 및 진폐예방 관계 법령에 따른 행정처분 및 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:06,436 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업재해보상보험법에 따른 간병급여 지급기준
+2025-08-22 00:01:06,440 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업재해보상보험법에 따른 간병료 지급기준
+2025-08-22 00:01:06,444 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업재해보상보험 요양급여 산정기준
+2025-08-22 00:01:06,446 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업재해예방시설자금 융자금 지원사업 및 클린사업장 조성지원사업 운영규정
+2025-08-22 00:01:06,450 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업재해통계업무처리규정
+2025-08-22 00:01:06,453 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산업전환 고용안정 업무 전담기관의 지정 등에 관한 고시
+2025-08-22 00:01:06,457 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산재보험관리기구지원금 지급기준 고시
+2025-08-22 00:01:06,457 - INFO - [scripts.adrule.logic.list_scraper] - --- 6 / 9 페이지 처리 중 ---
+2025-08-22 00:01:06,457 - INFO - [scripts.adrule.logic.list_scraper] - 6 페이지로 이동합니다...
+2025-08-22 00:01:06,831 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:06,865 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  산재예방요율제 운영에 관한 규정
+2025-08-22 00:01:06,869 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  석면조사 및 안전성 평가 등에 관한 고시
+2025-08-22 00:01:06,874 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  석면해체·제거업자 종사인력의 교육에 관한 규정
+2025-08-22 00:01:06,878 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  소득확인이 어려운 직종의 노무제공자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 월 보수액 및 평균보수 등
+2025-08-22 00:01:06,882 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  소득확정이 어려운 직종의 노무제공자에 대한 고용보험료 산정의 기초가 되는 보수액 및 기초일액 고시
+2025-08-22 00:01:06,886 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  숙련기술 전수 선정 분야별 직종 고시
+2025-08-22 00:01:06,892 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  신규화학물질의 유해성·위험성 조사 등에 관한 고시
+2025-08-22 00:01:06,896 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  실업인정 및 재취업지원규정
+2025-08-22 00:01:06,899 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  실직자 창업지원사업 운영규정
+2025-08-22 00:01:06,903 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전검사 고시
+2025-08-22 00:01:06,907 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전검사 절차에 관한 고시
+2025-08-22 00:01:06,910 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전·보건관리전문기관 및 건설재해예방전문지도기관 관리규정
+2025-08-22 00:01:06,913 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전보건교육규정
+2025-08-22 00:01:06,917 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전·보건에 관한 업무 수행시간의 기준 고시
+2025-08-22 00:01:06,919 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전인증대상기계 등이 아닌 유해·위험기계등의 안전인증 규정
+2025-08-22 00:01:06,923 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  안전인증·자율안전확인신고의 절차에 관한 고시
+2025-08-22 00:01:06,927 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  업무위탁기관의 지정 등에 관한 고시
+2025-08-22 00:01:06,930 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  업무추진실적 평가규정
+2025-08-22 00:01:06,933 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  업종별 고용허가제 고용업무 대행기관
+2025-08-22 00:01:06,936 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  연계고용에 따른 부담금 감면기준
+2025-08-22 00:01:06,940 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  연예인 국외공급업무 처리지침
+2025-08-22 00:01:06,946 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  예술인 및 노무제공자에 대한 고용보험료의 상한액 고시
+2025-08-22 00:01:06,950 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  예술인의 기준보수 및 보수액에서 제외하는 필요경비 고시
+2025-08-22 00:01:06,952 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  예술인의 실업인정대상기간 중 발생한 1일 평균소득에서 제외하는 금액 고시
+2025-08-22 00:01:06,956 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  예술인의 출산전후급여등의 지급기간 중 소득허용금액에 관한 고시
+2025-08-22 00:01:06,960 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  예술인 출산전후급여등 상한액 및 하한액 고시
+2025-08-22 00:01:06,963 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국어로 작성하는 안전보건표지에 관한 규정
+2025-08-22 00:01:06,966 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자 관련 사업 비용지원 단체 등의 시설 장비 기준에 관한 고시
+2025-08-22 00:01:06,970 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자 권익보호협의회 운영규정
+2025-08-22 00:01:06,973 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자 기숙사 정보 제공에 관한 규정
+2025-08-22 00:01:06,977 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자상해보험의 보험금액고시
+2025-08-22 00:01:06,980 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자의 고용 등에 관한 법률에 따른 과태료의 가중처분에 관한 세부지침
+2025-08-22 00:01:06,983 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자의 책임이 아닌 사업장변경 사유
+2025-08-22 00:01:06,986 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자 임금지급 보증보험의 보증금액 고시
+2025-08-22 00:01:06,990 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인근로자 출국만기보험 또는 신탁의 월적립금액 고시
+2025-08-22 00:01:06,994 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  외국인 취업교육기관 지정 및 운영에 관한 규정
+2025-08-22 00:01:06,997 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  운반하역 표준안전 작업지침
+2025-08-22 00:01:07,000 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  위험기계·기구 방호조치 기준
+2025-08-22 00:01:07,004 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  위험기계·기구 안전인증 고시
+2025-08-22 00:01:07,008 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  위험기계·기구 자율안전확인 고시
+2025-08-22 00:01:07,011 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  유해·위험방지계획서 자체심사 및 확인업체 지정대상 건설업체 고시
+2025-08-22 00:01:07,014 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  육아휴직 결원보충 활성화를 위한 고용노동부와 그 소속기관에 두는 별도정원 운영규정
+2025-08-22 00:01:07,017 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  이주비 고시
+2025-08-22 00:01:07,021 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  인적자원개발위원회의 구성 및 운영에 관한 규정
+2025-08-22 00:01:07,026 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  일자리 안정자금 사업 운영 규정
+2025-08-22 00:01:07,028 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  일학습병행 외부평가 응시 및 자격증 발급수수료
+2025-08-22 00:01:07,032 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  일학습병행 운영규정
+2025-08-22 00:01:07,035 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  일학습병행 직종 및 직종별 교육훈련기준
+2025-08-22 00:01:07,038 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  임금등 체불 근로자 생계비 융자사업 고시
+2025-08-22 00:01:07,038 - INFO - [scripts.adrule.logic.list_scraper] - --- 7 / 9 페이지 처리 중 ---
+2025-08-22 00:01:07,038 - INFO - [scripts.adrule.logic.list_scraper] - 7 페이지로 이동합니다...
+2025-08-22 00:01:07,412 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:07,445 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  임금채권보장기금 사업주 부담금비율
+2025-08-22 00:01:07,448 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  임금채권보장제도 사업주부담금 경감기준
+2025-08-22 00:01:07,452 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  임금체불사업주 명단 공개 및 체불자료 제공 관련 업무 처리 규정
+2025-08-22 00:01:07,458 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  임금피크제 지원금액등 고시
+2025-08-22 00:01:07,461 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  자영업자의 고용보험료 산정의 기초가 되는 보수액
+2025-08-22 00:01:07,465 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  자활급여 수급자가 종사하는 사업
+2025-08-22 00:01:07,469 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  자회사 운영실태 평가위원회 운영규정
+2025-08-22 00:01:07,477 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  작업환경측정 및 정도관리 등에 관한 고시
+2025-08-22 00:01:07,481 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장례비 최고·최저 금액
+2025-08-22 00:01:07,485 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인 고용부담금의 부담기초액
+2025-08-22 00:01:07,488 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인 고용의무 불이행 명단공표제도 운영규정
+2025-08-22 00:01:07,493 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인고용장려금 지급기준
+2025-08-22 00:01:07,497 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인고용촉진 및 직업재활법에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:07,500 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인 기능경기 대회 등 운영에 관한 규정
+2025-08-22 00:01:07,505 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인 직업능력개발훈련 지원규정
+2025-08-22 00:01:07,513 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인 취업지원 업무처리 규정
+2025-08-22 00:01:07,527 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  장애인 표준사업장에 대한 지원규정
+2025-08-22 00:01:07,537 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  재량근로의 대상 업무
+2025-08-22 00:01:07,548 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  저압산업용기계기구의 부속전기설비의 전기재해 예방을 위한 기술상의 지침
+2025-08-22 00:01:07,562 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  적립금운용위원회 구성에 관한 고시
+2025-08-22 00:01:07,570 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  전체 근로자의 임금 평균액의 증감률 및 소비자물가변동률
+2025-08-22 00:01:07,577 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  정전기재해 예방을 위한 기술상의 지침
+2025-08-22 00:01:07,581 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  제1차 금속산업 안전작업지침
+2025-08-22 00:01:07,585 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  제조업 등 유해·위험방지계획서 제출·심사·확인에 관한 고시
+2025-08-22 00:01:07,588 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  조기재취업 수당 지급제외 대상에 해당하는 임금액 고시
+2025-08-22 00:01:07,595 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  준고령자·고령자 우선고용직종
+2025-08-22 00:01:07,599 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중대산업사고 예방센터 운영규정
+2025-08-22 00:01:07,601 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중대산업재해 수사심의위원회 및 자문단의 구성·운영에 관한 규칙
+2025-08-22 00:01:07,604 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중대재해 감축 로드맵 이행 추진단의 설치 및 운영에 관한 규정
+2025-08-22 00:01:07,609 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중복된 장애의 합산 판정 기준 및 중증장애인 확인 고시
+2025-08-22 00:01:07,612 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중·소기업 사업주에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금
+2025-08-22 00:01:07,615 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중소기업 직업능력개발 지원사업 실시규정
+2025-08-22 00:01:07,619 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  중소기업퇴직연금기금제도 지원 등에 관한 고시
+2025-08-22 00:01:07,622 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  지역실업자직업훈련 실시규정
+2025-08-22 00:01:07,626 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  지원금 등의 상호조정 비율
+2025-08-22 00:01:07,630 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  지정직업훈련시설의 인력, 시설·장비 요건 등에 관한 규정
+2025-08-22 00:01:07,633 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발수당 고시
+2025-08-22 00:01:07,636 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발훈련 교·강사의 보수교육에 관한 운영규정
+2025-08-22 00:01:07,644 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발훈련교사의 양성을 위한 훈련시설 또는 훈련과정을 설치·운영할 수 있는 법인·단체
+2025-08-22 00:01:07,650 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발훈련교사 자격기준
+2025-08-22 00:01:07,654 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발 훈련기관 지도·감독에 관한 규정
+2025-08-22 00:01:07,659 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발훈련 모니터링에 관한 규정
+2025-08-22 00:01:07,662 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발훈련의 직종별 훈련기준
+2025-08-22 00:01:07,666 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력개발훈련 품질관리에 관한 규정
+2025-08-22 00:01:07,670 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업능력정책 관련 법령에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:07,674 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업상담원 운영규정
+2025-08-22 00:01:07,677 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업소개 등 사업자협회의 공제사업에 관한 규정
+2025-08-22 00:01:07,704 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업소개 등 업무 처리 규정
+2025-08-22 00:01:07,704 - INFO - [scripts.adrule.logic.list_scraper] - --- 8 / 9 페이지 처리 중 ---
+2025-08-22 00:01:07,704 - INFO - [scripts.adrule.logic.list_scraper] - 8 페이지로 이동합니다...
+2025-08-22 00:01:07,837 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:07,860 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업재활급여 상한금액
+2025-08-22 00:01:07,863 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업적성검사업무처리규정
+2025-08-22 00:01:07,868 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업정보제공사업 신고업무 처리 규정
+2025-08-22 00:01:07,873 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업지도관 운영 규정
+2025-08-22 00:01:07,877 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업훈련개발 훈련 거부에 따른 구직급여 지급 정지기간 고시
+2025-08-22 00:01:07,881 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직업훈련 생계비 대부 규정
+2025-08-22 00:01:07,885 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직장 내 장애인 인식개선 교육 규정
+2025-08-22 00:01:07,889 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직장어린이집 등 설치·운영 규정
+2025-08-22 00:01:07,893 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  직장어린이집 보육교사 등 인건비 및 우선지원 대상기업 운영비 지원에 관한 규정
+2025-08-22 00:01:07,896 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  진단수당
+2025-08-22 00:01:07,900 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  진폐건강진단 실시 및 관리규정
+2025-08-22 00:01:07,903 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  진폐고시임금
+2025-08-22 00:01:07,908 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  진폐업무 처리규정
+2025-08-22 00:01:07,912 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  채용절차 공정화 관련 신고사무 처리지침
+2025-08-22 00:01:07,914 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  채용절차의 공정화에 관한 법률에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:07,917 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  철강업에 있어서 수증기 폭발 및 고열물 접촉위험 방지를 위한 기술상의 지침
+2025-08-22 00:01:07,920 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  철골공사표준안전작업지침
+2025-08-22 00:01:07,924 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  「청년고용촉진 특별법」에 따른 과태료의 가중처분에 관한 세부 지침
+2025-08-22 00:01:07,927 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  청년고용촉진특별위원회 운영규정
+2025-08-22 00:01:07,930 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  청년취업아카데미 운영 규정
+2025-08-22 00:01:07,933 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  청사 임대차 계약에 관한 규정
+2025-08-22 00:01:07,937 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  체불 임금등 대지급금 관련업무 지원대상이 되는 퇴직한 근로자의 퇴직 전 월평균보수액
+2025-08-22 00:01:07,940 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  체불 임금등 대지급금 상한액 고시
+2025-08-22 00:01:07,944 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  체불 임금등 대지급금 지급대상이 되는 재직 근로자의 임금액 기준
+2025-08-22 00:01:07,947 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  최고·최저 보상기준 금액
+2025-08-22 00:01:07,950 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  최저임금법 제5조에 따른 단순노무직종 근로자 지정 고시
+2025-08-22 00:01:07,953 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  최저임금위원회 사용자위원을 추천할 수 있는 단체 지정
+2025-08-22 00:01:07,958 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  추락재해방지표준안전작업지침
+2025-08-22 00:01:07,961 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  출산전후휴가 급여등 상한액 고시
+2025-08-22 00:01:07,964 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  취업규칙 심사요령
+2025-08-22 00:01:07,967 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  콘크리트공사표준안전작업지침
+2025-08-22 00:01:07,972 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  택시운송업 특별고용지원 업종 지정 고시
+2025-08-22 00:01:07,975 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  터널공사 표준안전 작업지침-NATM공법
+2025-08-22 00:01:07,979 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  통상근로계수
+2025-08-22 00:01:07,982 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  통상임금 산정지침
+2025-08-22 00:01:07,985 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금사업자 평가에 관한 고시
+2025-08-22 00:01:07,989 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금 수수료 부과에 관한 고시
+2025-08-22 00:01:07,993 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금제도 모집인의 교육 등에 관한 규정
+2025-08-22 00:01:07,996 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금제도 모집인의 등록 등에 관한 규정
+2025-08-22 00:01:07,999 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금제도 수급권의 담보제공 및 퇴직금 중간정산의 사유와 요건, 담보 한도 등에 관한 고시
+2025-08-22 00:01:08,002 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금제도에 관한 전문성이 있다고 인정하는 자
+2025-08-22 00:01:08,005 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직연금제도 취급실적 제출주기와 제출서식에 관한 규정
+2025-08-22 00:01:08,008 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  퇴직의 효력발생시기
+2025-08-22 00:01:08,012 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  특별고용지원 업종의 지정기준 등에 관한 고시
+2025-08-22 00:01:08,015 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  특별연장근로 건강보호조치
+2025-08-22 00:01:08,018 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  특수건강진단기관의 정도관리에 관한 고시
+2025-08-22 00:01:08,021 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  특수형태근로종사자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금
+2025-08-22 00:01:08,026 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  평균임금 산정상의 상여금 취급요령
+2025-08-22 00:01:08,028 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  평균임금산정 특례 고시
+2025-08-22 00:01:08,031 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  플랫폼 사업자 보험사무이행지원금 산정기준
+2025-08-22 00:01:08,031 - INFO - [scripts.adrule.logic.list_scraper] - --- 9 / 9 페이지 처리 중 ---
+2025-08-22 00:01:08,031 - INFO - [scripts.adrule.logic.list_scraper] - 9 페이지로 이동합니다...
+2025-08-22 00:01:08,148 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 이동 완료.
+2025-08-22 00:01:08,162 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  학생연구자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금
+2025-08-22 00:01:08,165 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  한국고용직업분류
+2025-08-22 00:01:08,169 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  한국폴리텍대학 대구·구미·진주캠퍼스 임대형 민간투자사업 시설사업기본계획 고시
+2025-08-22 00:01:08,172 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  한국폴리텍대학 창원2캠퍼스·영주캠퍼스 공학관 및 기숙사 증·개축 임대형 민간투자사업
+2025-08-22 00:01:08,176 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  한국폴리텍대학 청주캠퍼스·아산캠퍼스 임대형 민간투자사업 시설사업기본계획 고시
+2025-08-22 00:01:08,186 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  해체공사표준안전작업지침
+2025-08-22 00:01:08,189 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  행정정보공동이용망을 통한 고용민원사무 처리 운영 규정
+2025-08-22 00:01:08,193 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  현장 실무인재 양성을 위한 직업능력개발훈련 운영규정
+2025-08-22 00:01:08,196 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  현장실습생에 대한 산업재해보상보험 적용범위
+2025-08-22 00:01:08,199 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  화학물질 및 물리적 인자의 노출기준
+2025-08-22 00:01:08,202 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  화학물질의 분류·표시 및 물질안전보건자료에 관한 기준
+2025-08-22 00:01:08,206 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  화학물질의 유해성·위험성 평가에 관한 규정
+2025-08-22 00:01:08,209 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  확정급여형퇴직연금제도의 재정검증결과 통보양식 고시
+2025-08-22 00:01:08,212 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  회계업무처리에 관한 규정
+2025-08-22 00:01:08,215 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  훈련지시대상 훈련과정 및 직종 고시
+2025-08-22 00:01:08,242 - INFO - [__main__] - 총 397개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-08-22 00:01:08,480 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-22 00:01:08,863 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-22 00:01:09,432 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:09,463 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:09,548 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:10,550 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:10,561 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:10,580 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:10,581 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년도 건설업 월평균보수_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:10,581 - INFO - [scripts.adrule.logic.scraper] - 데이터 2건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년도 건설업 월평균보수_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:10,607 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 건설업 월평균보수
+2025-08-22 00:01:11,867 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-22 00:01:12,248 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-22 00:01:12,800 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:12,832 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:12,861 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:13,864 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:13,876 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:13,904 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:13,905 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년도 사업종류별 산재보험료율_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:13,905 - INFO - [scripts.adrule.logic.scraper] - 데이터 2건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년도 사업종류별 산재보험료율_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:13,932 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 사업종류별 산재보험료율
+2025-08-22 00:01:15,129 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-22 00:01:15,479 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-22 00:01:20,327 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:20,353 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:20,393 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:21,399 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:21,410 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:21,468 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:21,472 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:21,479 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:21,608 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년 적용 최저임금 고시
+2025-08-22 00:01:22,888 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000244478
+2025-08-22 00:01:23,264 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000244478
+2025-08-22 00:01:23,866 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:23,887 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:24,688 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:25,696 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:25,717 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:25,735 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:25,736 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금안 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:25,736 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2025년 적용 최저임금안 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:25,803 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년 적용 최저임금안 고시
+2025-08-22 00:01:27,029 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-22 00:01:27,394 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000262710
+2025-08-22 00:01:27,950 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:27,974 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:28,002 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:29,005 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:29,020 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:29,052 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:29,053 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:29,054 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:29,080 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2026년 적용 최저임금 고시
+2025-08-22 00:01:30,300 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-22 00:01:30,651 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000261888
+2025-08-22 00:01:31,281 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:31,300 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:31,379 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:32,383 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:32,398 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:32,429 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:32,430 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금안 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:32,431 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/2026년 적용 최저임금안 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:32,457 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2026년 적용 최저임금안 고시
+2025-08-22 00:01:33,663 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-22 00:01:34,094 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254236
+2025-08-22 00:01:34,680 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:34,703 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:34,878 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:35,903 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:35,928 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:35,958 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:01:35,964 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가사근로자 사회보험료 지원에 관한 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:35,965 - INFO - [scripts.adrule.logic.scraper] - 데이터 7건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가사근로자 사회보험료 지원에 관한 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:36,047 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가사근로자 사회보험료 지원에 관한 고시
+2025-08-22 00:01:37,293 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-22 00:01:37,729 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186031
+2025-08-22 00:01:38,384 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:38,422 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:38,509 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:39,513 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:39,545 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:39,593 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:01:39,623 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가설공사 표준안전 작업지침_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:39,623 - INFO - [scripts.adrule.logic.scraper] - 데이터 29건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가설공사 표준안전 작업지침_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:39,648 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가설공사 표준안전 작업지침
+2025-08-22 00:01:40,893 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-22 00:01:41,261 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186062
+2025-08-22 00:01:41,901 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:41,922 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:42,104 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:43,107 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:43,124 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:43,162 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:01:43,172 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가스누출감지경보기 설치에 관한 기술상의 지침_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:43,172 - INFO - [scripts.adrule.logic.scraper] - 데이터 10건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/가스누출감지경보기 설치에 관한 기술상의 지침_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:43,198 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-22 00:01:44,423 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186120
+2025-08-22 00:01:44,801 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186120
+2025-08-22 00:01:45,330 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:45,351 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:45,429 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:46,432 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:46,445 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:46,483 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:01:46,496 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/감전재해 예방을 위한 기술상의 지침_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:46,496 - INFO - [scripts.adrule.logic.scraper] - 데이터 12건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/감전재해 예방을 위한 기술상의 지침_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:46,520 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 감전재해 예방을 위한 기술상의 지침
+2025-08-22 00:01:47,733 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217661
+2025-08-22 00:01:48,088 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217661
+2025-08-22 00:01:48,690 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:48,711 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:48,740 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:49,744 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:49,759 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:49,791 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:49,793 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/개별연장급여 수급요건 중 학업 중인 사람에 대한 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:49,793 - INFO - [scripts.adrule.logic.scraper] - 데이터 2건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/개별연장급여 수급요건 중 학업 중인 사람에 대한 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:49,821 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-22 00:01:51,040 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217662
+2025-08-22 00:01:51,388 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217662
+2025-08-22 00:01:52,021 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:52,041 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:52,120 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:53,122 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:53,136 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:53,168 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:53,169 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/개별연장급여 지급을 위한 임금 및 재산기준 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:53,170 - INFO - [scripts.adrule.logic.scraper] - 데이터 2건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/개별연장급여 지급을 위한 임금 및 재산기준 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:53,194 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-22 00:01:54,409 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000043197
+2025-08-22 00:01:54,767 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2200000043197
+2025-08-22 00:01:55,382 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:55,412 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:55,440 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:56,442 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:56,455 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:56,488 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:01:56,489 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/개인형퇴직연금제도로의 이전 예외사유 해당금액 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:56,489 - INFO - [scripts.adrule.logic.scraper] - 데이터 2건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/개인형퇴직연금제도로의 이전 예외사유 해당금액 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:56,517 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-22 00:01:57,730 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000243390
+2025-08-22 00:01:58,228 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000243390
+2025-08-22 00:01:58,830 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:01:58,884 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:01:58,928 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:01:59,934 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:01:59,946 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:01:59,982 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:01:59,992 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설공사 안전보건대장의 작성 등에 관한 고시_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:01:59,992 - INFO - [scripts.adrule.logic.scraper] - 데이터 9건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설공사 안전보건대장의 작성 등에 관한 고시_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:00,018 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-22 00:02:01,245 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252112
+2025-08-22 00:02:01,607 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252112
+2025-08-22 00:02:02,276 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:02:02,301 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:02:02,334 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:02:03,338 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:02:03,350 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:02:03,382 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:02:03,383 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설공사의 노무비율_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:03,383 - INFO - [scripts.adrule.logic.scraper] - 데이터 2건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설공사의 노무비율_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:03,408 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설공사의 노무비율
+2025-08-22 00:02:04,634 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000025542
+2025-08-22 00:02:04,999 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000025542
+2025-08-22 00:02:05,554 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:02:05,573 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:02:05,610 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:02:06,612 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:02:06,629 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:02:06,668 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:02:06,678 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설근로자고용개선전문위원회 운영규정_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:06,679 - INFO - [scripts.adrule.logic.scraper] - 데이터 14건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설근로자고용개선전문위원회 운영규정_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:06,702 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설근로자고용개선전문위원회 운영규정
+2025-08-22 00:02:07,917 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254546
+2025-08-22 00:02:08,266 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000254546
+2025-08-22 00:02:08,943 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:02:08,961 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:02:09,763 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:02:10,768 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:02:10,790 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:02:10,839 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:02:10,860 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업 산업안전보건관리비 계상 및 사용기준_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:10,860 - INFO - [scripts.adrule.logic.scraper] - 데이터 12건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업 산업안전보건관리비 계상 및 사용기준_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:10,881 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-22 00:02:12,099 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000253016
+2025-08-22 00:02:12,469 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000253016
+2025-08-22 00:02:13,035 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:02:13,101 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:02:13,188 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:02:14,193 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:02:14,210 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:02:14,237 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:02:14,238 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:14,239 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:14,278 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-22 00:02:15,486 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186089
+2025-08-22 00:02:15,865 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000186089
+2025-08-22 00:02:18,601 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:02:18,623 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:02:19,921 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:02:20,925 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:02:20,939 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:02:20,968 - INFO - [scripts.adrule.logic.scraper] - 비정형적인 고시/공고 구조('제N조' 제목 미발견)를 감지했습니다.
+2025-08-22 00:02:20,969 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:20,969 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:20,993 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-22 00:02:22,208 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217765
+2025-08-22 00:02:22,562 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000217765
+2025-08-22 00:02:25,363 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-22 00:02:25,389 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-22 00:02:25,677 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-22 00:02:26,682 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-22 00:02:26,698 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-22 00:02:26,737 - INFO - [scripts.adrule.logic.scraper] - 정형화된 법령 구조('제N조' 제목 발견)를 감지했습니다.
+2025-08-22 00:02:26,744 - INFO - [scripts.adrule.logic.scraper] - 데이터 1건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:26,744 - INFO - [scripts.adrule.logic.scraper] - 데이터 7건을 '/Users/woong/Roeum/roeum-crawler/data/raw/adrule/1492000/건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정_chunks.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-22 00:02:26,791 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정

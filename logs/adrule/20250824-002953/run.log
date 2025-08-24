@@ -1,0 +1,102 @@
+2025-08-24 00:29:54,578 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-24 00:29:55,077 - INFO - [scripts.adrule.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-24 00:29:56,417 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-08-24 00:29:56,417 - INFO - [scripts.adrule.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-08-24 00:29:56,417 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---
+2025-08-24 00:29:56,453 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 건설업 월평균보수
+2025-08-24 00:29:56,456 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 사업종류별 산재보험료율
+2025-08-24 00:29:56,460 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금 고시
+2025-08-24 00:29:56,463 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금안 고시
+2025-08-24 00:29:56,468 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금 고시
+2025-08-24 00:29:56,472 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금안 고시
+2025-08-24 00:29:56,475 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가사근로자 사회보험료 지원에 관한 고시
+2025-08-24 00:29:56,480 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가설공사 표준안전 작업지침
+2025-08-24 00:29:56,483 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-24 00:29:56,486 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  감전재해 예방을 위한 기술상의 지침
+2025-08-24 00:29:56,490 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-24 00:29:56,493 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-24 00:29:56,497 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-24 00:29:56,502 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-24 00:29:56,505 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사의 노무비율
+2025-08-24 00:29:56,508 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설근로자고용개선전문위원회 운영규정
+2025-08-24 00:29:56,511 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-24 00:29:56,515 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-24 00:29:56,518 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-24 00:29:56,522 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-24 00:29:56,526 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업체의 산업재해예방활동 실적 평가기준
+2025-08-24 00:29:56,529 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고기압 작업에 관한 기준
+2025-08-24 00:29:56,532 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-24 00:29:56,536 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자 고용안정지원금 지급 규정
+2025-08-24 00:29:56,539 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자고용연장지원금액 등
+2025-08-24 00:29:56,542 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-24 00:29:56,546 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-24 00:29:56,549 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관 업무처리지침
+2025-08-24 00:29:56,553 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-24 00:29:56,563 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 갈등관리 운영규정
+2025-08-24 00:29:56,566 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 감사규정
+2025-08-24 00:29:56,570 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 개인정보 보호지침
+2025-08-24 00:29:56,573 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 기본운영규정
+2025-08-24 00:29:56,576 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 위임전결규정
+2025-08-24 00:29:56,580 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고객지원실 운영규정
+2025-08-24 00:29:56,583 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고용장려금 운영에 관한 규정
+2025-08-24 00:29:56,587 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원의 국제기구 파견에 관한 지침
+2025-08-24 00:29:56,591 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 정원배정표
+2025-08-24 00:29:56,595 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 행동강령
+2025-08-24 00:29:56,598 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무직근로자 운영규정
+2025-08-24 00:29:56,603 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공사감독 업무규정
+2025-08-24 00:29:56,608 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공직자의 이해충돌 방지제도 운영지침
+2025-08-24 00:29:56,612 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 관사의 운영 및 관리규정
+2025-08-24 00:29:56,616 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국가정보자료관리세부시행규칙
+2025-08-24 00:29:56,622 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국제고용노동정책에 관한 규정
+2025-08-24 00:29:56,625 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 규제심사위원회 운영규정
+2025-08-24 00:29:56,646 - INFO - [__main__] - 총 46개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-08-24 00:29:57,180 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-24 00:29:57,534 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-24 00:29:58,138 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:29:58,159 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:29:58,239 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:29:59,241 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:29:59,258 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:29:59,304 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:29:59,304 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'NoneType' object is not callable
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 203, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 149, in parse_law_html
+    return _parse_structured_content(content_soup, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 46, in _parse_structured_content
+    soup = BeautifulSoup(html, 'html.parser') # <-- 수정된 부분: 함수 내부에서 BeautifulSoup 객체 생성
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/bs4/__init__.py", line 440, in __init__
+    markup = markup.read()
+             ^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not callable
+2025-08-24 00:29:59,368 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.html
+2025-08-24 00:29:59,388 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 건설업 월평균보수
+2025-08-24 00:30:00,886 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-24 00:30:01,259 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-24 00:30:01,771 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 00:30:01,792 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 00:30:01,872 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 00:30:02,875 - INFO - [scripts.adrule.logic.scraper] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 00:30:02,890 - INFO - [scripts.adrule.logic.scraper] - 데이터 파싱 중...
+2025-08-24 00:30:02,938 - INFO - [scripts.adrule.logic.scraper] - 유형 1: 정형화된 법령 구조 감지
+2025-08-24 00:30:02,938 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'NoneType' object is not callable
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 203, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 149, in parse_law_html
+    return _parse_structured_content(content_soup, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 46, in _parse_structured_content
+    soup = BeautifulSoup(html, 'html.parser') # <-- 수정된 부분: 함수 내부에서 BeautifulSoup 객체 생성
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/bs4/__init__.py", line 440, in __init__
+    markup = markup.read()
+             ^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not callable
+2025-08-24 00:30:02,998 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 사업종류별 산재보험료율_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 사업종류별 산재보험료율_error.html
+2025-08-24 00:30:03,018 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 사업종류별 산재보험료율

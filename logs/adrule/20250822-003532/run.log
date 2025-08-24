@@ -1,0 +1,125 @@
+2025-08-22 00:35:34,794 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-22 00:35:35,274 - INFO - [scripts.adrule.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-08-22 00:35:36,630 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-08-22 00:35:36,630 - INFO - [scripts.adrule.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-08-22 00:35:36,630 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---
+2025-08-22 00:35:36,666 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 건설업 월평균보수
+2025-08-22 00:35:36,670 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년도 사업종류별 산재보험료율
+2025-08-22 00:35:36,673 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2025년 적용 최저임금 고시
+2025-08-22 00:35:36,677 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금 고시
+2025-08-22 00:35:36,681 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  2026년 적용 최저임금안 고시
+2025-08-22 00:35:36,685 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가사근로자 사회보험료 지원에 관한 고시
+2025-08-22 00:35:36,688 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가설공사 표준안전 작업지침
+2025-08-22 00:35:36,692 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  가스누출감지경보기 설치에 관한 기술상의 지침
+2025-08-22 00:35:36,695 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  감전재해 예방을 위한 기술상의 지침
+2025-08-22 00:35:36,699 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 수급요건 중 학업 중인 사람에 대한 고시
+2025-08-22 00:35:36,703 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개별연장급여 지급을 위한 임금 및 재산기준 고시
+2025-08-22 00:35:36,706 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  개인형퇴직연금제도로의 이전 예외사유 해당금액 고시
+2025-08-22 00:35:36,709 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사 안전보건대장의 작성 등에 관한 고시
+2025-08-22 00:35:36,713 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설공사의 노무비율
+2025-08-22 00:35:36,717 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설근로자고용개선전문위원회 운영규정
+2025-08-22 00:35:36,720 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 산업안전보건관리비 계상 및 사용기준
+2025-08-22 00:35:36,723 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액
+2025-08-22 00:35:36,727 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건
+2025-08-22 00:35:36,731 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정
+2025-08-22 00:35:36,733 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  건설업체의 산업재해예방활동 실적 평가기준
+2025-08-22 00:35:36,737 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고기압 작업에 관한 기준
+2025-08-22 00:35:36,740 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정
+2025-08-22 00:35:36,744 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자 고용안정지원금 지급 규정
+2025-08-22 00:35:36,746 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자고용연장지원금액 등
+2025-08-22 00:35:36,749 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고령자인재은행 및 중견전문인력 고용지원센터 운영규정
+2025-08-22 00:35:36,753 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규
+2025-08-22 00:35:36,756 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동관 업무처리지침
+2025-08-22 00:35:36,759 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 2030 자문단 설치 및 운영에 관한 규정
+2025-08-22 00:35:36,770 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 갈등관리 운영규정
+2025-08-22 00:35:36,773 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 감사규정
+2025-08-22 00:35:36,776 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 개인정보 보호지침
+2025-08-22 00:35:36,780 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 기본운영규정
+2025-08-22 00:35:36,783 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부고객상담센터 위임전결규정
+2025-08-22 00:35:36,786 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고객지원실 운영규정
+2025-08-22 00:35:36,789 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 고용장려금 운영에 관한 규정
+2025-08-22 00:35:36,793 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원의 국제기구 파견에 관한 지침
+2025-08-22 00:35:36,798 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 정원배정표
+2025-08-22 00:35:36,802 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무원 행동강령
+2025-08-22 00:35:36,806 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공무직근로자 운영규정
+2025-08-22 00:35:36,809 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공사감독 업무규정
+2025-08-22 00:35:36,816 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 공직자의 이해충돌 방지제도 운영지침
+2025-08-22 00:35:36,819 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 관사의 운영 및 관리규정
+2025-08-22 00:35:36,822 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국가정보자료관리세부시행규칙
+2025-08-22 00:35:36,829 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 국제고용노동정책에 관한 규정
+2025-08-22 00:35:36,831 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 규제심사위원회 운영규정
+2025-08-22 00:35:36,835 - INFO - [scripts.adrule.logic.list_scraper] -   - 발견:  고용노동부 기간제근로자 운영규정
+2025-08-22 00:35:36,857 - INFO - [__main__] - 총 46개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-08-22 00:35:37,392 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-22 00:35:37,743 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-08-22 00:35:48,913 - WARNING - [scripts.adrule.logic.scraper] - iframe('id-view')을 찾지 못했습니다. 메인 페이지 HTML을 사용합니다.
+2025-08-22 00:35:48,952 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(고용보험기획과), 044-202-7358 Ⅰ. 2025년도 건설업 월평균보수 건설업의 상시근로자수 산정을 위한 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 311, in scrape_and_save
+    main_content_html = await page.locator('#contentBody, #conScroll').inner_html()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 16415, in inner_html
+    return mapping.from_maybe_impl(await self._impl_obj.inner_html(timeout=timeout))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_locator.py", line 436, in inner_html
+    return await self._frame.inner_html(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 623, in inner_html
+    return await self._channel.send("innerHTML", locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(고용보험기획과), 044-202-7358 Ⅰ. 2025년도 건설업 월평균보수 건설업의 상시근로자수 산정을 위한 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+
+2025-08-22 00:35:49,027 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 건설업 월평균보수_error.html
+2025-08-22 00:35:49,050 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 건설업 월평균보수
+2025-08-22 00:35:50,616 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-22 00:35:50,998 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000251996
+2025-08-22 00:36:02,319 - WARNING - [scripts.adrule.logic.scraper] - iframe('id-view')을 찾지 못했습니다. 메인 페이지 HTML을 사용합니다.
+2025-08-22 00:36:02,346 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(산재보상정책과), 044-202-8838, 8834 Ⅰ. 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 311, in scrape_and_save
+    main_content_html = await page.locator('#contentBody, #conScroll').inner_html()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 16415, in inner_html
+    return mapping.from_maybe_impl(await self._impl_obj.inner_html(timeout=timeout))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_locator.py", line 436, in inner_html
+    return await self._frame.inner_html(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 623, in inner_html
+    return await self._channel.send("innerHTML", locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Locator.inner_html: Error: strict mode violation: locator("#contentBody, #conScroll") resolved to 2 elements:
+    1) <div id="contentBody">…</div> aka locator("#contentBody")
+    2) <div id="conScroll">…</div> aka get_by_text("고용노동부(산재보상정책과), 044-202-8838, 8834 Ⅰ. 2025")
+
+Call log:
+waiting for locator("#contentBody, #conScroll")
+
+2025-08-22 00:36:02,432 - INFO - [scripts.adrule.logic.scraper] - 에러 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/2025년도 사업종류별 산재보험료율_error.png, HTML: /Users/woong/Roeum/roeum-crawler/debug/2025년도 사업종류별 산재보험료율_error.html
+2025-08-22 00:36:02,472 - INFO - [__main__] - 상세 페이지 스크레이퍼 완료: 2025년도 사업종류별 산재보험료율
+2025-08-22 00:36:04,072 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668

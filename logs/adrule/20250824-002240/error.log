@@ -1,0 +1,353 @@
+2025-08-24 00:22:47,381 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:22:53,584 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/ab6f99c5-e590-4b84-8ca2-7c764cedda50'
+2025-08-24 00:22:57,288 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/06218014-83ee-4c98-b60a-276e90eca5ce'
+2025-08-24 00:23:01,093 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/4d9b9a04-fe5e-4b11-bd2a-4c18e6b00c53'
+2025-08-24 00:23:05,903 - ERROR - [scripts.adrule.logic.scraper] - 이미지 OCR 처리 중 오류 발생: No connection adapters were found for 'blob:https://www.law.go.kr/fba07cd6-bbf8-4965-b443-df66c78f1e63'
+2025-08-24 00:23:09,907 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:14,437 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:18,370 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:22,247 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:26,173 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:30,085 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:33,857 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:47,069 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:23:48,145 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:52,277 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:23:56,617 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:00,672 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:04,697 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:18,622 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:24:19,701 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:23,732 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:27,620 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:31,545 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:35,194 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:48,232 - WARNING - [scripts.adrule.logic.scraper] - 로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.
+2025-08-24 00:24:49,341 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:53,222 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:24:57,354 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:01,215 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:04,913 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:08,648 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:12,603 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:16,424 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:20,613 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:24,628 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+    chunks = await parse_law_html(page, doc_id, doc_title, url)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    return _parse_structured_content(content_html, doc_id, url, doc_title)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    for pgroup_div in content_div.select('div.pgroup'):
+                      ^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'select'
+2025-08-24 00:25:28,408 - ERROR - [scripts.adrule.logic.scraper] - 스크레이핑 중 에러 발생: 'str' object has no attribute 'select'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 240, in scrape_and_save
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 185, in parse_law_html
+    logger.info("페이지 최종 렌더링을 잠시 대기합니다...")
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/scraper.py", line 47, in _parse_structured_content
+    chunks = []
+                
+AttributeError: 'str' object has no attribute 'select'

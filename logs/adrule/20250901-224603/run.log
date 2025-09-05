@@ -1,0 +1,5 @@
+2025-09-01 22:46:10,263 - INFO - [scripts.case.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd=1492000
+2025-09-01 22:46:10,816 - INFO - [scripts.case.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd=1492000
+2025-09-01 22:46:15,785 - INFO - [scripts.case.logic.list_scraper] - 총 408 페이지를 확인했습니다.
+2025-09-01 22:46:15,785 - INFO - [scripts.case.logic.list_scraper] - 사용자 설정에 따라 최대 1 페이지만 크롤링합니다.
+2025-09-01 22:46:15,785 - INFO - [scripts.case.logic.list_scraper] - --- 1 / 1 페이지 처리 중 ---

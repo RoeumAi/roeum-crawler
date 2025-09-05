@@ -1,0 +1,17 @@
+2025-08-24 15:02:15,026 - INFO - [__main__] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000245668
+2025-08-24 15:02:15,601 - INFO - [__main__] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-08-24 15:02:15,622 - INFO - [__main__] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-08-24 15:02:15,714 - INFO - [__main__] - 페이지 최종 렌더링을 잠시 대기합니다...
+2025-08-24 15:02:16,717 - INFO - [__main__] - 페이지 HTML 컨텐츠를 가져오는 중...
+2025-08-24 15:02:16,735 - INFO - [__main__] - 데이터 파싱 중...
+2025-08-24 15:02:16,746 - INFO - [__main__] - 디버그용 HTML 소스 저장됨: /Users/woong/Roeum/roeum-crawler/debug/최저임금고시_2025/최저임금고시_2025_page_source.html
+2025-08-24 15:02:16,792 - INFO - [__main__] - 유형 3: PDF 뷰어(iframe) 구조 감지 (OCR 실행)
+2025-08-24 15:02:16,792 - INFO - [__main__] - Viewport 크기를 A4 비율로 변경: 2480x3508
+2025-08-24 15:02:17,803 - INFO - [__main__] - 전체 화면 버튼을 클릭합니다.
+2025-08-24 15:02:17,917 - INFO - [__main__] - 전체 화면 로딩을 대기합니다.
+2025-08-24 15:02:20,933 - INFO - [__main__] - 1개의 PDF 페이지 컨테이너 발견
+2025-08-24 15:02:21,300 - INFO - [__main__] - CLOVA OCR API 호출 시작: /var/folders/fd/zmqk1gyj3y19m4ss5smh5yfm0000gn/T/tmpswfjx58k.png
+2025-08-24 15:02:21,403 - INFO - [__main__] - 디버그용 OCR Raw 텍스트 저장됨: /Users/woong/Roeum/roeum-crawler/debug/최저임금고시_2025/최저임금고시_2025_raw_ocr.txt
+2025-08-24 15:02:21,403 - INFO - [__main__] - 원래 Viewport 크기로 복원
+2025-08-24 15:02:21,412 - INFO - [__main__] - 데이터 1건을 'data/output/최저임금고시_2025_document.jsonl' 파일로 성공적으로 저장했습니다.
+2025-08-24 15:02:21,412 - INFO - [__main__] - 데이터 1건을 'data/output/최저임금고시_2025_chunks.jsonl' 파일로 성공적으로 저장했습니다.

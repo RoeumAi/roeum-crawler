@@ -11,7 +11,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 
-logger = get_logger(__name__, scraper_type='case')
+logger = get_logger(__name__, scraper_type='interpretation')
 
 def build_detail_url(onclick_attr: str):
     """onclick 속성값에서 상세 페이지 URL을 생성합니다."""

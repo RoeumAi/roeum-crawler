@@ -8,7 +8,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 
-logger = get_logger(__name__, scraper_type='case')
+logger = get_logger(__name__, scraper_type='interpretation')
 
 async def check_url_validity(url: str):
     """

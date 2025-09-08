@@ -13,7 +13,7 @@ sys.path.append(project_root)
 from scripts.case.logic.list_scraper import fetch_urls
 from scripts.utils.logger_config import get_logger
 
-logger = get_logger(__name__, scraper_type='case')
+logger = get_logger(__name__, scraper_type='interpretation')
 
 async def main():
     parser = argparse.ArgumentParser(description="판례 목록 페이지에서 판례 URL과 요약 내용을 추출합니다.")

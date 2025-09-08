@@ -14,7 +14,7 @@ sys.path.append(project_root)
 
 # --- 로거 설정 ---
 from scripts.utils.logger_config import get_logger
-logger = get_logger(__name__, scraper_type='case')
+logger = get_logger(__name__, scraper_type='interpretation')
 
 def clean_spaces(text: str) -> str:
     """텍스트에서 불필요한 공백과 줄바꿈을 정리합니다."""

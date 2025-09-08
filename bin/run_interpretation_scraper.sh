@@ -10,10 +10,12 @@ SCRAPER_TYPE="interpretation"
 
 
 DEPT_CODE=$1
+#고용노동부 350101
 MAX_PAGES_ARG=$2
 CONCURRENCY=${3:-5}
 
-LIST_PAGE_URL="https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd=${DEPT_CODE}"
+# cptOfiCd 파라미터를 URL에서 제거하여 깨끗한 상태에서 시작하도록 수정
+LIST_PAGE_URL="https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773"
 RAW_DATA_DIR="${BASE_DIR}/data/raw/${SCRAPER_TYPE}/${DEPT_CODE}"
 FINAL_DATA_DIR="${BASE_DIR}/data/final/${SCRAPER_TYPE}/${DEPT_CODE}"
 LOG_DIR="${BASE_DIR}/logs"
@@ -39,6 +41,7 @@ mkdir -p "${RAW_DATA_DIR}" "${FINAL_DATA_DIR}" "${LOG_DIR}"
 
 # --- 1. URL 유효성 검증 ---
 echo -e "\n>>> 1. URL 유효성을 검증합니다..."
+# 부처 코드를 URL에 직접 넘기는 대신, 스크립트에 별도 인자로 전달하도록 구조 변경 고려 가능 (현재는 python 내부에서 처리)
 python "${SCRIPTS_DIR}/${SCRAPER_TYPE}/runners/run_url_checker.py" "$LIST_PAGE_URL"
 if [ $? -ne 0 ]; then
     echo "!!! URL이 유효하지 않아 스크립트를 중단합니다."
@@ -51,37 +54,16 @@ if [ -n "$MAX_PAGES_ARG" ]; then
     MAX_PAGES_OPTION="--max_pages $MAX_PAGES_ARG"
 fi
 echo -e "\n>>> 2. 목록 페이지에서 URL 추출을 시작합니다..."
+# URL과 별개로 부처 코드를 인자로 전달
 # shellcheck disable=SC2086
-python "${SCRIPTS_DIR}/${SCRAPER_TYPE}/runners/run_list_scraper.py" "$LIST_PAGE_URL" $MAX_PAGES_OPTION -o "${URL_LIST_FILE}"
+python "${SCRIPTS_DIR}/${SCRAPER_TYPE}/runners/run_list_scraper.py" "$LIST_PAGE_URL" --dept_code "$DEPT_CODE" $MAX_PAGES_OPTION -o "${URL_LIST_FILE}"
 if [ ! -f "${URL_LIST_FILE}" ]; then
     echo "!!! '${URL_LIST_FILE}' 파일이 생성되지 않았습니다."
     exit 1
 fi
 
 # --- 3. 상세 페이지 크롤링 ---
-
-# -L 1: 한 번에 한 줄씩 처리
-# -P ${CONCURRENCY}: 동시에 실행할 프로세스 개수
-# -I {}: 읽어온 한 줄을 대체할 플레이스홀더
-
 echo -e "\n>>> 3. 상세 페이지 스크레이핑을 시작합니다..."
-
-#run_single_scraper() {
-#    line="$1"
-#    URL=$(echo "$line" | jq -r ".url")
-#    NAME=$(echo "$line" | jq -r ".name")
-#
-#    echo "   - [병렬 실행 시작] $NAME"
-#    python "${SCRIPTS_DIR}/run_scraper.py" "$URL" -d "${DEPT_CODE}" -o "$NAME"
-#    echo "   - [병렬 실행 완료] $NAME"
-#}
-#
-#export -f run_single_scraper
-#export SCRIPTS_DIR
-#export DEPT_CODE
-#
-#cat "${URL_LIST_FILE}" | xargs -L 1 -P ${CONCURRENCY} -I {} bash -c 'run_single_scraper "{}"'
-
 while IFS= read -r line; do
     URL=$(echo "$line" | jq -r '.url')
     NAME=$(echo "$line" | jq -r '.name')

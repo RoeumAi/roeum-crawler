@@ -23,6 +23,12 @@ option : 페이지 수 1,2,3 혹은 전체는 null
  python scripts/run_list_scraper.py "https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1492000" -o data/raw/urls.jsonl
  option: -p 1
  option: -o filename
+ 
+ 
+ python scripts/interpretation/runners/run_list_scraper.py \
+  "https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773" \
+  --dept_code "350101" \
+  -o "data/raw/interpretation/1492000/urls.jsonl"
   ```
 
 ### url 상세 페이지 스크래퍼 단독 실해 (scraper.py)

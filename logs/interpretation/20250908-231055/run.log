@@ -1,0 +1,33 @@
+2025-09-08 23:10:57,084 - INFO - [scripts.interpretation.logic.list_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773
+2025-09-08 23:10:58,366 - INFO - [scripts.interpretation.logic.list_scraper] - 상세검색 패널을 엽니다.
+2025-09-08 23:10:58,471 - INFO - [scripts.interpretation.logic.list_scraper] - 소관부처를 코드로 선택합니다: 350101
+2025-09-08 23:10:58,499 - INFO - [scripts.interpretation.logic.list_scraper] - 검색 버튼을 클릭하여 필터를 적용합니다.
+2025-09-08 23:10:58,513 - INFO - [scripts.interpretation.logic.list_scraper] - 필터 적용이 완료되었습니다.
+2025-09-08 23:10:58,513 - INFO - [scripts.interpretation.logic.list_scraper] - 페이지 당 표시 항목 수를 50개로 변경합니다.
+2025-09-08 23:11:28,522 - INFO - [scripts.interpretation.logic.list_scraper] - 에러 발생! 디버깅을 위해 스크린샷과 HTML을 저장합니다.
+2025-09-08 23:11:28,522 - INFO - [scripts.interpretation.logic.list_scraper] -   - 스크린샷: /Users/woong/Roeum/roeum-crawler/debug/error_screenshot_20250908_231128.png
+2025-09-08 23:11:28,522 - INFO - [scripts.interpretation.logic.list_scraper] -   - HTML: /Users/woong/Roeum/roeum-crawler/debug/error_page_20250908_231128.html
+2025-09-08 23:11:28,639 - ERROR - [scripts.interpretation.logic.list_scraper] - 목록 스크레이핑 중 에러 발생: Page.select_option: Timeout 30000ms exceeded.
+Call log:
+waiting for locator("select#pageUnit")
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/interpretation/logic/list_scraper.py", line 64, in fetch_urls
+    await page.select_option('select#pageUnit', value='50')
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 10768, in select_option
+    await self._impl_obj.select_option(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_page.py", line 956, in select_option
+    return await self._main_frame.select_option(**params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_frame.py", line 679, in select_option
+    return await self._channel.send("selectOption", params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 59, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_connection.py", line 514, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TimeoutError: Page.select_option: Timeout 30000ms exceeded.
+Call log:
+waiting for locator("select#pageUnit")
+
+2025-09-08 23:11:28,669 - WARNING - [__main__] - 추출된 URL이 없습니다.

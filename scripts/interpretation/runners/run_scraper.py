@@ -17,8 +17,8 @@ async def main():
     """
     커맨드 라인 인자를 받아 스크레이핑 로직을 실행하는 메인 함수.
     """
-    parser = argparse.ArgumentParser(description="국가법령정보센터 판례 페이지를 스크레이핑하여 파일을 저장합니다.")
-    parser.add_argument("url", help="스크레이핑할 판례 페이지의 전체 URL")
+    parser = argparse.ArgumentParser(description="국가법령정보센터 행정해석 페이지를 스크레이핑하여 파일을 저장합니다.")
+    parser.add_argument("url", help="스크레이핑할 행정해석 페이지의 전체 URL")
     # 셸 스크립트에서 -d는 부처 코드를 의미하므로 dept로 변경
     parser.add_argument("-d", "--dept", required=True, help="데이터를 저장할 하위 폴더 이름 (부처 코드)")
     # -o는 출력 파일명을 의미하므로 output으로 변경

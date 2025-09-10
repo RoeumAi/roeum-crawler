@@ -35,6 +35,8 @@ option : 페이지 수 1,2,3 혹은 전체는 null
 - 파일 저장 위치 : /data/raw
 ```Bash
  python scripts/run_scraper.py "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=232959&efYd=20220616" -o "가사근로자법_테스트"
+ 
+ python scripts/interpretation/runners/run_url_checker.py "https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773"
   ```
 
 ### jsonl 파일 csv로 변환 (notion 공유를 위함)

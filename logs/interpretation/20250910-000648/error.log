@@ -1,0 +1,30 @@
+2025-09-10 00:07:11,459 - ERROR - [scripts.interpretation.logic.interpretation_scraper] - 스크레이핑 중 에러 발생: Locator expected not to have text ''
+Actual value: <element(s) not found> 
+Call log:
+LocatorAssertions.not_to_have_text with timeout 20000ms
+  - waiting for locator("#bodyContent h3").first
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/interpretation/logic/interpretation_scraper.py", line 108, in scrape_interpretation_data
+    await expect(detail_title_locator.first).not_to_have_text(current_detail_title, timeout=20000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 19211, in not_to_have_text
+    await self._impl_obj.not_to_have_text(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 506, in not_to_have_text
+    await self._not.to_have_text(expected, useInnerText, timeout, ignoreCase)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 481, in to_have_text
+    await self._expect_impl(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 74, in _expect_impl
+    raise AssertionError(
+AssertionError: Locator expected not to have text ''
+Actual value: <element(s) not found> 
+Call log:
+LocatorAssertions.not_to_have_text with timeout 20000ms
+  - waiting for locator("#bodyContent h3").first
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+

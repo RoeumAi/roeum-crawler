@@ -1,0 +1,43 @@
+2025-09-10 00:06:48,512 - INFO - [__main__] - 통합 스크레이퍼 실행...
+2025-09-10 00:06:49,580 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 목록 페이지로 이동 중: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773
+2025-09-10 00:06:50,886 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 상세검색 패널을 엽니다.
+2025-09-10 00:06:50,963 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 소관부처를 코드로 선택합니다: 350101
+2025-09-10 00:06:50,976 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 검색 버튼을 클릭하여 필터를 적용합니다.
+2025-09-10 00:06:50,987 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 필터가 적용된 페이지 로딩을 기다립니다...
+2025-09-10 00:06:51,357 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 필터 적용이 완료되었습니다.
+2025-09-10 00:06:51,362 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 총 9574개 항목, 192 페이지를 확인했습니다.
+2025-09-10 00:06:51,363 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 사용자 설정에 따라 최대 2 페이지만 크롤링합니다.
+2025-09-10 00:06:51,363 - INFO - [scripts.interpretation.logic.interpretation_scraper] - --- 1 / 2 페이지 처리 중 ---
+2025-09-10 00:07:11,459 - ERROR - [scripts.interpretation.logic.interpretation_scraper] - 스크레이핑 중 에러 발생: Locator expected not to have text ''
+Actual value: <element(s) not found> 
+Call log:
+LocatorAssertions.not_to_have_text with timeout 20000ms
+  - waiting for locator("#bodyContent h3").first
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/interpretation/logic/interpretation_scraper.py", line 108, in scrape_interpretation_data
+    await expect(detail_title_locator.first).not_to_have_text(current_detail_title, timeout=20000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 19211, in not_to_have_text
+    await self._impl_obj.not_to_have_text(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 506, in not_to_have_text
+    await self._not.to_have_text(expected, useInnerText, timeout, ignoreCase)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 481, in to_have_text
+    await self._expect_impl(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 74, in _expect_impl
+    raise AssertionError(
+AssertionError: Locator expected not to have text ''
+Actual value: <element(s) not found> 
+Call log:
+LocatorAssertions.not_to_have_text with timeout 20000ms
+  - waiting for locator("#bodyContent h3").first
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+  -   locator resolved to <h3 data-brl-use="PH/H2">…</h3>
+  -   unexpected value "  "
+
+2025-09-10 00:07:11,554 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 에러 스크린샷 저장: /Users/woong/Roeum/roeum-crawler/debug/error_screenshot_20250910_000711.png
+2025-09-10 00:07:11,578 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 스크레이핑 완료. 데이터는 'data/raw/interpretation/350101/350101_documents.jsonl'에 저장되었습니다.
+2025-09-10 00:07:11,581 - INFO - [__main__] - 통합 스크레이퍼 완료.

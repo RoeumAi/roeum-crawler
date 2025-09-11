@@ -1,0 +1,183 @@
+2025-09-11 21:09:30,650 - INFO - [scripts.interpretation.logic.url_checker] - URL 유효성 검사를 위해 페이지로 이동합니다: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773
+2025-09-11 21:09:31,957 - INFO - [scripts.interpretation.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773
+2025-09-11 21:09:32,115 - INFO - [__main__] - 통합 스크레이퍼 실행...
+2025-09-11 21:09:32,115 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 스크레이핑 프로세스를 시작합니다.
+2025-09-11 21:09:33,357 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 시작 페이지로 이동합니다: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773
+2025-09-11 21:09:35,232 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 페이지 이동 완료.
+2025-09-11 21:09:35,334 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 초기 총 항목 텍스트: '155,146'
+2025-09-11 21:09:35,335 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 상세검색 패널을 엽니다.
+2025-09-11 21:09:35,384 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 부처 코드를 선택합니다: 350101
+2025-09-11 21:09:35,483 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 검색 버튼을 클릭하여 필터를 적용합니다.
+2025-09-11 21:09:35,524 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 필터 적용 후 페이지가 업데이트되기를 기다립니다...
+2025-09-11 21:09:36,073 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 필터 적용 완료.
+2025-09-11 21:09:36,084 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 총 9574개 항목, 192 페이지를 확인했습니다.
+2025-09-11 21:09:36,084 - INFO - [scripts.interpretation.logic.interpretation_scraper] - --- 페이지 처리 시작: 1 / 192 ---
+2025-09-11 21:09:36,110 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 현재 페이지에서 50개의 클릭 가능한 항목을 찾았습니다.
+2025-09-11 21:09:36,110 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [1/50] 항목 처리 중: javascript:cgmExpcView('28212', '350101');return false;
+2025-09-11 21:09:47,432 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 28212_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:48,709 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [2/50] 항목 처리 중: javascript:cgmExpcView('314616', '350101');return false;
+2025-09-11 21:09:48,810 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314616_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:50,069 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [3/50] 항목 처리 중: javascript:cgmExpcView('279490', '350101');return false;
+2025-09-11 21:09:50,172 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 279490_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:51,332 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [4/50] 항목 처리 중: javascript:cgmExpcView('30332', '350101');return false;
+2025-09-11 21:09:51,432 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 30332_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:52,382 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [5/50] 항목 처리 중: javascript:cgmExpcView('1968', '350101');return false;
+2025-09-11 21:09:52,480 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 1968_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:53,168 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [6/50] 항목 처리 중: javascript:cgmExpcView('315444', '350101');return false;
+2025-09-11 21:09:53,266 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 315444_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:53,858 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [7/50] 항목 처리 중: javascript:cgmExpcView('12980', '350101');return false;
+2025-09-11 21:09:53,937 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12980_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:54,727 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [8/50] 항목 처리 중: javascript:cgmExpcView('12844', '350101');return false;
+2025-09-11 21:09:54,827 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12844_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:55,447 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [9/50] 항목 처리 중: javascript:cgmExpcView('17616', '350101');return false;
+2025-09-11 21:09:55,567 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 17616_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:56,550 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [10/50] 항목 처리 중: javascript:cgmExpcView('214078', '350101');return false;
+2025-09-11 21:09:56,649 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 214078_06.1.1 이후 채용시 건강진단 비용의 산업안전보건관리비 사용가능 여부.jsonl
+2025-09-11 21:09:58,061 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [11/50] 항목 처리 중: javascript:cgmExpcView('28970', '350101');return false;
+2025-09-11 21:09:58,166 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 28970_‘06.5.18자로 직업안정법 제21조 위반으로 등록취소된 사업자의 딸이 다른 장소에 유료.jsonl
+2025-09-11 21:09:59,229 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [12/50] 항목 처리 중: javascript:cgmExpcView('27714', '350101');return false;
+2025-09-11 21:09:59,349 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 27714_‘06.5.18자로 직업안정법 제21조 위반으로 등록취소된 사업자의 딸이 다른 장소에 유료.jsonl
+2025-09-11 21:10:00,537 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [13/50] 항목 처리 중: javascript:cgmExpcView('16136', '350101');return false;
+2025-09-11 21:10:00,636 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 16136_‘06.5.18자로 직업안정법 제21조 위반으로 등록취소된 사업자의 딸이 다른 장소에 유료.jsonl
+2025-09-11 21:10:01,202 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [14/50] 항목 처리 중: javascript:cgmExpcView('314412', '350101');return false;
+2025-09-11 21:10:01,291 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314412_100분의 80이상 이수후 취업자에 대한 훈련수당 지급여부.jsonl
+2025-09-11 21:10:02,455 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [15/50] 항목 처리 중: javascript:cgmExpcView('29242', '350101');return false;
+2025-09-11 21:10:02,547 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 29242_10인 미만의 사업장에서 취업규칙을 불이익하게 변경하는 경우에도 근로자의 집단적 동의를 얻.jsonl
+2025-09-11 21:10:03,227 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [16/50] 항목 처리 중: javascript:cgmExpcView('29096', '350101');return false;
+2025-09-11 21:10:03,335 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 29096_10. 표창과 제재에 관한 사항 11. 기타 당해 사업 또는 사업장의 근로자 전체에 적용될.jsonl
+2025-09-11 21:10:04,467 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [17/50] 항목 처리 중: javascript:cgmExpcView('17076', '350101');return false;
+2025-09-11 21:10:04,551 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 17076_100억원 이상 하도급 계약 안전관리자 선임.jsonl
+2025-09-11 21:10:05,772 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [18/50] 항목 처리 중: javascript:cgmExpcView('237372', '350101');return false;
+2025-09-11 21:10:05,878 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 237372_119안전센터장이 업무총괄자에 해당하는지 여부.jsonl
+2025-09-11 21:10:06,995 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [19/50] 항목 처리 중: javascript:cgmExpcView('15234', '350101');return false;
+2025-09-11 21:10:07,092 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15234_114안내 재택근무요원이 근로자인지 여부.jsonl
+2025-09-11 21:10:08,216 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [20/50] 항목 처리 중: javascript:cgmExpcView('11684', '350101');return false;
+2025-09-11 21:10:08,311 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 11684_114안내 재택근무요원이 근로자인지 여부.jsonl
+2025-09-11 21:10:09,023 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [21/50] 항목 처리 중: javascript:cgmExpcView('15156', '350101');return false;
+2025-09-11 21:10:09,107 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15156_114안내 재택근무요원이 근로자인지 여부.jsonl
+2025-09-11 21:10:09,707 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [22/50] 항목 처리 중: javascript:cgmExpcView('279762', '350101');return false;
+2025-09-11 21:10:09,791 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 279762_120억원 미만 2개 현장 안전관리자 중복 배치여부.jsonl
+2025-09-11 21:10:11,167 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [23/50] 항목 처리 중: javascript:cgmExpcView('237200', '350101');return false;
+2025-09-11 21:10:11,396 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 237200_154KV관련 공사의 공사종류 등에 대한 회시.jsonl
+2025-09-11 21:10:12,683 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [24/50] 항목 처리 중: javascript:cgmExpcView('14920', '350101');return false;
+2025-09-11 21:10:12,782 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 14920_154KV관련 공사의 공사종류 등에 대한 회시.jsonl
+2025-09-11 21:10:13,930 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [25/50] 항목 처리 중: javascript:cgmExpcView('314120', '350101');return false;
+2025-09-11 21:10:14,022 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314120_1992.7월부터 1996.6월까지 약 4년간 법인체 직업안내소 대표이사로 근무한 경력이 .jsonl
+2025-09-11 21:10:14,589 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [26/50] 항목 처리 중: javascript:cgmExpcView('2324', '350101');return false;
+2025-09-11 21:10:14,684 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 2324_1992.7월부터 1996.6월까지 약 4년간 법인체 직업안내소 대표이사로 근무한 경력이 .jsonl
+2025-09-11 21:10:16,159 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [27/50] 항목 처리 중: javascript:cgmExpcView('27102', '350101');return false;
+2025-09-11 21:10:16,257 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 27102_1992.7월부터 1996.6월까지 약 4년간 법인체 직업안내소 대표이사로 근무한 경력이 .jsonl
+2025-09-11 21:10:16,883 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [28/50] 항목 처리 중: javascript:cgmExpcView('12894', '350101');return false;
+2025-09-11 21:10:16,952 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12894_1992.7월부터 1996.6월까지 약 4년간 법인체 직업안내소 대표이사로 근무한 경력이 .jsonl
+2025-09-11 21:10:17,735 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [29/50] 항목 처리 중: javascript:cgmExpcView('314212', '350101');return false;
+2025-09-11 21:10:17,825 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314212_1개 병원은 노동조합의 대표자가 근로자대표로, 1개 병원은 자체 선출된 사람이 각각 산업안.jsonl
+2025-09-11 21:10:18,916 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [30/50] 항목 처리 중: javascript:cgmExpcView('15180', '350101');return false;
+2025-09-11 21:10:19,013 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15180_1개 병원은 노동조합의 대표자가 근로자대표로, 1개 병원은 자체 선출된 사람이 각각 산업안.jsonl
+2025-09-11 21:10:20,231 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [31/50] 항목 처리 중: javascript:cgmExpcView('12574', '350101');return false;
+2025-09-11 21:10:20,326 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12574_1년간의 연장·야간·휴일근로시간을 계산하여 다음연도에 선택적 보상휴가를 부여하고 미사용분에.jsonl
+2025-09-11 21:10:21,431 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [32/50] 항목 처리 중: javascript:cgmExpcView('13036', '350101');return false;
+2025-09-11 21:10:21,597 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 13036_1개월을 초과하는 주기로 지급하는 임금을 총액의 변동 없이 매월 지급하는 것으로 취업규칙을.jsonl
+2025-09-11 21:10:22,937 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [33/50] 항목 처리 중: javascript:cgmExpcView('18244', '350101');return false;
+2025-09-11 21:10:23,058 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 18244_1개월을 초과하는 주기로 지급하는 임금을 총액의 변동 없이 매월 지급하는 것으로 취업규칙을.jsonl
+2025-09-11 21:10:23,975 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [34/50] 항목 처리 중: javascript:cgmExpcView('18246', '350101');return false;
+2025-09-11 21:10:24,083 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 18246_1년간 근속한 근로자가 연차유급휴가를 청구할 수 있는지 여부.jsonl
+2025-09-11 21:10:25,465 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [35/50] 항목 처리 중: javascript:cgmExpcView('11390', '350101');return false;
+2025-09-11 21:10:25,744 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 11390_1년간 정년연장하는 조합원의 자격유지 여부.jsonl
+2025-09-11 21:10:26,564 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [36/50] 항목 처리 중: javascript:cgmExpcView('13022', '350101');return false;
+2025-09-11 21:10:26,897 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 13022_1년간 정년연장하는 조합원의 자격유지 여부.jsonl
+2025-09-11 21:10:28,312 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [37/50] 항목 처리 중: javascript:cgmExpcView('12776', '350101');return false;
+2025-09-11 21:10:28,445 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12776_1년간 지급받은 상여금을 평균임금 대상금품에 산입하는 방법.jsonl
+2025-09-11 21:10:29,402 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [38/50] 항목 처리 중: javascript:cgmExpcView('17460', '350101');return false;
+2025-09-11 21:10:29,498 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 17460_1년 단위로 기간제노동자 채용 시 계속근로기간 등.jsonl
+2025-09-11 21:10:31,001 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [39/50] 항목 처리 중: javascript:cgmExpcView('22006', '350101');return false;
+2025-09-11 21:10:31,100 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 22006_1년 단위로 기간제노동자 채용 시 계속근로기간 등.jsonl
+2025-09-11 21:10:32,168 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [40/50] 항목 처리 중: javascript:cgmExpcView('15082', '350101');return false;
+2025-09-11 21:10:32,274 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15082_1년 동안 단체협약을 체결하지 못하였으나 다른 노동조합의 교섭요구가 없는 경우 교섭대표노동.jsonl
+2025-09-11 21:10:32,789 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [41/50] 항목 처리 중: javascript:cgmExpcView('315004', '350101');return false;
+2025-09-11 21:10:32,878 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 315004_1년 동안 단체협약을 체결하지 못하였으나 다른 노동조합의 교섭요구가 없는 경우 교섭대표노동.jsonl
+2025-09-11 21:10:33,694 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [42/50] 항목 처리 중: javascript:cgmExpcView('12998', '350101');return false;
+2025-09-11 21:10:33,792 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12998_1년 미만 근로자의 재계약에 따른 계속근로 인정여부 및 퇴직금 산정방법.jsonl
+2025-09-11 21:10:35,050 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [43/50] 항목 처리 중: javascript:cgmExpcView('314260', '350101');return false;
+2025-09-11 21:10:35,231 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314260_1년 미만 근로자의 재계약에 따른 계속근로 인정여부 및 퇴직금 산정방법.jsonl
+2025-09-11 21:10:35,913 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [44/50] 항목 처리 중: javascript:cgmExpcView('11450', '350101');return false;
+2025-09-11 21:10:36,046 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 11450_1년 미만 근로자의 재계약에 따른 계속근로 인정여부 및 퇴직금 산정방법.jsonl
+2025-09-11 21:10:37,345 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [45/50] 항목 처리 중: javascript:cgmExpcView('214206', '350101');return false;
+2025-09-11 21:10:37,530 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 214206_1년 미만 단기계약근로자에 대한 휴일.휴가제도의 적용방법.jsonl
+2025-09-11 21:10:38,291 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [46/50] 항목 처리 중: javascript:cgmExpcView('21986', '350101');return false;
+2025-09-11 21:10:38,593 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 21986_1년 미만 근무한 근로자가 연차유급휴가를 사용하지 않고 퇴사한 경우 연차유급휴가 미사용수당.jsonl
+2025-09-11 21:10:39,262 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [47/50] 항목 처리 중: javascript:cgmExpcView('313986', '350101');return false;
+2025-09-11 21:10:39,506 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 313986_1년 미만 근무한 근로자가 연차유급휴가를 사용하지 않고 퇴사한 경우 연차유급휴가 미사용수당.jsonl
+2025-09-11 21:10:40,787 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [48/50] 항목 처리 중: javascript:cgmExpcView('12454', '350101');return false;
+2025-09-11 21:10:40,895 - WARNING - [scripts.interpretation.logic.interpretation_scraper] - Subtitle 파싱 실패: [고용노동부]
+2025-09-11 21:10:41,041 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 12454_1년 미만자의 연차휴가 사용촉진.jsonl
+2025-09-11 21:10:41,557 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [49/50] 항목 처리 중: javascript:cgmExpcView('16904', '350101');return false;
+2025-09-11 21:10:41,629 - WARNING - [scripts.interpretation.logic.interpretation_scraper] - Subtitle 파싱 실패: [고용노동부]
+2025-09-11 21:10:41,748 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 16904_1년 미만자의 연차휴가 사용촉진.jsonl
+2025-09-11 21:10:42,912 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [50/50] 항목 처리 중: javascript:cgmExpcView('2280', '350101');return false;
+2025-09-11 21:10:42,956 - WARNING - [scripts.interpretation.logic.interpretation_scraper] - Subtitle 파싱 실패: [고용노동부]
+2025-09-11 21:10:43,015 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 2280_1년 미만자의 연차휴가 사용촉진.jsonl
+2025-09-11 21:10:43,708 - INFO - [scripts.interpretation.logic.interpretation_scraper] - --- 페이지 처리 완료: 1 / 192 ---
+2025-09-11 21:10:43,708 - INFO - [scripts.interpretation.logic.interpretation_scraper] - --- 페이지 처리 시작: 2 / 192 ---
+2025-09-11 21:10:43,708 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 2 페이지로 이동합니다...
+2025-09-11 21:11:00,752 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 2 페이지로 성공적으로 이동했습니다.
+2025-09-11 21:11:00,771 - INFO - [scripts.interpretation.logic.interpretation_scraper] - 현재 페이지에서 50개의 클릭 가능한 항목을 찾았습니다.
+2025-09-11 21:11:00,773 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [1/50] 항목 처리 중: javascript:cgmExpcView('2282', '350101');return false;
+2025-09-11 21:11:00,906 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 2282_1일 소정근로시간 초과한 근로시간면제 활동의 유급처리여부.jsonl
+2025-09-11 21:11:01,477 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [2/50] 항목 처리 중: javascript:cgmExpcView('214258', '350101');return false;
+2025-09-11 21:11:01,561 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 214258_1일 소정근로시간 초과한 근로시간면제 활동의 유급처리여부.jsonl
+2025-09-11 21:11:02,951 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [3/50] 항목 처리 중: javascript:cgmExpcView('22434', '350101');return false;
+2025-09-11 21:11:03,254 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 22434_1일 안전교육 참가시 당일 임금을 교육비로 지급여부.jsonl
+2025-09-11 21:11:04,753 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [4/50] 항목 처리 중: javascript:cgmExpcView('13086', '350101');return false;
+2025-09-11 21:11:05,136 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 13086_1일 안전교육 참가시 당일 임금을 교육비로 지급여부.jsonl
+2025-09-11 21:11:05,677 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [5/50] 항목 처리 중: javascript:cgmExpcView('314000', '350101');return false;
+2025-09-11 21:11:05,857 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314000_1일 안전교육 참가시 당일 임금을 교육비로 지급여부.jsonl
+2025-09-11 21:11:06,696 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [6/50] 항목 처리 중: javascript:cgmExpcView('28292', '350101');return false;
+2025-09-11 21:11:06,827 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 28292_1주간 주중 근로와 주말 근로의 근로시간이 다른 경우 감시·단속 적 근로 종사자에 대한 적.jsonl
+2025-09-11 21:11:08,183 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [7/50] 항목 처리 중: javascript:cgmExpcView('22366', '350101');return false;
+2025-09-11 21:11:08,372 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 22366_1주간 소정근로시간이 39시간일 때 개정 근로기준법상 단시간근로자인지 여부.jsonl
+2025-09-11 21:11:09,325 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [8/50] 항목 처리 중: javascript:cgmExpcView('315198', '350101');return false;
+2025-09-11 21:11:09,460 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 315198_1주일을 월력에 의한 일요일부터 토요일까지로 보아야 하는지.jsonl
+2025-09-11 21:11:10,512 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [9/50] 항목 처리 중: javascript:cgmExpcView('22364', '350101');return false;
+2025-09-11 21:11:10,590 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 22364_1차 및 2차 검사의 건강진단기관 분리실시 가능여부.jsonl
+2025-09-11 21:11:11,486 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [10/50] 항목 처리 중: javascript:cgmExpcView('213914', '350101');return false;
+2025-09-11 21:11:11,584 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 213914_1차 및 2차 검사의 건강진단기관 분리실시 가능여부.jsonl
+2025-09-11 21:11:12,777 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [11/50] 항목 처리 중: javascript:cgmExpcView('21966', '350101');return false;
+2025-09-11 21:11:12,940 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 21966_1차 및 2차 검사의 건강진단기관 분리실시 가능여부.jsonl
+2025-09-11 21:11:13,677 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [12/50] 항목 처리 중: javascript:cgmExpcView('28962', '350101');return false;
+2025-09-11 21:11:13,794 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 28962_(1) 통역사가 「기간제 및 단시간근로자 보호 등에 관한 법률」 (이하 ‘기간제법’) 시행.jsonl
+2025-09-11 21:11:14,981 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [13/50] 항목 처리 중: javascript:cgmExpcView('313600', '350101');return false;
+2025-09-11 21:11:15,076 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 313600_1회의 감급사유에 대한 감급액의 적용방법.jsonl
+2025-09-11 21:11:16,359 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [14/50] 항목 처리 중: javascript:cgmExpcView('28182', '350101');return false;
+2025-09-11 21:11:16,686 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 28182_1회의 감급사유에 대한 감급액의 적용방법.jsonl
+2025-09-11 21:11:17,751 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [15/50] 항목 처리 중: javascript:cgmExpcView('23602', '350101');return false;
+2025-09-11 21:11:18,029 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 23602_2001. 1. 1 이전 착공공사로 안전관리자 선임시 기술지도 제외 여부.jsonl
+2025-09-11 21:11:18,592 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [16/50] 항목 처리 중: javascript:cgmExpcView('314818', '350101');return false;
+2025-09-11 21:11:19,018 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314818_2006. 9. 7. 인천해양경찰서의 행정처분 의뢰에 따라, 2006.10.10 유료직업소.jsonl
+2025-09-11 21:11:20,163 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [17/50] 항목 처리 중: javascript:cgmExpcView('15282', '350101');return false;
+2025-09-11 21:11:20,620 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15282_2001. 1. 1 이전에 착공된 공사현장에서 퇴직한 안전관리자 대신 기술지도로 대체 가능.jsonl
+2025-09-11 21:11:21,826 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [18/50] 항목 처리 중: javascript:cgmExpcView('314270', '350101');return false;
+2025-09-11 21:11:22,181 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314270_2008.12월~2009.5.15.까지는 일반 기간제근로자로, 2009.5.18.~ 200.jsonl
+2025-09-11 21:11:22,842 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [19/50] 항목 처리 중: javascript:cgmExpcView('15114', '350101');return false;
+2025-09-11 21:11:23,647 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15114_2008.12월~2009.5.15.까지는 일반 기간제근로자로, 2009.5.18.~ 200.jsonl
+2025-09-11 21:11:24,221 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [20/50] 항목 처리 중: javascript:cgmExpcView('15196', '350101');return false;
+2025-09-11 21:11:24,611 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 15196_2008.12월~2009.5.15.까지는 일반 기간제근로자로, 2009.5.18.~ 200.jsonl
+2025-09-11 21:11:25,309 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [21/50] 항목 처리 중: javascript:cgmExpcView('315334', '350101');return false;
+2025-09-11 21:11:26,104 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 315334_2008.12월~2009.5.15.까지는 일반 기간제근로자로, 2009.5.18.~ 200.jsonl
+2025-09-11 21:11:26,942 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [22/50] 항목 처리 중: javascript:cgmExpcView('315038', '350101');return false;
+2025-09-11 21:11:27,244 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 315038_20억원 미만 공사에서 관리책임자 및 무자격 안전관리자 업무수당 사용여부.jsonl
+2025-09-11 21:11:28,117 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [23/50] 항목 처리 중: javascript:cgmExpcView('314772', '350101');return false;
+2025-09-11 21:11:28,583 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 314772_20억 미만 공사에서의 안전관리자 선임.jsonl
+2025-09-11 21:11:29,344 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [24/50] 항목 처리 중: javascript:cgmExpcView('30598', '350101');return false;
+2025-09-11 21:11:29,624 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 30598_2010.7.1. 이후 노조 상근간부의 신분과 처우 및 근로시간면제 한도 초과인원에 대한 .jsonl
+2025-09-11 21:11:30,755 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [25/50] 항목 처리 중: javascript:cgmExpcView('29006', '350101');return false;
+2025-09-11 21:11:31,161 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 29006_21가지 장소 해당 여부.jsonl
+2025-09-11 21:11:32,579 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [26/50] 항목 처리 중: javascript:cgmExpcView('214104', '350101');return false;
+2025-09-11 21:11:33,018 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 214104_21가지 장소 해당 여부.jsonl
+2025-09-11 21:11:34,019 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [27/50] 항목 처리 중: javascript:cgmExpcView('9130', '350101');return false;
+2025-09-11 21:11:34,595 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 9130_20억원 미만 공사에서 관리책임자 및 무자격 안전관리자 업무수당 사용여부.jsonl
+2025-09-11 21:11:35,260 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [28/50] 항목 처리 중: javascript:cgmExpcView('9528', '350101');return false;
+2025-09-11 21:11:35,542 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 9528_24시간 격일제근로로 적용제외 승인을 받은 경우, 3일 연속 근무가 승인취소의 사유가 되는.jsonl
+2025-09-11 21:11:36,500 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [29/50] 항목 처리 중: javascript:cgmExpcView('9240', '350101');return false;
+2025-09-11 21:11:36,673 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 9240_24시간 격일제근로로 적용제외 승인을 받은 경우, 3일 연속 근무가 승인취소의 사유가 되는.jsonl
+2025-09-11 21:11:37,350 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - [30/50] 항목 처리 중: javascript:cgmExpcView('9192', '350101');return false;
+2025-09-11 21:11:37,496 - INFO - [scripts.interpretation.logic.interpretation_scraper] -   - 저장 완료: 9192_24시간 격일제 근로의 경우 1주간의 비번일 중 1일을 유급처리 시 별도로 주휴일을 부여해.jsonl

@@ -29,7 +29,7 @@ async def main():
     output_dir = os.path.join(project_root, 'data', 'raw', 'case', args.dept)
 
     logger.info(f"상세 페이지 스크레이퍼 실행: {args.url}")
-    await scrape_and_save(args.url, output_dir, args.output)
+    await scrape_and_save(args.url, output_dir, args.output, process_chunks=False)
     logger.info(f"상세 페이지 스크레이퍼 완료: {args.output}")
 
 if __name__ == "__main__":

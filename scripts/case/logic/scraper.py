@@ -98,8 +98,11 @@ def parse_case_law_content(html: str, doc_id: str, url: str, doc_title: str):
     chunks = [chunk for chunk in chunks if chunk.get("text")]
     return chunks
 
-async def scrape_and_save(url: str, output_dir: str, output_name: str):
-    """웹페이지 컨텐츠를 가져와 document와 chunk로 나누어 파일로 저장합니다."""
+async def scrape_and_save(url: str, output_dir: str, output_name: str, process_chunks: bool = True):
+    """
+    웹페이지 컨텐츠를 가져와 document와 chunk로 나누어 파일로 저장합니다.
+    process_chunks 파라미터가 False일 경우, document 정보만 저장하고 chunk 처리는 건너뜁니다.
+    """
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
@@ -109,11 +112,15 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str):
 
             logger.info("제목과 본문 콘텐츠가 로드되기를 기다립니다...")
             await page.locator('#contentBody h2').wait_for(timeout=30000)
-            await page.locator('#conScroll').wait_for(timeout=30000)
+
+            # [수정] 청크를 처리하지 않을 때는 conScroll을 기다릴 필요가 없으므로 분리
+            if process_chunks:
+                await page.locator('#conScroll').wait_for(timeout=30000)
+
             logger.info("콘텐츠 로드 완료.")
 
             doc_title = clean_spaces(await page.locator('#contentBody h2').text_content())
-            doc_subtitle = clean_spaces(await page.locator('#subtit1, div.subtit2').first.text_content())
+            doc_subtitle = clean_spaces(await page.locator('.subtit1, div.subtit2').first.text_content())
             doc_id = get_doc_id_from_url(url)
             if not doc_id:
                 logger.error("URL에서 doc_id(precSeq)를 추출하지 못했습니다.")
@@ -124,18 +131,25 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str):
                 "subtitle": doc_subtitle, "source_url": url
             }
 
-            content_html = await page.locator('#conScroll').inner_html()
-            chunks = parse_case_law_content(content_html, doc_id, url, doc_title)
-
+            # document 데이터는 항상 저장
             doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
-            chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
-
             if document_data.get("title"):
                 save_to_file(document_data, doc_filename)
-            if chunks:
-                save_to_file(chunks, chunk_filename)
+
+            # [추가] process_chunks 플래그에 따라 청크 처리를 분기
+            if process_chunks:
+                logger.info("청크(chunks) 데이터 처리 중...")
+                content_html = await page.locator('#conScroll').inner_html()
+                chunks = parse_case_law_content(content_html, doc_id, url, doc_title)
+
+                chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
+                if chunks:
+                    save_to_file(chunks, chunk_filename)
+                else:
+                    logger.warning("페이지에서 청크 데이터를 찾지 못했습니다.")
             else:
-                logger.warning("페이지에서 청크 데이터를 찾지 못했습니다.")
+                logger.info("`process_chunks`가 False이므로 청크(chunks) 처리를 건너뜁니다.")
+
         except Exception as e:
             logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
             debug_dir = os.path.join(project_root, 'debug')
@@ -148,7 +162,6 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str):
             logger.info(f"에러 스크린샷: {screenshot_path}, HTML: {html_path}")
         finally:
             await browser.close()
-
 def save_to_file(data, filename):
     """파싱된 데이터를 JSONL 형식으로 파일에 저장합니다."""
     if not isinstance(data, list): data = [data]

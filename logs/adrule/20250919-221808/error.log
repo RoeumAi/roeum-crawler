@@ -1,0 +1,152 @@
+2025-09-19 22:18:42,870 - ERROR - [scripts.adrule.logic.list_scraper] - 스크레이핑 중 예상치 못한 에러 발생: Locator expected to be hidden
+Actual value: False 
+Call log:
+LocatorAssertions.to_be_hidden with timeout 30000ms
+  - waiting for locator("#resultAdmRulTableDiv tbody tr:first-child a").first
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('2025년도 건설업 월평균보수','2100000252102','N');return false;"> 2025년도 건설업 월평균보수</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('2025년도 건설업 월평균보수','2100000252102','N');return false;"> 2025년도 건설업 월평균보수</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/adrule/logic/list_scraper.py", line 89, in fetch_urls
+    await expect(first_link_before).to_be_hidden(timeout=30000)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/async_api/_generated.py", line 19536, in to_be_hidden
+    await self._impl_obj.to_be_hidden(timeout=timeout)
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 642, in to_be_hidden
+    await self._expect_impl(
+  File "/Users/woong/Roeum/roeum-crawler/.venv/lib/python3.11/site-packages/playwright/_impl/_assertions.py", line 74, in _expect_impl
+    raise AssertionError(
+AssertionError: Locator expected to be hidden
+Actual value: False 
+Call log:
+LocatorAssertions.to_be_hidden with timeout 30000ms
+  - waiting for locator("#resultAdmRulTableDiv tbody tr:first-child a").first
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('2025년도 건설업 월평균보수','2100000252102','N');return false;"> 2025년도 건설업 월평균보수</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('2025년도 건설업 월평균보수','2100000252102','N');return false;"> 2025년도 건설업 월평균보수</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+  -   locator resolved to <a href="#AJAX" onclick="javascript:admRulReturnSearch('고용노동부 규제심사위원회 운영규정','2100000241896','Y');return false;"> 고용노동부 규제심사위원회 운영규정</a>
+  -   unexpected value "visible"
+

@@ -1,0 +1,240 @@
+2025-09-20 01:03:45,224 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:03:50,821 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:06:34,787 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:06:40,975 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:08:53,440 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:08:58,023 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:11:11,055 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:11:16,014 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:13:20,142 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:13:26,001 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:15:31,794 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:15:37,553 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:18:18,469 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:18:25,959 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:20:42,561 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:20:48,289 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:23:01,267 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:23:07,762 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:25:18,084 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:25:23,658 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:27:28,600 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:27:33,729 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:29:35,271 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:29:39,977 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:31:38,825 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 01:31:43,934 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특정경제범죄가중처벌등에관한법률위반(사기)·특정경제범죄가중처벌등에관한법률위반(횡령)·상법위반·공전자기록등불실기재·불실기재공전자기록등행사·국가기술자격법위반·건설산업기본법위반·위계공무집행방해·범죄수익은닉의규제및처벌등에관한법률위반·뇌물공여·사기·부정처사후수뢰·공전자기록등위작·위작공전자기록등행사·허위공문서작성·허위작성공문서행사·뇌물수수·제3자뇌물수수·특정범죄가중처벌등에관한법률위반(알선수재)·직권남용권리행사방해·부패방지및국민권익위원회의설치와운영에관한법률위반·공무상비밀누설·제3자뇌물취득 [대법원 2017도14104 선고 2023. 1. 12. 판결]_document.jsonl'
+2025-09-20 05:31:07,461 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+2025-09-20 05:33:03,232 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+2025-09-20 05:34:56,944 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+2025-09-20 05:36:52,335 - ERROR - [scripts.case.logic.scraper] - 스크레이핑 중 에러 발생: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'
+Traceback (most recent call last):
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 137, in scrape_and_save
+    save_to_file(document_data, doc_filename)
+  File "/Users/woong/Roeum/roeum-crawler/scripts/case/logic/scraper.py", line 169, in save_to_file
+    with open(filename, 'w', encoding='utf-8') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: '/Users/woong/Roeum/roeum-crawler/data/raw/case/1492000/특수공무집행방해치상(피고인10,16,17,19를제외한나머지피고인들에대하여일부인정된죄명특수공무집행방해)·폭력행위등처벌에관한법률위반(집단·흉기등퇴거불응)·폭력행위등처벌에관한법률위반(집단·흉기등상해)[피고인16,19를제외한나머지피고인들에대하여일부인정된죄명폭력행위등처벌에관한법률위반(집단·흉기등폭행)]·폭력행위등처벌에관한법률위반(집단·흉기등체포)·특수체포치상·화염병사용등의처벌에관한법률위반·업무방해·폭력행위등처벌에관한법률위반(집단·흉기등재물손괴등)[피고인6,10에대하여일부인정된죄명폭력행위등처벌에관한법률위반(공동재물손괴등)]·폭력행위등처벌에관한법률위반(공동재물손괴등)·폭력행위등처벌에관한법률위반(공동상해)·폭력행위등처벌에관한법률위반(공동폭행)·총포·도검·화약류등단속법위반 [대법원 2010도11030 선고 2011. 1. 27. 판결]_document.jsonl'

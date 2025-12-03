@@ -1,0 +1,1311 @@
+2025-09-19 22:53:16,510 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-09-19 22:53:16,752 - INFO - [scripts.adrule.logic.list_scraper] - 스크레이핑을 시작합니다...
+2025-09-19 22:53:17,162 - INFO - [scripts.adrule.logic.list_scraper] - 시작 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-09-19 22:53:18,462 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-09-19 22:53:18,462 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 9 페이지 처리 중 ---
+2025-09-19 22:53:18,499 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['2025년도 건설업 월평균보수', '2100000252102', 'N']
+2025-09-19 22:53:18,499 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,499 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252102']
+2025-09-19 22:53:18,508 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['2025년도 사업종류별 산재보험료율', '2100000251996', 'N']
+2025-09-19 22:53:18,508 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,508 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251996']
+2025-09-19 22:53:18,518 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['2025년 적용 최저임금 고시', '2100000245668', 'Y']
+2025-09-19 22:53:18,518 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,518 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000245668']
+2025-09-19 22:53:18,525 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['2025년 적용 최저임금안 고시', '2100000244478', 'Y']
+2025-09-19 22:53:18,525 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,525 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000244478']
+2025-09-19 22:53:18,532 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['2026년 적용 최저임금 고시', '2100000262710', 'Y']
+2025-09-19 22:53:18,533 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,533 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262710']
+2025-09-19 22:53:18,539 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['2026년 적용 최저임금안 고시', '2100000261888', 'Y']
+2025-09-19 22:53:18,539 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,539 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261888']
+2025-09-19 22:53:18,546 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['가사근로자 사회보험료 지원에 관한 고시', '2100000254236', 'Y']
+2025-09-19 22:53:18,546 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,546 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254236']
+2025-09-19 22:53:18,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['가설공사 표준안전 작업지침', '2100000186031', 'Y']
+2025-09-19 22:53:18,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186031']
+2025-09-19 22:53:18,559 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['가스누출감지경보기 설치에 관한 기술상의 지침', '2100000186062', 'Y']
+2025-09-19 22:53:18,559 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,559 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186062']
+2025-09-19 22:53:18,566 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['감전재해 예방을 위한 기술상의 지침', '2100000186120', 'Y']
+2025-09-19 22:53:18,566 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,566 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186120']
+2025-09-19 22:53:18,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['개별연장급여 수급요건 중 학업 중인 사람에 대한 고시', '2100000217661', 'N']
+2025-09-19 22:53:18,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217661']
+2025-09-19 22:53:18,581 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['개별연장급여 지급을 위한 임금 및 재산기준 고시', '2100000217662', 'N']
+2025-09-19 22:53:18,581 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,581 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217662']
+2025-09-19 22:53:18,589 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['개인형퇴직연금제도로의 이전 예외사유 해당금액 고시', '2200000043197', 'N']
+2025-09-19 22:53:18,589 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,589 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000043197']
+2025-09-19 22:53:18,595 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설공사 안전보건대장의 작성 등에 관한 고시', '2100000243390', 'Y']
+2025-09-19 22:53:18,595 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,595 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243390']
+2025-09-19 22:53:18,602 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설공사의 노무비율', '2100000252112', 'N']
+2025-09-19 22:53:18,602 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,602 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252112']
+2025-09-19 22:53:18,608 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설근로자고용개선전문위원회 운영규정', '2100000025542', 'Y']
+2025-09-19 22:53:18,608 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,608 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000025542']
+2025-09-19 22:53:18,615 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설업 산업안전보건관리비 계상 및 사용기준', '2100000254546', 'Y']
+2025-09-19 22:53:18,615 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,615 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254546']
+2025-09-19 22:53:18,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설업에서 근로자 수 확인이 곤란한 장애인 고용의무 사업주의 공사실적액', '2100000253016', 'N']
+2025-09-19 22:53:18,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253016']
+2025-09-19 22:53:18,629 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설업 유해·위험방지계획서 중 지도사가 평가·확인 할 수 있는 대상 건설공사의 범위 및 지도사의 요건', '2100000186089', 'N']
+2025-09-19 22:53:18,629 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,629 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186089']
+2025-09-19 22:53:18,636 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설업자가 아닌 자가 시공하는 건설공사의 총공사금액 산정방법에 관한 규정', '2100000217765', 'Y']
+2025-09-19 22:53:18,636 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,636 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217765']
+2025-09-19 22:53:18,642 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['건설업체의 산업재해예방활동 실적 평가기준', '2100000228660', 'Y']
+2025-09-19 22:53:18,642 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,642 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000228660']
+2025-09-19 22:53:18,649 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고기압 작업에 관한 기준', '2100000186106', 'Y']
+2025-09-19 22:53:18,649 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,649 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186106']
+2025-09-19 22:53:18,655 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고 김용균 사망사고 진상규명과 재발방지를 위한 석탄화력발전소 특별노동안전조사위원회 설치 및 운영에 관한 규정', '2200000076692', 'Y']
+2025-09-19 22:53:18,655 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,655 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000076692']
+2025-09-19 22:53:18,661 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고 김충현 사망사고 재발방지를 위한 발전산업 고용안전 협의체 설치 및 운영에 관한 규정', '2200000107881', 'Y']
+2025-09-19 22:53:18,661 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,661 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000107881']
+2025-09-19 22:53:18,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고령자 고용안정지원금 지급 규정', '2100000253946', 'Y']
+2025-09-19 22:53:18,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253946']
+2025-09-19 22:53:18,673 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고령자고용연장지원금액 등', '2000000018010', 'N']
+2025-09-19 22:53:18,674 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,674 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000018010']
+2025-09-19 22:53:18,680 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고령자인재은행 및 중견전문인력 고용지원센터 운영규정', '2100000216935', 'Y']
+2025-09-19 22:53:18,680 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,680 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000216935']
+2025-09-19 22:53:18,687 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동관계법 위반자에 대한 과태료 부과·징수 업무에 관한 예규', '2100000261300', 'Y']
+2025-09-19 22:53:18,687 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,687 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261300']
+2025-09-19 22:53:18,695 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동관 업무처리지침', '2000000017617', 'Y']
+2025-09-19 22:53:18,695 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,695 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000017617']
+2025-09-19 22:53:18,703 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 2030 자문단 설치 및 운영에 관한 규정', '2100000215557', 'Y']
+2025-09-19 22:53:18,703 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,703 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000215557']
+2025-09-19 22:53:18,710 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 4대 사회보험 민원서류 접수 등에 관한 고시', '2100000213115', 'Y']
+2025-09-19 22:53:18,710 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,710 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000213115']
+2025-09-19 22:53:18,715 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 가공·변형된 석면함유가능물질의 석면허용기준', '2100000196119', 'N']
+2025-09-19 22:53:18,715 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,715 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000196119']
+2025-09-19 22:53:18,721 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 갈등관리 운영규정', '2100000182989', 'Y']
+2025-09-19 22:53:18,722 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,722 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000182989']
+2025-09-19 22:53:18,727 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 감사규정', '2100000252674', 'Y']
+2025-09-19 22:53:18,727 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,727 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252674']
+2025-09-19 22:53:18,733 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 개인정보 보호지침', '2100000239678', 'Y']
+2025-09-19 22:53:18,733 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,733 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000239678']
+2025-09-19 22:53:18,739 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부고객상담센터 기본운영규정', '2100000250460', 'Y']
+2025-09-19 22:53:18,739 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,739 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000250460']
+2025-09-19 22:53:18,745 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부고객상담센터 위임전결규정', '2100000210067', 'Y']
+2025-09-19 22:53:18,746 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,746 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000210067']
+2025-09-19 22:53:18,751 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 고객지원실 운영규정', '2100000222744', 'Y']
+2025-09-19 22:53:18,752 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,752 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000222744']
+2025-09-19 22:53:18,758 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 고용장려금 운영에 관한 규정', '2100000211064', 'Y']
+2025-09-19 22:53:18,758 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,758 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000211064']
+2025-09-19 22:53:18,763 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 공무원의 국제기구 파견에 관한 지침', '2000000017616', 'Y']
+2025-09-19 22:53:18,763 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,763 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000017616']
+2025-09-19 22:53:18,769 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 공무원 정원배정표', '2100000263238', 'Y']
+2025-09-19 22:53:18,769 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,769 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000263238']
+2025-09-19 22:53:18,775 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 공무원 행동강령', '2100000237204', 'Y']
+2025-09-19 22:53:18,776 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,776 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237204']
+2025-09-19 22:53:18,783 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 공무직근로자 운영규정', '2100000217135', 'Y']
+2025-09-19 22:53:18,783 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,783 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217135']
+2025-09-19 22:53:18,801 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 공사감독 업무규정', '2100000234738', 'Y']
+2025-09-19 22:53:18,801 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,801 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234738']
+2025-09-19 22:53:18,814 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 공익신고 처리 및 신고자 보호 등에 관한 규정', '2100000237172', 'Y']
+2025-09-19 22:53:18,814 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,814 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237172']
+2025-09-19 22:53:18,827 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 공직자의 이해충돌 방지제도 운영지침', '2100000211590', 'Y']
+2025-09-19 22:53:18,827 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,827 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000211590']
+2025-09-19 22:53:18,836 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 관사의 운영 및 관리규정', '2100000234750', 'Y']
+2025-09-19 22:53:18,836 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,837 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234750']
+2025-09-19 22:53:18,850 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 국가정보자료관리세부시행규칙', '2100000217173', 'Y']
+2025-09-19 22:53:18,851 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,851 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217173']
+2025-09-19 22:53:18,860 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 국유재산 관리 규정', '2100000211670', 'Y']
+2025-09-19 22:53:18,860 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,860 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000211670']
+2025-09-19 22:53:18,870 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 국제고용노동정책에 관한 규정', '2100000227252', 'Y']
+2025-09-19 22:53:18,870 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:18,870 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000227252']
+2025-09-19 22:53:18,870 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:18,870 - INFO - [scripts.adrule.logic.list_scraper] - --- 2 / 9 페이지 처리 중 ---
+2025-09-19 22:53:18,884 - INFO - [scripts.adrule.logic.list_scraper] - 2 페이지로 이동합니다...
+2025-09-19 22:53:18,890 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:19,295 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:19,352 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 규제심사위원회 운영규정', '2100000241896', 'Y']
+2025-09-19 22:53:19,352 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,352 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000241896']
+2025-09-19 22:53:19,362 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 기간제근로자 운영규정', '2100000196292', 'Y']
+2025-09-19 22:53:19,362 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,362 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000196292']
+2025-09-19 22:53:19,374 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 기록관리기준표', '2100000216237', 'Y']
+2025-09-19 22:53:19,374 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,374 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000216237']
+2025-09-19 22:53:19,382 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 기록관 운영규정', '2000000021646', 'Y']
+2025-09-19 22:53:19,382 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,382 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000021646']
+2025-09-19 22:53:19,395 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 당직 및 비상근무규칙', '2100000227248', 'Y']
+2025-09-19 22:53:19,396 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,396 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000227248']
+2025-09-19 22:53:19,413 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 데이터 품질관리 지침', '2100000217266', 'Y']
+2025-09-19 22:53:19,413 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,413 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217266']
+2025-09-19 22:53:19,422 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 디지털 증거 수집·분석 및 관리 규정', '2100000241790', 'Y']
+2025-09-19 22:53:19,422 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,422 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000241790']
+2025-09-19 22:53:19,432 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 맞춤형 복지제도 운영규정', '2100000237210', 'Y']
+2025-09-19 22:53:19,432 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,432 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237210']
+2025-09-19 22:53:19,445 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 물품관리규정', '2100000152251', 'Y']
+2025-09-19 22:53:19,445 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,445 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000152251']
+2025-09-19 22:53:19,457 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 민원담당공무원 수당지급 규정', '2100000232852', 'Y']
+2025-09-19 22:53:19,457 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,457 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000232852']
+2025-09-19 22:53:19,467 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 방첩업무규정', '2100000251900', 'Y']
+2025-09-19 22:53:19,467 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,467 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251900']
+2025-09-19 22:53:19,484 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 법제업무 운영규정', '2100000232016', 'Y']
+2025-09-19 22:53:19,484 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,484 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000232016']
+2025-09-19 22:53:19,493 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 별관 출입·경비·보안 지침', '2100000251936', 'Y']
+2025-09-19 22:53:19,493 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,493 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251936']
+2025-09-19 22:53:19,508 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 보안업무규정 시행세칙', '2100000245896', 'Y']
+2025-09-19 22:53:19,508 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,508 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000245896']
+2025-09-19 22:53:19,518 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부보통고충심사위원회운영규정', '2100000234744', 'Y']
+2025-09-19 22:53:19,518 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,518 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234744']
+2025-09-19 22:53:19,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 부패행위 내부신고자 보호 등에 관한 규정', '2100000237208', 'Y']
+2025-09-19 22:53:19,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237208']
+2025-09-19 22:53:19,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 소관 국고보조사업 위임사무 고시', '2100000254274', 'Y']
+2025-09-19 22:53:19,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254274']
+2025-09-19 22:53:19,549 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 소관 기타공공기관 경영평가에 관한 규정', '2100000206944', 'Y']
+2025-09-19 22:53:19,549 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,549 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000206944']
+2025-09-19 22:53:19,557 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 소속책임운영기관운영심의회 규정', '2100000045072', 'Y']
+2025-09-19 22:53:19,557 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,557 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000045072']
+2025-09-19 22:53:19,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 소송수행 예규', '2100000212504', 'Y']
+2025-09-19 22:53:19,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000212504']
+2025-09-19 22:53:19,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 양성평등위원회 운영규정', '2100000217417', 'Y']
+2025-09-19 22:53:19,573 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,573 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217417']
+2025-09-19 22:53:19,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 예산집행심의회 운영규정', '2100000230668', 'Y']
+2025-09-19 22:53:19,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000230668']
+2025-09-19 22:53:19,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부와 그 소속기관 위임전결규정', '2100000259510', 'Y']
+2025-09-19 22:53:19,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000259510']
+2025-09-19 22:53:19,591 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 인사혁신규정', '2100000263450', 'Y']
+2025-09-19 22:53:19,592 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,592 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000263450']
+2025-09-19 22:53:19,601 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 인적자원개발 우수기관 인증제 운영규정', '2100000206255', 'Y']
+2025-09-19 22:53:19,601 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,601 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000206255']
+2025-09-19 22:53:19,609 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 자체평가위원회 운영규정', '2100000220134', 'Y']
+2025-09-19 22:53:19,609 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,609 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000220134']
+2025-09-19 22:53:19,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 적극행정위원회 운영규정', '2100000227718', 'Y']
+2025-09-19 22:53:19,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000227718']
+2025-09-19 22:53:19,621 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 전문용어 표준화협의회 운영 규정', '2100000241468', 'Y']
+2025-09-19 22:53:19,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000241468']
+2025-09-19 22:53:19,628 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 정보공개에 관한 규정', '2100000262340', 'Y']
+2025-09-19 22:53:19,628 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,628 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262340']
+2025-09-19 22:53:19,634 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 정보화업무 운영 및 이용에 관한 규정', '2100000209151', 'Y']
+2025-09-19 22:53:19,634 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,634 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209151']
+2025-09-19 22:53:19,641 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 정책연구 관리 규정', '2100000192928', 'Y']
+2025-09-19 22:53:19,641 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,641 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000192928']
+2025-09-19 22:53:19,650 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 정책자문위원회 규정', '2100000203988', 'Y']
+2025-09-19 22:53:19,650 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,650 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000203988']
+2025-09-19 22:53:19,660 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 정책홍보업무 관리 규정', '2100000241470', 'Y']
+2025-09-19 22:53:19,660 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,660 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000241470']
+2025-09-19 22:53:19,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 제3종시설물 지정 고시', '2100000252804', 'N']
+2025-09-19 22:53:19,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252804']
+2025-09-19 22:53:19,675 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 중앙사고수습본부 구성 및 운영 등에 관한 규정', '2100000119649', 'Y']
+2025-09-19 22:53:19,675 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,675 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000119649']
+2025-09-19 22:53:19,681 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 참고인 등 비용지급에 관한 규정', '2100000029602', 'Y']
+2025-09-19 22:53:19,682 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,682 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000029602']
+2025-09-19 22:53:19,687 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 청렴시민감사관 설치 및 운영에 관한 규정', '2100000161689', 'Y']
+2025-09-19 22:53:19,687 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,687 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000161689']
+2025-09-19 22:53:19,705 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 청원심의회 운영 규정', '2100000210399', 'Y']
+2025-09-19 22:53:19,705 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,705 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000210399']
+2025-09-19 22:53:19,720 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부통계관리규정', '2100000242072', 'Y']
+2025-09-19 22:53:19,720 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,720 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000242072']
+2025-09-19 22:53:19,728 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['(고용노동부) 화학재난 합동방재센터의 설치 및 운영에 관한 규정', '2100000223972', 'Y']
+2025-09-19 22:53:19,729 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,729 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000223972']
+2025-09-19 22:53:19,737 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동부 회계관계공무원 재정보증 규정', '2100000152249', 'Y']
+2025-09-19 22:53:19,737 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,737 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000152249']
+2025-09-19 22:53:19,744 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동분야 국고보조사업 관리규정', '2100000250926', 'Y']
+2025-09-19 22:53:19,744 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,744 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000250926']
+2025-09-19 22:53:19,750 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동 사이버안전센터 운영규정', '2100000193867', 'Y']
+2025-09-19 22:53:19,751 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,751 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000193867']
+2025-09-19 22:53:19,759 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동통계조사 응답사례품 지급·관리 규정', '2100000069849', 'Y']
+2025-09-19 22:53:19,759 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,759 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000069849']
+2025-09-19 22:53:19,767 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동행정기관 지역협의회 운영 규정', '2000000021626', 'Y']
+2025-09-19 22:53:19,767 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,767 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000021626']
+2025-09-19 22:53:19,773 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동행정서비스헌장 운영 규정', '2200000035241', 'Y']
+2025-09-19 22:53:19,773 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,773 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000035241']
+2025-09-19 22:53:19,779 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동행정 신산업 지원 및 규제혁신심의회 운영규정', '2100000190782', 'Y']
+2025-09-19 22:53:19,779 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,779 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000190782']
+2025-09-19 22:53:19,785 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용노동행정 옴부즈만위원회 운영 규정', '2100000161249', 'Y']
+2025-09-19 22:53:19,785 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,785 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000161249']
+2025-09-19 22:53:19,791 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험 가입대상인 고유번호증 보유 자영업자 사업 고시', '2100000261092', 'N']
+2025-09-19 22:53:19,791 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,791 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261092']
+2025-09-19 22:53:19,798 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험료 산정범위에 속하는 금품', '2100000217769', 'N']
+2025-09-19 22:53:19,798 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:19,798 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217769']
+2025-09-19 22:53:19,798 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:19,798 - INFO - [scripts.adrule.logic.list_scraper] - --- 3 / 9 페이지 처리 중 ---
+2025-09-19 22:53:19,802 - INFO - [scripts.adrule.logic.list_scraper] - 3 페이지로 이동합니다...
+2025-09-19 22:53:19,810 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:20,181 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:20,242 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험료의 지원 대상 및 지원 수준 등에 관한 고시', '2100000252096', 'Y']
+2025-09-19 22:53:20,242 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,242 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252096']
+2025-09-19 22:53:20,248 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험법 및 고용산재보험료징수법에 따른 과태료의 가중처분에 관한 세부 지침', '2100000229688', 'Y']
+2025-09-19 22:53:20,248 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,248 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229688']
+2025-09-19 22:53:20,254 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험사업 평가기관 지정 고시', '2100000240040', 'N']
+2025-09-19 22:53:20,254 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,254 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000240040']
+2025-09-19 22:53:20,261 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험수사관 집무규정', '2100000261378', 'Y']
+2025-09-19 22:53:20,261 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,261 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261378']
+2025-09-19 22:53:20,267 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험심사관 및 고용보험심사위원회 운영규정', '2100000234334', 'Y']
+2025-09-19 22:53:20,267 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,267 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234334']
+2025-09-19 22:53:20,273 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용보험지급사무규정', '2100000209194', 'Y']
+2025-09-19 22:53:20,273 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,274 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209194']
+2025-09-19 22:53:20,280 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용·산재보험료 완납증명 제외 대상 및 완납증명 방법에 관한 기준', '2100000225868', 'Y']
+2025-09-19 22:53:20,280 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,280 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000225868']
+2025-09-19 22:53:20,286 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용·산재정보통신망 이용에 관한 고시', '2100000225714', 'Y']
+2025-09-19 22:53:20,286 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,286 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000225714']
+2025-09-19 22:53:20,292 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용상 성차별 등 시정절차 등에 관한 고시', '2100000211169', 'Y']
+2025-09-19 22:53:20,292 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,292 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000211169']
+2025-09-19 22:53:20,299 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용상 연령차별금지 및 고령자고용촉진에 관한 법률에 따른 과태료의 가중처분에 관한 세부 지침', '2100000230004', 'Y']
+2025-09-19 22:53:20,299 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,299 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000230004']
+2025-09-19 22:53:20,319 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용서비스 우수기관 인증제 운영규정', '2100000237218', 'Y']
+2025-09-19 22:53:20,319 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,319 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237218']
+2025-09-19 22:53:20,324 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용센터 및 고용관련 부서 운영 규정', '2100000263560', 'Y']
+2025-09-19 22:53:20,324 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,324 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000263560']
+2025-09-19 22:53:20,330 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용센터혁신추진단 설치 및 운영에 관한 규정', '2100000258034', 'Y']
+2025-09-19 22:53:20,331 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,331 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000258034']
+2025-09-19 22:53:20,336 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용안정사업 지원금 부정수급 방지업무 처리규정', '2100000252368', 'Y']
+2025-09-19 22:53:20,336 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,336 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252368']
+2025-09-19 22:53:20,342 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용영향평가 대행기관 지정 고시', '2100000217931', 'Y']
+2025-09-19 22:53:20,342 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,342 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217931']
+2025-09-19 22:53:20,348 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용위기 선제대응지역의 지정기준 등에 관한 고시', '2100000262758', 'Y']
+2025-09-19 22:53:20,348 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,348 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262758']
+2025-09-19 22:53:20,356 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용위기 선제대응지역 지정 고시', '2100000263728', 'N']
+2025-09-19 22:53:20,356 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,356 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000263728']
+2025-09-19 22:53:20,362 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용위기지역의 지정기준 등에 관한 고시', '2100000240416', 'Y']
+2025-09-19 22:53:20,362 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,362 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000240416']
+2025-09-19 22:53:20,369 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용위기지역 지정 고시', '2100000234732', 'N']
+2025-09-19 22:53:20,369 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,369 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234732']
+2025-09-19 22:53:20,374 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용유지를 위한 노사합의에 대한 지원 규정', '2100000202537', 'Y']
+2025-09-19 22:53:20,375 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,375 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000202537']
+2025-09-19 22:53:20,381 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용유지 비용의 대부 규정', '2100000216842', 'Y']
+2025-09-19 22:53:20,381 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,381 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000216842']
+2025-09-19 22:53:20,387 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용유지조치에 대한 특별 지원 고시', '2100000258478', 'Y']
+2025-09-19 22:53:20,387 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,387 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000258478']
+2025-09-19 22:53:20,395 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용유지지원금 신청 및 지급에 관한 규정', '2100000252588', 'Y']
+2025-09-19 22:53:20,396 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,396 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252588']
+2025-09-19 22:53:20,403 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용유지지원금 지원금액 상한액 고시', '2100000184151', 'N']
+2025-09-19 22:53:20,403 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,403 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000184151']
+2025-09-19 22:53:20,410 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용정보시스템 운영 및 보안규정', '2100000249572', 'Y']
+2025-09-19 22:53:20,411 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,411 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000249572']
+2025-09-19 22:53:20,418 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용창출장려금·고용안정장려금의 신청 및 지급에 관한 규정', '2100000262472', 'Y']
+2025-09-19 22:53:20,418 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,418 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262472']
+2025-09-19 22:53:20,424 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용행정데이터 제공 규정', '2100000224118', 'Y']
+2025-09-19 22:53:20,425 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,425 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000224118']
+2025-09-19 22:53:20,434 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용허가제 고용업무 대행기관 운영에 관한 규정', '2100000182609', 'Y']
+2025-09-19 22:53:20,436 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,436 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000182609']
+2025-09-19 22:53:20,446 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['고용형태별근로실태조사의 한국표준직업분류 대분류 2 직업 종사자의 근로소득 상위 100분의 25에 해당하는 금액 공고', '2100000258972', 'N']
+2025-09-19 22:53:20,447 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,447 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000258972']
+2025-09-19 22:53:20,454 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공공기관의 안전활동 수준평가에 관한 고시', '2100000219468', 'Y']
+2025-09-19 22:53:20,454 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,454 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000219468']
+2025-09-19 22:53:20,460 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공공기관의 장애인 표준사업장 생산품의 구매목표 비율', '2100000218037', 'N']
+2025-09-19 22:53:20,461 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,461 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000218037']
+2025-09-19 22:53:20,468 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공공기관의 청년고용의무 적용제외에 관한 고시', '2100000242208', 'N']
+2025-09-19 22:53:20,468 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,468 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000242208']
+2025-09-19 22:53:20,474 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공공기관이 자회사 등과 수의계약을 할 수 있는 고용 기준에 관한 고시', '2100000231384', 'Y']
+2025-09-19 22:53:20,475 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,475 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000231384']
+2025-09-19 22:53:20,482 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공공행정 등에서 현업업무에 종사하는 사람의 기준', '2100000186153', 'Y']
+2025-09-19 22:53:20,482 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,482 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186153']
+2025-09-19 22:53:20,489 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공동근로복지기금 지원사업 운영규정', '2100000223180', 'Y']
+2025-09-19 22:53:20,490 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,490 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000223180']
+2025-09-19 22:53:20,497 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공무원 근무시간 면제 한도', '2100000249862', 'N']
+2025-09-19 22:53:20,497 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,497 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000249862']
+2025-09-19 22:53:20,503 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공인노무사에게 지원하는 체불 임금등 대지급금 관련업무 지원금액', '2100000205347', 'N']
+2025-09-19 22:53:20,503 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,503 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000205347']
+2025-09-19 22:53:20,509 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공인노무사자격심의·징계위원회 운영규정', '2100000241452', 'Y']
+2025-09-19 22:53:20,509 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,509 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000241452']
+2025-09-19 22:53:20,515 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공인노무사 자격 취득을 위한 노동행정경력자 연수 규정', '2100000029604', 'Y']
+2025-09-19 22:53:20,515 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,515 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000029604']
+2025-09-19 22:53:20,522 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공작기계 안전기준 일반에 관한 기술상의 지침', '2100000186074', 'Y']
+2025-09-19 22:53:20,522 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,522 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186074']
+2025-09-19 22:53:20,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['공정안전보고서의 제출·심사·확인 및 이행상태평가 등에 관한 규정', '2100000259798', 'Y']
+2025-09-19 22:53:20,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000259798']
+2025-09-19 22:53:20,536 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['과거근로기간에 대한 확정급여형퇴직연금제도의 최소적립비율', '2100000210590', 'N']
+2025-09-19 22:53:20,536 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,536 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000210590']
+2025-09-19 22:53:20,541 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['과정평가형 자격 지원단의 구성 및 운영에 관한 규정', '2100000046409', 'Y']
+2025-09-19 22:53:20,541 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,541 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000046409']
+2025-09-19 22:53:20,548 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['광역구직활동비 중 숙박료 고시', '2100000217659', 'N']
+2025-09-19 22:53:20,548 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,548 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217659']
+2025-09-19 22:53:20,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['교원 근무시간 면제 한도', '2100000249896', 'N']
+2025-09-19 22:53:20,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000249896']
+2025-09-19 22:53:20,559 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['교육훈련시간 승진반영제도(상시학습) 운영지침', '2100000216803', 'N']
+2025-09-19 22:53:20,559 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,559 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000216803']
+2025-09-19 22:53:20,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['구직급여 수급자 중 직업능력개발 훈련지시 우선 고려대상자 고시', '2100000217658', 'N']
+2025-09-19 22:53:20,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217658']
+2025-09-19 22:53:20,571 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가기술자격 검정시설·장비 구입자금 지원규정', '2000000080962', 'Y']
+2025-09-19 22:53:20,571 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,571 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000080962']
+2025-09-19 22:53:20,577 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가기술자격의 종목별 관련학과 고시', '2000000019259', 'N']
+2025-09-19 22:53:20,577 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,577 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000019259']
+2025-09-19 22:53:20,583 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가기술자격 정책심의위원회 운영규정', '2100000233294', 'Y']
+2025-09-19 22:53:20,583 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,583 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000233294']
+2025-09-19 22:53:20,583 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:20,583 - INFO - [scripts.adrule.logic.list_scraper] - --- 4 / 9 페이지 처리 중 ---
+2025-09-19 22:53:20,587 - INFO - [scripts.adrule.logic.list_scraper] - 4 페이지로 이동합니다...
+2025-09-19 22:53:20,591 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:20,970 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:20,998 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가별·업종별 취업교육기관 지정 고시', '2100000262392', 'N']
+2025-09-19 22:53:20,998 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:20,998 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262392']
+2025-09-19 22:53:21,002 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가인적자원개발컨소시엄운영규정', '2100000234820', 'Y']
+2025-09-19 22:53:21,003 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,003 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234820']
+2025-09-19 22:53:21,009 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가직무능력표준 개발·개선 및 폐지 등에 관한 규정', '2100000250170', 'Y']
+2025-09-19 22:53:21,009 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,009 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000250170']
+2025-09-19 22:53:21,017 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국가직무능력표준 고시', '2100000250168', 'Y']
+2025-09-19 22:53:21,017 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,017 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000250168']
+2025-09-19 22:53:21,026 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국내 근로자공급사업 허가관리 규정', '2100000036921', 'Y']
+2025-09-19 22:53:21,026 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,026 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000036921']
+2025-09-19 22:53:21,034 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국내유료직업소개요금 등 고시', '2100000081610', 'N']
+2025-09-19 22:53:21,034 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,034 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000081610']
+2025-09-19 22:53:21,056 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국민내일배움카드 운영규정', '2100000262608', 'Y']
+2025-09-19 22:53:21,057 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,057 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262608']
+2025-09-19 22:53:21,078 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국민임대주택 및 통합공공임대주택 우선공급 대상에 해당하는 비정규직 근로자', '2100000231072', 'N']
+2025-09-19 22:53:21,078 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,078 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000231072']
+2025-09-19 22:53:21,090 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국민취업지원제도 운영규정', '2100000263144', 'Y']
+2025-09-19 22:53:21,090 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,091 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000263144']
+2025-09-19 22:53:21,096 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국민취업지원제도 지급금 등 지급사무규정', '2100000206120', 'Y']
+2025-09-19 22:53:21,096 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,096 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000206120']
+2025-09-19 22:53:21,101 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국외유료직업소개요금등 고시', '2100000039020', 'N']
+2025-09-19 22:53:21,102 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,102 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000039020']
+2025-09-19 22:53:21,107 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국외취업희망자 등록 및 알선규정', '2100000106752', 'Y']
+2025-09-19 22:53:21,107 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,107 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000106752']
+2025-09-19 22:53:21,113 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국제고용노동정책협의회 운영규정', '2100000205162', 'Y']
+2025-09-19 22:53:21,113 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,114 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000205162']
+2025-09-19 22:53:21,119 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['국제기능올림픽대회 한국위원회 및 전국기능경기위원회의 구성 및 운영에 관한 규정', '2100000178630', 'Y']
+2025-09-19 22:53:21,119 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,119 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000178630']
+2025-09-19 22:53:21,125 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['굴착공사 표준안전 작업지침', '2100000226002', 'Y']
+2025-09-19 22:53:21,125 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,125 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000226002']
+2025-09-19 22:53:21,133 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['권리구제업무 대리인 선임 신청을 할 수 있는 사람의 기준이 되는 월평균임금 고시', '2100000207932', 'N']
+2025-09-19 22:53:21,133 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,133 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000207932']
+2025-09-19 22:53:21,138 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근골격계부담작업의 범위 및 유해요인조사 방법에 관한 고시', '2100000185793', 'Y']
+2025-09-19 22:53:21,138 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,138 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185793']
+2025-09-19 22:53:21,144 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로감독관집무규정', '2100000243340', 'Y']
+2025-09-19 22:53:21,144 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,144 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243340']
+2025-09-19 22:53:21,150 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로감독관 집무규정(산업안전보건)', '2100000246934', 'Y']
+2025-09-19 22:53:21,150 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,150 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000246934']
+2025-09-19 22:53:21,155 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로감독행정발전위원회규정', '2100000029601', 'Y']
+2025-09-19 22:53:21,156 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,156 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000029601']
+2025-09-19 22:53:21,161 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로기준법 및 공인노무사법에 따른 과태료의 가중처분에 관한 세부 지침', '2100000229722', 'Y']
+2025-09-19 22:53:21,161 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,161 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229722']
+2025-09-19 22:53:21,168 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로복지사업 운영규정', '2100000260180', 'Y']
+2025-09-19 22:53:21,168 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,168 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000260180']
+2025-09-19 22:53:21,174 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로시간면제 한도', '2000000094462', 'N']
+2025-09-19 22:53:21,174 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,174 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000094462']
+2025-09-19 22:53:21,181 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자 건강증진활동 지침', '2100000210460', 'Y']
+2025-09-19 22:53:21,181 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,181 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000210460']
+2025-09-19 22:53:21,186 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자 건강진단 관리규정', '2100000186105', 'Y']
+2025-09-19 22:53:21,186 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,186 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186105']
+2025-09-19 22:53:21,191 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자 건강진단 실시기준', '2100000257280', 'Y']
+2025-09-19 22:53:21,191 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,191 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000257280']
+2025-09-19 22:53:21,198 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자 신용보증지원사업 관리·운영규정', '2100000231308', 'Y']
+2025-09-19 22:53:21,198 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,198 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000231308']
+2025-09-19 22:53:21,204 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자의 기준보수 고시', '2100000252094', 'N']
+2025-09-19 22:53:21,204 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,204 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252094']
+2025-09-19 22:53:21,209 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자의 날 포상규정', '2100000217015', 'Y']
+2025-09-19 22:53:21,209 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,209 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217015']
+2025-09-19 22:53:21,216 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자퇴직급여 보장법 제4조제1항 단서 해석기준', '2100000031704', 'N']
+2025-09-19 22:53:21,216 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,216 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000031704']
+2025-09-19 22:53:21,221 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['근로자파견사업 허가관리규정', '2100000252378', 'Y']
+2025-09-19 22:53:21,221 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,221 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252378']
+2025-09-19 22:53:21,229 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['급여기초임금일액 산정규정', '2100000232090', 'Y']
+2025-09-19 22:53:21,229 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,229 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000232090']
+2025-09-19 22:53:21,236 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['급여 전액지급 예외사유가 되는 비율고시', '2100000022846', 'N']
+2025-09-19 22:53:21,236 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,236 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000022846']
+2025-09-19 22:53:21,242 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['기간제 및 단시간근로자 보호 등에 관한 법률과 파견근로자 보호 등에 관한 법률에 따른 과태료 및 행정처분의 가중처분에 관한 세부 지침', '2100000229702', 'Y']
+2025-09-19 22:53:21,242 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,242 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229702']
+2025-09-19 22:53:21,249 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['기능대학 설립 및 공공직업훈련시설 설치 타당성조사 운용 등에 관한 고시', '2100000209303', 'Y']
+2025-09-19 22:53:21,249 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,249 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209303']
+2025-09-19 22:53:21,254 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['기준기간 연장사유 고시', '2100000217631', 'N']
+2025-09-19 22:53:21,254 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,254 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217631']
+2025-09-19 22:53:21,261 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['남녀고용평등 업무처리 규정', '2100000228078', 'Y']
+2025-09-19 22:53:21,261 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,261 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000228078']
+2025-09-19 22:53:21,268 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노동부소속기관 업무편람 관리규정', '2000000011366', 'Y']
+2025-09-19 22:53:21,268 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,268 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000011366']
+2025-09-19 22:53:21,274 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노동상황실 운영규정', '2000000011370', 'Y']
+2025-09-19 22:53:21,274 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,274 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000011370']
+2025-09-19 22:53:21,280 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노동위원회규칙', '2100000236496', 'Y']
+2025-09-19 22:53:21,280 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,280 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000236496']
+2025-09-19 22:53:21,287 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노동위원회 위임전결규정', '2100000210079', 'Y']
+2025-09-19 22:53:21,287 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,287 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000210079']
+2025-09-19 22:53:21,296 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노동조합 및 노동관계조정법과 노동위원회법에 따른 과태료 가중처분에 관한 세부 지침', '2100000229726', 'Y']
+2025-09-19 22:53:21,296 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,296 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229726']
+2025-09-19 22:53:21,301 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노동행정인공지능혁신과 설치 및 운영에 관한 규정', '2100000257760', 'Y']
+2025-09-19 22:53:21,302 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,302 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000257760']
+2025-09-19 22:53:21,307 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자의 기준보수 및 보수액에서 제외하는 필요경비 고시', '2100000261170', 'N']
+2025-09-19 22:53:21,308 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,308 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261170']
+2025-09-19 22:53:21,313 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자의 보수액에서 제외하는 필요경비', '2100000260940', 'N']
+2025-09-19 22:53:21,314 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,314 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000260940']
+2025-09-19 22:53:21,321 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자의 실업인정대상기간 중 발생한 1일 평균소득에서 제외하는 금액 고시', '2100000217657', 'N']
+2025-09-19 22:53:21,321 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,321 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217657']
+2025-09-19 22:53:21,327 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자의 출산전후급여등의 지급기간 중 소득허용금액에 관한 고시', '2100000252680', 'N']
+2025-09-19 22:53:21,327 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,327 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252680']
+2025-09-19 22:53:21,333 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자 직종별 산재보험료율', '2100000252000', 'N']
+2025-09-19 22:53:21,333 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,333 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252000']
+2025-09-19 22:53:21,339 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자 최저 휴업급여 보장액', '2100000251970', 'N']
+2025-09-19 22:53:21,339 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,339 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251970']
+2025-09-19 22:53:21,345 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노무제공자 출산전후급여등 상한액 및 하한액 고시', '2100000254974', 'N']
+2025-09-19 22:53:21,345 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:21,345 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254974']
+2025-09-19 22:53:21,345 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:21,345 - INFO - [scripts.adrule.logic.list_scraper] - --- 5 / 9 페이지 처리 중 ---
+2025-09-19 22:53:21,350 - INFO - [scripts.adrule.logic.list_scraper] - 5 페이지로 이동합니다...
+2025-09-19 22:53:21,354 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:25,266 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:25,318 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노사관계 전문가 육성사업 운영규정', '2100000209247', 'Y']
+2025-09-19 22:53:25,318 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,318 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209247']
+2025-09-19 22:53:25,325 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['노사발전재단에 위탁·보조하는 사업 고시', '2100000234550', 'Y']
+2025-09-19 22:53:25,326 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,326 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234550']
+2025-09-19 22:53:25,332 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['뇌혈관 질병 또는 심장 질병 및 근골격계 질병의 업무상 질병 인정 여부 결정에 필요한 사항', '2100000211032', 'N']
+2025-09-19 22:53:25,332 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,332 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000211032']
+2025-09-19 22:53:25,338 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['능력개발비용대부규정', '2100000209342', 'Y']
+2025-09-19 22:53:25,339 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,339 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209342']
+2025-09-19 22:53:25,344 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['대한민국명장의 직종 고시', '2100000208506', 'Y']
+2025-09-19 22:53:25,344 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,344 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000208506']
+2025-09-19 22:53:25,353 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['도산등사실인정 및 확인업무 처리규정', '2100000205357', 'Y']
+2025-09-19 22:53:25,353 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,353 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000205357']
+2025-09-19 22:53:25,359 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['등록취소 등에 따라 퇴직연금사업자가 취하여야 할 사용자 및 가입자 보호조치 고시', '2100000022849', 'N']
+2025-09-19 22:53:25,360 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,360 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000022849']
+2025-09-19 22:53:25,365 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['명예고용평등감독관 운영규정', '2100000093592', 'Y']
+2025-09-19 22:53:25,365 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,365 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000093592']
+2025-09-19 22:53:25,371 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['명예산업안전감독관 운영규정', '2100000186122', 'Y']
+2025-09-19 22:53:25,371 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,371 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186122']
+2025-09-19 22:53:25,376 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['무급가족종사자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금', '2100000251896', 'N']
+2025-09-19 22:53:25,376 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,376 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251896']
+2025-09-19 22:53:25,382 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['무급휴업·휴직 고용유지지원금 지급규정', '2100000231602', 'Y']
+2025-09-19 22:53:25,382 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,382 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000231602']
+2025-09-19 22:53:25,387 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['무역조정 지원 등에 관한 법률에 따른 과태료의 가중처분에 관한 세부 지침', '2100000229718', 'Y']
+2025-09-19 22:53:25,387 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,387 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229718']
+2025-09-19 22:53:25,393 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['민간단체 고용평등상담실 운영지원규정', '2100000209205', 'Y']
+2025-09-19 22:53:25,393 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,393 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209205']
+2025-09-19 22:53:25,399 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['민간직업상담원 보수 지급기준', '2100000249796', 'N']
+2025-09-19 22:53:25,399 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,399 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000249796']
+2025-09-19 22:53:25,404 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['발파 표준안전 작업지침', '2100000226042', 'Y']
+2025-09-19 22:53:25,404 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,404 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000226042']
+2025-09-19 22:53:25,409 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['방호장치 안전인증 고시', '2100000199056', 'Y']
+2025-09-19 22:53:25,409 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,409 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000199056']
+2025-09-19 22:53:25,415 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['방호장치 자율안전기준 고시', '2100000214150', 'Y']
+2025-09-19 22:53:25,415 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,415 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000214150']
+2025-09-19 22:53:25,420 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['벌목업의 노무비율', '2100000252100', 'N']
+2025-09-19 22:53:25,420 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,420 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252100']
+2025-09-19 22:53:25,427 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['벌목 표준안전 작업지침', '2100000262610', 'Y']
+2025-09-19 22:53:25,427 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,427 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262610']
+2025-09-19 22:53:25,432 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['보험사무대행기관의 교육 등에 관한 규정', '2100000233602', 'Y']
+2025-09-19 22:53:25,432 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,432 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000233602']
+2025-09-19 22:53:25,438 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['보험사무대행지원금 지급기준', '2100000252144', 'N']
+2025-09-19 22:53:25,438 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,438 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252144']
+2025-09-19 22:53:25,444 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['보호구 안전인증 고시', '2100000232806', 'Y']
+2025-09-19 22:53:25,444 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,444 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000232806']
+2025-09-19 22:53:25,450 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['보호구 자율안전확인 고시', '2100000186078', 'Y']
+2025-09-19 22:53:25,450 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,450 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186078']
+2025-09-19 22:53:25,457 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['부정·비리 신고 및 포상 등에 관한 규정', '2100000237206', 'Y']
+2025-09-19 22:53:25,457 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,457 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237206']
+2025-09-19 22:53:25,463 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['불법직업소개등 신고 포상금제 운영규정', '2000000022225', 'Y']
+2025-09-19 22:53:25,463 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,463 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000022225']
+2025-09-19 22:53:25,471 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사내·공동근로복지기금 업무처리지침', '2100000186651', 'Y']
+2025-09-19 22:53:25,471 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,471 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186651']
+2025-09-19 22:53:25,479 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사무실 공기관리 지침', '2100000186112', 'Y']
+2025-09-19 22:53:25,479 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,479 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186112']
+2025-09-19 22:53:25,486 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사업 또는 사업장 변경자에 대한 재입국 취업 제한의 특례 인정기준', '2100000256134', 'N']
+2025-09-19 22:53:25,486 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,486 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000256134']
+2025-09-19 22:53:25,492 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사업장 위험성평가에 관한 지침', '2100000251014', 'Y']
+2025-09-19 22:53:25,492 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,492 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251014']
+2025-09-19 22:53:25,499 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사업주 및 장애인 등에 대한 융자·지원규정', '2100000252270', 'Y']
+2025-09-19 22:53:25,499 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,499 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252270']
+2025-09-19 22:53:25,505 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사업주의 재취업지원서비스 제공에 관한 규정', '2100000258120', 'Y']
+2025-09-19 22:53:25,505 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,505 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000258120']
+2025-09-19 22:53:25,510 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사업주자격 인정 규정', '2100000250318', 'Y']
+2025-09-19 22:53:25,510 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,510 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000250318']
+2025-09-19 22:53:25,517 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사업주 직업능력개발훈련 지원규정', '2100000234086', 'Y']
+2025-09-19 22:53:25,517 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,517 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234086']
+2025-09-19 22:53:25,523 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사전지정운용방법의 승인 요건 및 가입자에 대한 정보제공 사항에 대한 고시', '2100000233848', 'Y']
+2025-09-19 22:53:25,523 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,523 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000233848']
+2025-09-19 22:53:25,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사회적기업 육성을 위한 보조금의 교부 및 관리에 관한 사무위임규정', '2100000035852', 'N']
+2025-09-19 22:53:25,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,529 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000035852']
+2025-09-19 22:53:25,536 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['사회적기업 재정지원대상이 되는 상법상 회사의 범위', '2100000035854', 'Y']
+2025-09-19 22:53:25,536 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,536 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000035854']
+2025-09-19 22:53:25,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업기사응시자격 인정 및 기능사필기시험 면제 등에 관한 고시', '2000000067904', 'N']
+2025-09-19 22:53:25,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000067904']
+2025-09-19 22:53:25,549 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업기사 응시자격 인정 및 기능사 필기시험 면제 등에 관한 규정', '2100000209275', 'Y']
+2025-09-19 22:53:25,549 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,549 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209275']
+2025-09-19 22:53:25,555 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업보건의 관리규정', '2100000185794', 'Y']
+2025-09-19 22:53:25,555 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,555 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185794']
+2025-09-19 22:53:25,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업안전보건 강조기간 설정에 관한 규정', '2100000225740', 'Y']
+2025-09-19 22:53:25,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,565 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000225740']
+2025-09-19 22:53:25,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업안전보건업무 수수료', '2100000197188', 'N']
+2025-09-19 22:53:25,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,572 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000197188']
+2025-09-19 22:53:25,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업안전·보건표준제정위원회 규정', '2100000237054', 'Y']
+2025-09-19 22:53:25,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000237054']
+2025-09-19 22:53:25,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업안전지도사 및 산업보건지도사 시험위원회 구성·운영 등에 관한 규정', '2100000185856', 'Y']
+2025-09-19 22:53:25,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185856']
+2025-09-19 22:53:25,591 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업안전지도사 및 산업보건지도사 지도 실적으로 인정할 수 있는 기관·단체에 관한 고시', '2100000185854', 'Y']
+2025-09-19 22:53:25,591 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,591 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185854']
+2025-09-19 22:53:25,599 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업재해보상 및 진폐예방 관계 법령에 따른 행정처분 및 과태료의 가중처분에 관한 세부 지침', '2100000229728', 'Y']
+2025-09-19 22:53:25,599 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,599 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229728']
+2025-09-19 22:53:25,608 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업재해보상보험법에 따른 간병급여 지급기준', '2100000196479', 'N']
+2025-09-19 22:53:25,608 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,608 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000196479']
+2025-09-19 22:53:25,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업재해보상보험법에 따른 간병료 지급기준', '2100000196478', 'N']
+2025-09-19 22:53:25,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000196478']
+2025-09-19 22:53:25,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업재해보상보험 요양급여 산정기준', '2100000217763', 'Y']
+2025-09-19 22:53:25,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,622 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217763']
+2025-09-19 22:53:25,627 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업재해예방시설자금 융자금 지원사업 및 클린사업장 조성지원사업 운영규정', '2100000255578', 'Y']
+2025-09-19 22:53:25,627 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,627 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000255578']
+2025-09-19 22:53:25,633 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업재해통계업무처리규정', '2100000211191', 'Y']
+2025-09-19 22:53:25,633 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:25,633 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000211191']
+2025-09-19 22:53:25,633 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:25,633 - INFO - [scripts.adrule.logic.list_scraper] - --- 6 / 9 페이지 처리 중 ---
+2025-09-19 22:53:25,637 - INFO - [scripts.adrule.logic.list_scraper] - 6 페이지로 이동합니다...
+2025-09-19 22:53:25,641 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:26,016 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:26,064 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산업전환 고용안정 업무 전담기관의 지정 등에 관한 고시', '2100000253172', 'Y']
+2025-09-19 22:53:26,064 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,064 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253172']
+2025-09-19 22:53:26,070 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산재보험관리기구지원금 지급기준 고시', '2100000251962', 'N']
+2025-09-19 22:53:26,070 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,070 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251962']
+2025-09-19 22:53:26,077 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['산재예방요율제 운영에 관한 규정', '2100000177752', 'Y']
+2025-09-19 22:53:26,077 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,077 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000177752']
+2025-09-19 22:53:26,082 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['석면조사 및 안전성 평가 등에 관한 고시', '2100000208344', 'Y']
+2025-09-19 22:53:26,082 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,082 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000208344']
+2025-09-19 22:53:26,088 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['석면해체·제거업자 종사인력의 교육에 관한 규정', '2100000185797', 'Y']
+2025-09-19 22:53:26,088 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,088 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185797']
+2025-09-19 22:53:26,093 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['소득확인이 어려운 직종의 노무제공자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 월 보수액 및 평균보수 등', '2100000260938', 'N']
+2025-09-19 22:53:26,093 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,093 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000260938']
+2025-09-19 22:53:26,098 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['소득확정이 어려운 직종의 노무제공자에 대한 고용보험료 산정의 기초가 되는 보수액 및 기초일액 고시', '2100000261174', 'N']
+2025-09-19 22:53:26,098 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,098 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261174']
+2025-09-19 22:53:26,103 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['숙련기술 전수 선정 분야별 직종 고시', '2100000199679', 'Y']
+2025-09-19 22:53:26,103 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,103 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000199679']
+2025-09-19 22:53:26,108 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['신규화학물질의 유해성·위험성 조사 등에 관한 고시', '2100000251924', 'Y']
+2025-09-19 22:53:26,109 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,109 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251924']
+2025-09-19 22:53:26,114 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['실업인정 및 재취업지원규정', '2100000209209', 'Y']
+2025-09-19 22:53:26,114 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,114 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209209']
+2025-09-19 22:53:26,119 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['실직자 창업지원사업 운영규정', '2100000156809', 'Y']
+2025-09-19 22:53:26,119 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,119 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000156809']
+2025-09-19 22:53:26,124 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전검사 고시', '2100000228816', 'Y']
+2025-09-19 22:53:26,124 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,124 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000228816']
+2025-09-19 22:53:26,129 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전검사 절차에 관한 고시', '2100000232808', 'Y']
+2025-09-19 22:53:26,129 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,130 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000232808']
+2025-09-19 22:53:26,135 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전·보건관리전문기관 및 건설재해예방전문지도기관 관리규정', '2100000251782', 'Y']
+2025-09-19 22:53:26,135 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,135 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251782']
+2025-09-19 22:53:26,140 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전보건교육규정', '2100000239446', 'Y']
+2025-09-19 22:53:26,140 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,140 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000239446']
+2025-09-19 22:53:26,145 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전·보건에 관한 업무 수행시간의 기준 고시', '2100000235596', 'Y']
+2025-09-19 22:53:26,145 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,145 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000235596']
+2025-09-19 22:53:26,151 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전인증대상기계 등이 아닌 유해·위험기계등의 안전인증 규정', '2100000239412', 'Y']
+2025-09-19 22:53:26,151 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,151 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000239412']
+2025-09-19 22:53:26,156 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['안전인증·자율안전확인신고의 절차에 관한 고시', '2100000214148', 'Y']
+2025-09-19 22:53:26,156 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,156 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000214148']
+2025-09-19 22:53:26,160 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['업무위탁기관의 지정 등에 관한 고시', '2100000218739', 'Y']
+2025-09-19 22:53:26,160 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,160 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000218739']
+2025-09-19 22:53:26,166 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['업무추진실적 평가규정', '2000000021910', 'Y']
+2025-09-19 22:53:26,166 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,166 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000021910']
+2025-09-19 22:53:26,171 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['업종별 고용허가제 고용업무 대행기관', '2100000243806', 'N']
+2025-09-19 22:53:26,171 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,171 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243806']
+2025-09-19 22:53:26,177 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['연계고용에 따른 부담금 감면기준', '2100000253014', 'Y']
+2025-09-19 22:53:26,177 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,177 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253014']
+2025-09-19 22:53:26,182 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['연예인 국외공급업무 처리지침', '2100000106753', 'Y']
+2025-09-19 22:53:26,182 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,182 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000106753']
+2025-09-19 22:53:26,188 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['영상표시단말기(VDT) 취급근로자 작업관리지침', '2100000185801', 'Y']
+2025-09-19 22:53:26,188 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,188 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185801']
+2025-09-19 22:53:26,192 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['예술인 및 노무제공자에 대한 고용보험료의 상한액 고시', '2100000252110', 'N']
+2025-09-19 22:53:26,192 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,193 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252110']
+2025-09-19 22:53:26,199 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['예술인의 기준보수 및 보수액에서 제외하는 필요경비 고시', '2100000252104', 'N']
+2025-09-19 22:53:26,199 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,199 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252104']
+2025-09-19 22:53:26,203 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['예술인의 실업인정대상기간 중 발생한 1일 평균소득에서 제외하는 금액 고시', '2100000251220', 'N']
+2025-09-19 22:53:26,203 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,203 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251220']
+2025-09-19 22:53:26,209 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['예술인의 출산전후급여등의 지급기간 중 소득허용금액에 관한 고시', '2100000252722', 'N']
+2025-09-19 22:53:26,209 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,209 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252722']
+2025-09-19 22:53:26,214 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['예술인 출산전후급여등 상한액 및 하한액 고시', '2100000254972', 'N']
+2025-09-19 22:53:26,214 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,214 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254972']
+2025-09-19 22:53:26,219 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국어로 작성하는 안전보건표지에 관한 규정', '2100000186054', 'Y']
+2025-09-19 22:53:26,220 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,220 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186054']
+2025-09-19 22:53:26,225 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자 관련 사업 비용지원 단체 등의 시설 장비 기준에 관한 고시', '2000000022678', 'N']
+2025-09-19 22:53:26,225 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,225 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000022678']
+2025-09-19 22:53:26,230 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자 권익보호협의회 운영규정', '2100000242146', 'Y']
+2025-09-19 22:53:26,230 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,230 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000242146']
+2025-09-19 22:53:26,235 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자 기숙사 정보 제공에 관한 규정', '2100000206852', 'N']
+2025-09-19 22:53:26,235 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,235 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000206852']
+2025-09-19 22:53:26,243 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자상해보험의 보험금액고시', '2200000022886', 'N']
+2025-09-19 22:53:26,243 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,243 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000022886']
+2025-09-19 22:53:26,249 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자의 고용 등에 관한 법률에 따른 과태료의 가중처분에 관한 세부지침', '2100000229788', 'Y']
+2025-09-19 22:53:26,250 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,250 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229788']
+2025-09-19 22:53:26,256 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자의 책임이 아닌 사업장변경 사유', '2100000199671', 'Y']
+2025-09-19 22:53:26,256 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,256 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000199671']
+2025-09-19 22:53:26,262 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자 임금지급 보증보험의 보증금액 고시', '2100000197515', 'Y']
+2025-09-19 22:53:26,262 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,262 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000197515']
+2025-09-19 22:53:26,270 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인근로자 출국만기보험 또는 신탁의 월적립금액 고시', '2000000016711', 'Y']
+2025-09-19 22:53:26,270 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,270 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000016711']
+2025-09-19 22:53:26,282 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['외국인 취업교육기관 지정 및 운영에 관한 규정', '2100000245254', 'Y']
+2025-09-19 22:53:26,282 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,282 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000245254']
+2025-09-19 22:53:26,290 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['운반하역 표준안전 작업지침', '2100000186124', 'Y']
+2025-09-19 22:53:26,290 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,290 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186124']
+2025-09-19 22:53:26,295 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['위험기계·기구 방호조치 기준', '2100000186080', 'Y']
+2025-09-19 22:53:26,295 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,295 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186080']
+2025-09-19 22:53:26,301 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['위험기계·기구 안전인증 고시', '2100000228814', 'Y']
+2025-09-19 22:53:26,301 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,301 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000228814']
+2025-09-19 22:53:26,306 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['위험기계·기구 자율안전확인 고시', '2100000186079', 'Y']
+2025-09-19 22:53:26,306 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,306 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186079']
+2025-09-19 22:53:26,311 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['유해·위험방지계획서 자체심사 및 확인업체 지정대상 건설업체 고시', '2100000186090', 'Y']
+2025-09-19 22:53:26,312 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,312 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186090']
+2025-09-19 22:53:26,317 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['육아휴직 결원보충 활성화를 위한 고용노동부와 그 소속기관에 두는 별도정원 운영규정', '2100000251754', 'Y']
+2025-09-19 22:53:26,317 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,317 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251754']
+2025-09-19 22:53:26,323 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['이주비 고시', '2100000217655', 'N']
+2025-09-19 22:53:26,323 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,323 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217655']
+2025-09-19 22:53:26,329 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['인적자원개발위원회의 구성 및 운영에 관한 규정', '2100000253438', 'Y']
+2025-09-19 22:53:26,329 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,329 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253438']
+2025-09-19 22:53:26,335 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['일자리 안정자금 사업 운영 규정', '2100000207741', 'Y']
+2025-09-19 22:53:26,335 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,335 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000207741']
+2025-09-19 22:53:26,341 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['일학습병행 외부평가 응시 및 자격증 발급수수료', '2100000254852', 'Y']
+2025-09-19 22:53:26,341 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,341 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254852']
+2025-09-19 22:53:26,345 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['일학습병행 운영규정', '2100000253600', 'Y']
+2025-09-19 22:53:26,345 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,345 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253600']
+2025-09-19 22:53:26,345 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:26,345 - INFO - [scripts.adrule.logic.list_scraper] - --- 7 / 9 페이지 처리 중 ---
+2025-09-19 22:53:26,349 - INFO - [scripts.adrule.logic.list_scraper] - 7 페이지로 이동합니다...
+2025-09-19 22:53:26,352 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:26,723 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:26,770 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['일학습병행 직종 및 직종별 교육훈련기준', '2100000261282', 'Y']
+2025-09-19 22:53:26,771 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,771 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261282']
+2025-09-19 22:53:26,777 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['임금등 체불 근로자 생계비 융자사업 고시', '2100000262668', 'Y']
+2025-09-19 22:53:26,778 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,778 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262668']
+2025-09-19 22:53:26,784 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['임금채권보장기금 사업주 부담금비율', '2100000217768', 'N']
+2025-09-19 22:53:26,785 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,785 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217768']
+2025-09-19 22:53:26,791 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['임금채권보장제도 사업주부담금 경감기준', '2100000133011', 'N']
+2025-09-19 22:53:26,791 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,791 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000133011']
+2025-09-19 22:53:26,797 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['임금체불사업주 명단 공개 및 체불자료 제공 관련 업무 처리 규정', '2100000015166', 'Y']
+2025-09-19 22:53:26,797 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,797 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000015166']
+2025-09-19 22:53:26,802 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['임금피크제 지원금액등 고시', '2100000188698', 'Y']
+2025-09-19 22:53:26,802 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,802 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000188698']
+2025-09-19 22:53:26,808 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['자영업자의 고용보험료 산정의 기초가 되는 보수액', '2100000217964', 'N']
+2025-09-19 22:53:26,808 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,808 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217964']
+2025-09-19 22:53:26,814 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['자활급여 수급자가 종사하는 사업', '2100000243740', 'N']
+2025-09-19 22:53:26,814 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,814 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243740']
+2025-09-19 22:53:26,819 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['자회사 운영실태 평가위원회 운영규정', '2100000231342', 'Y']
+2025-09-19 22:53:26,819 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,819 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000231342']
+2025-09-19 22:53:26,824 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['작업장 공기질 한국산업표준(KS)', '2100000207828', 'N']
+2025-09-19 22:53:26,824 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,824 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000207828']
+2025-09-19 22:53:26,830 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['작업환경측정 및 정도관리 등에 관한 고시', '2100000186111', 'Y']
+2025-09-19 22:53:26,830 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,830 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186111']
+2025-09-19 22:53:26,835 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장례비 최고·최저 금액', '2100000251932', 'N']
+2025-09-19 22:53:26,835 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,835 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251932']
+2025-09-19 22:53:26,841 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인 고용부담금의 부담기초액', '2100000253012', 'N']
+2025-09-19 22:53:26,841 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,841 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000253012']
+2025-09-19 22:53:26,846 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인 고용의무 불이행 명단공표제도 운영규정', '2100000239722', 'Y']
+2025-09-19 22:53:26,846 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,846 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000239722']
+2025-09-19 22:53:26,851 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인고용장려금 지급기준', '2100000260378', 'Y']
+2025-09-19 22:53:26,851 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,851 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000260378']
+2025-09-19 22:53:26,856 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인고용촉진 및 직업재활법에 따른 과태료의 가중처분에 관한 세부 지침', '2100000229968', 'Y']
+2025-09-19 22:53:26,857 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,857 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229968']
+2025-09-19 22:53:26,861 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인 기능경기 대회 등 운영에 관한 규정', '2100000198809', 'Y']
+2025-09-19 22:53:26,862 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,862 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000198809']
+2025-09-19 22:53:26,867 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인 직업능력개발훈련 지원규정', '2100000218079', 'Y']
+2025-09-19 22:53:26,867 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,867 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000218079']
+2025-09-19 22:53:26,873 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인 취업지원 업무처리 규정', '2100000208765', 'Y']
+2025-09-19 22:53:26,873 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,873 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000208765']
+2025-09-19 22:53:26,877 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['장애인 표준사업장에 대한 지원규정', '2100000255588', 'Y']
+2025-09-19 22:53:26,877 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,877 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000255588']
+2025-09-19 22:53:26,882 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['재량근로의 대상 업무', '2100000180819', 'N']
+2025-09-19 22:53:26,883 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,883 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000180819']
+2025-09-19 22:53:26,888 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['저압산업용기계기구의 부속전기설비의 전기재해 예방을 위한 기술상의 지침', '2100000186125', 'Y']
+2025-09-19 22:53:26,888 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,888 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186125']
+2025-09-19 22:53:26,893 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['적립금운용위원회 구성에 관한 고시', '2100000216224', 'Y']
+2025-09-19 22:53:26,893 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,893 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000216224']
+2025-09-19 22:53:26,899 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['전체 근로자의 임금 평균액의 증감률 및 소비자물가변동률', '2100000251928', 'N']
+2025-09-19 22:53:26,899 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,899 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251928']
+2025-09-19 22:53:26,904 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['정전기재해 예방을 위한 기술상의 지침', '2100000186063', 'Y']
+2025-09-19 22:53:26,904 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,904 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186063']
+2025-09-19 22:53:26,910 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['제1차 금속산업 안전작업지침', '2100000186126', 'Y']
+2025-09-19 22:53:26,910 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,910 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186126']
+2025-09-19 22:53:26,917 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['제조업 등 유해·위험방지계획서 제출·심사·확인에 관한 고시', '2100000230218', 'Y']
+2025-09-19 22:53:26,917 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,917 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000230218']
+2025-09-19 22:53:26,922 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['조기재취업 수당 지급제외 대상에 해당하는 임금액 고시', '2100000251270', 'N']
+2025-09-19 22:53:26,922 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,922 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251270']
+2025-09-19 22:53:26,933 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['주로 하나의 사업자로부터 업무를 의뢰받아 퀵서비스 또는 대리운전업무를 하는 사람의 기준(퀵서비스기사 및 대리운전기사의 전속성 기준)', '2100000081374', 'N']
+2025-09-19 22:53:26,933 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,933 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000081374']
+2025-09-19 22:53:26,939 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['준고령자·고령자 우선고용직종', '2100000112608', 'N']
+2025-09-19 22:53:26,939 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,939 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000112608']
+2025-09-19 22:53:26,944 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중대산업사고 예방센터 운영규정', '2100000222646', 'Y']
+2025-09-19 22:53:26,944 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,944 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000222646']
+2025-09-19 22:53:26,950 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중대산업재해 수사심의위원회 및 자문단의 구성·운영에 관한 규칙', '2100000208762', 'Y']
+2025-09-19 22:53:26,950 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,950 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000208762']
+2025-09-19 22:53:26,955 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중대재해 감축 로드맵 이행 추진단의 설치 및 운영에 관한 규정', '2200000107259', 'Y']
+2025-09-19 22:53:26,955 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,955 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000107259']
+2025-09-19 22:53:26,961 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중복된 장애의 합산 판정 기준 및 중증장애인 확인 고시', '2100000261426', 'Y']
+2025-09-19 22:53:26,961 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,961 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000261426']
+2025-09-19 22:53:26,966 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중·소기업 사업주에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금', '2100000251894', 'N']
+2025-09-19 22:53:26,966 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,966 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251894']
+2025-09-19 22:53:26,972 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중소기업 직업능력개발 지원사업 실시규정', '2100000236562', 'Y']
+2025-09-19 22:53:26,972 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,972 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000236562']
+2025-09-19 22:53:26,976 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['중소기업퇴직연금기금제도 지원 등에 관한 고시', '2100000252388', 'Y']
+2025-09-19 22:53:26,976 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,976 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252388']
+2025-09-19 22:53:26,982 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['지역실업자직업훈련 실시규정', '2100000257486', 'Y']
+2025-09-19 22:53:26,982 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,982 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000257486']
+2025-09-19 22:53:26,986 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['지원금 등의 상호조정 비율', '2100000217805', 'N']
+2025-09-19 22:53:26,987 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,987 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217805']
+2025-09-19 22:53:26,992 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['지정직업훈련시설의 인력, 시설·장비 요건 등에 관한 규정', '2100000209206', 'Y']
+2025-09-19 22:53:26,992 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,992 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209206']
+2025-09-19 22:53:26,997 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발수당 고시', '2100000209211', 'N']
+2025-09-19 22:53:26,997 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:26,997 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209211']
+2025-09-19 22:53:27,002 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발훈련 교·강사의 보수교육에 관한 운영규정', '2100000235674', 'Y']
+2025-09-19 22:53:27,002 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,002 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000235674']
+2025-09-19 22:53:27,007 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발훈련교사의 양성을 위한 훈련시설 또는 훈련과정을 설치·운영할 수 있는 법인·단체', '2100000209217', 'N']
+2025-09-19 22:53:27,007 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,007 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209217']
+2025-09-19 22:53:27,013 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발훈련교사 자격기준', '2100000256802', 'Y']
+2025-09-19 22:53:27,013 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,013 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000256802']
+2025-09-19 22:53:27,018 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발 훈련기관 지도·감독에 관한 규정', '2100000209226', 'Y']
+2025-09-19 22:53:27,018 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,018 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209226']
+2025-09-19 22:53:27,023 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발훈련 모니터링에 관한 규정', '2100000209224', 'Y']
+2025-09-19 22:53:27,023 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,023 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209224']
+2025-09-19 22:53:27,028 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발훈련의 직종별 훈련기준', '2100000256800', 'N']
+2025-09-19 22:53:27,028 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,028 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000256800']
+2025-09-19 22:53:27,034 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력개발훈련 품질관리에 관한 규정', '2100000217140', 'Y']
+2025-09-19 22:53:27,034 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,034 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217140']
+2025-09-19 22:53:27,039 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업능력정책 관련 법령에 따른 과태료의 가중처분에 관한  세부 지침', '2100000229744', 'Y']
+2025-09-19 22:53:27,039 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,039 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229744']
+2025-09-19 22:53:27,043 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업상담원 운영규정', '2100000222712', 'Y']
+2025-09-19 22:53:27,043 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,043 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000222712']
+2025-09-19 22:53:27,043 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:27,043 - INFO - [scripts.adrule.logic.list_scraper] - --- 8 / 9 페이지 처리 중 ---
+2025-09-19 22:53:27,047 - INFO - [scripts.adrule.logic.list_scraper] - 8 페이지로 이동합니다...
+2025-09-19 22:53:27,050 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:27,422 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:27,464 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업소개 등 사업자협회의 공제사업에 관한 규정', '2100000037800', 'Y']
+2025-09-19 22:53:27,464 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,464 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000037800']
+2025-09-19 22:53:27,471 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업소개 등 업무 처리 규정', '2100000209200', 'Y']
+2025-09-19 22:53:27,471 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,471 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209200']
+2025-09-19 22:53:27,477 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업재활급여 상한금액', '2100000209240', 'N']
+2025-09-19 22:53:27,477 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,477 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209240']
+2025-09-19 22:53:27,484 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업적성검사업무처리규정', '2000000011376', 'Y']
+2025-09-19 22:53:27,484 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,484 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000011376']
+2025-09-19 22:53:27,489 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업정보제공사업 신고업무 처리 규정', '2100000169910', 'Y']
+2025-09-19 22:53:27,489 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,489 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000169910']
+2025-09-19 22:53:27,495 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업지도관 운영 규정', '2200000022888', 'Y']
+2025-09-19 22:53:27,495 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,495 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2200000022888']
+2025-09-19 22:53:27,500 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업훈련개발 훈련 거부에 따른 구직급여 지급 정지기간 고시', '2100000217653', 'N']
+2025-09-19 22:53:27,500 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,500 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217653']
+2025-09-19 22:53:27,506 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직업훈련 생계비 대부 규정', '2100000243350', 'Y']
+2025-09-19 22:53:27,507 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,507 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243350']
+2025-09-19 22:53:27,511 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직장 내 장애인 인식개선 교육 규정', '2100000252780', 'Y']
+2025-09-19 22:53:27,511 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,511 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252780']
+2025-09-19 22:53:27,517 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직장어린이집 등 설치·운영 규정', '2100000264056', 'Y']
+2025-09-19 22:53:27,517 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,517 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000264056']
+2025-09-19 22:53:27,522 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['직장어린이집 보육교사 등 인건비 및 우선지원 대상기업 운영비 지원에 관한 규정', '2100000264060', 'N']
+2025-09-19 22:53:27,522 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,522 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000264060']
+2025-09-19 22:53:27,527 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['진단수당', '2000000021546', 'Y']
+2025-09-19 22:53:27,527 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,527 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000021546']
+2025-09-19 22:53:27,532 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['진폐건강진단 실시 및 관리규정', '2100000243786', 'Y']
+2025-09-19 22:53:27,532 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,532 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243786']
+2025-09-19 22:53:27,537 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['진폐고시임금', '2100000251898', 'N']
+2025-09-19 22:53:27,537 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,537 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251898']
+2025-09-19 22:53:27,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['진폐업무 처리규정', '2100000054851', 'Y']
+2025-09-19 22:53:27,542 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,543 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000054851']
+2025-09-19 22:53:27,548 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['채용절차 공정화 관련 신고사무 처리지침', '2100000182170', 'Y']
+2025-09-19 22:53:27,548 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,548 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000182170']
+2025-09-19 22:53:27,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['채용절차의 공정화에 관한 법률에 따른 과태료의 가중처분에 관한 세부 지침', '2100000229974', 'Y']
+2025-09-19 22:53:27,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,553 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229974']
+2025-09-19 22:53:27,558 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['철강업에 있어서 수증기 폭발 및 고열물 접촉위험 방지를 위한 기술상의 지침', '2100000186061', 'Y']
+2025-09-19 22:53:27,558 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,558 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186061']
+2025-09-19 22:53:27,563 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['철골공사표준안전작업지침', '2100000186037', 'Y']
+2025-09-19 22:53:27,563 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,563 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186037']
+2025-09-19 22:53:27,568 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['「청년고용촉진 특별법」에 따른 과태료의 가중처분에 관한 세부 지침', '2100000229714', 'Y']
+2025-09-19 22:53:27,568 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,568 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000229714']
+2025-09-19 22:53:27,573 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['청년고용촉진특별위원회 운영규정', '2100000055373', 'Y']
+2025-09-19 22:53:27,573 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,573 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000055373']
+2025-09-19 22:53:27,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['청년취업아카데미 운영 규정', '2100000209269', 'Y']
+2025-09-19 22:53:27,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,578 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209269']
+2025-09-19 22:53:27,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['청사 임대차 계약에 관한 규정', '2100000259936', 'Y']
+2025-09-19 22:53:27,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,584 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000259936']
+2025-09-19 22:53:27,588 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['체불 임금등 대지급금 관련업무 지원대상이 되는 퇴직한 근로자의 퇴직 전 월평균보수액', '2100000223830', 'N']
+2025-09-19 22:53:27,588 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,588 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000223830']
+2025-09-19 22:53:27,594 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['체불 임금등 대지급금 상한액 고시', '2100000205348', 'N']
+2025-09-19 22:53:27,594 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,594 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000205348']
+2025-09-19 22:53:27,599 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['체불 임금등 대지급금 지급대상이 되는 재직 근로자의 임금액 기준', '2100000205344', 'N']
+2025-09-19 22:53:27,599 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,599 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000205344']
+2025-09-19 22:53:27,605 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['최고·최저 보상기준 금액', '2100000251930', 'N']
+2025-09-19 22:53:27,605 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,605 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251930']
+2025-09-19 22:53:27,610 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['최저임금법 제5조에 따른 단순노무직종 근로자 지정 고시', '2100000118064', 'Y']
+2025-09-19 22:53:27,610 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,610 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000118064']
+2025-09-19 22:53:27,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['최저임금위원회 사용자위원을 추천할 수 있는 단체 지정', '2100000177212', 'N']
+2025-09-19 22:53:27,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,616 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000177212']
+2025-09-19 22:53:27,621 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['추락재해방지표준안전작업지침', '2100000186039', 'Y']
+2025-09-19 22:53:27,621 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,621 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186039']
+2025-09-19 22:53:27,627 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['출산전후휴가 급여등 상한액 고시', '2100000254970', 'N']
+2025-09-19 22:53:27,627 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,627 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000254970']
+2025-09-19 22:53:27,631 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['취업규칙 심사요령', '2000000021030', 'N']
+2025-09-19 22:53:27,632 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,632 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000021030']
+2025-09-19 22:53:27,637 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['콘크리트공사표준안전작업지침', '2100000186041', 'Y']
+2025-09-19 22:53:27,637 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,637 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186041']
+2025-09-19 22:53:27,642 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['택시운송업 특별고용지원 업종 지정 고시', '2100000234734', 'N']
+2025-09-19 22:53:27,642 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,642 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234734']
+2025-09-19 22:53:27,647 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['터널공사 표준안전 작업지침-NATM공법', '2100000226004', 'Y']
+2025-09-19 22:53:27,647 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,647 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000226004']
+2025-09-19 22:53:27,652 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['통상근로계수', '2100000108863', 'N']
+2025-09-19 22:53:27,652 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,652 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000108863']
+2025-09-19 22:53:27,658 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['통상임금 산정지침', '2000000021031', 'Y']
+2025-09-19 22:53:27,658 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,658 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000021031']
+2025-09-19 22:53:27,662 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금사업자 평가에 관한 고시', '2100000238156', 'Y']
+2025-09-19 22:53:27,663 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,663 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000238156']
+2025-09-19 22:53:27,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금 수수료 부과에 관한 고시', '2100000232620', 'Y']
+2025-09-19 22:53:27,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,668 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000232620']
+2025-09-19 22:53:27,673 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금제도 모집인의 교육 등에 관한 규정', '2100000252850', 'Y']
+2025-09-19 22:53:27,673 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,673 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252850']
+2025-09-19 22:53:27,678 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금제도 모집인의 등록 등에 관한 규정', '2100000185374', 'Y']
+2025-09-19 22:53:27,678 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,678 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000185374']
+2025-09-19 22:53:27,683 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금제도 수급권의 담보제공 및 퇴직금 중간정산의 사유와 요건, 담보 한도 등에 관한 고시', '2100000195808', 'N']
+2025-09-19 22:53:27,683 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,683 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000195808']
+2025-09-19 22:53:27,688 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금제도에 관한 전문성이 있다고 인정하는 자', '2100000115838', 'N']
+2025-09-19 22:53:27,688 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,688 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000115838']
+2025-09-19 22:53:27,693 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직연금제도 취급실적 제출주기와 제출서식에 관한 규정', '2100000251042', 'Y']
+2025-09-19 22:53:27,693 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,693 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000251042']
+2025-09-19 22:53:27,698 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['퇴직의 효력발생시기', '2100000031705', 'N']
+2025-09-19 22:53:27,698 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,698 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000031705']
+2025-09-19 22:53:27,703 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['특별고용지원 업종의 지정기준 등에 관한 고시', '2100000240458', 'Y']
+2025-09-19 22:53:27,703 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,703 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000240458']
+2025-09-19 22:53:27,708 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['특별연장근로 건강보호조치', '2100000257476', 'N']
+2025-09-19 22:53:27,708 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,708 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000257476']
+2025-09-19 22:53:27,713 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['특수건강진단기관의 정도관리에 관한 고시', '2100000186108', 'Y']
+2025-09-19 22:53:27,714 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,714 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186108']
+2025-09-19 22:53:27,719 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['특수형태근로종사자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금', '2100000212836', 'N']
+2025-09-19 22:53:27,719 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,719 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000212836']
+2025-09-19 22:53:27,724 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['평균임금 산정상의 상여금 취급요령', '2100000029603', 'N']
+2025-09-19 22:53:27,724 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,724 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000029603']
+2025-09-19 22:53:27,724 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:53:27,724 - INFO - [scripts.adrule.logic.list_scraper] - --- 9 / 9 페이지 처리 중 ---
+2025-09-19 22:53:27,727 - INFO - [scripts.adrule.logic.list_scraper] - 9 페이지로 이동합니다...
+2025-09-19 22:53:27,730 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:53:27,840 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:53:27,855 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['평균임금산정 특례 고시', '2100000029605', 'Y']
+2025-09-19 22:53:27,855 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,855 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000029605']
+2025-09-19 22:53:27,860 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['플랫폼 사업자 보험사무이행지원금 산정기준', '2100000252062', 'N']
+2025-09-19 22:53:27,860 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,860 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252062']
+2025-09-19 22:53:27,865 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['학생연구자에 대한 산재보험료 및 보험급여 산정의 기초가 되는 보수액 및 평균임금', '2100000252360', 'N']
+2025-09-19 22:53:27,865 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,865 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000252360']
+2025-09-19 22:53:27,870 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['한국고용직업분류', '2100000250880', 'Y']
+2025-09-19 22:53:27,870 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,870 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000250880']
+2025-09-19 22:53:27,875 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['한국폴리텍대학 대구·구미·진주캠퍼스 임대형 민간투자사업 시설사업기본계획 고시', '2100000175124', 'N']
+2025-09-19 22:53:27,875 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,875 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000175124']
+2025-09-19 22:53:27,880 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['한국폴리텍대학 창원2캠퍼스·영주캠퍼스 공학관 및 기숙사 증·개축 임대형 민간투자사업', '2100000176058', 'N']
+2025-09-19 22:53:27,880 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,880 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000176058']
+2025-09-19 22:53:27,884 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['한국폴리텍대학 청주캠퍼스·아산캠퍼스 임대형 민간투자사업 시설사업기본계획 고시', '2100000109529', 'N']
+2025-09-19 22:53:27,885 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,885 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000109529']
+2025-09-19 22:53:27,891 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['한미 자유무역협정의 노동(제19장)에 대한 진정처리 등에 관한 지침', '2000000017591', 'Y']
+2025-09-19 22:53:27,891 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,891 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2000000017591']
+2025-09-19 22:53:27,895 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['한·캐나다 자유무역협정의 노동(제18장)에 대한 진정처리 등에 관한 지침', '2100000009216', 'Y']
+2025-09-19 22:53:27,895 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,895 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000009216']
+2025-09-19 22:53:27,901 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['해체공사표준안전작업지침', '2100000186047', 'Y']
+2025-09-19 22:53:27,901 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,901 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186047']
+2025-09-19 22:53:27,906 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['행정정보공동이용망을 통한 고용민원사무 처리 운영 규정', '2100000234610', 'Y']
+2025-09-19 22:53:27,906 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,906 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000234610']
+2025-09-19 22:53:27,911 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['현장 실무인재 양성을 위한 직업능력개발훈련 운영규정', '2100000235080', 'Y']
+2025-09-19 22:53:27,911 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,911 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000235080']
+2025-09-19 22:53:27,916 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['현장실습생에 대한 산업재해보상보험 적용범위', '2100000243830', 'Y']
+2025-09-19 22:53:27,916 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,916 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000243830']
+2025-09-19 22:53:27,922 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['화학물질 및 물리적 인자의 노출기준', '2100000186058', 'Y']
+2025-09-19 22:53:27,922 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,922 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000186058']
+2025-09-19 22:53:27,926 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['화학물질의 분류·표시 및 물질안전보건자료에 관한 기준', '2100000262720', 'Y']
+2025-09-19 22:53:27,926 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,926 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000262720']
+2025-09-19 22:53:27,941 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['화학물질의 유해성·위험성 평가에 관한 규정', '2100000217673', 'Y']
+2025-09-19 22:53:27,941 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,941 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000217673']
+2025-09-19 22:53:27,945 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['확정급여형퇴직연금제도의 재정검증결과 통보양식 고시', '2100000247580', 'N']
+2025-09-19 22:53:27,945 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,945 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000247580']
+2025-09-19 22:53:27,950 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['회계업무처리에 관한 규정', '2100000198951', 'Y']
+2025-09-19 22:53:27,950 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,950 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000198951']
+2025-09-19 22:53:27,956 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Extracted params: ['훈련지시대상 훈련과정 및 직종 고시', '2100000209212', 'N']
+2025-09-19 22:53:27,956 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Found efYd: None
+2025-09-19 22:53:27,956 - INFO - [scripts.adrule.logic.list_scraper] - build_detail_url: Initial lsiSeq candidates: ['2100000209212']
+2025-09-19 22:53:27,956 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 19개의 링크를 발견, 19개를 최종 추가했습니다.
+2025-09-19 22:53:27,956 - INFO - [scripts.adrule.logic.list_scraper] - 브라우저를 닫습니다.
+2025-09-19 22:53:27,985 - INFO - [scripts.adrule.logic.list_scraper] - 스크레이핑 완료. 총 419개의 URL을 수집했습니다.
+2025-09-19 22:53:27,986 - INFO - [__main__] - 총 419개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.
+2025-09-19 22:53:28,683 - INFO - [__main__] - 상세 페이지 스크레이퍼 실행: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-09-19 22:53:29,090 - INFO - [scripts.adrule.logic.scraper] - 페이지로 이동 중: https://www.law.go.kr/admRulInfoP.do?admRulSeq=2100000252102
+2025-09-19 22:53:29,596 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 나타나기를 기다리는 중...
+2025-09-19 22:53:29,615 - INFO - [scripts.adrule.logic.scraper] - 로딩 마스크가 사라지기를 기다리는 중...
+2025-09-19 22:53:29,695 - INFO - [scripts.adrule.logic.scraper] - 페이지 최종 렌더링을 잠시 대기합니다...

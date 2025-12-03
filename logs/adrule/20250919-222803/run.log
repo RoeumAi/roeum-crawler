@@ -1,0 +1,135 @@
+2025-09-19 22:28:05,169 - INFO - [scripts.adrule.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-09-19 22:28:05,380 - INFO - [scripts.adrule.logic.list_scraper] - 스크레이핑을 시작합니다...
+2025-09-19 22:28:05,811 - INFO - [scripts.adrule.logic.list_scraper] - 시작 페이지로 이동 중: https://www.law.go.kr/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000
+2025-09-19 22:28:07,030 - INFO - [scripts.adrule.logic.list_scraper] - 총 9 페이지를 확인했습니다.
+2025-09-19 22:28:07,031 - INFO - [scripts.adrule.logic.list_scraper] - --- 1 / 9 페이지 처리 중 ---
+2025-09-19 22:28:07,217 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (1페이지 30번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,217 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 4대 사회보험 민원서류 접수 등에 관한 고시'
+2025-09-19 22:28:07,217 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 4대 사회보험 민원서류 접수 등에 관한 고시','2100000213115','Y');return false;'
+2025-09-19 22:28:07,217 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,222 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (1페이지 31번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,222 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 가공·변형된 석면함유가능물질의 석면허용기준'
+2025-09-19 22:28:07,222 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 가공·변형된 석면함유가능물질의 석면허용기준','2100000196119','N');return false;'
+2025-09-19 22:28:07,223 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,299 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (1페이지 44번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,299 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 공익신고 처리 및 신고자 보호 등에 관한 규정'
+2025-09-19 22:28:07,299 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 공익신고 처리 및 신고자 보호 등에 관한 규정','2100000237172','Y');return false;'
+2025-09-19 22:28:07,299 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,325 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (1페이지 48번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,325 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 국유재산 관리 규정'
+2025-09-19 22:28:07,325 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 국유재산 관리 규정','2100000211670','Y');return false;'
+2025-09-19 22:28:07,325 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,336 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 46개를 최종 추가했습니다.
+2025-09-19 22:28:07,336 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 페이지 요약 경고: 1 페이지에서 예상(50개)보다 적은 46개의 URL이 추가되었습니다.
+2025-09-19 22:28:07,336 - INFO - [scripts.adrule.logic.list_scraper] - --- 2 / 9 페이지 처리 중 ---
+2025-09-19 22:28:07,343 - INFO - [scripts.adrule.logic.list_scraper] - 2 페이지로 이동합니다...
+2025-09-19 22:28:07,348 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:07,721 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:07,828 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 6번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,828 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 디지털 증거 수집·분석 및 관리 규정'
+2025-09-19 22:28:07,828 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 디지털 증거 수집·분석 및 관리 규정','2100000241790','Y');return false;'
+2025-09-19 22:28:07,828 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,837 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 7번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,837 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 맞춤형 복지제도 운영규정'
+2025-09-19 22:28:07,837 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 맞춤형 복지제도 운영규정','2100000237210','Y');return false;'
+2025-09-19 22:28:07,837 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,858 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 8번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,860 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 물품관리규정'
+2025-09-19 22:28:07,860 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 물품관리규정','2100000152251','Y');return false;'
+2025-09-19 22:28:07,860 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:07,935 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 15번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:07,935 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 부패행위 내부신고자 보호 등에 관한 규정'
+2025-09-19 22:28:07,935 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 부패행위 내부신고자 보호 등에 관한 규정','2100000237208','Y');return false;'
+2025-09-19 22:28:07,936 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,022 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 21번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,022 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 예산집행심의회 운영규정'
+2025-09-19 22:28:08,022 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 예산집행심의회 운영규정','2100000230668','Y');return false;'
+2025-09-19 22:28:08,022 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,047 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 24번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,048 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 인적자원개발 우수기관 인증제 운영규정'
+2025-09-19 22:28:08,048 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 인적자원개발 우수기관 인증제 운영규정','2100000206255','Y');return false;'
+2025-09-19 22:28:08,048 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,130 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 33번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,130 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 제3종시설물 지정 고시'
+2025-09-19 22:28:08,130 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 제3종시설물 지정 고시','2100000252804','N');return false;'
+2025-09-19 22:28:08,130 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,149 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 35번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,149 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 참고인 등 비용지급에 관한 규정'
+2025-09-19 22:28:08,149 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 참고인 등 비용지급에 관한 규정','2100000029602','Y');return false;'
+2025-09-19 22:28:08,149 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,174 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (2페이지 39번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,174 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' (고용노동부) 화학재난 합동방재센터의 설치 및 운영에 관한 규정'
+2025-09-19 22:28:08,174 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('(고용노동부) 화학재난 합동방재센터의 설치 및 운영에 관한 규정','2100000223972','Y');return false;'
+2025-09-19 22:28:08,174 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,265 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 41개를 최종 추가했습니다.
+2025-09-19 22:28:08,265 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 페이지 요약 경고: 2 페이지에서 예상(50개)보다 적은 41개의 URL이 추가되었습니다.
+2025-09-19 22:28:08,265 - INFO - [scripts.adrule.logic.list_scraper] - --- 3 / 9 페이지 처리 중 ---
+2025-09-19 22:28:08,270 - INFO - [scripts.adrule.logic.list_scraper] - 3 페이지로 이동합니다...
+2025-09-19 22:28:08,275 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:08,392 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:08,685 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (3페이지 45번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,685 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 교육훈련시간 승진반영제도(상시학습) 운영지침'
+2025-09-19 22:28:08,685 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('교육훈련시간 승진반영제도(상시학습) 운영지침','2100000216803','N');return false;'
+2025-09-19 22:28:08,685 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:08,722 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 49개를 최종 추가했습니다.
+2025-09-19 22:28:08,722 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 페이지 요약 경고: 3 페이지에서 예상(50개)보다 적은 49개의 URL이 추가되었습니다.
+2025-09-19 22:28:08,722 - INFO - [scripts.adrule.logic.list_scraper] - --- 4 / 9 페이지 처리 중 ---
+2025-09-19 22:28:08,726 - INFO - [scripts.adrule.logic.list_scraper] - 4 페이지로 이동합니다...
+2025-09-19 22:28:08,732 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:08,845 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:08,965 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (4페이지 18번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:08,966 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 근로감독관 집무규정(산업안전보건)'
+2025-09-19 22:28:08,966 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('근로감독관 집무규정(산업안전보건)','2100000246934','Y');return false;'
+2025-09-19 22:28:08,966 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:09,197 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 49개를 최종 추가했습니다.
+2025-09-19 22:28:09,197 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 페이지 요약 경고: 4 페이지에서 예상(50개)보다 적은 49개의 URL이 추가되었습니다.
+2025-09-19 22:28:09,197 - INFO - [scripts.adrule.logic.list_scraper] - --- 5 / 9 페이지 처리 중 ---
+2025-09-19 22:28:09,202 - INFO - [scripts.adrule.logic.list_scraper] - 5 페이지로 이동합니다...
+2025-09-19 22:28:09,206 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:09,571 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:09,816 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:28:09,816 - INFO - [scripts.adrule.logic.list_scraper] - --- 6 / 9 페이지 처리 중 ---
+2025-09-19 22:28:09,819 - INFO - [scripts.adrule.logic.list_scraper] - 6 페이지로 이동합니다...
+2025-09-19 22:28:09,822 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:09,944 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:10,072 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (6페이지 23번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:10,072 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 영상표시단말기(VDT) 취급근로자 작업관리지침'
+2025-09-19 22:28:10,072 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('영상표시단말기(VDT) 취급근로자 작업관리지침','2100000185801','Y');return false;'
+2025-09-19 22:28:10,072 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:10,211 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 49개를 최종 추가했습니다.
+2025-09-19 22:28:10,211 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 페이지 요약 경고: 6 페이지에서 예상(50개)보다 적은 49개의 URL이 추가되었습니다.
+2025-09-19 22:28:10,211 - INFO - [scripts.adrule.logic.list_scraper] - --- 7 / 9 페이지 처리 중 ---
+2025-09-19 22:28:10,214 - INFO - [scripts.adrule.logic.list_scraper] - 7 페이지로 이동합니다...
+2025-09-19 22:28:10,217 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:10,329 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:10,388 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (7페이지 9번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:10,388 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 작업장 공기질 한국산업표준(KS)'
+2025-09-19 22:28:10,389 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('작업장 공기질 한국산업표준(KS)','2100000207828','N');return false;'
+2025-09-19 22:28:10,389 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:10,478 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (7페이지 28번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:10,478 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 주로 하나의 사업자로부터 업무를 의뢰받아 퀵서비스 또는 대리운전업무를 하는 사람의 기준(퀵서비스기사 및 대리운전기사의 전속성 기준)'
+2025-09-19 22:28:10,479 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('주로 하나의 사업자로부터 업무를 의뢰받아 퀵서비스 또는 대리운전업무를 하는 사람의 기준(퀵서비스기사 및 대리운전기사의 전속성 기준)','2100000081374','N');return false;'
+2025-09-19 22:28:10,479 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:10,577 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 48개를 최종 추가했습니다.
+2025-09-19 22:28:10,577 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 페이지 요약 경고: 7 페이지에서 예상(50개)보다 적은 48개의 URL이 추가되었습니다.
+2025-09-19 22:28:10,577 - INFO - [scripts.adrule.logic.list_scraper] - --- 8 / 9 페이지 처리 중 ---
+2025-09-19 22:28:10,580 - INFO - [scripts.adrule.logic.list_scraper] - 8 페이지로 이동합니다...
+2025-09-19 22:28:10,583 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:10,695 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:10,954 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 50개의 링크를 발견, 50개를 최종 추가했습니다.
+2025-09-19 22:28:10,954 - INFO - [scripts.adrule.logic.list_scraper] - --- 9 / 9 페이지 처리 중 ---
+2025-09-19 22:28:10,957 - INFO - [scripts.adrule.logic.list_scraper] - 9 페이지로 이동합니다...
+2025-09-19 22:28:10,960 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용이 갱신되기를 대기합니다...
+2025-09-19 22:28:11,070 - INFO - [scripts.adrule.logic.list_scraper] - 페이지 내용 갱신 확인 및 로딩 완료.
+2025-09-19 22:28:11,112 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (9페이지 7번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:11,112 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 한미 자유무역협정의 노동(제19장)에 대한 진정처리 등에 관한 지침'
+2025-09-19 22:28:11,112 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('한미 자유무역협정의 노동(제19장)에 대한 진정처리 등에 관한 지침','2000000017591','Y');return false;'
+2025-09-19 22:28:11,112 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:11,117 - WARNING - [scripts.adrule.logic.list_scraper] - !!! 누락 경고 (9페이지 8번째 항목): URL 또는 법령명을 추출하지 못했습니다.
+2025-09-19 22:28:11,117 - WARNING - [scripts.adrule.logic.list_scraper] -     - 법령명: ' 한·캐나다 자유무역협정의 노동(제18장)에 대한 진정처리 등에 관한 지침'
+2025-09-19 22:28:11,117 - WARNING - [scripts.adrule.logic.list_scraper] -     - OnClick 속성: 'javascript:admRulReturnSearch('한·캐나다 자유무역협정의 노동(제18장)에 대한 진정처리 등에 관한 지침','2100000009216','Y');return false;'
+2025-09-19 22:28:11,117 - WARNING - [scripts.adrule.logic.list_scraper] -     - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.
+2025-09-19 22:28:11,186 - INFO - [scripts.adrule.logic.list_scraper] - 현재 페이지에서 18개의 링크를 발견, 16개를 최종 추가했습니다.
+2025-09-19 22:28:11,186 - INFO - [scripts.adrule.logic.list_scraper] - 브라우저를 닫습니다.
+2025-09-19 22:28:11,219 - INFO - [scripts.adrule.logic.list_scraper] - 스크레이핑 완료. 총 398개의 URL을 수집했습니다.
+2025-09-19 22:28:11,221 - INFO - [__main__] - 총 398개의 URL을 './bin/../data/raw/adrule/1492000/urls.jsonl' 파일에 저장했습니다.

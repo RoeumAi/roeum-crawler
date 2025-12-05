@@ -1,0 +1,5 @@
+2025-12-05 13:40:46,147 - INFO - [__main__] - 'data/final/adrule/1492000/all_adrule_documents.jsonl' 파일 처리 시작...
+2025-12-05 13:40:46,151 - INFO - [__main__] - ✅ 처리 완료!
+2025-12-05 13:40:46,151 - INFO - [__main__] -   - 성공: 418건
+2025-12-05 13:40:46,151 - INFO - [__main__] -   - 건너뜀: 0건
+2025-12-05 13:40:46,151 - INFO - [__main__] -   - 출력 파일: 'data/final/adrule/1492000/all_adrule_documents_updated.jsonl'

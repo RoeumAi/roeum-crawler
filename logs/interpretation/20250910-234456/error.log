@@ -1,6 +1,0 @@
-2025-09-10 23:44:59,291 - ERROR - [scripts.interpretation.logic.interpretation_scraper] - 스크레이핑 중 에러 발생: 'Locator' object has no attribute 'tag_name'
-Traceback (most recent call last):
-  File "/Users/woong/Roeum/roeum-crawler/scripts/interpretation/logic/interpretation_scraper.py", line 140, in scrape_interpretation_data
-    tag_name = await element.tag_name()
-                     ^^^^^^^^^^^^^^^^
-AttributeError: 'Locator' object has no attribute 'tag_name'

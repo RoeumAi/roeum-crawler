@@ -1,2 +1,0 @@
-2025-09-08 23:56:45,226 - INFO - [scripts.interpretation.logic.url_checker] - URL 유효성 검사를 위해 페이지로 이동합니다: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773
-2025-09-08 23:56:46,638 - INFO - [scripts.interpretation.logic.url_checker] - URL 유효성 검증 성공: https://www.law.go.kr/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=773

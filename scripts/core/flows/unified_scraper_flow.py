@@ -268,7 +268,6 @@ async def store_in_mongodb_task(
 
 @flow(
     name="unified-scraper",
-    work_pool_name="default",
     description="모든 scraper를 위한 통합 Flow"
 )
 async def unified_scraper_flow(

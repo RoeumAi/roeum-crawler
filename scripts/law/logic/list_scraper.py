@@ -37,7 +37,7 @@ def build_detail_url(onclick_attr: str):
 
     return url
 
-async def fetch_law_urls(start_url: str, max_pages_arg: int | None):
+async def fetch_urls(start_url: str, max_pages_arg: int | None):
     """법령 목록 페이지를 순회하며 상세 페이지 URL을 추출하여 반환합니다."""
     urls_found = []
     async with async_playwright() as p:

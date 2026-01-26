@@ -11,3 +11,17 @@ services:
     volumes:
       - ./dbdata:/var/lib/postgresql/data
       - ./sql/init:/docker-entrypoint-initdb.d
+
+  mongodb:
+    image: mongo:7.0
+    container_name: roeum_mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: roeum
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: roeum_crawler
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodata:/data/db
+    restart: unless-stopped
+

@@ -17,7 +17,6 @@ def build_detail_url(onclick_attr: str):
     """onclick 속성값에서 상세 페이지 URL을 생성합니다."""
     match = re.search(r"openDetail\('([^']*)'\)", onclick_attr or "")
     if not match:
-        logger.warning(f"URL을 추출할 수 없는 onclick 속성 발견: {onclick_attr}")
         return None
 
     relative_url = match.group(1)
@@ -27,6 +26,7 @@ def build_detail_url(onclick_attr: str):
 async def fetch_urls(start_url: str, max_pages_arg: int | None):
     """판례 목록 페이지를 순회하며 상세 페이지 URL을 추출하여 반환합니다."""
     urls_found = []
+    seen_urls = set()  # 중복 URL 제거용
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
@@ -64,15 +64,35 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
                     await expect(page.locator("#resultTableDiv tbody tr:first-child a").first).not_to_have_text(first_item_before, timeout=20000)
                     logger.info("페이지 이동 완료.")
 
-                case_links = await page.query_selector_all("#resultTableDiv a[onclick*='precInfoP.do']")
+                # openDetail 또는 precInfoP.do를 포함하는 링크 찾기
+                case_links = await page.query_selector_all("#resultTableDiv a[onclick*='openDetail'], #resultTableDiv a[onclick*='precInfoP.do']")
+                
+                logger.info(f"발견된 링크: {len(case_links)}개")
+                
                 for link in case_links:
-                    onclick = await link.get_attribute("onclick")
-                    case_name = await link.inner_text()
-                    detail_url = build_detail_url(onclick)
-                    if detail_url and case_name:
-                        safe_name = re.sub(r'[\\/*?:"<>|]', "", case_name).strip()
-                        urls_found.append({"name": safe_name, "url": detail_url})
-                        logger.info(f"  - 발견: {case_name}")
+                    try:
+                        onclick = await link.get_attribute("onclick")
+                        case_name = await link.inner_text()
+                        detail_url = build_detail_url(onclick)
+                        
+                        if detail_url and case_name:
+                            # lsInfoP.do (법령)를 제외하고 precInfoP.do (판례)만 추출
+                            if 'lsInfoP.do' in detail_url:
+                                logger.debug(f"  - 법령 건너뜀: {case_name[:50]}")
+                                continue
+                            
+                            # 중복 URL 체크
+                            if detail_url in seen_urls:
+                                logger.debug(f"  - 중복 건너뜀: {case_name}")
+                                continue
+                            
+                            seen_urls.add(detail_url)
+                            safe_name = re.sub(r'[\\/*?:"<>|]', "", case_name).strip()
+                            urls_found.append({"name": safe_name, "url": detail_url})
+                            logger.info(f"  - 발견: {case_name}")
+                    except Exception as e:
+                        logger.debug(f"링크 처리 중 에러: {e}")
+                        continue
         except Exception as e:
             logger.error(f"목록 스크레이핑 중 에러 발생: {e}", exc_info=True)
         finally:

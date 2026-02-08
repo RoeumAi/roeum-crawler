@@ -19,10 +19,19 @@ async def main():
     parser.add_argument("--dept_code", required=True, help="필터링할 부처 코드")
     parser.add_argument("-o", "--output_dir", required=True, help="결과를 저장할 폴더 경로")
     parser.add_argument("--max_pages", type=int, default=None, help="크롤링할 최대 페이지 수")
+    parser.add_argument("--save_to_db", action='store_true', default=True, help="MongoDB에 저장 (기본값: True)")
+    parser.add_argument("--save_jsonl", action='store_true', default=False, help="JSONL 파일로 저장 (기본값: False)")
     args = parser.parse_args()
 
     logger.info("통합 스크레이퍼 실행...")
-    await scrape_interpretation_data(args.start_url, args.dept_code, args.output_dir, args.max_pages)
+    await scrape_interpretation_data(
+        args.start_url, 
+        args.dept_code, 
+        args.output_dir, 
+        args.max_pages,
+        save_to_db=args.save_to_db,
+        save_jsonl=args.save_jsonl
+    )
     logger.info("통합 스크레이퍼 완료.")
 
 if __name__ == "__main__":

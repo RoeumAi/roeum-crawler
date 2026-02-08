@@ -4,3 +4,17 @@ __pycache__/
 exports/
 .env
 .DS_Store
+
+# 크롤링 데이터 & 로그
+data/output/*.jsonl
+data/raw/
+logs/
+debug/
+mongodata/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+

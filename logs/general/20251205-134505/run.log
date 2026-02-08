@@ -1,5 +1,0 @@
-2025-12-05 13:45:05,414 - INFO - [__main__] - 'data/final/case/1492000/all_case_documents.jsonl' 파일 처리 시작...
-2025-12-05 13:45:05,435 - INFO - [__main__] - ✅ 처리 완료!
-2025-12-05 13:45:05,435 - INFO - [__main__] -   - 변경됨: 1245건
-2025-12-05 13:45:05,435 - INFO - [__main__] -   - 변경 안 됨: 5344건
-2025-12-05 13:45:05,435 - INFO - [__main__] -   - 출력 파일: 'data/final/case/1492000/all_case_documents_cleaned.jsonl'

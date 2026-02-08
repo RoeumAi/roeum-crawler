@@ -18,12 +18,21 @@ async def main():
     parser.add_argument("url", help="스크레이핑할 법령 페이지의 전체 URL")
     parser.add_argument("-d", "--dept", required=True, help="데이터를 저장할 하위 폴더 이름 (보통 부처 코드)")
     parser.add_argument("-o", "--output", required=True, help="출력 파일의 기본 이름 (예: gasa-law)")
+    parser.add_argument("--no-db", action="store_true", help="MongoDB 저장하지 않음 (기본값: 저장함)")
     args = parser.parse_args()
 
     output_dir = os.path.join(project_root, 'data', 'raw', 'adrule', args.dept)
+    save_to_db = not args.no_db
 
     logger.info(f"상세 페이지 스크레이퍼 실행: {args.url}")
-    await scrape_and_save(args.url, output_dir, args.output)
+    await scrape_and_save(
+        args.url, 
+        output_dir, 
+        args.output, 
+        dept_code=args.dept,
+        save_to_db=save_to_db,
+        save_jsonl=True
+    )
     logger.info(f"상세 페이지 스크레이퍼 완료: {args.output}")
 
 if __name__ == "__main__":

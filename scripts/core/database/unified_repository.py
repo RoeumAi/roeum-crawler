@@ -41,11 +41,18 @@ class UnifiedDocumentRepository:
     def _ensure_indexes(self):
         """인덱스 생성"""
         try:
-            # 유니크 인덱스: doc_id + is_active (같은 doc_id의 여러 버전 관리)
-            self.collection.create_index([
-                ("doc_id", 1),
-                ("metadata.is_active", 1)
-            ], unique=True, sparse=True)
+            # doc_id + is_active 인덱스 (유니크 제약 없음)
+            # 여러 버전이 존재할 수 있으므로 unique=False
+            try:
+                self.collection.create_index([
+                    ("doc_id", 1),
+                    ("metadata.is_active", 1)
+                ], sparse=True)
+            except Exception as idx_e:
+                # 인덱스가 이미 존재하는 경우 무시
+                if "IndexKeySpecsConflict" not in str(idx_e):
+                    raise
+                logger.debug(f"doc_id + is_active 인덱스는 이미 존재합니다.")
             
             # 검색용 인덱스
             self.collection.create_index([("doc_type", 1)])

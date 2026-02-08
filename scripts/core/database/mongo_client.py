@@ -46,7 +46,7 @@ class MongoClientSingleton:
             logger.info(f"✅ MongoDB 연결 성공: {db_name}")
         except ServerSelectionTimeoutError as e:
             logger.error(f"❌ MongoDB 연결 실패: {e}")
-            logger.error("   설정 확인: MONGO_URI 환경변수 또는 localhost:27017")
+            logger.error("   설정 확인: MONGO_URI 환경변수")
             raise
         except Exception as e:
             logger.error(f"❌ MongoDB 오류: {e}")

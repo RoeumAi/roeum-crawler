@@ -60,7 +60,18 @@ async def fetch_urls_task(
             raise ValueError(f"fetch_urls not found in {scraper_type} scraper")
         
         # Scraper별 URL 수집 (list_scraper 모듈의 구현을 사용)
-        list_page_url = f"https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd={config.dept_code}"
+        if scraper_type == "case":
+            list_page_url = f"https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd={config.dept_code}"
+        elif scraper_type == "adrule":
+            # [업데이트] 새로운 URL 구조로 변경됨
+            list_page_url = f"https://www.law.go.kr/LSW/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd={config.dept_code}"
+        elif scraper_type == "interpretation":
+            # 법령해석 전용 URL (상위 분류 및 하위 분류 포함)
+            list_page_url = "https://www.law.go.kr/LSW/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=733&upperOfiClsCd=010501&ofiClsCd=350101"
+        else:
+            # law, decision, mediation_case 등
+            list_page_url = f"https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd={config.dept_code}"
+        
         urls = await fetch_urls(
             start_url=list_page_url,
             max_pages_arg=max_pages
@@ -70,7 +81,10 @@ async def fetch_urls_task(
         
         # URLItem으로 변환하여 검증
         url_items = [
-            URLItem(name=url.get("name", ""), url=url.get("url", ""))
+            URLItem(
+                name=url.get("name", ""),
+                url=url if isinstance(url.get("url"), str) else url  # dict 전체 또는 url 문자열
+            )
             for url in urls
         ]
         
@@ -120,13 +134,17 @@ async def scrape_document_task(
         output_dir = os.path.join(os.getcwd(), ENV.output_dir)
         os.makedirs(output_dir, exist_ok=True)
         
+        # JSONL 저장 여부 (대용량 크롤링에서는 False로 설정하여 디스크 절약)
+        save_jsonl = os.getenv('SAVE_JSONL', 'true').lower() == 'true'
+        
         # 스크래핑 실행
         result = await scrape_and_save(
             url=doc_info["url"],
             output_dir=output_dir,
             output_name=f"prefect_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
             dept_code=doc_info.get("dept_code", "1492000"),
-            save_to_db=True
+            save_to_db=True,
+            save_jsonl=save_jsonl
         )
         
         return {
@@ -182,18 +200,26 @@ async def scrape_all_urls_task(
         failed_count = 0
         errors = []
         
-        for result in results:
+        for idx, result in enumerate(results, 1):
             if isinstance(result, Exception):
                 failed_count += 1
-                errors.append(str(result))
+                error_msg = str(result)
+                logger.warning(f"  [{idx}/{len(urls)}] ❌ 실패: {error_msg}")
+                errors.append(error_msg)
             elif isinstance(result, dict) and result.get("status") == "success":
                 success_count += 1
+                doc_id = result.get("doc_id", "Unknown")
+                logger.debug(f"  [{idx}/{len(urls)}] ✅ 성공: {doc_id}")
             else:
                 failed_count += 1
+                error_msg = result.get("error", "Unknown error") if isinstance(result, dict) else str(result)
+                logger.warning(f"  [{idx}/{len(urls)}] ❌ 실패: {error_msg}")
                 if isinstance(result, dict) and result.get("error"):
                     errors.append(result["error"])
         
-        logger.info(f"✅ Step 2 완료: {success_count}개 성공, {failed_count}개 실패")
+        logger.info(f"✅ Step 2 완료: {success_count}/{len(urls)}개 성공, {failed_count}개 실패")
+        if errors and len(errors) <= 5:
+            logger.warning(f"  에러 목록: {errors}")
         
         return BatchScrapingResult(
             status="success",
@@ -215,6 +241,94 @@ async def scrape_all_urls_task(
 
 
 # ============================================================================
+# TASK 3.5: 통합 JSONL 저장 (병렬 처리 최적화)
+# ============================================================================
+
+@task(name="Merge JSONL Files", retries=2, retry_delay_seconds=30)
+async def merge_jsonl_files_task(
+    scraper_type: str,
+    total_scraped: int
+) -> Dict:
+    """
+    개별 JSONL 파일들을 하나의 통합 파일로 병합 (병렬 처리 최적화)
+    
+    병렬 처리로 생성된 개별 JSONL 파일들을 수집하여
+    하나의 통합 JSONL 파일로 저장합니다.
+    
+    Args:
+        scraper_type: 스크래퍼 타입
+        total_scraped: 스크래핑된 총 문서 수
+    
+    Returns:
+        저장 결과 딕셔너리
+    """
+    logger = get_run_logger()
+    
+    try:
+        from pathlib import Path
+        
+        output_dir = os.path.join(project_root, "data", "output")
+        
+        # 최신 타임스탬프로 통합 파일명 생성
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        merged_filename = os.path.join(output_dir, f"merged_{scraper_type}_{timestamp}_merged.jsonl")
+        
+        # 최근 파일들 수집 (현재 실행의 개별 파일들)
+        all_jsonl_files = sorted(
+            Path(output_dir).glob("prefect_*.jsonl"),
+            key=lambda x: x.stat().st_mtime,
+            reverse=True
+        )
+        
+        # 현재 실행의 파일들만 선택 (최근 total_scraped개)
+        recent_files = all_jsonl_files[:max(total_scraped, len(all_jsonl_files))]
+        
+        merged_docs = []
+        doc_count = 0
+        
+        for jsonl_file in recent_files:
+            try:
+                with open(jsonl_file, 'r', encoding='utf-8') as f:
+                    for line in f:
+                        if line.strip():
+                            doc = json.loads(line)
+                            merged_docs.append(doc)
+                            doc_count += 1
+            except Exception as e:
+                logger.warning(f"⚠️  파일 읽기 실패 {jsonl_file.name}: {e}")
+                continue
+        
+        # 통합 JSONL 파일 생성
+        with open(merged_filename, 'w', encoding='utf-8') as f:
+            for doc in merged_docs:
+                f.write(json.dumps(doc, ensure_ascii=False) + '\n')
+        
+        logger.info(
+            f"✅ JSONL 병합 완료:\n"
+            f"   입력: {len(recent_files)}개 파일\n"
+            f"   출력: {merged_filename}\n"
+            f"   문서: {doc_count}개"
+        )
+        
+        return {
+            "status": "success",
+            "merged_file": merged_filename,
+            "input_files": len(recent_files),
+            "output_documents": doc_count,
+            "error": None
+        }
+    
+    except Exception as e:
+        logger.error(f"❌ JSONL 병합 실패: {str(e)}")
+        return {
+            "status": "failed",
+            "merged_file": None,
+            "input_files": 0,
+            "output_documents": 0,
+            "error": str(e)
+        }
+
+
 # TASK 4: MongoDB 저장 (중앙집중식)
 # ============================================================================
 
@@ -229,8 +343,7 @@ async def store_in_mongodb_task(
     STEP 3 개선: 현재 각 scraper의 scrape_and_save()에서 직접 MongoDB에 저장하므로,
     이 태스크는 확인/검증 역할만 합니다.
     
-    향후 Flow 레벨에서 모든 문서를 수집한 후 이 태스크에서 일괄 저장하도록 
-    리팩토링할 수 있습니다. (STEP 3 최적화 단계)
+    실제 MongoDB에 저장된 문서 개수를 쿼리해서 반환합니다.
     
     Args:
         scraper_type: 스크래퍼 타입
@@ -242,21 +355,34 @@ async def store_in_mongodb_task(
     logger = get_run_logger()
     
     try:
-        logger.info(f"📍 MongoDB 저장 작업 완료: {total_scraped}개 문서가 저장되었습니다.")
+        from scripts.core.database.mongo_client import get_mongo_db
+        
+        db = get_mongo_db()
+        collection = db[scraper_type]
+        
+        # 실제 MongoDB에 저장된 문서 개수
+        actual_count = collection.count_documents({})
+        
+        logger.info(f"📍 MongoDB 저장 작업 확인:")
+        logger.info(f"   - 스크래핑 시도: {total_scraped}개")
+        logger.info(f"   - 실제 저장됨: {actual_count}개")
+        
+        if actual_count != total_scraped:
+            logger.warning(f"⚠️  차이: {total_scraped - actual_count}개 (저장 실패 또는 중복)")
         
         return {
             "status": "success",
-            "inserted_count": total_scraped,
-            "updated_count": 0,
+            "scraped_count": total_scraped,
+            "actual_saved_count": actual_count,
             "error": None,
             "timestamp": datetime.now().isoformat()
         }
     except Exception as e:
-        logger.error(f"❌ MongoDB 저장 작업 실패: {str(e)}")
+        logger.error(f"❌ MongoDB 저장 작업 확인 실패: {str(e)}")
         return {
             "status": "failed",
-            "inserted_count": 0,
-            "updated_count": 0,
+            "scraped_count": total_scraped,
+            "actual_saved_count": 0,
             "error": str(e),
             "timestamp": datetime.now().isoformat()
         }
@@ -346,18 +472,35 @@ async def unified_scraper_flow(
     total_success = scrape_result.successful
     total_failed = scrape_result.failed
     
+    # STEP 3.5: JSONL 병합 (병렬 처리 최적화)
+    logger.info("\n" + "="*80)
+    logger.info("[STEP 3.5] 📄 JSONL 파일 병합")
+    logger.info("="*80)
+    
+    jsonl_result = await merge_jsonl_files_task(scraper_type, total_success)
+    
+    if jsonl_result["status"] == "success":
+        logger.info(
+            f"✅ JSONL 병합 완료:\n"
+            f"   입력: {jsonl_result['input_files']}개 파일\n"
+            f"   출력: {os.path.basename(jsonl_result['merged_file'])}\n"
+            f"   문서: {jsonl_result['output_documents']}개"
+        )
+    else:
+        logger.warning(f"⚠️ JSONL 병합 실패: {jsonl_result.get('error')}")
+    
     # STEP 3: 중앙집중식 MongoDB 저장 (현재 각 scraper에서 개별적으로 저장 중)
     logger.info("\n" + "="*80)
-    logger.info("[STEP 3] 💾 MongoDB 저장 작업 완료 확인")
+    logger.info("[STEP 4] 💾 MongoDB 저장 작업 완료 확인")
     logger.info("="*80)
     
     mongodb_result = await store_in_mongodb_task(scraper_type, total_success)
     
     if mongodb_result["status"] != "success":
-        logger.warning(f"⚠️ MongoDB 저장 작업 완료 확인 실패: {mongodb_result.get('error')}")
-        # 이미 각 scraper에서 저장했으므로 여기서는 경고만 하고 계속 진행
+        logger.warning(f"⚠️ MongoDB 저장 작업 확인 실패: {mongodb_result.get('error')}")
     else:
-        logger.info(f"✅ MongoDB 저장 작업 완료: {total_success}개 문서")
+        actual_saved = mongodb_result.get('actual_saved_count', 0)
+        logger.info(f"✅ MongoDB 저장 작업 완료: {actual_saved}개 문서 저장됨")
     
     # 최종 결과
     logger.info("\n" + "="*80)
@@ -371,5 +514,7 @@ async def unified_scraper_flow(
         "total_urls": total_urls,
         "total_success": total_success,
         "total_failed": total_failed,
+        "jsonl_merged": jsonl_result["status"] == "success",
+        "merged_file": jsonl_result.get("merged_file") if jsonl_result["status"] == "success" else None,
         "timestamp": datetime.now().isoformat()
     }

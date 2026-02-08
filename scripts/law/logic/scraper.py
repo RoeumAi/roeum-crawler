@@ -1,4 +1,5 @@
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import json
@@ -22,6 +23,61 @@ def clean_spaces(s: str) -> str:
     s = re.sub(r"[ \t]+", " ", s)
     s = re.sub(r"\n{3,}", "\n\n", s)
     return s.strip()
+
+def split_articles_by_number(content: str) -> List[Dict[str, str]]:
+    """
+    통합 content를 조별로 분리
+    
+    예: "[제1조(목적)]\n내용..." → [{"article_number": "1", "article_number_numeric": 1.0, "article_title": "제1조(목적)", "content": "내용..."}]
+    예: "[제5조의1(정의)]\n내용..." → [{"article_number": "5.1", "article_number_numeric": 5.1, "article_title": "제5조의1(정의)", "content": "내용..."}]
+    
+    지원하는 형식:
+    - 제1조, 제2조, ... → "1", 1.0
+    - 제5조의1, 제5조의2 → "5.1", 5.1
+    
+    Args:
+        content: 통합 content 텍스트
+    
+    Returns:
+        조별로 분리된 딕셔너리 리스트 (article_number, article_number_numeric, article_title, content 포함)
+    """
+    articles = []
+    
+    # 정규표현식: [제X조(...)]\n내용... 패턴 매칭
+    # 지원: 제1조, 제123조, 제1조의1, 제1조의2 등
+    # 캡처: 1번 그룹=숫자(1, 5 등), 2번=의 다음 숫자(1, 2 등, 옵션), 3번=주제, 4번=내용
+    pattern = r'\[제(\d+)(?:조(?:의(\d+))?)\(([^\)]+)\)\]\n((?:(?!\[제\d+).)*)'
+    
+    matches = re.finditer(pattern, content, re.DOTALL)
+    
+    for match in matches:
+        article_num = match.group(1)  # "1", "5" 등
+        sub_num = match.group(2)  # "1", "2" 등 (의 다음 숫자) 또는 None
+        article_topic = match.group(3)  # "목적", "정의" 등
+        article_content = match.group(4).strip()  # 실제 내용
+        
+        # article_number 포맷: "1", "5", "5.1", "5.2" 등
+        if sub_num:
+            article_number = f"{article_num}.{sub_num}"
+            article_number_numeric = float(f"{article_num}.{sub_num}")
+        else:
+            article_number = article_num
+            article_number_numeric = float(article_num)
+        
+        # article_title 포맷: "제1조(목적)", "제5조의1(정의)" 등
+        if sub_num:
+            article_title = f"제{article_num}조의{sub_num}({article_topic})"
+        else:
+            article_title = f"제{article_num}조({article_topic})"
+        
+        articles.append({
+            "article_number": article_number,
+            "article_number_numeric": article_number_numeric,
+            "article_title": article_title,
+            "content": article_content
+        })
+    
+    return articles
 
 def parse_law_html(html: str, url: str) -> Optional[Dict]:
     """
@@ -89,11 +145,16 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
     except:
         pass
     
-    # 4. sub_title 정제 (대괄호 제거)
+    # 4. sub_title 정제
     if sub_title:
-        # [고용노동부령 ...] 형태의 대괄호 제거
+        # 대괄호 제거: [고용노동부령 ...] → 고용노동부령 ...
         sub_title = re.sub(r'\[([^\[\]]+)\]', r'\1', sub_title)
-        # 시행일자와 법령번호 사이의 여러 공백을 하나로
+        
+        # "시행 YYYY. MM. DD." 또는 "시행 YYYY. MM. DD" 패턴 제거
+        # 예: "시행 2025. 12. 30. 고용노동부령 제458호" → "고용노동부령 제458호"
+        sub_title = re.sub(r'시행\s+\d{4}[.\-/]\s*\d{1,2}[.\-/]\s*\d{1,2}[.]?\s*', '', sub_title)
+        
+        # 여러 공백을 하나로, 앞뒤 공백 제거
         sub_title = re.sub(r'\s+', ' ', sub_title).strip()
     
     # 5. 콘텐츠 (모든 청크를 통합) 추출
@@ -175,7 +236,12 @@ def save_to_file(data, filename):
 
 def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
     """
-    통합 문서를 MongoDB에 저장 (변경 감지 기능 포함)
+    통합 문서를 조별로 분리한 후 MongoDB에 저장 (변경 감지 기능 포함)
+    
+    처리 흐름:
+    1. 통합 content를 정규표현식으로 조별 분리
+    2. 각 조마다 독립 문서 생성 (doc_id + 조번호로 구분)
+    3. 변경 감지 포함 upsert로 각 조 저장
     
     첫 저장: 신규 문서로 저장 (is_active=true)
     두 번째부터: 내용 변경 감지
@@ -198,29 +264,89 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
         db = get_mongo_db()
         repo = UnifiedDocumentRepository(db)
         
-        # 부처 코드가 있으면 메타데이터에 추가
-        if dept_code:
-            unified_doc["metadata"]["dept_code"] = dept_code
+        # 1. 조별로 분리
+        articles = split_articles_by_number(unified_doc["content"])
         
-        # 변경 감지 포함 upsert
-        doc_id, action_result = repo.upsert_with_change_detection(unified_doc)
+        if not articles:
+            logger.warning("분리된 조문이 없습니다. 통합 문서 그대로 저장합니다.")
+            articles = [{
+                "article_number": None,
+                "content": unified_doc["content"]
+            }]
         
-        # 결과에 따른 로깅
-        if action_result["action"] == "new_version":
-            logger.info(
-                f"✅ 새 버전 생성: {doc_id} (v{action_result['version']}) "
-                f"- 변경사항: {', '.join(action_result['changed_fields']) or 'metadata'}"
-            )
-        elif action_result["action"] == "update_existing":
-            logger.info(
-                f"🔄 기존 버전 유지: {doc_id} (v{action_result['version']}) "
-                f"- 메타데이터만 업데이트"
-            )
+        # 2. 각 조마다 독립 문서 생성 및 저장
+        base_doc_id = unified_doc["doc_id"]
+        saved_count = 0
+        failed_count = 0
         
-        return True
+        for idx, article in enumerate(articles, 1):
+            try:
+                # 조별 고유 doc_id 생성: base_id_articleNumber
+                # 예: "282225_1" (제1조), "282225_5.1" (제5조의1)
+                article_suffix = article['article_number'] if article['article_number'] else "full"
+                article_doc_id = f"{base_doc_id}_{article_suffix}"
+                
+                # 조별 문서 생성
+                article_doc = {
+                    "doc_id": article_doc_id,
+                    "article_number": article['article_number'],
+                    "article_number_numeric": article['article_number_numeric'],
+                    "article_title": article['article_title'],
+                    "title": unified_doc["title"],
+                    "sub_title": unified_doc["sub_title"],
+                    "content": article['content'],
+                    "metadata": {
+                        **unified_doc["metadata"],
+                        "article_index": idx,
+                        "total_articles": len(articles),
+                    }
+                }
+                
+                # 부처 코드 추가
+                if dept_code:
+                    article_doc["metadata"]["dept_code"] = dept_code
+                
+                # 변경 감지 포함 upsert
+                doc_id, action_result = repo.upsert_with_change_detection(article_doc)
+                
+                # 결과에 따른 로깅
+                if action_result["action"] == "new_version":
+                    logger.info(
+                        f"✅ 새 버전 생성: {doc_id} (v{action_result['version']}) "
+                        f"- 변경사항: {', '.join(action_result['changed_fields']) or 'metadata'}"
+                    )
+                elif action_result["action"] == "update_existing":
+                    logger.info(
+                        f"🔄 기존 버전 유지: {doc_id} (v{action_result['version']}) "
+                        f"- 메타데이터만 업데이트"
+                    )
+                
+                saved_count += 1
+                
+            except Exception as e:
+                logger.error(f"❌ 조문 저장 실패 ({article['article_title']}): {str(e)}")
+                failed_count += 1
+                continue
+        
+        logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
+        return failed_count == 0
             
     except Exception as e:
         logger.error(f"MongoDB 저장 중 오류 발생: {str(e)}")
+        return False
+
+
+async def save_to_mongodb_async(unified_doc: Dict, dept_code: Optional[str] = None, executor=None) -> bool:
+    """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
+    loop = asyncio.get_event_loop()
+    if executor is None:
+        executor = ThreadPoolExecutor(max_workers=1)
+    
+    try:
+        result = await loop.run_in_executor(executor, save_to_mongodb, unified_doc, dept_code)
+        return result
+    except Exception as e:
+        logger.error(f"MongoDB 비동기 저장 실패: {e}")
         return False
 
 
@@ -269,9 +395,9 @@ async def scrape_and_save(
             else:
                 logger.warning("문서 파싱 실패: JSONL 파일이 저장되지 않았습니다.")
             
-            # MongoDB에 저장
+            # MongoDB에 저장 (async 처리)
             if save_to_db and unified_doc:
-                save_to_mongodb(unified_doc, dept_code)
+                await save_to_mongodb_async(unified_doc, dept_code)
                 
         except Exception as e:
             logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)

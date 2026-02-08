@@ -19,17 +19,24 @@ async def main():
     """
     parser = argparse.ArgumentParser(description="국가법령정보센터 판례 페이지를 스크레이핑하여 파일을 저장합니다.")
     parser.add_argument("url", help="스크레이핑할 판례 페이지의 전체 URL")
-    # 셸 스크립트에서 -d는 부처 코드를 의미하므로 dept로 변경
     parser.add_argument("-d", "--dept", required=True, help="데이터를 저장할 하위 폴더 이름 (부처 코드)")
-    # -o는 출력 파일명을 의미하므로 output으로 변경
     parser.add_argument("-o", "--output", required=True, help="출력 파일의 기본 이름 (확장자 제외)")
+    parser.add_argument("--no-db", action="store_true", help="MongoDB 저장하지 않음 (기본값: 저장함)")
     args = parser.parse_args()
 
     # 최종 데이터가 저장될 경로를 동적으로 생성
     output_dir = os.path.join(project_root, 'data', 'raw', 'case', args.dept)
+    save_to_db = not args.no_db
 
     logger.info(f"상세 페이지 스크레이퍼 실행: {args.url}")
-    await scrape_and_save(args.url, output_dir, args.output, process_chunks=False)
+    await scrape_and_save(
+        args.url, 
+        output_dir, 
+        args.output, 
+        dept_code=args.dept,
+        process_chunks=True, 
+        save_to_db=save_to_db
+    )
     logger.info(f"상세 페이지 스크레이퍼 완료: {args.output}")
 
 if __name__ == "__main__":

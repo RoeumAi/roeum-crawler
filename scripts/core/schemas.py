@@ -17,7 +17,7 @@ from datetime import datetime
 class URLItem(BaseModel):
     """수집된 단일 URL 항목"""
     name: str = Field(..., description="문서명")
-    url: str = Field(..., description="상세 페이지 URL")
+    url: str | dict = Field(..., description="상세 페이지 URL 또는 onclick 정보 dict")
 
 
 class URLCollection(BaseModel):

@@ -23,48 +23,66 @@ except ImportError:
 
 def build_detail_url(onclick_attr: str):
     """
-    onclick 속성값에서 lsiSeq, efYd 등을 추출하여 상세 페이지 URL을 생성합니다.
-    [최종 수정] 정규표현식으로 함수 인자 전체를 정확히 추출하여 모든 onclick 형식을 안정적으로 처리합니다.
+    onclick 속성값에서 ID(admRulSeq)를 추출하여 상세 페이지 URL을 생성합니다.
+    
+    신형 패턴: admRulReturnSearch('법령명','ID','Y또는N');
+    구형 패턴: admRulReturnSearch(여러파라미터들);
+    
+    둘 다 지원합니다.
     """
-    # [핵심 수정] 법령명에 괄호가 포함된 경우를 대비하여, 함수 호출의 마지막 ')'까지 탐욕적으로(greedily) 매칭합니다.
-    m = re.search(r"admRulReturnSearch\((.*)\);", onclick_attr or "")
+    if not onclick_attr:
+        return None
+    
+    # admRulReturnSearch(...); 패턴 매칭
+    m = re.search(r"admRulReturnSearch\((.*?)\);", onclick_attr)
     if not m:
         logger.debug(f"build_detail_url: 'admRulReturnSearch(...);' 패턴을 찾지 못했습니다: {onclick_attr}")
         return None
+    
     content = m.group(1)
-
+    
     # ''로 둘러싸인 모든 파라미터를 추출합니다.
     params = re.findall(r"'([^']*)'", content)
-
+    
+    if not params:
+        logger.debug(f"build_detail_url: 파라미터를 찾지 못했습니다: {content}")
+        return None
+    
+    # 신형 패턴: admRulReturnSearch('법령명','ID','Y또는N')
+    # 신형은 정확히 3개의 파라미터를 가짐 (법령명, ID, Y/N)
+    if len(params) == 3:
+        admrul_id = params[1]  # 두 번째 파라미터가 ID
+        if re.fullmatch(r"\d+", admrul_id):  # ID는 숫자
+            url = f"https://www.law.go.kr/admRulInfoP.do?admRulSeq={admrul_id}"
+            logger.debug(f"build_detail_url (신형): ID={admrul_id}")
+            return url
+    
+    # 구형 패턴: 여러 파라미터 중에서 ID 찾기
     # 8자리 숫자인 파라미터를 efYd로 찾습니다.
     efYd = next((p for p in params if re.fullmatch(r"\d{8}", p)), None)
-
+    
     # 5자리 이상 숫자인 파라미터를 lsiSeq 후보로 찾습니다.
     lsiSeq_candidates = [p for p in params if re.fullmatch(r"\d{5,}", p)]
-
+    
     # lsiSeq 후보 중에서 efYd가 있다면 제외합니다.
     if efYd and efYd in lsiSeq_candidates:
         lsiSeq_candidates.remove(efYd)
-
+    
     # 후보가 없으면 lsiSeq를 찾을 수 없습니다.
     if not lsiSeq_candidates:
         logger.info(f"build_detail_url: lsiSeq 후보를 찾지 못했습니다. 파라미터: {params}")
         return None
-
-    # 남은 후보 중 마지막 것을 lsiSeq로 간주합니다. (가장 일반적인 규칙)
+    
+    # 남은 후보 중 마지막 것을 lsiSeq로 간주합니다.
     lsiSeq = lsiSeq_candidates[-1]
-
     url = f"https://www.law.go.kr/admRulInfoP.do?admRulSeq={lsiSeq}"
-
+    logger.debug(f"build_detail_url (구형): lsiSeq={lsiSeq}")
+    
     return url
 
 async def fetch_urls(start_url: str, max_pages_arg: int | None):
-    """
-    법령 목록 페이지를 순회하며 상세 페이지 URL을 추출하여 반환합니다.
-    테이블의 각 행(tr)을 순회하여 누락을 방지하고, 페이지 전환 시 내용 변경을 명확히 확인합니다.
-    """
+    """법령 목록 페이지를 순회하며 상세 페이지 URL을 추출하여 반환합니다. (adrule용)"""
     urls_found = []
-    logger.info("스크레이핑을 시작합니다...")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
@@ -74,71 +92,80 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
 
             total_pages = 1
             try:
-                await page.wait_for_selector("div.lef", timeout=5000)
-                pagination_container = page.locator("div.lef").first
-                pagination_text = await pagination_container.inner_text(timeout=5000)
-                match = re.search(r'\((\d+)/(\d+)\)', pagination_text)
-                if match:
-                    total_pages = int(match.group(2))
-                logger.info(f"총 {total_pages} 페이지를 확인했습니다.")
-            except Exception:
-                logger.warning("페이지네이션 정보를 찾을 수 없어 1페이지만 크롤링합니다.")
+                # 새로운 URL 구조에서 페이지네이션 정보 찾기
+                # 여러 선택자를 시도합니다
+                pagination_text = None
+                
+                # 먼저 div.lef 시도 (기존 방식)
+                try:
+                    pagination_container = page.locator("div.lef").first
+                    pagination_text = await pagination_container.inner_text(timeout=5000)
+                except:
+                    pass
+                
+                # 실패하면 다른 pagination 요소 찾기
+                if not pagination_text:
+                    try:
+                        # 페이지네이션 정보가 있을 만한 다른 요소들 시도
+                        pagination_text = await page.inner_text(".paginate_area, .paging, div[class*='paging']", timeout=5000)
+                    except:
+                        pass
+
+                if pagination_text:
+                    # 정규표현식으로 "(현재페이지/전체페이지)" 형식에서 전체 페이지 추출
+                    match = re.search(r'\((\d+)/(\d+)\)', pagination_text)
+                    if match:
+                        total_pages = int(match.group(2)) # 두 번째 그룹(\d+)이 전체 페이지 수
+                        logger.info(f"총 {total_pages} 페이지를 확인했습니다.")
+                    else:
+                        logger.warning("페이지네이션 형식을 파싱할 수 없습니다.")
+                else:
+                    logger.warning("페이지네이션 정보를 찾을 수 없어 1페이지만 크롤링합니다.")
+            except Exception as e:
+                logger.warning(f"페이지네이션 정보 추출 중 오류: {e}")
 
             pages_to_crawl = total_pages
-            if max_pages_arg is not None and max_pages_arg > 0 and max_pages_arg < total_pages:
+            if max_pages_arg is not None and max_pages_arg < total_pages:
                 pages_to_crawl = max_pages_arg
                 logger.info(f"사용자 설정에 따라 최대 {pages_to_crawl} 페이지만 크롤링합니다.")
 
             for page_num in range(1, pages_to_crawl + 1):
                 logger.info(f"--- {page_num} / {pages_to_crawl} 페이지 처리 중 ---")
-
                 if page_num > 1:
-                    first_item_text_before = await page.locator("#resultAdmRulTableDiv tbody tr:first-child a").first.inner_text()
                     logger.info(f"{page_num} 페이지로 이동합니다...")
-                    await page.evaluate(f"pageSearch('admRulListDiv','{page_num}')")
-                    logger.info("페이지 내용이 갱신되기를 대기합니다...")
-                    await expect(page.locator("#resultAdmRulTableDiv tbody tr:first-child a").first).not_to_have_text(first_item_text_before, timeout=30000)
-                    logger.info("페이지 내용 갱신 확인 및 로딩 완료.")
+                    try:
+                        # 테이블의 첫 번째 행 텍스트 저장
+                        first_item_before = await page.locator("#admRulResultTable tbody tr:first-child a").first.inner_text()
+                        # pageSearch 함수 호출로 다음 페이지로 이동
+                        await page.evaluate(f"pageSearch('admRulListDiv','{page_num}')")
+                        # 페이지 변경 확인
+                        await expect(page.locator("#admRulResultTable tbody tr:first-child a").first).not_to_have_text(first_item_before, timeout=20000)
+                        logger.info("페이지 이동 완료.")
+                    except Exception as e:
+                        logger.error(f"페이지 이동 실패: {e}")
+                        break
 
-                rows = await page.query_selector_all("#resultAdmRulTableDiv tbody tr")
-
-                num_links_found_this_page = 0
-                num_links_added_this_page = 0
-                for row in rows:
-                    link = await row.query_selector("a[onclick*='admRulReturnSearch']")
-
-                    if link:
-                        num_links_found_this_page += 1
+                # 새로운 구조: admRulResultTable에서 링크 추출
+                adrule_links = await page.query_selector_all("#admRulResultTable a[onclick*='admRulReturnSearch']")
+                logger.info(f"이 페이지에서 {len(adrule_links)}개의 링크를 발견했습니다.")
+                
+                for link in adrule_links:
+                    try:
                         onclick = await link.get_attribute("onclick")
-                        law_name = await link.inner_text()
+                        adrule_name = await link.inner_text()
                         detail_url = build_detail_url(onclick)
-
-                        if detail_url and law_name:
-                            safe_name = re.sub(r'[\\/*?:"<>|]', "", law_name).strip()
+                        if detail_url and adrule_name:
+                            safe_name = re.sub(r'[\\/*?:"<>|]', "", adrule_name).strip()
                             urls_found.append({"name": safe_name, "url": detail_url})
-                            num_links_added_this_page += 1
-                        else:
-                            logger.warning(
-                                f"!!! 누락 경고 ({page_num}페이지 {num_links_found_this_page}번째 항목): URL 또는 법령명을 추출하지 못했습니다."
-                            )
-                            logger.warning(f"    - 법령명: '{law_name}'")
-                            logger.warning(f"    - OnClick 속성: '{onclick}'")
-                            if not detail_url:
-                                logger.warning("    - 추정 원인: build_detail_url 함수가 유효한 URL을 생성하지 못했습니다.")
-
-                logger.info(f"현재 페이지에서 {num_links_found_this_page}개의 링크를 발견, {num_links_added_this_page}개를 최종 추가했습니다.")
-                if page_num < pages_to_crawl and num_links_added_this_page < 50 and num_links_added_this_page > 0:
-                    logger.warning(
-                        f"!!! 페이지 요약 경고: {page_num} 페이지에서 예상(50개)보다 적은 {num_links_added_this_page}개의 URL이 추가되었습니다."
-                    )
-
+                            logger.info(f"  - 발견: {adrule_name}")
+                    except Exception as e:
+                        logger.error(f"링크 처리 중 오류: {e}")
+                        continue
         except Exception as e:
-            logger.error(f"스크레이핑 중 예상치 못한 에러 발생: {e}", exc_info=True)
+            logger.error(f"목록 스크레이핑 중 에러 발생: {e}", exc_info=True)
         finally:
-            logger.info("브라우저를 닫습니다.")
             await browser.close()
 
-    logger.info(f"스크레이핑 완료. 총 {len(urls_found)}개의 URL을 수집했습니다.")
     return urls_found
 
 async def main(start_url: str, max_pages: int | None):

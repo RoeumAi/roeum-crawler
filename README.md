@@ -158,7 +158,6 @@ roeum-crawler/
 │   └── final/                    # 최종 데이터
 │
 ├── logs/                         # 📋 로그 파일
-└── mongodata/                    # 🗄️ MongoDB 데이터
 ```
 
 ## 🔧 설치 및 환경 설정
@@ -170,14 +169,13 @@ pip install -r requirements.txt
 
 ### 필수 도구
 - Python 3.10+
-- MongoDB
 - Playwright (브라우저 자동화)
 
 ### 환경 변수 설정 (`.env`)
 ```
-MONGODB_URL=mongodb+srv://...
-MONGODB_DATABASE=original_db
-PREFECT_API_URL=           # 로컬 모드는 비워두기
+MONGO_URI=mongodb+srv://...       # MongoDB Atlas 연결 문자열
+MONGO_DB_NAME=original_db         # 데이터베이스 이름
+PREFECT_API_URL=                  # 로컬 모드는 비워두기
 ```
 
 ## 📖 상세 가이드
@@ -215,7 +213,7 @@ python3 deploy.py --schedule "0 0 * * *"
 A: `scripts/core/config.py`에서 scraper가 정의되어 있는지 확인
 
 ### Q: MongoDB 연결 에러
-A: MongoDB 서버 실행 확인 및 `.env` 설정 확인
+A: `.env` 파일에서 `MONGO_URI` 설정 확인 (MongoDB Atlas 연결 문자열)
 
 ### Q: Prefect deployment 작동 안 함
 A: Worker가 실행 중인지 확인: `prefect worker start --pool default`

@@ -1,4 +1,5 @@
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import json
@@ -13,6 +14,7 @@ import io
 import cv2
 import numpy as np
 import tempfile
+from datetime import datetime
 
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
@@ -20,6 +22,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.utils.ocr import call_clova_ocr
+from scripts.core.database.unified_repository import UnifiedDocumentRepository
 
 logger = get_logger(__name__, scraper_type='adrule')
 
@@ -339,14 +342,210 @@ def save_to_file(data, filename):
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
     logger.info(f"데이터 {len(data)}건을 '{filename}' 파일로 성공적으로 저장했습니다.")
 
-async def scrape_and_save(url: str, output_dir: str, output_name: str, debug: bool = False):
+
+def split_articles_by_number(content: str) -> list:
+    """
+    통합 content를 조(Article)별로 분리 (law.py와 동일 로직)
+    
+    예: "[제1조(정의)]\n내용..." → [{"article_number": "1", "article_number_numeric": 1.0, "article_title": "제1조(정의)", "content": "내용..."}]
+    
+    Args:
+        content: 통합 content 텍스트
+    
+    Returns:
+        조별로 분리된 딕셔너리 리스트
+    """
+    articles = []
+    
+    # 정규표현식: [제X조(...)]\n내용... 패턴 매칭
+    pattern = r'\[제(\d+)(?:조(?:의(\d+))?)\(([^\)]+)\)\]\n((?:(?!\[제\d+).)*)'
+    
+    matches = re.finditer(pattern, content, re.DOTALL)
+    
+    for match in matches:
+        article_num = match.group(1)
+        sub_num = match.group(2)
+        article_topic = match.group(3)
+        article_content = match.group(4).strip()
+        
+        # article_number 포맷: "1", "5", "5.1" 등
+        if sub_num:
+            article_number = f"{article_num}.{sub_num}"
+            article_number_numeric = float(f"{article_num}.{sub_num}")
+        else:
+            article_number = article_num
+            article_number_numeric = float(article_num)
+        
+        # article_title 포맷: "제1조(정의)", "제5조의1(...)" 등
+        if sub_num:
+            article_title = f"제{article_num}조의{sub_num}({article_topic})"
+        else:
+            article_title = f"제{article_num}조({article_topic})"
+        
+        articles.append({
+            "article_number": article_number,
+            "article_number_numeric": article_number_numeric,
+            "article_title": article_title,
+            "content": article_content
+        })
+    
+    return articles
+
+
+def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None, 
+                   sub_title: str = "", effective_date: str = None) -> bool:
+    """
+    행정예규를 MongoDB에 조별로 분리하여 저장 (law.py와 동일)
+    
+    처리 흐름:
+    1. 모든 청크를 하나의 content로 통합
+    2. content를 정규표현식으로 조별 분리
+    3. 각 조마다 독립 문서 생성 (doc_id + 조번호로 구분)
+    4. 각 조를 MongoDB에 저장
+    
+    Args:
+        chunks: 파싱된 청크 리스트
+        doc_title: 문서 제목
+        doc_id: 문서 ID
+        url: 원본 URL
+        dept_code: 부처 코드 (옵션)
+        sub_title: 부제 (시행일자 및 고시 정보)
+        effective_date: 효력일자 (YYYY-MM-DD 형식)
+    
+    Returns:
+        저장 성공 여부
+    """
+    try:
+        if not chunks:
+            logger.warning("저장할 청크가 없습니다.")
+            return False
+        
+        if effective_date is None:
+            effective_date = datetime.now().strftime('%Y-%m-%d')
+        
+        from scripts.core.database.mongo_client import get_mongo_db
+        db = get_mongo_db()
+        collection = db['adrule']
+        
+        # 모든 청크를 하나의 content로 통합
+        content_parts = []
+        for chunk in chunks:
+            if isinstance(chunk, dict):
+                title = chunk.get("title", "")
+                text = chunk.get("text", "")
+                chunk_text = f"[{title}]\n{text}" if title else text
+            else:
+                chunk_text = str(chunk)
+            
+            if chunk_text.strip():
+                content_parts.append(chunk_text)
+        
+        unified_content = "\n\n".join(content_parts) if content_parts else ""
+        
+        # 조별 분리
+        articles = split_articles_by_number(unified_content)
+        
+        if not articles:
+            logger.warning("분리된 조문이 없습니다. 통합 문서 그대로 저장합니다.")
+            articles = [{
+                "article_number": None,
+                "article_number_numeric": None,
+                "article_title": None,
+                "content": unified_content
+            }]
+        
+        # 각 조마다 독립 문서 생성 및 저장
+        saved_count = 0
+        failed_count = 0
+        
+        for idx, article in enumerate(articles, 1):
+            try:
+                # 조별 문서 생성 (law.py와 동일한 스키마)
+                article_number = article['article_number'] if article['article_number'] else None
+
+                article_doc = {
+                    "doc_id": doc_id,
+                    "article_number": article_number,
+                    "article_title": article['article_title'],
+                    "title": doc_title,
+                    "sub_title": sub_title,
+                    "content": article['content'],
+                    "doc_type": "행정규칙",
+                    "metadata": {
+                        "source_url": url,
+                        "source_type": "web",
+                        "effective": effective_date,
+                        "created_at": datetime.now().strftime('%Y-%m-%d'),
+                        "updated_at": datetime.now().isoformat(),
+                        "is_active": True,
+                        "article_index": idx,
+                        "total_articles": len(articles),
+                    }
+                }
+
+                # 부처 코드 추가
+                if dept_code:
+                    article_doc["metadata"]["dept_code"] = dept_code
+
+                # MongoDB에 upsert
+                result = collection.update_one(
+                    {"doc_id": doc_id, "article_number": article_number},
+                    {"$set": article_doc},
+                    upsert=True
+                )
+
+                if result.upserted_id:
+                    logger.info(f"✅ 새 조문 생성: {doc_id} (article_number: {article_number})")
+                else:
+                    logger.info(f"🔄 조문 업데이트: {doc_id} (article_number: {article_number})")
+
+                saved_count += 1
+
+            except Exception as e:
+                logger.error(f"❌ 조문 저장 실패 ({article['article_title']}): {str(e)}")
+                failed_count += 1
+                continue
+        
+        logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
+        return failed_count == 0
+            
+    except Exception as e:
+        logger.error(f"MongoDB 저장 중 오류 발생: {str(e)}")
+        return False
+
+
+async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None, 
+                                sub_title: str = "", effective_date: str = None, executor=None) -> bool:
+    """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
+    loop = asyncio.get_event_loop()
+    if executor is None:
+        executor = ThreadPoolExecutor(max_workers=1)
+    
+    try:
+        result = await loop.run_in_executor(
+            executor, 
+            save_to_mongodb, 
+            chunks, 
+            doc_title, 
+            doc_id, 
+            url, 
+            dept_code,
+            sub_title,
+            effective_date
+        )
+        return result
+    except Exception as e:
+        logger.error(f"MongoDB 비동기 저장 실패: {e}")
+        return False
+
+async def scrape_and_save(url: str, output_dir: str, output_name: str, debug: bool = False, save_to_db: bool = True, save_jsonl: bool = True, dept_code: str = None):
     """Playwright를 실행하여 웹페이지 컨텐츠를 가져오고 파일로 저장합니다."""
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
         try:
             logger.info(f"페이지로 이동 중: {url}")
-            await page.goto(url, wait_until='domcontentloaded', timeout=60000)
+            await page.goto(url, wait_until='domcontentloaded', timeout=120000)
 
             try:
                 logger.info("로딩 마스크가 나타나기를 기다리는 중...")
@@ -376,7 +575,32 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, debug: bo
                 # ▲▲▲ 디버그 코드 추가 ▲▲▲
 
             doc_title = clean_spaces(await page.locator('#conTop h2').text_content())
-            doc_subtitle = clean_spaces(await page.locator('div.ct_sub, div.subtit1').text_content())
+            doc_subtitle = clean_spaces(await page.locator('div.subtit1').text_content())
+
+            # ■■■ 효력일자 추출 (law.py와 동일 로직) ■■■
+            effective_date = datetime.now().strftime('%Y-%m-%d')
+            try:
+                # doc_subtitle에서 먼저 시행일자 추출 시도
+                # [시행 2026. 1. 1.] 패턴 매칭
+                if doc_subtitle:
+                    match = re.search(r'\[시행\s+(\d{4})[.\-/]\s*(\d{1,2})[.\-/]\s*(\d{1,2})[.\]]*', doc_subtitle)
+                    if match:
+                        effective_date = f"{match.group(1)}-{match.group(2).zfill(2)}-{match.group(3).zfill(2)}"
+                        logger.info(f"효력일자 추출: {effective_date}")
+            except Exception as e:
+                logger.warning(f"효력일자 추출 중 오류: {e}")
+
+            # ■■■ sub_title 정제 (법령명 + 고시번호, 시행일자 제거) ■■■
+            sub_title = ""
+            if doc_subtitle:
+                sub_title = doc_subtitle
+                # 대괄호 제거: [고용노동부고시 제2025-121호, 2025. 12. 30., 일부개정] → 고용노동부고시 제2025-121호, 2025. 12. 30., 일부개정
+                sub_title = re.sub(r'\[([^\[\]]+)\]', r'\1', sub_title)
+                # "시행 YYYY. MM. DD." 패턴 제거
+                sub_title = re.sub(r'시행\s+\d{4}[.\-/]\s*\d{1,2}[.\-/]\s*\d{1,2}[.]?\s*', '', sub_title)
+                # 여러 공백을 하나로, 앞뒤 공백 제거
+                sub_title = re.sub(r'\s+', ' ', sub_title).strip()
+                logger.info(f"정제된 sub_title: {sub_title}")
 
             parsed_url = urlparse(url)
             query_params = parse_qs(parsed_url.query)
@@ -385,20 +609,51 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, debug: bo
             if not doc_id:
                 doc_id = re.sub(r'[^a-zA-Z0-9]', '', doc_title)
 
-            document_data = { "doc_id": doc_id, "title": doc_title, "subtitle": doc_subtitle, "source_url": url }
+            document_data = { 
+                "doc_id": doc_id, 
+                "doc_type": "행정예규",
+                "title": doc_title, 
+                "sub_title": sub_title, 
+                "source_url": url,
+                "effective": effective_date,
+                "is_active": True
+            }
 
             chunks = await parse_law_html(page, doc_id, doc_title, url, output_name, debug)
 
-            doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
-            chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
+            # JSONL 파일로 저장 (save_jsonl=True인 경우에만)
+            if save_jsonl:
+                doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
+                chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
 
-            if document_data.get("title"):
-                save_to_file(document_data, doc_filename)
-            if chunks:
-                save_to_file(chunks, chunk_filename)
-            else:
-                logger.warning("페이지에서 청크(조문) 데이터를 찾지 못했습니다.")
-
+                if document_data.get("title"):
+                    save_to_file(document_data, doc_filename)
+                if chunks:
+                    save_to_file(chunks, chunk_filename)
+                else:
+                    logger.warning("페이지에서 청크(조문) 데이터를 찾지 못했습니다.")
+            
+            # MongoDB에 저장 (save_to_db=True인 경우에만)
+            # sub_title과 effective_date를 전달하여 메타데이터 완전성 보장
+            if save_to_db and chunks:
+                await save_to_mongodb_async(
+                    chunks, 
+                    doc_title, 
+                    doc_id, 
+                    url, 
+                    dept_code,
+                    sub_title=sub_title,
+                    effective_date=effective_date
+                )
+            
+            # 성공적으로 완료된 문서 정보 반환
+            return {
+                "status": "success",
+                "doc_id": doc_id,
+                "title": doc_title,
+                "chunks_count": len(chunks) if chunks else 0,
+                "saved_to_db": save_to_db and bool(chunks),
+            }
 
         except Exception as e:
             logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
@@ -414,6 +669,13 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, debug: bo
                 f.write(await page.content())
 
             logger.info(f"에러 스크린샷: {screenshot_path}, HTML: {html_path}")
+            
+            # 에러 반환
+            return {
+                "status": "failed",
+                "doc_id": None,
+                "error": str(e),
+            }
 
         finally:
             await browser.close()

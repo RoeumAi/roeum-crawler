@@ -23,8 +23,11 @@ import argparse
 project_root = str(Path(__file__).parent)
 sys.path.insert(0, project_root)
 
-# Prefect 로컬 모드
+# Prefect 로컬 모드 및 이벤트 비활성화 (이벤트 관련 에러 방지)
 os.environ['PREFECT_API_URL'] = ''
+os.environ['PREFECT_LOGGING_LOGGERS'] = 'root'
+# 이벤트 워커 비활성화로 에러 방지
+os.environ['PREFECT_EVENTS_ENABLED'] = 'false'
 
 from scripts.core.config import get_scraper_config, get_scraper_list
 from scripts.core.flows.unified_scraper_flow import unified_scraper_flow
@@ -88,14 +91,18 @@ def parse_args():
 async def run_single_scraper(scraper_type, max_concurrent, max_pages):
     """단일 scraper 실행"""
     config = get_scraper_config(scraper_type)
+    
+    # 모든 scraper는 지정된 동시 수로 처리
+    actual_concurrent = max_concurrent
+    
     print(f"\n{'='*80}")
-    print(f"🚀 {config.display_name} 크롤링 시작")
+    print(f"🚀 {config.display_name} 크롤링 시작 (동시 처리: {actual_concurrent})")
     print(f"{'='*80}\n")
     
     result = await unified_scraper_flow(
         scraper_type=scraper_type,
         max_pages=max_pages,
-        max_concurrent=max_concurrent
+        max_concurrent=actual_concurrent
     )
     
     return result

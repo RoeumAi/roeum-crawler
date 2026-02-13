@@ -17,6 +17,7 @@ except NameError:
     project_root = os.path.abspath('.') # 현재 작업 디렉토리를 기준으로 설정
 sys.path.append(project_root)
 
+from scripts.core.content_guard import apply_content_guard
 from scripts.utils.logger_config import get_logger
 
 # 스크레이퍼 타입에 맞는 로거 생성
@@ -136,6 +137,9 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                     }
                 }
                 
+                # 임베딩 모델 컨텍스트 길이 제한
+                section_doc = apply_content_guard(section_doc)
+
                 # MongoDB에 upsert
                 result = collection.update_one(
                     {"doc_id": doc_id, "article_number": article_number},

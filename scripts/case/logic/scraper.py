@@ -14,6 +14,8 @@ from datetime import datetime
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
+from scripts.core.content_guard import apply_content_guard
+
 # --- 로거 설정 ---
 from scripts.utils.logger_config import get_logger
 logger = get_logger(__name__, scraper_type='case')
@@ -340,6 +342,9 @@ def save_case_chunks_to_mongodb(
                     }
                 }
                 
+                # 임베딩 모델 컨텍스트 길이 제한
+                chunk_doc = apply_content_guard(chunk_doc)
+
                 # 청크별 upsert
                 result = collection.update_one(
                     {"doc_id": chunk_doc_id},

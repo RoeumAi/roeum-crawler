@@ -20,6 +20,7 @@ from datetime import datetime
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
+from scripts.core.content_guard import apply_content_guard
 from scripts.utils.logger_config import get_logger
 from scripts.utils.ocr import call_clova_ocr
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
@@ -486,6 +487,9 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 # 부처 코드 추가
                 if dept_code:
                     article_doc["metadata"]["dept_code"] = dept_code
+
+                # 임베딩 모델 컨텍스트 길이 제한
+                article_doc = apply_content_guard(article_doc)
 
                 # MongoDB에 upsert
                 result = collection.update_one(

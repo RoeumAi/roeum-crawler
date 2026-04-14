@@ -18,19 +18,14 @@ import os
 from pathlib import Path
 from datetime import datetime
 import argparse
+from importlib import import_module
+from typing import Dict, Optional
 
 # 프로젝트 루트 추가
 project_root = str(Path(__file__).parent)
 sys.path.insert(0, project_root)
 
-# Prefect 로컬 모드 및 이벤트 비활성화 (이벤트 관련 에러 방지)
-os.environ['PREFECT_API_URL'] = ''
-os.environ['PREFECT_LOGGING_LOGGERS'] = 'root'
-# 이벤트 워커 비활성화로 에러 방지
-os.environ['PREFECT_EVENTS_ENABLED'] = 'false'
-
-from scripts.core.config import get_scraper_config, get_scraper_list
-from scripts.core.flows.unified_scraper_flow import unified_scraper_flow
+from scripts.core.config import get_scraper_config, get_scraper_list, ENV
 
 
 def parse_args():
@@ -89,23 +84,104 @@ def parse_args():
 
 
 async def run_single_scraper(scraper_type, max_concurrent, max_pages):
-    """단일 scraper 실행"""
+    """단일 scraper 실행 (Prefect 없이 직접 실행)"""
     config = get_scraper_config(scraper_type)
     
-    # 모든 scraper는 지정된 동시 수로 처리
-    actual_concurrent = max_concurrent
-    
     print(f"\n{'='*80}")
-    print(f"🚀 {config.display_name} 크롤링 시작 (동시 처리: {actual_concurrent})")
+    print(f"🚀 {config.display_name} 크롤링 시작 (동시 처리: {max_concurrent})")
     print(f"{'='*80}\n")
     
-    result = await unified_scraper_flow(
-        scraper_type=scraper_type,
-        max_pages=max_pages,
-        max_concurrent=actual_concurrent
-    )
+    try:
+        # 동적으로 list_scraper 모듈 import
+        list_scraper_module = import_module(f"scripts.{scraper_type}.logic.list_scraper")
+        scraper_module = import_module(f"scripts.{scraper_type}.logic.scraper")
+        
+        fetch_urls = getattr(list_scraper_module, "fetch_urls")
+        scrape_and_save = getattr(scraper_module, "scrape_and_save")
+        
+        # Step 1: URL 수집
+        if scraper_type == "case":
+            list_page_url = f"https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd={config.dept_code}"
+        elif scraper_type == "adrule":
+            list_page_url = f"https://www.law.go.kr/LSW/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd={config.dept_code}"
+        elif scraper_type == "interpretation":
+            list_page_url = "https://www.law.go.kr/LSW/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=733&upperOfiClsCd=010501&ofiClsCd=350101"
+        elif scraper_type == "judgment":
+            list_page_url = "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
+        elif scraper_type == "mediation_case":
+            list_page_url = "https://nlrc.go.kr/nlrc/mainCase/mediatioin/index.do"
+        else:
+            list_page_url = f"https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd={config.dept_code}"
+        
+        print(f"📍 Step 1: URL 수집 시작...")
+        urls = await fetch_urls(
+            start_url=list_page_url,
+            max_pages_arg=max_pages
+        )
+        print(f"✅ Step 1 완료: {len(urls)}개의 URL 발견\n")
+        
+        if not urls:
+            return {
+                "status": "failed",
+                "error": "No URLs found",
+                "total_urls": 0,
+                "total_success": 0,
+                "total_failed": 0
+            }
+        
+        # Step 2: 병렬 스크래핑
+        print(f"📍 Step 2: {len(urls)}개 URL 병렬 스크래핑 시작 (동시 수: {max_concurrent})")
+        
+        output_dir = os.path.join(os.getcwd(), ENV.output_dir)
+        os.makedirs(output_dir, exist_ok=True)
+        
+        save_jsonl = os.getenv('SAVE_JSONL', 'true').lower() == 'true'
+        
+        semaphore = asyncio.Semaphore(max_concurrent)
+        
+        async def scrape_with_semaphore(url_item):
+            async with semaphore:
+                try:
+                    url_str = url_item.get("url") if isinstance(url_item, dict) else url_item
+                    result = await scrape_and_save(
+                        url=url_str,
+                        output_dir=output_dir,
+                        output_name=f"direct_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                        dept_code=config.dept_code,
+                        save_to_db=True,
+                        save_jsonl=save_jsonl
+                    )
+                    return {"status": "success", "doc_id": result.get("doc_id") if result else None}
+                except Exception as e:
+                    return {"status": "failed", "error": str(e)}
+        
+        tasks = [scrape_with_semaphore(url) for url in urls]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # 결과 통계
+        success_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "success")
+        failed_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "failed")
+        
+        print(f"\n✅ Step 2 완료: {success_count}개 성공, {failed_count}개 실패\n")
+        
+        return {
+            "status": "success" if success_count > 0 else "failed",
+            "total_urls": len(urls),
+            "total_success": success_count,
+            "total_failed": failed_count
+        }
     
-    return result
+    except Exception as e:
+        print(f"❌ 오류 발생: {e}")
+        import traceback
+        traceback.print_exc()
+        return {
+            "status": "failed",
+            "error": str(e),
+            "total_urls": 0,
+            "total_success": 0,
+            "total_failed": 0
+        }
 
 
 async def run_multiple_scrapers(scrapers, max_concurrent, max_pages):

@@ -85,6 +85,14 @@ SCRAPERS = {
         max_pages=None,
         max_concurrent=3,
     ),
+    'judgment': ScraperConfig(
+        name='judgment',
+        display_name='주요판정사례',
+        dept_code='nlrc',
+        collection_name='judgment',
+        max_pages=None,
+        max_concurrent=3,
+    ),
 }
 
 

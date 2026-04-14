@@ -166,6 +166,8 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
 
             doc_title = clean_spaces(await page.locator('#contentBody h2').text_content())
             doc_subtitle = clean_spaces(await page.locator('.subtit1, div.subtit2').first.text_content())
+            # 앞뒤 대괄호 제거: "[대전고법 2006. 4. 19. ...]" → "대전고법 2006. 4. 19. ..."
+            doc_subtitle = re.sub(r'^\[(.+)\]$', r'\1', doc_subtitle.strip())
             doc_id = get_doc_id_from_url(url)
             if not doc_id:
                 logger.error("URL에서 doc_id(precSeq)를 추출하지 못했습니다.")
@@ -292,11 +294,21 @@ def save_case_chunks_to_mongodb(
     url: str, 
     chunks: list
 ) -> bool:
-    """판례 청크들을 MongoDB에 저장합니다 (동기 함수) - law scraper처럼 청크별로 저장"""
+    """판례 청크들을 MongoDB에 저장합니다 (동기 함수) - 토큰 기반 청킹 적용"""
     try:
         from scripts.core.database.mongo_client import get_mongo_db
+        
         db = get_mongo_db()
         collection = db['case']
+        
+        # 토크나이저 로딩 시도 (실패해도 크롤링 계속)
+        tokenizer_available = False
+        try:
+            from scripts.utils.tokenizer_utils import chunk_text_by_tokens, count_tokens
+            tokenizer_available = True
+            logger.debug("✅ 토크나이저 사용 가능")
+        except Exception as e:
+            logger.warning(f"⚠️  토크나이저 로딩 실패: {e}. 토큰 청킹 없이 진행합니다.")
         
         # chunks가 비어있으면 경고하고 메타데이터 청크 생성
         if not chunks:
@@ -312,43 +324,81 @@ def save_case_chunks_to_mongodb(
         
         saved_count = 0
         failed_count = 0
+        judgment_date = extract_judgment_date(doc_subtitle)
         
-        for idx, chunk in enumerate(chunks, 1):
+        for chunk_idx, chunk in enumerate(chunks, 1):
             try:
-                # 청크별 고유 doc_id 생성: base_id_chunkIndex
-                # 예: "69105_1", "69105_2", "69105_3" (숫자로만)
-                chunk_doc_id = f"{base_doc_id}_{idx}"
+                chunk_title = chunk.get('title', '')
+                content = chunk.get('text', '')
                 
-                # 청크 문서 생성
-                judgment_date = extract_judgment_date(doc_subtitle)
-                chunk_doc = {
-                    "doc_id": base_doc_id,
-                    "doc_type": "case_chunk",
-                    "title": doc_title,
-                    "subtitle": doc_subtitle,
-                    "chunk_title": chunk.get('title', ''),
-                    "content": chunk.get('text', ''),
-                    "source_url": url,
-                    "metadata": {
-                        "source_type": "web",
-                        "created_at": datetime.now().isoformat(),
-                        "is_active": True,
-                        "chunk_index": idx,
-                        "total_chunks": len(chunks),
-                        "effective": judgment_date,
-                        **chunk.get('metadata', {})
+                # 토크나이저가 있으면 토큰 기반 청킹, 없으면 그대로 저장
+                if tokenizer_available:
+                    try:
+                        token_count = count_tokens(content)
+                        
+                        if token_count > 8000:
+                            logger.info(f"   📏 {base_doc_id} - {chunk_title}: {token_count} 토큰 → 청킹 필요")
+                            sub_chunks = chunk_text_by_tokens(content, max_tokens=8000, overlap_tokens=200)
+                        else:
+                            sub_chunks = [content]
+                    except Exception as e:
+                        logger.warning(f"   ⚠️  토큰 청킹 실패: {e}. 원본 그대로 저장합니다.")
+                        sub_chunks = [content]
+                else:
+                    sub_chunks = [content]
+                
+                # 각 서브청크를 개별 문서로 저장
+                for seq, sub_content in enumerate(sub_chunks, 1):
+                    # token_count 계산 (토크나이저 있을 때만)
+                    if tokenizer_available:
+                        try:
+                            token_cnt = count_tokens(sub_content)
+                        except:
+                            token_cnt = None
+                    else:
+                        token_cnt = None
+                    
+                    chunk_doc = {
+                        "doc_id": base_doc_id,  # 모든 청크가 동일한 doc_id 공유
+                        "doc_type": chunk_title,  # 섹션명을 doc_type으로 (예: "이유", "주문", "원심판결")
+                        "title": doc_title,
+                        "subtitle": doc_subtitle,
+                        "chunk_seq": seq,  # 토큰 기반 청킹 순서
+                        "content": sub_content,
+                        "source_url": url,
+                        "metadata": {
+                            "source_type": "web",
+                            "created_at": datetime.now().isoformat(),
+                            "is_active": True,
+                            "chunk_index": chunk_idx,
+                            "total_chunks": len(chunks),
+                            "total_sub_chunks": len(sub_chunks),
+                            "effective": judgment_date,
+                            **chunk.get('metadata', {})
+                        }
                     }
-                }
-                
-                # 청크별 upsert
-                result = collection.update_one(
-                    {"doc_id": chunk_doc_id},
-                    {"$set": chunk_doc},
-                    upsert=True
-                )
-                
-                saved_count += 1
-                logger.debug(f"   ✅ 청크 저장: {chunk_doc_id} ({chunk.get('title', 'Unknown')})")
+                    
+                    # token_count가 있으면 추가
+                    if token_cnt is not None:
+                        chunk_doc["metadata"]["token_count"] = token_cnt
+                    
+                    # doc_id + doc_type(섹션명) + chunk_seq 조합으로 upsert
+                    result = collection.update_one(
+                        {
+                            "doc_id": base_doc_id,
+                            "doc_type": chunk_title,
+                            "chunk_seq": seq
+                        },
+                        {"$set": chunk_doc},
+                        upsert=True
+                    )
+                    
+                    saved_count += 1
+                    
+                    if len(sub_chunks) > 1:
+                        logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title} (seq: {seq}/{len(sub_chunks)})")
+                    else:
+                        logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title}")
                 
             except Exception as e:
                 logger.error(f"   ❌ 청크 저장 실패 ({chunk.get('title', 'Unknown')}): {str(e)}")

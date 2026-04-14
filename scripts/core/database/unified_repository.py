@@ -325,7 +325,8 @@ class UnifiedDocumentRepository:
                 # 새 문서 삽입
                 result = self.collection.insert_one(new_doc)
                 
-                action = "new_version"
+                # 첫 저장인지 버전 생성인지 구분
+                action = "insert" if not existing_doc else "new_version"
                 version_number = metadata.get("current_version", 1)
                 
                 ChangeLogger.log_version_action(

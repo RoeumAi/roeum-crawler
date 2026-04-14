@@ -11,6 +11,7 @@
 # 사용법:
 #   ./crawl_update.sh law              # 모든 법령 업데이트
 #   ./crawl_update.sh case             # 모든 판례 업데이트
+#   ./crawl_update.sh judgment         # 주요판정사례 업데이트
 #   ./crawl_update.sh law 50           # 첫 50페이지만 업데이트
 #   ./crawl_update.sh case 100         # 첫 100페이지만 업데이트
 #
@@ -45,9 +46,9 @@ SCRAPER_TYPE="$1"
 MAX_PAGES="${2:-}"  # 두 번째 파라미터는 선택사항
 
 # Scraper 타입 검증
-if [[ ! "$SCRAPER_TYPE" =~ ^(law|case|adrule|interpretation)$ ]]; then
+if [[ ! "$SCRAPER_TYPE" =~ ^(law|case|adrule|interpretation|judgment|mediation_case)$ ]]; then
     echo "❌ 지원하지 않는 scraper 타입: $SCRAPER_TYPE"
-    echo "지원 타입: law, case, adrule, interpretation"
+    echo "지원 타입: law, case, adrule, interpretation, judgment, mediation_case"
     exit 1
 fi
 
@@ -67,19 +68,16 @@ echo ""
 export SAVE_JSONL=false  # JSONL 파일 생성 비활성화 (빠른 업데이트)
 export PYTHONUNBUFFERED=1  # Python 출력 버퍼링 비활성화 (실시간 로그)
 
-# Prefect Flow 실행
+# crawl.py 직접 실행 (Prefect 없이)
 if [ -z "$MAX_PAGES" ]; then
     # 모든 페이지 업데이트
     echo "⏱️  전체 페이지 크롤링 시작..."
-    python -m prefect.cli deployment run "$SCRAPER_TYPE/scraper" \
-        --var scraper_type="$SCRAPER_TYPE" \
+    python3 -u crawl.py --scraper "$SCRAPER_TYPE" --concurrent 3 \
         2>&1 | tee -a "$LOG_FILE"
 else
     # 제한된 페이지만 업데이트
     echo "⏱️  첫 $MAX_PAGES 페이지 크롤링 시작..."
-    python -m prefect.cli deployment run "$SCRAPER_TYPE/scraper" \
-        --var scraper_type="$SCRAPER_TYPE" \
-        --var max_pages="$MAX_PAGES" \
+    python3 -u crawl.py --scraper "$SCRAPER_TYPE" --pages "$MAX_PAGES" --concurrent 3 \
         2>&1 | tee -a "$LOG_FILE"
 fi
 

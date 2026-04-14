@@ -12,6 +12,7 @@
 | **decision** | 심의결정례 | decision |
 | **interpretation** | 해석례 | interpretation |
 | **mediation_case** | 조정사건례 | mediation_case |
+| **judgment** | 주요판정사례 | judgment |
 
 ## 🏗️ 시스템 아키텍처
 
@@ -24,7 +25,7 @@ unified_scraper_flow.py (제네릭 Flow)
     ↓
 UnifiedDocumentRepository (MongoDB)
     ↓
-MongoDB (original_db - 6개 컬렉션)
+MongoDB (original_db - 7개 컬렉션)
 ```
 
 자세한 내용은 **[ARCHITECTURE.md](ARCHITECTURE.md)** 참고
@@ -94,7 +95,7 @@ client = MongoClientSingleton()
 db = client._db
 
 # 각 컬렉션의 문서 수
-for scraper in ['law', 'adrule', 'case', 'decision', 'interpretation', 'mediation_case']:
+for scraper in ['law', 'adrule', 'case', 'decision', 'interpretation', 'mediation_case', 'judgment']:
     count = db[scraper].count_documents({})
     print(f"{scraper}: {count}개")
 
@@ -150,7 +151,8 @@ roeum-crawler/
 │   ├── case/                     # 판례 scraper
 │   ├── decision/                 # 심의결정례 scraper
 │   ├── interpretation/           # 해석례 scraper
-│   └── mediation_case/           # 조정사건례 scraper
+│   ├── mediation_case/           # 조정사건례 scraper
+│   └── judgment/                 # 주요판정사례 scraper
 │
 ├── data/
 │   ├── output/                   # 🔄 JSONL 출력 파일

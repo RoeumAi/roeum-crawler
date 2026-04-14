@@ -310,7 +310,11 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
                 doc_id, action_result = repo.upsert_with_change_detection(article_doc)
                 
                 # 결과에 따른 로깅
-                if action_result["action"] == "new_version":
+                if action_result["action"] == "insert":
+                    logger.info(
+                        f"💾 신규 저장: {doc_id} (v{action_result['version']})"
+                    )
+                elif action_result["action"] == "new_version":
                     logger.info(
                         f"✅ 새 버전 생성: {doc_id} (v{action_result['version']}) "
                         f"- 변경사항: {', '.join(action_result['changed_fields']) or 'metadata'}"
@@ -355,7 +359,8 @@ async def scrape_and_save(
     output_dir: str,
     output_name: str,
     dept_code: Optional[str] = None,
-    save_to_db: bool = True
+    save_to_db: bool = True,
+    save_jsonl: bool = True
 ):
     """
     Playwright로 크롤링하고 JSONL + MongoDB에 저장
@@ -370,6 +375,7 @@ async def scrape_and_save(
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
+        unified_doc = None
         try:
             logger.info(f"페이지로 이동 중: {url}")
             await page.goto(url, wait_until='domcontentloaded', timeout=60000)
@@ -388,11 +394,11 @@ async def scrape_and_save(
             unified_doc = parse_law_html(html, url)
 
             # JSONL 파일로 저장
-            if unified_doc:
+            if save_jsonl and unified_doc:
                 doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
                 save_to_file(unified_doc, doc_filename)
                 logger.info(f"✅ JSONL 파일 저장: {doc_filename}")
-            else:
+            elif not unified_doc:
                 logger.warning("문서 파싱 실패: JSONL 파일이 저장되지 않았습니다.")
             
             # MongoDB에 저장 (async 처리)
@@ -411,8 +417,15 @@ async def scrape_and_save(
                 f.write(await page.content())
             logger.info(f"에러 발생 시점의 스크린샷: {screenshot_path}")
             logger.info(f"에러 발생 시점의 HTML: {html_path}")
+            return {"doc_id": None, "status": "failed"}
         finally:
             await browser.close()
+        
+        # 결과 반환
+        if unified_doc:
+            return {"doc_id": unified_doc.get("doc_id"), "status": "success"}
+        else:
+            return {"doc_id": None, "status": "failed"}
 
 
 async def scrape_only(

@@ -195,9 +195,10 @@ class VersionManager:
         if current_doc:
             metadata["version"] = current_doc.get("metadata", {}).get("version", 1)
             metadata["created_at"] = current_doc.get("metadata", {}).get("created_at")
+            # 내용 변경 없을 때는 updated_at도 유지
+            metadata["updated_at"] = current_doc.get("metadata", {}).get("updated_at")
         
-        # 업데이트 타임스탬프만 갱신
-        metadata["updated_at"] = datetime.now().isoformat()
+        # 마지막 체크 시간만 갱신
         metadata["last_check_at"] = datetime.now().isoformat()
         
         return metadata

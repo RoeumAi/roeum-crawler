@@ -136,6 +136,8 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
     save_to_db 파라미터가 True일 경우, MongoDB에도 저장합니다 (async 처리).
     save_jsonl 파라미터가 False일 경우, JSONL 파일 저장을 건너뜁니다 (대용량 크롤링에서 디스크 절약).
     """
+    if isinstance(url, dict):
+        url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()

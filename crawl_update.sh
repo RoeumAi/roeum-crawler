@@ -72,12 +72,12 @@ export PYTHONUNBUFFERED=1  # Python 출력 버퍼링 비활성화 (실시간 로
 if [ -z "$MAX_PAGES" ]; then
     # 모든 페이지 업데이트
     echo "⏱️  전체 페이지 크롤링 시작..."
-    python3 -u crawl.py --scraper "$SCRAPER_TYPE" --concurrent 3 \
+    python3 -u crawl.py --scraper "$SCRAPER_TYPE" --concurrent 3 --mode update --since 7 \
         2>&1 | tee -a "$LOG_FILE"
 else
     # 제한된 페이지만 업데이트
     echo "⏱️  첫 $MAX_PAGES 페이지 크롤링 시작..."
-    python3 -u crawl.py --scraper "$SCRAPER_TYPE" --pages "$MAX_PAGES" --concurrent 3 \
+    python3 -u crawl.py --scraper "$SCRAPER_TYPE" --pages "$MAX_PAGES" --concurrent 3 --mode update --since 7 \
         2>&1 | tee -a "$LOG_FILE"
 fi
 

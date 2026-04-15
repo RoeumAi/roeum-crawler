@@ -38,9 +38,9 @@ LOG_FILE="logs/crawl_full_${SCRAPER}_${TIMESTAMP}.log"
 
 # 크롤링 실행
 if [ -z "$MAX_PAGES" ]; then
-    .venv/bin/python3 -u crawl.py --scraper $SCRAPER --concurrent $CONCURRENT 2>&1 | tee "$LOG_FILE"
+    .venv/bin/python3 -u crawl.py --scraper $SCRAPER --concurrent $CONCURRENT --mode full 2>&1 | tee "$LOG_FILE"
 else
-    .venv/bin/python3 -u crawl.py --scraper $SCRAPER --pages "$MAX_PAGES" --concurrent $CONCURRENT 2>&1 | tee "$LOG_FILE"
+    .venv/bin/python3 -u crawl.py --scraper $SCRAPER --pages "$MAX_PAGES" --concurrent $CONCURRENT --mode full 2>&1 | tee "$LOG_FILE"
 fi
 
 echo ""

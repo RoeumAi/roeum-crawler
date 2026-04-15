@@ -90,24 +90,25 @@ def save_to_file(data, filename):
 
 
 def save_mediation_to_mongodb(document_data: dict) -> bool:
-    """MongoDB에 저장"""
+    """변경 감지 포함 MongoDB 저장"""
     try:
         from scripts.core.database.mongo_client import get_mongo_db
+        from scripts.core.database.unified_repository import UnifiedDocumentRepository
+
         db = get_mongo_db()
-        collection = db['mediation_case']
+        repo = UnifiedDocumentRepository(db, collection_name='mediation_case')
 
-        result = collection.update_one(
-            {"doc_id": document_data.get("doc_id")},
-            {"$set": document_data},
-            upsert=True
-        )
+        doc_id, action_result = repo.upsert_with_change_detection(document_data)
+        action = action_result.get("action", "unknown")
+        version = action_result.get("version", 1)
 
-        if result.upserted_id:
-            logger.info(f"✅ 새 문서 생성: {document_data.get('doc_id')}")
-        elif result.modified_count > 0:
-            logger.info(f"🔄 문서 업데이트: {document_data.get('doc_id')}")
-        else:
-            logger.info(f"⏭️  문서 변경 없음: {document_data.get('doc_id')}")
+        if action == "insert":
+            logger.info(f"💾 신규 저장: {doc_id} (v{version})")
+        elif action == "new_version":
+            changed = ', '.join(action_result.get('changed_fields', []))
+            logger.info(f"✅ 새 버전: {doc_id} (v{version}) - 변경: {changed or 'metadata'}")
+        elif action == "update_existing":
+            logger.info(f"🔄 유지: {doc_id} (v{version}) - metadata만 업데이트")
 
         return True
     except Exception as e:

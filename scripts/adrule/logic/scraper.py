@@ -538,8 +538,10 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
         logger.error(f"MongoDB 비동기 저장 실패: {e}")
         return False
 
-async def scrape_and_save(url: str, output_dir: str, output_name: str, debug: bool = False, save_to_db: bool = True, save_jsonl: bool = True, dept_code: str = None):
+async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, debug: bool = False, save_to_db: bool = True, save_jsonl: bool = True, dept_code: str = None):
     """Playwright를 실행하여 웹페이지 컨텐츠를 가져오고 파일로 저장합니다."""
+    if isinstance(url, dict):
+        url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()

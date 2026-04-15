@@ -372,6 +372,8 @@ async def scrape_and_save(
     - dept_code: 부처 코드 (MongoDB 저장 시 필요)
     - save_to_db: MongoDB에 저장할지 여부 (기본값: True)
     """
+    if isinstance(url, dict):
+        url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()

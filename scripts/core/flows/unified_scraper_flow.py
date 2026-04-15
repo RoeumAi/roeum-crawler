@@ -71,8 +71,14 @@ async def fetch_urls_task(
         elif scraper_type == "judgment":
             # 중앙노동위원회 주요판정사례
             list_page_url = "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
+        elif scraper_type == "mediation_case":
+            # 중앙노동위원회 조정사건례
+            list_page_url = "https://nlrc.go.kr/nlrc/mainCase/mediatioin/index.do"
+        elif scraper_type == "decision":
+            # 중앙노동위원회 심의결정례
+            list_page_url = "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
         else:
-            # law, decision, mediation_case 등
+            # law 등
             list_page_url = f"https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd={config.dept_code}"
         
         urls = await fetch_urls(
@@ -188,11 +194,15 @@ async def scrape_all_urls_task(
     
     async def scrape_with_semaphore(url):
         async with semaphore:
-            # url은 URLItem 객체
-            url_str = url.url if isinstance(url, URLItem) else url["url"]
+            # url은 URLItem 객체 또는 dict
+            # dict 전체를 전달하여 title, registered_at 등 목록 정보 보존
+            if isinstance(url, URLItem):
+                raw = url.url  # URLItem.url은 str 또는 dict
+            else:
+                raw = url
             return await scrape_document_task(
                 scraper_type=scraper_type,
-                doc_info={"url": url_str, "dept_code": config.dept_code}
+                doc_info={"url": raw, "dept_code": config.dept_code}
             )
     
     try:
@@ -266,10 +276,15 @@ async def merge_jsonl_files_task(
         저장 결과 딕셔너리
     """
     logger = get_run_logger()
-    
+
+    save_jsonl = os.getenv('SAVE_JSONL', 'true').lower() == 'true'
+    if not save_jsonl:
+        logger.info("⏭️  SAVE_JSONL=false — JSONL 병합 건너뜀")
+        return {"status": "skipped", "merged_file": None, "input_files": 0, "output_documents": 0, "error": None}
+
     try:
         from pathlib import Path
-        
+
         output_dir = os.path.join(project_root, "data", "output")
         
         # 최신 타임스탬프로 통합 파일명 생성
@@ -489,6 +504,8 @@ async def unified_scraper_flow(
             f"   출력: {os.path.basename(jsonl_result['merged_file'])}\n"
             f"   문서: {jsonl_result['output_documents']}개"
         )
+    elif jsonl_result["status"] == "skipped":
+        logger.info("⏭️  JSONL 병합 건너뜀 (SAVE_JSONL=false)")
     else:
         logger.warning(f"⚠️ JSONL 병합 실패: {jsonl_result.get('error')}")
     
@@ -517,7 +534,7 @@ async def unified_scraper_flow(
         "total_urls": total_urls,
         "total_success": total_success,
         "total_failed": total_failed,
-        "jsonl_merged": jsonl_result["status"] == "success",
+        "jsonl_merged": jsonl_result["status"] in ("success", "skipped"),
         "merged_file": jsonl_result.get("merged_file") if jsonl_result["status"] == "success" else None,
         "timestamp": datetime.now().isoformat()
     }

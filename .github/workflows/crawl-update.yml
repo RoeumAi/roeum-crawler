@@ -35,6 +35,9 @@ on:
         required: false
         default: ''
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # 같은 스크래퍼가 동시에 실행되지 않도록 제한
 concurrency:
   group: crawl-${{ github.event_name }}

@@ -1,0 +1,165 @@
+name: Crawl Update
+
+on:
+  # 매주 월요일 09:00 KST (UTC 00:00)
+  schedule:
+    - cron: '0 0 * * 1'
+
+  # 수동 실행 — 스크래퍼/모드/페이지 선택 가능
+  workflow_dispatch:
+    inputs:
+      scraper:
+        description: '실행할 스크래퍼 (all = 전체)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - law
+          - adrule
+          - case
+          - decision
+          - interpretation
+          - mediation_case
+          - judgment
+      mode:
+        description: '크롤링 모드'
+        required: false
+        default: 'update'
+        type: choice
+        options:
+          - update
+          - full
+      pages:
+        description: '최대 페이지 수 (비워두면 전체)'
+        required: false
+        default: ''
+
+# 같은 스크래퍼가 동시에 실행되지 않도록 제한
+concurrency:
+  group: crawl-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  # ─────────────────────────────────────────────
+  # 실행할 스크래퍼 목록 결정
+  # ─────────────────────────────────────────────
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      scrapers: ${{ steps.decide.outputs.scrapers }}
+      mode: ${{ steps.decide.outputs.mode }}
+      pages_arg: ${{ steps.decide.outputs.pages_arg }}
+    steps:
+      - name: Decide scrapers and args
+        id: decide
+        run: |
+          # 스크래퍼 목록
+          if [ "${{ github.event_name }}" = "schedule" ] || \
+             [ "${{ inputs.scraper }}" = "all" ] || \
+             [ -z "${{ inputs.scraper }}" ]; then
+            SCRAPERS='["law","adrule","case","decision","interpretation","mediation_case","judgment"]'
+          else
+            SCRAPERS='["${{ inputs.scraper }}"]'
+          fi
+
+          # 모드 (schedule이면 항상 update)
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            MODE="update"
+          else
+            MODE="${{ inputs.mode || 'update' }}"
+          fi
+
+          # 페이지 수 인자
+          if [ -n "${{ inputs.pages }}" ]; then
+            PAGES_ARG="--pages ${{ inputs.pages }}"
+          else
+            PAGES_ARG=""
+          fi
+
+          echo "scrapers=$SCRAPERS" >> $GITHUB_OUTPUT
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+          echo "pages_arg=$PAGES_ARG" >> $GITHUB_OUTPUT
+
+          echo "📋 스크래퍼: $SCRAPERS"
+          echo "🔧 모드: $MODE"
+          echo "📄 페이지: ${PAGES_ARG:-전체}"
+
+  # ─────────────────────────────────────────────
+  # 스크래퍼별 병렬 실행
+  # ─────────────────────────────────────────────
+  crawl:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 300  # 스크래퍼당 최대 5시간
+    fail-fast: false  # 하나 실패해도 나머지 계속 실행
+
+    strategy:
+      matrix:
+        scraper: ${{ fromJson(needs.setup.outputs.scrapers) }}
+      fail-fast: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install Playwright browsers
+        run: |
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Run ${{ matrix.scraper }} crawler
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SAVE_JSONL: 'false'
+          PYTHONUNBUFFERED: '1'
+        run: |
+          MODE="${{ needs.setup.outputs.mode }}"
+          PAGES_ARG="${{ needs.setup.outputs.pages_arg }}"
+
+          SINCE_ARG=""
+          if [ "$MODE" = "update" ]; then
+            SINCE_ARG="--since 7"
+          fi
+
+          echo "🚀 ${{ matrix.scraper }} 크롤링 시작 (모드: $MODE)"
+          python3 -u crawl.py \
+            --scraper ${{ matrix.scraper }} \
+            --mode $MODE \
+            $SINCE_ARG \
+            $PAGES_ARG \
+            --concurrent 2
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.scraper }}
+          path: logs/
+          retention-days: 7
+
+  # ─────────────────────────────────────────────
+  # 전체 결과 요약
+  # ─────────────────────────────────────────────
+  summary:
+    needs: [setup, crawl]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Print summary
+        run: |
+          echo "## 크롤링 결과" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 모드: ${{ needs.setup.outputs.mode }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 스케줄: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 결과: ${{ needs.crawl.result }}" >> $GITHUB_STEP_SUMMARY

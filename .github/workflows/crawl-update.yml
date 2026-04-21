@@ -92,12 +92,11 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 300  # 스크래퍼당 최대 5시간
-    fail-fast: false  # 하나 실패해도 나머지 계속 실행
 
     strategy:
+      fail-fast: false
       matrix:
         scraper: ${{ fromJson(needs.setup.outputs.scrapers) }}
-      fail-fast: false
 
     steps:
       - name: Checkout

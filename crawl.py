@@ -22,7 +22,7 @@ import asyncio
 import sys
 import os
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import argparse
 from importlib import import_module
 from typing import Dict, Optional, List, Set
@@ -78,7 +78,7 @@ def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]
         db = get_mongo_db()
         collection = db[collection_name]
 
-        cutoff = (datetime.utcnow() - timedelta(days=since_days)).isoformat()
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=since_days)).isoformat()
 
         # last_check_at 또는 created_at이 cutoff 이후인 문서의 source_url 수집
         docs = collection.find(
@@ -90,7 +90,7 @@ def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]
                 "metadata.is_active": True,
             },
             {"metadata.source_url": 1}
-        )
+        ).max_time_ms(5000)
 
         crawled_urls = {
             doc.get("metadata", {}).get("source_url", "")

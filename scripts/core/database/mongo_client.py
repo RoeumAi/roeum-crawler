@@ -33,13 +33,21 @@ class MongoClientSingleton:
         """MongoDB에 연결"""
         # .env에서 설정 읽기 (없으면 기본값)
         mongo_uri = os.getenv(
-            "MONGO_URI",
-            "mongodb+srv://loum_chanhee:1G2BLczQ1nipQvXC@loum.veydouo.mongodb.net/?retryWrites=true&w=majority&appName=loum"
+            "MONGODB_URI",
+            os.getenv(
+                "MONGO_URI",
+                "mongodb+srv://loum_java:Z3DLoWC3tXrpkhJx@loum.veydouo.mongodb.net/original_db?retryWrites=true&w=majority&appName=loum"
+            )
         )
         db_name = os.getenv("MONGO_DB_NAME", "original_db")
         
         try:
-            MongoClientSingleton._client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
+            MongoClientSingleton._client = MongoClient(
+                mongo_uri,
+                serverSelectionTimeoutMS=5000,
+                connectTimeoutMS=5000,
+                socketTimeoutMS=10000,
+            )
             # 연결 테스트
             MongoClientSingleton._client.admin.command('ping')
             MongoClientSingleton._db = MongoClientSingleton._client[db_name]

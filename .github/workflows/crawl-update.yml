@@ -124,6 +124,7 @@ jobs:
         run: mkdir -p logs
 
       - name: Run ${{ matrix.scraper }} crawler
+        id: crawl
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           SAVE_JSONL: 'false'
@@ -138,6 +139,7 @@ jobs:
           fi
 
           LOG_FILE="logs/crawl_${{ matrix.scraper }}_$(date +%Y%m%d_%H%M%S).log"
+          echo "LOG_FILE=$LOG_FILE" >> $GITHUB_ENV
 
           echo "🚀 ${{ matrix.scraper }} 크롤링 시작 (모드: $MODE)"
           python3 -u crawl.py \
@@ -147,6 +149,34 @@ jobs:
             $PAGES_ARG \
             --concurrent 2 \
             2>&1 | tee "$LOG_FILE"
+
+      - name: Write summary
+        if: always()
+        run: |
+          LOG_FILE="${{ env.LOG_FILE }}"
+          SCRAPER="${{ matrix.scraper }}"
+
+          # 로그에서 수치 파싱
+          TOTAL=$(grep -oP '발견 URL: \K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          SUCCESS=$(grep -oP '성공: \K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          FAILED=$(grep -oP '실패: \K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          SKIPPED=$(grep -oP '건너뜀: \K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          STATUS="${{ job.status }}"
+
+          # 상태 이모지
+          if [ "$STATUS" = "success" ]; then ICON="✅"; else ICON="❌"; fi
+
+          # Job summary에 테이블 행 추가
+          {
+            echo "## ${ICON} $SCRAPER"
+            echo "| 항목 | 수 |"
+            echo "|------|----|"
+            echo "| 발견 URL | ${TOTAL}개 |"
+            echo "| 성공 | ${SUCCESS}개 |"
+            echo "| 실패 | ${FAILED}개 |"
+            echo "| 건너뜀 (기존) | ${SKIPPED}개 |"
+            echo ""
+          } >> $GITHUB_STEP_SUMMARY
 
       - name: Upload logs
         if: always()

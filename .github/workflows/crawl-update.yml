@@ -118,6 +118,9 @@ jobs:
           playwright install chromium
           playwright install-deps chromium
 
+      - name: Create logs directory
+        run: mkdir -p logs
+
       - name: Run ${{ matrix.scraper }} crawler
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
@@ -132,21 +135,24 @@ jobs:
             SINCE_ARG="--since 7"
           fi
 
+          LOG_FILE="logs/crawl_${{ matrix.scraper }}_$(date +%Y%m%d_%H%M%S).log"
+
           echo "🚀 ${{ matrix.scraper }} 크롤링 시작 (모드: $MODE)"
           python3 -u crawl.py \
             --scraper ${{ matrix.scraper }} \
             --mode $MODE \
             $SINCE_ARG \
             $PAGES_ARG \
-            --concurrent 2
+            --concurrent 2 \
+            2>&1 | tee "$LOG_FILE"
 
-      - name: Upload logs on failure
-        if: failure()
+      - name: Upload logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: logs-${{ matrix.scraper }}
+          name: logs-${{ matrix.scraper }}-${{ github.run_id }}
           path: logs/
-          retention-days: 7
+          retention-days: 30
 
   # ─────────────────────────────────────────────
   # 전체 결과 요약

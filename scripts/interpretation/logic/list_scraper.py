@@ -1,6 +1,5 @@
 import asyncio
 from playwright.async_api import async_playwright, expect
-import json
 import re
 import math
 import os
@@ -97,8 +96,10 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
                     ofi_cls_cd = match.group(2)
                     
                     # onclick 속성을 그대로 전달 (scraper.py에서 실행)
+                    # url 키를 doc_seq로 채워 update 모드 필터링에 사용
                     urls_found.append({
                         "name": f"interpretation_{doc_seq}",
+                        "url": doc_seq,
                         "onclick": onclick_attr,
                         "doc_seq": doc_seq,
                         "ofi_cls_cd": ofi_cls_cd

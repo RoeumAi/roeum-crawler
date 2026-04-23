@@ -89,14 +89,17 @@ def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]
                 ],
                 "metadata.is_active": True,
             },
-            {"metadata.source_url": 1}
+            {"metadata.source_url": 1, "doc_id": 1}
         ).max_time_ms(5000)
 
-        crawled_urls = {
-            doc.get("metadata", {}).get("source_url", "")
-            for doc in docs
-            if doc.get("metadata", {}).get("source_url")
-        }
+        crawled_urls = set()
+        for doc in docs:
+            source_url = doc.get("metadata", {}).get("source_url", "")
+            if source_url:
+                crawled_urls.add(source_url)
+            doc_id = doc.get("doc_id", "")
+            if doc_id:
+                crawled_urls.add(str(doc_id))
 
         return crawled_urls
 

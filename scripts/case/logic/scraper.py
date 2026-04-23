@@ -260,9 +260,9 @@ def save_case_to_mongodb(doc_id: str, title: str, subtitle: str, url: str, conte
             "doc_type": "case",
             "title": title,
             "subtitle": subtitle,
-            "source_url": url,
-            "content": content,  # ← content 필드
+            "content": content,
             "metadata": {
+                "source_url": url,
                 "source_type": "web",
                 "created_at": datetime.now().isoformat(),
                 "is_active": True
@@ -320,8 +320,7 @@ def save_case_chunks_to_mongodb(
                 "doc_id": base_doc_id,
                 "title": "메타데이터",
                 "text": f"제목: {doc_title}\n출처: {url}",
-                "metadata": {"is_metadata_only": True},
-                "source_url": url
+                "metadata": {"source_url": url, "is_metadata_only": True},
             }]
         
         saved_count = 0
@@ -367,8 +366,8 @@ def save_case_chunks_to_mongodb(
                         "subtitle": doc_subtitle,
                         "chunk_seq": seq,  # 토큰 기반 청킹 순서
                         "content": sub_content,
-                        "source_url": url,
                         "metadata": {
+                            "source_url": url,
                             "source_type": "web",
                             "created_at": datetime.now().isoformat(),
                             "is_active": True,

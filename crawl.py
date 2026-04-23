@@ -122,7 +122,7 @@ def filter_new_urls(url_items: List, crawled_urls: Set[str]) -> List:
     new_items = []
     skipped = 0
     for item in url_items:
-        url_str = item.get("url") if isinstance(item, dict) else item
+        url_str = item.get("url") or item.get("doc_seq") if isinstance(item, dict) else item
         if url_str in crawled_urls:
             skipped += 1
         else:

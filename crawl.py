@@ -108,27 +108,78 @@ def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]
         return set()
 
 
-def filter_new_urls(url_items: List, crawled_urls: Set[str]) -> List:
+def get_crawled_effective_dates(collection_name: str) -> dict:
+    """
+    MongoDB에서 컬렉션의 source_url → effective 매핑을 반환합니다.
+
+    list_scraper가 effective(시행일자) 필드를 제공하는 스크래퍼(law, adrule)에서
+    시행일자 변경 여부로 재크롤링 여부를 결정하는 데 사용합니다.
+
+    Returns:
+        {source_url: effective_date_str} 딕셔너리
+    """
+    try:
+        from scripts.core.database.mongo_client import get_mongo_db
+        db = get_mongo_db()
+        collection = db[collection_name]
+
+        docs = collection.find(
+            {"metadata.is_active": True, "metadata.source_url": {"$exists": True}},
+            {"metadata.source_url": 1, "metadata.effective": 1},
+        ).max_time_ms(10000)
+
+        return {
+            doc["metadata"]["source_url"]: doc.get("metadata", {}).get("effective", "")
+            for doc in docs
+            if doc.get("metadata", {}).get("source_url")
+        }
+
+    except Exception as e:
+        print(f"⚠️  MongoDB effective 조회 실패 (전체 재크롤링): {e}")
+        return {}
+
+
+def filter_new_urls(url_items: List, crawled_urls: Set[str],
+                    effective_map: dict | None = None) -> List:
     """
     이미 크롤링된 URL을 제외하고 새로운 URL만 반환합니다.
 
+    effective_map이 제공되면 URL 존재 여부와 함께 시행일자 변경 여부도 확인합니다.
+    - URL 없음 → 신규 크롤링
+    - URL 있음 + effective 동일 → 건너뜀
+    - URL 있음 + effective 변경 → 재크롤링 (법령 개정)
+
     Args:
         url_items: list_scraper가 반환한 URL 아이템 목록
-        crawled_urls: 이미 크롤링된 source_url 집합
-
-    Returns:
-        새로운 URL 아이템 목록
+        crawled_urls: 이미 크롤링된 source_url 집합 (effective_map 없을 때 사용)
+        effective_map: {source_url: effective} 딕셔너리 (law/adrule용)
     """
     new_items = []
     skipped = 0
+
     for item in url_items:
         url_str = item.get("url") or item.get("doc_seq") if isinstance(item, dict) else item
-        if url_str in crawled_urls:
-            skipped += 1
+
+        if effective_map is not None:
+            # 시행일자 기반 비교 (YYYYMMDD ↔ YYYY-MM-DD 정규화)
+            if url_str not in effective_map:
+                new_items.append(item)  # 신규
+            else:
+                stored_effective = (effective_map[url_str] or "").replace("-", "")
+                item_effective = (item.get("effective", "") if isinstance(item, dict) else "").replace("-", "")
+                if stored_effective != item_effective:
+                    new_items.append(item)  # 개정됨
+                else:
+                    skipped += 1
         else:
-            new_items.append(item)
+            # 기존 방식: URL 존재 여부만 확인
+            if url_str in crawled_urls:
+                skipped += 1
+            else:
+                new_items.append(item)
+
     if skipped > 0:
-        print(f"🔍 update 모드: {skipped}개 기존 URL 건너뜀, {len(new_items)}개 신규 크롤링 예정")
+        print(f"🔍 update 모드: {skipped}개 기존 URL 건너뜀, {len(new_items)}개 신규/변경 크롤링 예정")
     return new_items
 
 
@@ -188,10 +239,18 @@ async def run_single_scraper(
         # Step 1.5 (update 모드): 이미 크롤링된 URL 제거
         total_discovered = len(urls)
         if mode == "update":
-            print(f"📍 Step 1.5: update 모드 — 최근 {since_days}일 이내 크롤링된 URL 필터링 중...")
-            crawled_urls = get_recently_crawled_urls(config.collection_name, since_days)
-            urls = filter_new_urls(urls, crawled_urls)
-            print(f"✅ Step 1.5 완료: {total_discovered}개 중 {len(urls)}개 신규 크롤링 대상\n")
+            # law/adrule: 시행일자 기반 변경 감지 (더 정확)
+            # 기타: 날짜 기반 필터링
+            uses_effective = scraper_type in ("law", "adrule")
+            if uses_effective:
+                print(f"📍 Step 1.5: update 모드 — 시행일자 기반 변경 감지 중...")
+                effective_map = get_crawled_effective_dates(config.collection_name)
+                urls = filter_new_urls(urls, set(), effective_map=effective_map)
+            else:
+                print(f"📍 Step 1.5: update 모드 — 최근 {since_days}일 이내 크롤링된 URL 필터링 중...")
+                crawled_urls = get_recently_crawled_urls(config.collection_name, since_days)
+                urls = filter_new_urls(urls, crawled_urls)
+            print(f"✅ Step 1.5 완료: {total_discovered}개 중 {len(urls)}개 신규/변경 크롤링 대상\n")
 
             if not urls:
                 print(f"ℹ️  모든 URL이 이미 최근 {since_days}일 이내에 크롤링되었습니다. 건너뜁니다.")

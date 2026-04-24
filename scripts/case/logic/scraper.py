@@ -1,6 +1,6 @@
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from playwright.async_api import async_playwright
+import requests
 from bs4 import BeautifulSoup, NavigableString
 import json
 import re
@@ -131,113 +131,73 @@ def parse_case_law_content(html: str, doc_id: str, url: str, doc_title: str):
 
 async def scrape_and_save(url: str, output_dir: str, output_name: str, process_chunks: bool = True, save_to_db: bool = True, dept_code: str = None, save_jsonl: bool = True):
     """
-    웹페이지 컨텐츠를 가져와 document와 chunk로 나누어 파일로 저장합니다.
-    process_chunks 파라미터가 False일 경우, document 정보만 저장하고 chunk 처리는 건너뜁니다.
-    save_to_db 파라미터가 True일 경우, MongoDB에도 저장합니다 (async 처리).
-    save_jsonl 파라미터가 False일 경우, JSONL 파일 저장을 건너뜁니다 (대용량 크롤링에서 디스크 절약).
+    requests로 판례 페이지를 가져와 청크로 분리 후 MongoDB에 저장합니다.
+    law.go.kr 판례는 JS 렌더링 불필요 — requests + BeautifulSoup으로 처리합니다.
     """
     if isinstance(url, dict):
         url = url.get("url", "")
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
-        try:
-            logger.info(f"페이지로 이동 중: {url}")
-            await page.goto(url, wait_until='domcontentloaded', timeout=120000)
+    try:
+        logger.info(f"페이지 요청 중: {url}")
+        loop = asyncio.get_event_loop()
+        resp = await loop.run_in_executor(
+            None,
+            lambda: requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+        )
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "html.parser")
 
-            # loadmask 대기 (로딩 인디케이터)
-            try:
-                logger.info("로딩 마스크가 나타나기를 기다리는 중...")
-                await page.wait_for_selector(".loadmask-msg", state="visible", timeout=2000)
-                logger.info("로딩 마스크가 사라지기를 기다리는 중...")
-                await page.wait_for_selector(".loadmask-msg", state="hidden", timeout=60000)
-            except Exception:
-                logger.warning("로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.")
-            
-            logger.info("페이지 최종 렌더링을 잠시 대기합니다...")
-            await page.wait_for_timeout(1000)
-
-            logger.info("제목과 본문 콘텐츠가 로드되기를 기다립니다...")
-            await page.locator('#contentBody h2').wait_for(timeout=60000)
-
-            # [수정] 청크를 처리하지 않을 때는 conScroll을 기다릴 필요가 없으므로 분리
-            if process_chunks:
-                await page.locator('#conScroll').wait_for(timeout=60000)
-
-            logger.info("콘텐츠 로드 완료.")
-
-            doc_title = clean_spaces(await page.locator('#contentBody h2').text_content())
-            doc_subtitle = clean_spaces(await page.locator('.subtit1, div.subtit2').first.text_content())
-            # 앞뒤 대괄호 제거: "[대전고법 2006. 4. 19. ...]" → "대전고법 2006. 4. 19. ..."
-            doc_subtitle = re.sub(r'^\[(.+)\]$', r'\1', doc_subtitle.strip())
-            doc_id = get_doc_id_from_url(url)
-            if not doc_id:
-                logger.error("URL에서 doc_id(precSeq)를 추출하지 못했습니다.")
-                return {"doc_id": None, "status": "failed"}
-
-            # [수정] 먼저 content_html을 파싱해서 chunks 생성
-            logger.info("청크(chunks) 데이터 처리 중...")
-            content_html = await page.locator('#conScroll').inner_html()
-            chunks = parse_case_law_content(content_html, doc_id, url, doc_title)
-            logger.info(f"  ✅ {doc_id}: {len(chunks)}개 청크 파싱 완료")
-            
-            # [추가] 청크가 비었는지 확인
-            if not chunks:
-                logger.warning(f"⚠️  {doc_id}: 청크 파싱 결과가 비었습니다!")
-            elif any(chunk.get('metadata', {}).get('is_metadata_only') for chunk in chunks):
-                logger.warning(f"⚠️  {doc_id}: 메타데이터 청크만 생성됨 (실제 콘텐츠 파싱 실패)")
-
-            document_data = {
-                "doc_id": doc_id, 
-                "title": doc_title,
-                "subtitle": doc_subtitle, 
-                "source_url": url
-            }
-
-            # JSONL 파일 저장 (save_jsonl=True일 때만)
-            if save_jsonl:
-                doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
-                if document_data.get("title"):
-                    save_to_file(document_data, doc_filename)
-            
-            # MongoDB에 저장 (async 처리)
-            # chunks별로 개별 저장 (law scraper처럼)
-            if save_to_db:
-                logger.info(f"  📝 {doc_id}: MongoDB 저장 시작...")
-                success = await save_case_chunks_to_mongodb_async(
-                    base_doc_id=doc_id,
-                    doc_title=doc_title,
-                    doc_subtitle=doc_subtitle,
-                    url=url,
-                    chunks=chunks
-                )
-                if success:
-                    logger.info(f"  ✅ {doc_id}: MongoDB 저장 성공")
-                else:
-                    logger.error(f"  ❌ {doc_id}: MongoDB 저장 실패")
-
-            # chunks를 JSONL로 저장
-            if process_chunks and save_jsonl and chunks:
-                chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
-                save_to_file(chunks, chunk_filename)
-            elif not chunks:
-                logger.warning("페이지에서 청크 데이터를 찾지 못했습니다.")
-            
-            return {"doc_id": doc_id, "status": "success"}
-
-        except Exception as e:
-            logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
-            debug_dir = os.path.join(project_root, 'debug')
-            os.makedirs(debug_dir, exist_ok=True)
-            screenshot_path = os.path.join(debug_dir, f'{output_name}_error.png')
-            html_path = os.path.join(debug_dir, f'{output_name}_error.html')
-            await page.screenshot(path=screenshot_path)
-            with open(html_path, 'w', encoding='utf-8') as f:
-                f.write(await page.content())
-            logger.info(f"에러 스크린샷: {screenshot_path}, HTML: {html_path}")
+        doc_id = get_doc_id_from_url(url)
+        if not doc_id:
+            logger.error("URL에서 doc_id(precSeq)를 추출하지 못했습니다.")
             return {"doc_id": None, "status": "failed"}
-        finally:
-            await browser.close()
+
+        h2 = soup.select_one("#contentBody h2")
+        if not h2:
+            logger.error(f"{doc_id}: #contentBody h2 없음 — 파싱 실패")
+            return {"doc_id": None, "status": "failed"}
+        doc_title = clean_spaces(h2.get_text())
+
+        subtit = soup.select_one(".subtit1") or soup.select_one("div.subtit2")
+        doc_subtitle = clean_spaces(subtit.get_text()) if subtit else ""
+        doc_subtitle = re.sub(r'^\[(.+)\]$', r'\1', doc_subtitle.strip())
+
+        con_scroll = soup.select_one("#conScroll")
+        content_html = str(con_scroll) if con_scroll else ""
+        chunks = parse_case_law_content(content_html, doc_id, url, doc_title)
+        logger.info(f"✅ {doc_id}: {len(chunks)}개 청크 파싱 완료")
+
+        if not chunks:
+            logger.warning(f"⚠️  {doc_id}: 청크 파싱 결과가 비었습니다!")
+        elif any(chunk.get('metadata', {}).get('is_metadata_only') for chunk in chunks):
+            logger.warning(f"⚠️  {doc_id}: 메타데이터 청크만 생성됨 (실제 콘텐츠 파싱 실패)")
+
+        if save_jsonl:
+            doc_filename = os.path.join(output_dir, f'{output_name}_document.jsonl')
+            save_to_file({"doc_id": doc_id, "title": doc_title, "subtitle": doc_subtitle, "source_url": url}, doc_filename)
+
+        if save_to_db:
+            logger.info(f"📝 {doc_id}: MongoDB 저장 시작...")
+            success = await save_case_chunks_to_mongodb_async(
+                base_doc_id=doc_id,
+                doc_title=doc_title,
+                doc_subtitle=doc_subtitle,
+                url=url,
+                chunks=chunks
+            )
+            if success:
+                logger.info(f"✅ {doc_id}: MongoDB 저장 성공")
+            else:
+                logger.error(f"❌ {doc_id}: MongoDB 저장 실패")
+
+        if process_chunks and save_jsonl and chunks:
+            chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
+            save_to_file(chunks, chunk_filename)
+
+        return {"doc_id": doc_id, "status": "success"}
+
+    except Exception as e:
+        logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
+        return {"doc_id": None, "status": "failed"}
 def save_to_file(data, filename):
     """파싱된 데이터를 JSONL 형식으로 파일에 저장합니다."""
     if not isinstance(data, list): data = [data]

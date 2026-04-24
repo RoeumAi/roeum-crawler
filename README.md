@@ -209,6 +209,43 @@ open http://localhost:4200
 python3 deploy.py --schedule "0 0 * * *"
 ```
 
+## ⚠️ 로컬 전용 Scraper (GitHub Actions 실행 불가)
+
+`judgment`와 `mediation_case`는 nlrc.go.kr이 GitHub Actions의 AWS IP 대역을 차단하므로 **반드시 로컬 환경에서 실행**해야 합니다.
+
+### 로컬에서 수동 실행
+
+```bash
+# 초기 전체 수집 (full 모드)
+python3 crawl.py --scraper judgment --mode full
+python3 crawl.py --scraper mediation_case --mode full
+
+# 업데이트 (새 항목만 추가)
+python3 crawl.py --scraper judgment --mode update
+python3 crawl.py --scraper mediation_case --mode update
+
+# 두 개 동시에
+python3 crawl.py --scraper judgment mediation_case --mode update
+```
+
+### 자동화가 필요하다면
+
+Prefect를 사용해 로컬 머신에서 스케줄 실행할 수 있습니다:
+
+```bash
+# Prefect 서버 & 워커 실행
+prefect server start &
+prefect worker start --pool default &
+
+# 배포 (deploy.py가 모든 scraper를 등록함)
+python3 deploy.py
+```
+
+Prefect 워커가 로컬에서 실행 중이면 매주 월요일 09:00에 judgment/mediation_case도 자동 실행됩니다.  
+GitHub Actions는 나머지 5개(law, adrule, case, decision, interpretation)만 담당합니다.
+
+---
+
 ## 🆘 문제 해결
 
 ### Q: "scraper not found" 에러

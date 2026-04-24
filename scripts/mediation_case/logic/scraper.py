@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 
-import requests
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 # 프로젝트 루트 경로 설정
@@ -43,7 +43,7 @@ def _fetch_detail_html(jgmt_sn: str, jgmt_dcsn_se_cd: str = "66") -> str:
         'jgmtDcsnSeCd': jgmt_dcsn_se_cd,
         'event': 'click-detail'
     }
-    response = requests.post(DETAIL_URL, data=data, headers=DEFAULT_HEADERS, timeout=30)
+    response = requests.post(DETAIL_URL, data=data, headers=DEFAULT_HEADERS, timeout=30, impersonate="chrome110")
     response.raise_for_status()
     return response.text
 

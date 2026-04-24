@@ -5,7 +5,7 @@ import os
 import sys
 from typing import List
 
-import requests
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 # 프로젝트 루트 경로 설정
@@ -33,7 +33,7 @@ def _post_list_html(page_index: int, record_count: int = 10) -> str:
         "likeColumn": "TTL",
         "likeCondition": ""
     }
-    response = requests.post(LIST_ENDPOINT, data=data, headers=DEFAULT_HEADERS, timeout=30)
+    response = requests.post(LIST_ENDPOINT, data=data, headers=DEFAULT_HEADERS, timeout=30, impersonate="chrome110")
     response.raise_for_status()
     return response.text
 

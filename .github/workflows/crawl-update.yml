@@ -187,10 +187,69 @@ jobs:
           retention-days: 30
 
   # ─────────────────────────────────────────────
+  # nodong.kr 행정해석 (독립 스크립트, update 시 신규 항목만)
+  # ─────────────────────────────────────────────
+  crawl-nodong:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create logs directory
+        run: mkdir -p logs
+
+      - name: Run nodong.kr crawler
+        id: crawl
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          PYTHONUNBUFFERED: '1'
+        run: |
+          python3 -u scripts/nodong/crawl_nodong.py --concurrent 3 2>&1 | tee logs/crawl_nodong.log
+
+      - name: Write summary
+        if: always()
+        run: |
+          LOG_FILE="logs/crawl_nodong.log"
+          TOTAL=$(grep -oP 'Step 1 완료: \K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          SUCCESS=$(grep -oP '성공\s+\K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          FAILED=$(grep -oP '실패\s+\K[0-9]+' "$LOG_FILE" | tail -1 || echo "0")
+          STATUS="${{ job.status }}"
+          if [ "$STATUS" = "success" ]; then ICON="✅"; else ICON="❌"; fi
+          {
+            echo "## ${ICON} nodong (행정해석)"
+            echo "| 항목 | 수 |"
+            echo "|------|----|"
+            echo "| 발견 URL | ${TOTAL}개 |"
+            echo "| 성공 | ${SUCCESS}개 |"
+            echo "| 실패 | ${FAILED}개 |"
+            echo ""
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-nodong-${{ github.run_id }}
+          path: logs/
+          retention-days: 30
+
+  # ─────────────────────────────────────────────
   # 전체 결과 요약
   # ─────────────────────────────────────────────
   summary:
-    needs: [setup, crawl]
+    needs: [setup, crawl, crawl-nodong]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -200,4 +259,5 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- 모드: ${{ needs.setup.outputs.mode }}" >> $GITHUB_STEP_SUMMARY
           echo "- 스케줄: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- 결과: ${{ needs.crawl.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 결과(main): ${{ needs.crawl.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 결과(nodong): ${{ needs.crawl-nodong.result }}" >> $GITHUB_STEP_SUMMARY

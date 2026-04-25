@@ -40,6 +40,16 @@ HEADERS = {
 # hr 또는 이 h3가 나오면 본문 수집 종료
 STOP_SECTIONS = {"관련 정보", "관련정보", "관련법률", "관련 법률"}
 
+# law.go.kr interpretation 스키마에 맞춰 섹션명 정규화
+# 질의 계열 → "질의요지", 나머지 → "회답"
+_QUERY_SECTION_RE = re.compile(r"^질[의문]")
+
+
+def _normalize_section(name: str) -> str:
+    if _QUERY_SECTION_RE.match(name):
+        return "질의요지"
+    return "회답"
+
 
 def _clean(text: str) -> str:
     text = text.replace("\xa0", " ")
@@ -182,10 +192,21 @@ def _parse_detail(html: str, url: str) -> dict | None:
             if text:
                 body_parts.append(text)
         if body_parts:
-            sections["회시답변"] = "\n".join(body_parts)
+            sections["회답"] = "\n".join(body_parts)
 
     # 제목과 동일한 이름의 섹션 키가 있으면 제거 (h3가 제목 역할을 했던 경우)
     sections.pop(title, None)
+
+    # 섹션명을 law.go.kr 스키마에 맞춰 정규화 (질의→질의요지, 나머지→회답)
+    # 같은 정규화 키가 여럿이면 내용을 합침
+    normalized: dict[str, str] = {}
+    for raw_key, content in sections.items():
+        key = _normalize_section(raw_key)
+        if key in normalized:
+            normalized[key] = normalized[key] + "\n" + content
+        else:
+            normalized[key] = content
+    sections = normalized
 
     if not sections:
         logger.warning(f"{doc_srl}: 섹션 파싱 결과 없음")

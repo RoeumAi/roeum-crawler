@@ -12,6 +12,16 @@ logs/
 debug/
 mongodata/
 
+# OCR 캐시 (로컬 작업용, 재생성 가능)
+scripts/cache/
+
+# 작업 중 임시 분석 파일
+*.json
+!package.json
+
+# Prefect 로컬 DB
+.prefect/
+
 # IDE
 .vscode/
 .idea/

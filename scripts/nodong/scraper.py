@@ -38,7 +38,7 @@ HEADERS = {
 }
 
 # hr 또는 이 h3가 나오면 본문 수집 종료
-STOP_SECTIONS = {"관련 정보", "관련정보"}
+STOP_SECTIONS = {"관련 정보", "관련정보", "관련법률", "관련 법률"}
 
 
 def _clean(text: str) -> str:
@@ -72,12 +72,31 @@ def _parse_detail(html: str, url: str) -> dict | None:
         logger.warning("xe_content 컨테이너를 찾지 못했습니다.")
         return None
 
-    # 제목
+    # 섹션 헤더로 쓰이는 이름 (제목 fallback 시 제외)
+    SECTION_HEADER_NAMES = {"질의", "회시답변", "회시 답변", "답변", "회신", "검토"}
+
+    # 제목: h2 → 첫 번째 h3(stop/section 제외) → 첫 번째 일반 p 순서로 fallback
+    title = ""
     h2 = content_div.select_one("h2")
-    if not h2:
-        logger.warning("h2 제목 없음")
+    if h2:
+        title = _clean(h2.get_text())
+    if not title:
+        for h3 in content_div.select("h3"):
+            candidate = _clean(h3.get_text())
+            if candidate not in STOP_SECTIONS and candidate not in SECTION_HEADER_NAMES:
+                title = candidate
+                break
+    if not title:
+        for p in content_div.select("p"):
+            style = p.get("style", "")
+            if "text-align: right" not in style and "text-align:right" not in style:
+                candidate = _clean(p.get_text())
+                if candidate:
+                    title = candidate
+                    break
+    if not title:
+        logger.warning("제목을 찾지 못했습니다.")
         return None
-    title = _clean(h2.get_text())
 
     # 번호+일자: <p style="text-align: right;">(근기 68207-390, 1999.10.20.)</p>
     doc_number = ""
@@ -112,6 +131,7 @@ def _parse_detail(html: str, url: str) -> dict | None:
     doc_srl = m.group(1) if m else "unknown"
 
     # 섹션 파싱: h3 기준으로 분리, hr 또는 STOP_SECTIONS에서 종료
+    SKIP_TAGS = {"h2", "h3", "h4"}  # 제목 태그는 본문으로 수집하지 않음
     sections = {}
     current_section = None
 
@@ -124,7 +144,7 @@ def _parse_detail(html: str, url: str) -> dict | None:
         if tag == "hr":
             break
 
-        if tag == "h3":
+        if tag in ("h3", "h4"):
             section_name = _clean(el.get_text())
             if section_name in STOP_SECTIONS:
                 break
@@ -133,11 +153,39 @@ def _parse_detail(html: str, url: str) -> dict | None:
                 sections[current_section] = ""
             continue
 
+        if tag == "h2":
+            continue  # 제목 태그는 건너뜀
+
         if current_section is not None:
-            # p, ul, ol, table 등 모든 본문 태그 수집
+            # p, ul, ol, table, div 등 모든 본문 태그 수집
             text = _clean(el.get_text(separator="\n"))
             if text:
                 sections[current_section] += text + "\n"
+
+    # h3/h4 섹션이 없는 문서: 전체 내용을 "회시답변"으로 수집 (관련정보 제외)
+    if not sections:
+        body_parts = []
+        for el in content_div.children:
+            if isinstance(el, NavigableString):
+                continue
+            if el.name == "hr":
+                break
+            if el.name in SKIP_TAGS:
+                # h3/h4가 stop section이면 중단
+                if _clean(el.get_text()) in STOP_SECTIONS:
+                    break
+                continue
+            # 우측 정렬 p는 번호/날짜이므로 제외
+            if el.name == "p" and "text-align: right" in el.get("style", ""):
+                continue
+            text = _clean(el.get_text(separator="\n"))
+            if text:
+                body_parts.append(text)
+        if body_parts:
+            sections["회시답변"] = "\n".join(body_parts)
+
+    # 제목과 동일한 이름의 섹션 키가 있으면 제거 (h3가 제목 역할을 했던 경우)
+    sections.pop(title, None)
 
     if not sections:
         logger.warning(f"{doc_srl}: 섹션 파싱 결과 없음")

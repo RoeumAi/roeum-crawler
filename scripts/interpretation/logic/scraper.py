@@ -128,18 +128,24 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                         "source_url": url,
                         "source_type": "web",
                         "effective": effective_date,
-                        "created_at": datetime.now().strftime('%Y-%m-%d'),
                         "updated_at": datetime.now().isoformat(),
                         "is_active": True,
                         "article_index": idx,
                         "total_articles": len(sections_data),
                     }
                 }
-                
-                # MongoDB에 upsert
+
+                # created_at을 제외한 $set 필드 구성
+                set_fields = {k: v for k, v in section_doc.items() if k != "metadata"}
+                set_fields.update({f"metadata.{k}": v for k, v in section_doc["metadata"].items()})
+
+                # MongoDB에 upsert (created_at은 최초 insert 시에만 설정)
                 result = collection.update_one(
                     {"doc_id": doc_id, "article_number": article_number},
-                    {"$set": section_doc},
+                    {
+                        "$set": set_fields,
+                        "$setOnInsert": {"metadata.created_at": datetime.now().strftime('%Y-%m-%d')},
+                    },
                     upsert=True
                 )
                 

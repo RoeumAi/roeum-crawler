@@ -221,18 +221,19 @@ def save_case_to_mongodb(doc_id: str, title: str, subtitle: str, url: str, conte
             "title": title,
             "subtitle": subtitle,
             "content": content,
-            "metadata": {
-                "source_url": url,
-                "source_type": "web",
-                "created_at": datetime.now().isoformat(),
-                "is_active": True
-            }
+            "metadata.source_url": url,
+            "metadata.source_type": "web",
+            "metadata.updated_at": datetime.now().isoformat(),
+            "metadata.is_active": True,
         }
-        
-        # doc_id 기준으로 upsert
+
+        # doc_id 기준으로 upsert (created_at은 최초 insert 시에만 설정)
         result = collection.update_one(
             {"doc_id": doc_id},
-            {"$set": case_doc},
+            {
+                "$set": case_doc,
+                "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
+            },
             upsert=True
         )
         
@@ -319,38 +320,42 @@ def save_case_chunks_to_mongodb(
                     else:
                         token_cnt = None
                     
+                    chunk_meta = {
+                        "source_url": url,
+                        "source_type": "web",
+                        "updated_at": datetime.now().isoformat(),
+                        "is_active": True,
+                        "chunk_index": chunk_idx,
+                        "total_chunks": len(chunks),
+                        "total_sub_chunks": len(sub_chunks),
+                        "effective": judgment_date,
+                        **chunk.get('metadata', {})
+                    }
+                    if token_cnt is not None:
+                        chunk_meta["token_count"] = token_cnt
+
                     chunk_doc = {
-                        "doc_id": base_doc_id,  # 모든 청크가 동일한 doc_id 공유
-                        "doc_type": chunk_title,  # 섹션명을 doc_type으로 (예: "이유", "주문", "원심판결")
+                        "doc_id": base_doc_id,
+                        "doc_type": chunk_title,
                         "title": doc_title,
                         "subtitle": doc_subtitle,
-                        "chunk_seq": seq,  # 토큰 기반 청킹 순서
+                        "chunk_seq": seq,
                         "content": sub_content,
-                        "metadata": {
-                            "source_url": url,
-                            "source_type": "web",
-                            "created_at": datetime.now().isoformat(),
-                            "is_active": True,
-                            "chunk_index": chunk_idx,
-                            "total_chunks": len(chunks),
-                            "total_sub_chunks": len(sub_chunks),
-                            "effective": judgment_date,
-                            **chunk.get('metadata', {})
-                        }
                     }
-                    
-                    # token_count가 있으면 추가
-                    if token_cnt is not None:
-                        chunk_doc["metadata"]["token_count"] = token_cnt
-                    
-                    # doc_id + doc_type(섹션명) + chunk_seq 조합으로 upsert
+                    set_fields = dict(chunk_doc)
+                    set_fields.update({f"metadata.{k}": v for k, v in chunk_meta.items()})
+
+                    # doc_id + doc_type(섹션명) + chunk_seq 조합으로 upsert (created_at은 최초만)
                     result = collection.update_one(
                         {
                             "doc_id": base_doc_id,
                             "doc_type": chunk_title,
                             "chunk_seq": seq
                         },
-                        {"$set": chunk_doc},
+                        {
+                            "$set": set_fields,
+                            "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
+                        },
                         upsert=True
                     )
                     

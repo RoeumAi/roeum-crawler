@@ -463,6 +463,18 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 # 조별 문서 생성 (law.py와 동일한 스키마)
                 article_number = article['article_number'] if article['article_number'] else None
 
+                meta = {
+                    "source_url": url,
+                    "source_type": "web",
+                    "effective": effective_date,
+                    "updated_at": datetime.now().isoformat(),
+                    "is_active": True,
+                    "article_index": idx,
+                    "total_articles": len(articles),
+                }
+                if dept_code:
+                    meta["dept_code"] = dept_code
+
                 article_doc = {
                     "doc_id": doc_id,
                     "article_number": article_number,
@@ -471,26 +483,18 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     "sub_title": sub_title,
                     "content": article['content'],
                     "doc_type": "행정규칙",
-                    "metadata": {
-                        "source_url": url,
-                        "source_type": "web",
-                        "effective": effective_date,
-                        "created_at": datetime.now().strftime('%Y-%m-%d'),
-                        "updated_at": datetime.now().isoformat(),
-                        "is_active": True,
-                        "article_index": idx,
-                        "total_articles": len(articles),
-                    }
                 }
 
-                # 부처 코드 추가
-                if dept_code:
-                    article_doc["metadata"]["dept_code"] = dept_code
+                set_fields = dict(article_doc)
+                set_fields.update({f"metadata.{k}": v for k, v in meta.items()})
 
-                # MongoDB에 upsert
+                # MongoDB에 upsert (created_at은 최초 insert 시에만 설정)
                 result = collection.update_one(
                     {"doc_id": doc_id, "article_number": article_number},
-                    {"$set": article_doc},
+                    {
+                        "$set": set_fields,
+                        "$setOnInsert": {"metadata.created_at": datetime.now().strftime('%Y-%m-%d')},
+                    },
                     upsert=True
                 )
 

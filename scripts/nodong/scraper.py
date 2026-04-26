@@ -247,7 +247,6 @@ def _build_mongo_docs(parsed: dict) -> list[dict]:
                 "source_url": parsed["source_url"],
                 "source_type": "web",
                 "effective": parsed["effective_date"],
-                "created_at": datetime.now().strftime("%Y-%m-%d"),
                 "updated_at": datetime.now().isoformat(),
                 "is_active": True,
                 "article_index": idx,
@@ -267,9 +266,16 @@ def _save_to_mongodb(mongo_docs: list[dict]) -> bool:
 
         saved = 0
         for doc in mongo_docs:
+            # created_at은 최초 insert 시에만 설정, update 시 유지
+            created_at = datetime.now().strftime("%Y-%m-%d")
+            set_fields = {k: v for k, v in doc.items() if k != "metadata"}
+            set_fields.update({f"metadata.{k}": v for k, v in doc["metadata"].items()})
             result = collection.update_one(
                 {"doc_id": doc["doc_id"], "article_number": doc["article_number"]},
-                {"$set": doc},
+                {
+                    "$set": set_fields,
+                    "$setOnInsert": {"metadata.created_at": created_at},
+                },
                 upsert=True,
             )
             saved += 1

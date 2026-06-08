@@ -18,11 +18,11 @@ prefect>=2.14.0
 transformers>=4.30.0
 torch>=2.0.0
 
-# Image processing (OCR, image manipulation)
+# Image processing
 Pillow>=10.0.0
-opencv-python>=4.8.0
-pytesseract>=0.3.10
-numpy>=1.24.0
+
+# OpenAI OCR (Naver CLOVA 대체)
+openai>=1.0.0
 
 # Additional utilities
 requests>=2.31.0

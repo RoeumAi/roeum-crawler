@@ -28,3 +28,20 @@ scripts/cache/
 *.swp
 *.swo
 
+
+# 일회성 분석/백필 스크립트
+backfill_*.py
+categorize_*.py
+check_*.py
+check*.py
+crawl_missing_*.py
+db_match.py
+final_*.py
+law_check.py
+process_crawlable.py
+quality_check.py
+recheck_*.py
+send_discord*.py
+timing_check.py
+verify_mongo.py
+/tmp/

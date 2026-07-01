@@ -271,6 +271,8 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
             logger.warning("분리된 조문이 없습니다. 통합 문서 그대로 저장합니다.")
             articles = [{
                 "article_number": None,
+                "article_number_numeric": None,
+                "article_title": unified_doc.get("title", ""),
                 "content": unified_doc["content"]
             }]
         

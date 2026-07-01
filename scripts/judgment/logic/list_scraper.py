@@ -50,13 +50,12 @@ def _parse_total_pages(html: str) -> int:
 
 def _parse_rows(html: str) -> List[dict]:
     soup = BeautifulSoup(html, "html.parser")
-    rows = soup.select("tr[data-event='click-detail'][data-jgmt-sn]")
+    rows = soup.select("a[data-event='click-detail'][data-jgmt-sn]")
     items = []
     for row in rows:
         jgmt_sn = (row.get("data-jgmt-sn") or "").strip()
         jgmt_dcsn_se_cd = (row.get("data-jgmt-dcsn-se-cd") or "65").strip()
-        title_el = row.select_one("td.al a")
-        title = title_el.get_text(strip=True) if title_el else ""
+        title = row.get_text(strip=True)
         if not jgmt_sn:
             continue
 

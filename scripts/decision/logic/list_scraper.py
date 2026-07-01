@@ -66,20 +66,21 @@ def _parse_rows(html: str) -> List[Dict]:
     title과 registered_at을 아이템에 포함하여 반환합니다.
     """
     soup = BeautifulSoup(html, "html.parser")
-    rows = soup.select("tr[data-event='click-detail'][data-jgmt-sn]")
+    rows = soup.select("a[data-event='click-detail'][data-jgmt-sn]")
     items = []
     for row in rows:
         jgmt_sn = (row.get("data-jgmt-sn") or "").strip()
         jgmt_dcsn_se_cd = (row.get("data-jgmt-dcsn-se-cd") or DECISION_CODE).strip()
 
-        tds = row.select("td")
-        title_el = row.select_one("td.al a")
-        title = title_el.get_text(strip=True) if title_el else ""
+        title = row.get_text(strip=True)
 
-        # 날짜는 마지막 td에 위치
+        # 날짜는 부모 <tr>의 마지막 td에 위치
         registered_at = ""
-        if len(tds) >= 3:
-            registered_at = tds[-1].get_text(strip=True)
+        parent_tr = row.find_parent("tr")
+        if parent_tr:
+            tds = parent_tr.select("td")
+            if tds:
+                registered_at = tds[-1].get_text(strip=True)
 
         if not jgmt_sn:
             continue

@@ -8,7 +8,12 @@ import os
 from urllib.parse import urlparse, parse_qs, urljoin
 import sys
 import requests
+from PIL import Image, ImageEnhance
+import pytesseract
+pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
 import io
+import cv2
+import numpy as np
 import tempfile
 from datetime import datetime
 
@@ -29,6 +34,50 @@ def clean_spaces(s: str) -> str:
     s = re.sub(r"\n{3,}", "\n\n", s)
     return s.strip()
 
+def _image_bytes_to_text_final_opencv(image_bytes: bytes) -> str:
+    """[최종] OpenCV로 표의 윤곽선을 제거하고 설정을 최적화하여 OCR 인식률을 극대화합니다."""
+    if not image_bytes: return ""
+    try:
+        logger.info("최종 OpenCV OCR 시작 (윤곽선 제거 포함)...")
+
+        # 1. 이미지 로드
+        np_arr = np.frombuffer(image_bytes, np.uint8)
+        image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # 2. 이미지 흑백 반전 및 윤곽선 찾기 (테이블 선을 잘 찾기 위함)
+        inverted_image = cv2.bitwise_not(gray_image)
+        contours, _ = cv2.findContours(inverted_image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+        # 3. 찾은 윤곽선(테이블 선)을 흰색으로 덮어쓰기
+        mask = np.zeros(image.shape[:2], dtype="uint8")
+        for contour in contours:
+            # 특정 크기 이상의 윤곽선만 표의 선으로 간주하여 제거
+            if cv2.contourArea(contour) > 1000:
+                cv2.drawContours(mask, [contour], -1, (255), thickness=cv2.FILLED)
+
+        # 원본 이미지에 마스크를 적용하여 선 제거
+        line_removed_image = cv2.bitwise_or(gray_image, mask)
+
+        # 4. 최종적으로 적응형 스레시홀딩 적용
+        processed_image = cv2.adaptiveThreshold(
+            line_removed_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+            cv2.THRESH_BINARY, 11, 2
+        )
+
+        # 5. Tesseract 설정 최적화
+        # --psm 4: 텍스트가 한 개의 열(column)이라고 가정
+        # tessedit_char_whitelist: 인식할 문자를 미리 지정하여 정확도 향상 (주로 숫자 필드에 유용)
+        custom_config = r'--oem 3 --psm 4 -l kor+eng'
+        text = pytesseract.image_to_string(processed_image, config=custom_config)
+
+        processed_text = re.sub(r'\n\s*\n', '\n', text).strip()
+        logger.info("최종 OpenCV OCR 성공")
+        return processed_text
+
+    except Exception as e:
+        logger.error(f"최종 OpenCV OCR 처리 중 오류 발생: {e}")
+        return "\n[이미지 처리 오류]\n"
 
 # --- 유형 1 파서 ---
 def _parse_structured_content(html: str, doc_id: str, url: str, doc_title: str):

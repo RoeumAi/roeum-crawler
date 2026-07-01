@@ -353,12 +353,25 @@ async def run_single_scraper(
         }
 
 
+def _run_scraper_in_thread(args):
+    """스레드 내에서 단일 스크래퍼 실행 (자체 이벤트 루프)"""
+    scraper_type, max_concurrent, max_pages, mode, since_days = args
+    return asyncio.run(run_single_scraper(scraper_type, max_concurrent, max_pages, mode, since_days))
+
 async def run_multiple_scrapers(scrapers, max_concurrent, max_pages, mode, since_days):
-    """여러 scraper 순차 실행"""
+    """여러 scraper 병렬 실행 (스레드풀 — 동기 I/O 블로킹 우회)"""
+    import concurrent.futures
+    loop = asyncio.get_event_loop()
+    args_list = [(s, max_concurrent, max_pages, mode, since_days) for s in scrapers]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(scrapers)) as pool:
+        futures = [loop.run_in_executor(pool, _run_scraper_in_thread, args) for args in args_list]
+        task_results = await asyncio.gather(*futures, return_exceptions=True)
     results = {}
-    for scraper_type in scrapers:
-        result = await run_single_scraper(scraper_type, max_concurrent, max_pages, mode, since_days)
-        results[scraper_type] = result
+    for scraper_type, result in zip(scrapers, task_results):
+        if isinstance(result, Exception):
+            results[scraper_type] = {"status": "failed", "error": str(result), "total_urls": 0, "total_success": 0, "total_failed": 0}
+        else:
+            results[scraper_type] = result
     return results
 
 

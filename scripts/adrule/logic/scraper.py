@@ -394,7 +394,7 @@ def split_articles_by_number(content: str) -> list:
 
 
 def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None, 
-                   sub_title: str = "", effective_date: str = None) -> bool:
+                   sub_title: str = "", effective_date: str = None) -> str:
     """
     행정예규를 MongoDB에 조별로 분리하여 저장 (law.py와 동일)
     
@@ -458,6 +458,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         # 각 조마다 독립 문서 생성 및 저장
         saved_count = 0
         failed_count = 0
+        any_changed = False
         
         for idx, article in enumerate(articles, 1):
             try:
@@ -512,7 +513,9 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 continue
         
         logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
-        return failed_count == 0
+        if saved_count == 0 and failed_count > 0:
+            return ""
+        return "new_version" if any_changed else "update_existing"
             
     except Exception as e:
         logger.error(f"MongoDB 저장 중 오류 발생: {str(e)}")
@@ -520,7 +523,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
 
 
 async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None, 
-                                sub_title: str = "", effective_date: str = None, executor=None) -> bool:
+                                sub_title: str = "", effective_date: str = None, executor=None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     loop = asyncio.get_event_loop()
     if executor is None:
@@ -643,7 +646,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             # MongoDB에 저장 (save_to_db=True인 경우에만)
             # sub_title과 effective_date를 전달하여 메타데이터 완전성 보장
             if save_to_db and chunks:
-                await save_to_mongodb_async(
+                _adrule_action = await save_to_mongodb_async(
                     chunks, 
                     doc_title, 
                     doc_id, 
@@ -660,6 +663,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 "title": doc_title,
                 "chunks_count": len(chunks) if chunks else 0,
                 "saved_to_db": save_to_db and bool(chunks),
+                "action": _adrule_action if (save_to_db and chunks) else "insert",
             }
 
         except Exception as e:

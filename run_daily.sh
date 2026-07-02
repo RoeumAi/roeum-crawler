@@ -83,8 +83,11 @@ for line in lines:
         if v is not None: results[current]['failed'] = v
         v = pnum(r'건너뜀', line)
         if v is not None: results[current]['skipped'] = v
+        v = pnum(r'변경없음', line)
+        if v is not None: results[current]['no_change'] = (results[current].get('no_change', 0) + v)
 
 total_updated = sum(r.get('success', 0) for r in results.values())
+total_no_change = sum(r.get('no_change', 0) for r in results.values())
 hours = duration // 60
 mins = duration % 60
 duration_str = f"{hours}시간 {mins}분" if hours > 0 else f"{mins}분"
@@ -101,12 +104,15 @@ for scraper in scrapers:
     else:
         updated = r['success']
         skipped = r['skipped']
+        no_change = r.get('no_change', 0)
         if updated > 0:
-            out.append(f"✅ {name}: **{updated:,}건 업데이트** (건너뜀 {skipped:,}건)")
+            out.append(f"✅ {name}: **{updated:,}건 업데이트** (변경없음 {no_change:,}건 / 건너뜀 {skipped:,}건)")
+        elif no_change > 0:
+            out.append(f"✅ {name}: 변경 없음 (재확인 {no_change:,}건 / 건너뜀 {skipped:,}건)")
         else:
             out.append(f"✅ {name}: 변경 없음 (건너뜀 {skipped:,}건)")
 
-out.append(f"\n🔢 전체 업데이트: **{total_updated:,}건**  ⏱️ 소요시간: {duration_str}")
+out.append(f"\n🔢 전체 업데이트: **{total_updated:,}건** (변경없음 {total_no_change:,}건)  ⏱️ 소요시간: {duration_str}")
 
 if exit_code != 0:
     out.append("⚠️ 일부 오류 발생 — 로그 확인 필요")

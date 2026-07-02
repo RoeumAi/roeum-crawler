@@ -331,22 +331,25 @@ async def run_single_scraper(
                         save_to_db=True,
                         save_jsonl=save_jsonl
                     )
-                    return {"status": "success", "doc_id": result.get("doc_id") if result else None}
+                    action = result.get("action", "insert") if result else "insert"
+                    return {"status": "success", "doc_id": result.get("doc_id") if result else None, "action": action}
                 except Exception as e:
                     return {"status": "failed", "error": str(e)}
 
         tasks = [scrape_with_semaphore(url) for url in urls]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        success_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "success")
+        success_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "success" and r.get("action") != "update_existing")
+        no_change_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "success" and r.get("action") == "update_existing")
         failed_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "failed")
 
-        print(f"\n✅ Step 2 완료: {success_count}개 성공, {failed_count}개 실패\n")
+        print(f"\n✅ Step 2 완료: {success_count}개 성공, {no_change_count}개 변경없음, {failed_count}개 실패\n")
 
         return {
-            "status": "success" if success_count > 0 else "failed",
+            "status": "success" if success_count + no_change_count > 0 else "failed",
             "total_urls": total_discovered,
             "total_success": success_count,
+            "total_no_change": no_change_count,
             "total_failed": failed_count
         }
 
@@ -406,6 +409,7 @@ def print_results(results):
         print(f"\n{status} {config.display_name} ({scraper_type})")
         print(f"   - 발견 URL: {result.get('total_urls', 0):,}개")
         print(f"   - 성공: {result.get('total_success', 0):,}개")
+        print(f"   - 변경없음: {result.get('total_no_change', 0):,}개")
         print(f"   - 실패: {result.get('total_failed', 0):,}개")
         if result.get("skipped"):
             print(f"   - 건너뜀: {result.get('skipped', 0):,}개 (이미 크롤링됨)")

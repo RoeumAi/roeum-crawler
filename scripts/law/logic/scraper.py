@@ -234,7 +234,7 @@ def save_to_file(data, filename):
     logger.info(f"데이터 {len(data)}건을 '{filename}' 파일로 성공적으로 저장했습니다.")
 
 
-def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
+def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
     """
     통합 문서를 조별로 분리한 후 MongoDB에 저장 (변경 감지 기능 포함)
     
@@ -280,6 +280,7 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
         base_doc_id = unified_doc["doc_id"]
         saved_count = 0
         failed_count = 0
+        any_changed = False
         
         for idx, article in enumerate(articles, 1):
             try:
@@ -324,7 +325,11 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
                         f"🔄 기존 버전 유지: {doc_id} (v{action_result['version']}) "
                         f"- 메타데이터만 업데이트"
                     )
+                else:
+                    any_changed = True
                 
+                if action_result["action"] in ("insert", "new_version"):
+                    any_changed = True
                 saved_count += 1
                 
             except Exception as e:
@@ -333,14 +338,16 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
                 continue
         
         logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
-        return failed_count == 0
+        if failed_count > 0 and saved_count == 0:
+            return ""
+        return "new_version" if any_changed else "update_existing"
             
     except Exception as e:
         logger.error(f"MongoDB 저장 중 오류 발생: {str(e)}")
         return False
 
 
-async def save_to_mongodb_async(unified_doc: Dict, dept_code: Optional[str] = None, executor=None) -> bool:
+async def save_to_mongodb_async(unified_doc: Dict, dept_code: Optional[str] = None, executor=None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     loop = asyncio.get_event_loop()
     if executor is None:
@@ -351,7 +358,7 @@ async def save_to_mongodb_async(unified_doc: Dict, dept_code: Optional[str] = No
         return result
     except Exception as e:
         logger.error(f"MongoDB 비동기 저장 실패: {e}")
-        return False
+        return ""
 
 
 async def scrape_and_save(
@@ -405,7 +412,7 @@ async def scrape_and_save(
             
             # MongoDB에 저장 (async 처리)
             if save_to_db and unified_doc:
-                await save_to_mongodb_async(unified_doc, dept_code)
+                _law_action = await save_to_mongodb_async(unified_doc, dept_code)
                 
         except Exception as e:
             logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
@@ -425,7 +432,7 @@ async def scrape_and_save(
         
         # 결과 반환
         if unified_doc:
-            return {"doc_id": unified_doc.get("doc_id"), "status": "success"}
+            return {"doc_id": unified_doc.get("doc_id"), "status": "success", "action": _law_action if save_to_db else "insert"}
         else:
             return {"doc_id": None, "status": "failed"}
 

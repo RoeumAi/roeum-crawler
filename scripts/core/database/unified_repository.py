@@ -146,10 +146,10 @@ class UnifiedDocumentRepository:
         return self.collection.find_one(query)
     
     def find_by_article(self, doc_id: str, article_number, active_only: bool = True) -> Optional[Dict]:
-        doc_id + article_number 복합 키로 특정 조문 조회
-        query = {doc_id: doc_id, article_number: article_number}
+        """doc_id + article_number 복합 키로 특정 조문 조회"""
+        query = {"doc_id": doc_id, "article_number": article_number}
         if active_only:
-            query[metadata.is_active] = True
+            query["metadata.is_active"] = True
         return self.collection.find_one(query)
 
     def find_by_type(

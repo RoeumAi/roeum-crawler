@@ -145,6 +145,13 @@ class UnifiedDocumentRepository:
         
         return self.collection.find_one(query)
     
+    def find_by_article(self, doc_id: str, article_number, active_only: bool = True) -> Optional[Dict]:
+        doc_id + article_number 복합 키로 특정 조문 조회
+        query = {doc_id: doc_id, article_number: article_number}
+        if active_only:
+            query[metadata.is_active] = True
+        return self.collection.find_one(query)
+
     def find_by_type(
         self,
         doc_type: str,
@@ -277,9 +284,13 @@ class UnifiedDocumentRepository:
         """
         try:
             doc_id = new_doc.get("doc_id")
+            article_number = new_doc.get("article_number")
             
-            # 1. 기존 활성 문서 조회
-            existing_doc = self.find_by_id(doc_id, active_only=True)
+            # 1. 기존 활성 문서 조회 (article_number 있으면 복합키, 없으면 doc_id만)
+            if article_number is not None:
+                existing_doc = self.find_by_article(doc_id, article_number, active_only=True)
+            else:
+                existing_doc = self.find_by_id(doc_id, active_only=True)
             
             # 2. 변경 감지
             comparison = ChangeDetector.compare_documents(existing_doc or {}, new_doc)

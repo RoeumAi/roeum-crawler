@@ -140,7 +140,7 @@ def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]
         return set()
 
 
-def get_crawled_effective_dates(collection_name: str) -> dict:
+def get_crawled_effective_dates(collection_name: str, url_list: list | None = None) -> dict:
     """
     MongoDB에서 컬렉션의 source_url → effective 매핑을 반환합니다.
 
@@ -155,10 +155,16 @@ def get_crawled_effective_dates(collection_name: str) -> dict:
         db = get_mongo_db()
         collection = db[collection_name]
 
+        if url_list:
+            # 당일 발견된 URL만 조회 - 전체 스캔 타임아웃 방지
+            query = {"metadata.is_active": True, "metadata.source_url": {"$in": url_list}}
+        else:
+            query = {"metadata.is_active": True, "metadata.source_url": {"$exists": True}}
+
         docs = collection.find(
-            {"metadata.is_active": True, "metadata.source_url": {"$exists": True}},
+            query,
             {"metadata.source_url": 1, "metadata.effective": 1},
-        ).max_time_ms(10000)
+        ).max_time_ms(60000)
 
         return {
             doc["metadata"]["source_url"]: doc.get("metadata", {}).get("effective", "")
@@ -278,9 +284,13 @@ async def run_single_scraper(
             # - decision: 날짜 기반 (건수 적고 신규 위주)
             if scraper_type in ("law", "adrule"):
                 print(f"📍 Step 1.5: update 모드 — 시행일자 기반 변경 감지 중...")
-                effective_map = get_crawled_effective_dates(config.collection_name)
+                url_str_list = [
+                    (item.get("url") if isinstance(item, dict) else item)
+                    for item in urls if item
+                ]
+                effective_map = get_crawled_effective_dates(config.collection_name, url_list=url_str_list)
                 urls = filter_new_urls(urls, set(), effective_map=effective_map)
-            elif scraper_type in ("case", "mediation_case", "judgment", "interpretation"):
+            elif scraper_type in ("case", "mediation_case", "judgment", "interpretation", "decision"):
                 print(f"📍 Step 1.5: update 모드 — 기존 URL/ID 존재 여부로 신규 항목만 필터링 중...")
                 crawled_urls = get_all_crawled_urls(config.collection_name)
                 urls = filter_new_urls(urls, crawled_urls)

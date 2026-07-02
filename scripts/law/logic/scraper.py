@@ -283,10 +283,8 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> bool:
         
         for idx, article in enumerate(articles, 1):
             try:
-                # 조별 고유 doc_id 생성: base_id_articleNumber
-                # 예: "282225_1" (제1조), "282225_5.1" (제5조의1)
-                article_suffix = article['article_number'] if article['article_number'] else "full"
-                article_doc_id = f"{base_doc_id}_{article_suffix}"
+                # doc_id는 법령 기본 ID (lsiSeq) 유지, article_number 필드로 조문 구분
+                article_doc_id = base_doc_id
                 
                 # 조별 문서 생성
                 article_doc = {

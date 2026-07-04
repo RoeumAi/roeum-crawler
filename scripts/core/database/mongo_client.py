@@ -46,7 +46,7 @@ class MongoClientSingleton:
                 mongo_uri,
                 serverSelectionTimeoutMS=5000,
                 connectTimeoutMS=5000,
-                socketTimeoutMS=int(os.getenv("MONGO_SOCKET_TIMEOUT_MS", "10000")),
+                socketTimeoutMS=int(os.getenv("MONGO_SOCKET_TIMEOUT_MS", "60000")),
             )
             # 연결 테스트
             MongoClientSingleton._client.admin.command('ping')

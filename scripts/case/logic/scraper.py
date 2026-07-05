@@ -73,16 +73,23 @@ def parse_case_law_content(html: str, doc_id: str, url: str, doc_title: str):
     # [추가] 중복된 섹션 키의 개수를 세기 위한 딕셔너리
     section_key_counts = defaultdict(int)
 
+    # h5 중 당사자·행정 정보(원고·피고·원심판결 등)만 부모 청크에 텍스트로 병합하고,
+    # 나머지(주문·이유·청구취지 등 실질 법률 내용)는 h5여도 별도 청크로 분리
+    PARTY_ADMIN_KEYS = {
+        "plaintiff",     # 원고
+        "defendant",     # 피고
+        "lower_court",   # 원심판결
+        "first_court",   # 제1심판결
+        "hearing_close", # 변론종결
+        "section",       # 매핑되지 않는 당사자 소제목 (피고보조참가인 등)
+    }
+
     for element in soup.find_all(True, recursive=False):
         element_text = element.get_text(strip=True)
         if not element_text:
             continue
 
         if element_text.startswith('【'):
-            if current_chunk and current_chunk.get('text'):
-                current_chunk['text'] = clean_spaces(current_chunk['text'])
-                chunks.append(current_chunk)
-
             section_title = element_text.strip('【】')
 
             if len(section_title) == 3 and section_title[1] == ' ':
@@ -91,18 +98,26 @@ def parse_case_law_content(html: str, doc_id: str, url: str, doc_title: str):
             section_key_raw = section_title.split(',')[0].split('(')[0].strip()
             section_key = section_key_map.get(section_key_raw, "section")
 
-            # [수정] 중복 ID 방지를 위한 로직
-            section_key_counts[section_key] += 1
-            count = section_key_counts[section_key]
+            # h4는 항상 새 청크; h5는 당사자/행정 소제목만 부모 청크에 병합
+            is_party_admin_h5 = (element.name == 'h5') and (section_key in PARTY_ADMIN_KEYS)
 
-            # section_key가 'section'이거나, count가 1보다 클 때만 숫자를 붙임
-            final_section_key = f"{section_key}_{count}" if section_key == "section" or count > 1 else section_key
+            if not is_party_admin_h5:
+                if current_chunk and current_chunk.get('text'):
+                    current_chunk['text'] = clean_spaces(current_chunk['text'])
+                    chunks.append(current_chunk)
 
-            current_chunk = {
-                "chunk_id": f"doc:{doc_id}:{final_section_key}",
-                "doc_id": doc_id, "title": section_title, "text": "",
-                "metadata": {"chapter": doc_title}, "source_url": url
-            }
+                section_key_counts[section_key] += 1
+                count = section_key_counts[section_key]
+                final_section_key = f"{section_key}_{count}" if section_key == "section" or count > 1 else section_key
+
+                current_chunk = {
+                    "chunk_id": f"doc:{doc_id}:{final_section_key}",
+                    "doc_id": doc_id, "title": section_title, "text": "",
+                    "metadata": {"chapter": doc_title}, "source_url": url
+                }
+            elif current_chunk:
+                # 당사자·행정 소제목은 전문 청크 텍스트에 병합
+                current_chunk["text"] += "\n" + element_text
         elif current_chunk:
             for br in element.find_all("br"):
                 br.replace_with("\n")
@@ -162,7 +177,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
         doc_subtitle = re.sub(r'^\[(.+)\]$', r'\1', doc_subtitle.strip())
 
         con_scroll = soup.select_one("#conScroll")
-        content_html = str(con_scroll) if con_scroll else ""
+        content_html = con_scroll.decode_contents() if con_scroll else ""
         chunks = parse_case_law_content(content_html, doc_id, url, doc_title)
         logger.info(f"✅ {doc_id}: {len(chunks)}개 청크 파싱 완료")
 

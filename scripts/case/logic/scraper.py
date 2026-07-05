@@ -84,7 +84,14 @@ def parse_case_law_content(html: str, doc_id: str, url: str, doc_title: str):
         "section",       # 매핑되지 않는 당사자 소제목 (피고보조참가인 등)
     }
 
-    for element in soup.find_all(True, recursive=False):
+    for element in soup.children:
+        if isinstance(element, NavigableString):
+            text = str(element).strip()
+            if text and current_chunk:
+                current_chunk["text"] += " " + text
+            continue
+        if not getattr(element, 'name', None):
+            continue
         element_text = element.get_text(strip=True)
         if not element_text:
             continue

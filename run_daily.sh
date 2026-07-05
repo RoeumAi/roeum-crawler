@@ -54,11 +54,12 @@ date_str = "$DATE_STR"
 with open(log_file, 'r', encoding='utf-8') as f:
     content = f.read()
 
-scrapers = ['law', 'adrule', 'case', 'decision', 'interpretation', 'mediation_case', 'judgment']
+scrapers = ['law', 'adrule', 'case', 'decision', 'interpretation', 'mediation_case', 'judgment', 'constitutional_decc', 'legislation_expc', 'admin_decc']
 names = {
     'law': '법령', 'adrule': '행정규칙', 'case': '판례',
     'decision': '심의결정례', 'interpretation': '해석례',
-    'mediation_case': '조정사건례', 'judgment': '주요판정사례'
+    'mediation_case': '조정사건례', 'judgment': '주요판정사례',
+    'constitutional_decc': '헌재결정례', 'legislation_expc': '법제처해석례', 'admin_decc': '행정심판재결례'
 }
 
 lines = content.split('\n')

@@ -93,6 +93,30 @@ SCRAPERS = {
         max_pages=None,
         max_concurrent=3,
     ),
+    'constitutional_decc': ScraperConfig(
+        name='constitutional_decc',
+        display_name='헌재결정례',
+        dept_code='1492000',
+        collection_name='constitutional_decc',
+        max_pages=None,
+        max_concurrent=3,
+    ),
+    'legislation_expc': ScraperConfig(
+        name='legislation_expc',
+        display_name='법제처해석례',
+        dept_code='1492000',
+        collection_name='legislation_expc',
+        max_pages=None,
+        max_concurrent=3,
+    ),
+    'admin_decc': ScraperConfig(
+        name='admin_decc',
+        display_name='행정심판재결례',
+        dept_code='1492000',
+        collection_name='admin_decc',
+        max_pages=None,
+        max_concurrent=3,
+    ),
 }
 
 

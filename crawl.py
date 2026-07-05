@@ -51,6 +51,12 @@ def get_list_page_url(scraper_type: str, config) -> str:
         return "https://nlrc.go.kr/nlrc/mainCase/mediatioin/index.do"
     elif scraper_type == "decision":
         return "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
+    elif scraper_type == "constitutional_decc":
+        return f"https://www.law.go.kr/LSW/detcAstScListR.do"
+    elif scraper_type == "legislation_expc":
+        return f"https://www.law.go.kr/LSW/expcAstScListR.do"
+    elif scraper_type == "admin_decc":
+        return f"https://www.law.go.kr/LSW/deccAstScListR.do"
     else:
         # law, decision 등 나머지
         return f"https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd={config.dept_code}"
@@ -293,7 +299,7 @@ async def run_single_scraper(
                 ]
                 effective_map = get_crawled_effective_dates(config.collection_name, url_list=url_str_list)
                 urls = filter_new_urls(urls, set(), effective_map=effective_map)
-            elif scraper_type in ("case", "mediation_case", "judgment", "interpretation", "decision"):
+            elif scraper_type in ("case", "mediation_case", "judgment", "interpretation", "decision", "constitutional_decc", "legislation_expc", "admin_decc"):
                 print(f"📍 Step 1.5: update 모드 — 기존 URL/ID 존재 여부로 신규 항목만 필터링 중...")
                 crawled_urls = get_all_crawled_urls(config.collection_name)
                 urls = filter_new_urls(urls, crawled_urls)

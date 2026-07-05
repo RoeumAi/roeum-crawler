@@ -66,6 +66,9 @@ results = {}
 current = None
 
 for line in lines:
+    if '======' in line or '📈 전체 통계' in line:
+        current = None  # 전체 통계 섹션 진입 시 스크래퍼별 파싱 중단
+        continue
     for scraper in scrapers:
         if f'({scraper})' in line and ('✅' in line or '❌' in line):
             current = scraper

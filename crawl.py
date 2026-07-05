@@ -19,6 +19,7 @@
 """
 
 import asyncio
+import re
 import sys
 import os
 from pathlib import Path
@@ -68,31 +69,16 @@ def get_list_page_url(scraper_type: str, config) -> str:
 
 def get_all_crawled_urls(collection_name: str) -> Set[str]:
     """
-    MongoDB에서 컬렉션의 모든 source_url과 doc_id 집합을 반환합니다.
+    MongoDB에서 컬렉션의 모든 doc_id 집합을 반환합니다.
 
-    case/mediation_case/judgment/interpretation처럼 내용이 거의 변하지 않는
-    스크래퍼에서 신규 문서만 크롤링할 때 사용합니다.
+    distinct("doc_id")를 사용해 전체 스캔(10초+) 대신 0.1초 내에 완료합니다.
+    filter_new_urls에서 URL 쿼리 파라미터로부터 doc_id를 추출해 매칭합니다.
     """
     try:
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
-        collection = db[collection_name]
-
-        docs = collection.find(
-            {"metadata.is_active": True},
-            {"metadata.source_url": 1, "doc_id": 1},
-        ).max_time_ms(15000)
-
-        crawled = set()
-        for doc in docs:
-            source_url = doc.get("metadata", {}).get("source_url", "")
-            if source_url:
-                crawled.add(source_url)
-            doc_id = doc.get("doc_id", "")
-            if doc_id:
-                crawled.add(str(doc_id))
-        return crawled
-
+        doc_ids = db[collection_name].distinct("doc_id")
+        return set(str(d) for d in doc_ids if d)
     except Exception as e:
         print(f"⚠️  MongoDB 전체 URL 조회 실패 (update 모드 필터 건너뜀): {e}")
         return set()
@@ -219,11 +205,16 @@ def filter_new_urls(url_items: List, crawled_urls: Set[str],
                 else:
                     skipped += 1
         else:
-            # 기존 방식: URL 존재 여부만 확인
+            # URL 직접 매칭 또는 URL 쿼리 파라미터에서 doc_id 추출 후 매칭
+            # (precSeq, detcSeq, expcSeq, deccSeq, jgmtSn 등 → distinct doc_id와 비교)
             if url_str in crawled_urls:
                 skipped += 1
             else:
-                new_items.append(item)
+                m = re.search(r'(?:Seq|Sn)=(\d+)', url_str or '')
+                if m and m.group(1) in crawled_urls:
+                    skipped += 1
+                else:
+                    new_items.append(item)
 
     if skipped > 0:
         print(f"🔍 update 모드: {skipped}개 기존 URL 건너뜀, {len(new_items)}개 신규/변경 크롤링 예정")

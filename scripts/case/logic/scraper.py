@@ -307,19 +307,19 @@ def save_case_chunks_to_mongodb(
             }]
         
         saved_count = 0
+        no_change_count = 0
         failed_count = 0
         judgment_date = extract_judgment_date(doc_subtitle)
-        
+
         for chunk_idx, chunk in enumerate(chunks, 1):
             try:
                 chunk_title = chunk.get('title', '')
                 content = chunk.get('text', '')
-                
+
                 # 토크나이저가 있으면 토큰 기반 청킹, 없으면 그대로 저장
                 if tokenizer_available:
                     try:
                         token_count = count_tokens(content)
-                        
                         if token_count > 8000:
                             logger.info(f"   📏 {base_doc_id} - {chunk_title}: {token_count} 토큰 → 청킹 필요")
                             sub_chunks = chunk_text_by_tokens(content, max_tokens=8000, overlap_tokens=200)
@@ -330,9 +330,23 @@ def save_case_chunks_to_mongodb(
                         sub_chunks = [content]
                 else:
                     sub_chunks = [content]
-                
+
                 # 각 서브청크를 개별 문서로 저장
                 for seq, sub_content in enumerate(sub_chunks, 1):
+                    # content_hash로 변경 여부 판단 — 동일하면 last_check_at만 갱신
+                    content_hash = hashlib.md5(sub_content.encode("utf-8")).hexdigest()
+                    existing = collection.find_one(
+                        {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
+                        {"content_hash": 1}
+                    )
+                    if existing and existing.get("content_hash") == content_hash:
+                        collection.update_one(
+                            {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
+                            {"$set": {"metadata.last_check_at": datetime.now().isoformat()}}
+                        )
+                        no_change_count += 1
+                        continue
+
                     # token_count 계산 (토크나이저 있을 때만)
                     if tokenizer_available:
                         try:
@@ -341,7 +355,7 @@ def save_case_chunks_to_mongodb(
                             token_cnt = None
                     else:
                         token_cnt = None
-                    
+
                     chunk_meta = {
                         "source_url": url,
                         "source_type": "web",
@@ -363,38 +377,33 @@ def save_case_chunks_to_mongodb(
                         "subtitle": doc_subtitle,
                         "chunk_seq": seq,
                         "content": sub_content,
+                        "content_hash": content_hash,
                     }
                     set_fields = dict(chunk_doc)
                     set_fields.update({f"metadata.{k}": v for k, v in chunk_meta.items()})
 
-                    # doc_id + doc_type(섹션명) + chunk_seq 조합으로 upsert (created_at은 최초만)
-                    result = collection.update_one(
-                        {
-                            "doc_id": base_doc_id,
-                            "doc_type": chunk_title,
-                            "chunk_seq": seq
-                        },
+                    collection.update_one(
+                        {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
                         {
                             "$set": set_fields,
                             "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
                         },
                         upsert=True
                     )
-                    
                     saved_count += 1
-                    
+
                     if len(sub_chunks) > 1:
                         logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title} (seq: {seq}/{len(sub_chunks)})")
                     else:
                         logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title}")
-                
+
             except Exception as e:
                 logger.error(f"   ❌ 청크 저장 실패 ({chunk.get('title', 'Unknown')}): {str(e)}")
                 failed_count += 1
                 continue
-        
-        if saved_count > 0:
-            logger.info(f"✅ {base_doc_id}: {saved_count}개 청크 저장 완료 (실패: {failed_count})")
+
+        if saved_count > 0 or no_change_count > 0:
+            logger.info(f"✅ {base_doc_id}: {saved_count}개 저장, {no_change_count}개 변경없음 (실패: {failed_count})")
         else:
             logger.error(f"❌ {base_doc_id}: 청크 저장 완전 실패 (시도: {len(chunks)}, 성공: {saved_count})")
         

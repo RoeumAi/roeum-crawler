@@ -299,10 +299,13 @@ class UnifiedDocumentRepository:
             ChangeLogger.log_change_detection(doc_id, comparison, logger)
             
             # 3. 새 버전 필요 여부 판단
+            new_effective = new_doc.get("metadata", {}).get("effective") or ""
+            old_effective = (existing_doc or {}).get("metadata", {}).get("effective") or ""
+            # 새 문서 시행일자가 없거나 sentinel이면 날짜 변경으로 판단하지 않음
             effective_date_changed = (
-                existing_doc and 
-                existing_doc.get("metadata", {}).get("effective") != 
-                new_doc.get("metadata", {}).get("effective")
+                existing_doc and
+                new_effective not in ("", "99991231") and
+                old_effective != new_effective
             )
             
             needs_new_version = ChangeDetector.needs_new_version(

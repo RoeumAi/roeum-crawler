@@ -205,7 +205,10 @@ def filter_new_urls(url_items: List, crawled_urls: Set[str],
             else:
                 stored_effective = (effective_map[url_str] or "").replace("-", "")
                 item_effective = (item.get("effective", "") if isinstance(item, dict) else "").replace("-", "")
-                if stored_effective != item_effective:
+                # 99991231 = 시행일 미정/계속시행 sentinel → 날짜 비교 무의미, 이미 DB에 있으면 skip
+                if item_effective == "99991231":
+                    skipped += 1
+                elif stored_effective != item_effective:
                     new_items.append(item)  # 개정됨
                 else:
                     skipped += 1

@@ -422,7 +422,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
             return False
         
         if effective_date is None:
-            effective_date = datetime.now().strftime('%Y-%m-%d')
+            effective_date = ""
         
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
@@ -588,7 +588,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             doc_subtitle = clean_spaces(await page.locator('div.subtit1').text_content())
 
             # ■■■ 효력일자 추출 (law.py와 동일 로직) ■■■
-            effective_date = datetime.now().strftime('%Y-%m-%d')
+            effective_date = ""  # 추출 실패 시 빈값 유지 (datetime.now 쓰면 매일 false-positive 발생)
             try:
                 # doc_subtitle에서 먼저 시행일자 추출 시도
                 # [시행 2026. 1. 1.] 패턴 매칭

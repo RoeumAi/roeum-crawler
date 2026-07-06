@@ -16,6 +16,7 @@ logger = get_logger(__name__, scraper_type='adrule')
 API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
 OC = "inwoong100"
 PAGE_SIZE = 100
+TARGET_DEPT = "고용노동부"  # 소관부처명 필터 — 이 부처 행정규칙만 수집
 
 
 def _fetch_page(page: int) -> list:
@@ -30,10 +31,14 @@ def _fetch_page(page: int) -> list:
     resp = requests.get(API_BASE, params=params, timeout=30)
     resp.raise_for_status()
     data = resp.json()
-    return data.get("AdmRulSearch", {}).get("admrul", [])
+    items = data.get("AdmRulSearch", {}).get("admrul", [])
+    # 소관부처명 필터 — 고용노동부 행정규칙만 반환
+    return [item for item in items if item.get("소관부처명", "").strip() == TARGET_DEPT]
 
 
 def _total_pages() -> int:
+    # API의 totalCnt는 전체 행정규칙 수이므로, 실제 페이지 수를 그대로 사용.
+    # 각 페이지에서 소관부처명 필터 후 수집하므로 전체 페이지를 순회해야 한다.
     params = {
         "OC": OC,
         "target": "admrul",

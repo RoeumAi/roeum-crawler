@@ -9,6 +9,7 @@ from urllib.parse import urlparse, parse_qs
 import sys
 from collections import defaultdict
 from datetime import datetime
+import hashlib
 
 # --- 프로젝트 루트 경로 설정 ---
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))

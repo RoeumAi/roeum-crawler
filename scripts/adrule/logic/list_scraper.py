@@ -16,7 +16,12 @@ logger = get_logger(__name__, scraper_type='adrule')
 API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
 OC = "inwoong100"
 PAGE_SIZE = 100
-TARGET_DEPT = "고용노동부"  # 소관부처명 필터 — 이 부처 행정규칙만 수집
+# 고용노동부 소관 행정규칙 판별 함수
+# 부처명 변형 포함: 노동부(이전 명칭), 중앙노동위원회·노동위원회(고용노동부 산하),
+# 고용노동부고객상담센터, 복수 부처 공동 고시(소관부처명에 "고용노동부" 포함)
+def _is_valid_dept(dept: str) -> bool:
+    dept = dept.strip()
+    return "고용노동부" in dept or dept in {"노동부", "중앙노동위원회", "노동위원회"}
 
 
 def _fetch_page(page: int) -> list:
@@ -32,8 +37,7 @@ def _fetch_page(page: int) -> list:
     resp.raise_for_status()
     data = resp.json()
     items = data.get("AdmRulSearch", {}).get("admrul", [])
-    # 소관부처명 필터 — 고용노동부 행정규칙만 반환
-    return [item for item in items if item.get("소관부처명", "").strip() == TARGET_DEPT]
+    return [item for item in items if _is_valid_dept(item.get("소관부처명", ""))]
 
 
 def _total_pages() -> int:

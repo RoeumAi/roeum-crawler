@@ -1,10 +1,14 @@
 import asyncio
-from playwright.async_api import async_playwright, expect
 import json
+import math
 import re
 import argparse
 import os
 import sys
+import time
+
+import requests
+from bs4 import BeautifulSoup
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
@@ -13,99 +17,98 @@ from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='case')
 
-def build_detail_url(onclick_attr: str):
-    """onclick 속성값에서 상세 페이지 URL을 생성합니다."""
-    match = re.search(r"openDetail\('([^']*)'\)", onclick_attr or "")
-    if not match:
-        return None
+AJAX_URL = "https://www.law.go.kr/LSW/precAstScListR.do"
+PAGE_SIZE = 50
 
-    relative_url = match.group(1)
-    full_url = f"https://www.law.go.kr/LSW/{relative_url}"
-    return full_url
+_HEADERS = {
+    "User-Agent": "Mozilla/5.0",
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Referer": "https://www.law.go.kr/",
+}
+
+
+def _post_list_page(cpt_ofi_cd: str, page_index: int) -> BeautifulSoup:
+    resp = requests.post(
+        AJAX_URL,
+        data={"cptOfiCd": cpt_ofi_cd, "chrIdx": "0", "pageIndex": str(page_index)},
+        headers=_HEADERS,
+        timeout=30,
+    )
+    resp.raise_for_status()
+    return BeautifulSoup(resp.text, "html.parser")
+
+
+def _get_total_pages(soup: BeautifulSoup) -> int:
+    el = soup.select_one(".tit2")
+    if el:
+        m = re.search(r"\((\d+)/(\d+)\)", el.get_text())
+        if m:
+            return int(m.group(2))
+    # fallback: count links on page → 1 page
+    return 1
+
+
+def _extract_urls(soup: BeautifulSoup, seen: set) -> list:
+    items = []
+    for a in soup.select('a[href*="precInfoP"]'):
+        href = a.get("href", "")
+        m = re.search(r"precSeq=(\d+)", href)
+        if not m:
+            continue
+        prec_seq = m.group(1)
+        if prec_seq in seen:
+            continue
+        seen.add(prec_seq)
+        if href.startswith("http"):
+            full_url = href
+        elif href.startswith("/"):
+            full_url = "https://www.law.go.kr" + href
+        else:
+            full_url = "https://www.law.go.kr/LSW/" + href
+        name = re.sub(r'[\\/*?:"<>|]', "", a.get_text(strip=True)).strip()
+        items.append({"name": name or f"case_{prec_seq}", "url": full_url})
+    return items
+
 
 async def fetch_urls(start_url: str, max_pages_arg: int | None):
-    """판례 목록 페이지를 순회하며 상세 페이지 URL을 추출하여 반환합니다."""
+    """판례 목록을 AJAX API로 순회하며 상세 페이지 URL을 반환합니다."""
+    # start_url에서 cptOfiCd 추출 (없으면 기본값 사용)
+    m = re.search(r"cptOfiCd=(\d+)", start_url or "")
+    cpt_ofi_cd = m.group(1) if m else "1492000"
+
     urls_found = []
-    seen_urls = set()  # 중복 URL 제거용
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
+    seen = set()
+
+    soup1 = _post_list_page(cpt_ofi_cd, 1)
+    total_pages = _get_total_pages(soup1)
+    logger.info(f"총 {total_pages}페이지")
+
+    if max_pages_arg:
+        total_pages = min(total_pages, max_pages_arg)
+        logger.info(f"최대 {total_pages}페이지로 제한")
+
+    urls_found.extend(_extract_urls(soup1, seen))
+
+    for page_idx in range(2, total_pages + 1):
+        if page_idx % 50 == 0:
+            logger.info(f"페이지 {page_idx}/{total_pages}, 현재 {len(urls_found)}건")
         try:
-            logger.info(f"목록 페이지로 이동 중: {start_url}")
-            await page.goto(start_url, wait_until='networkidle', timeout=60000)
-
-            total_pages = 1
-            try:
-                # [수정] 총 페이지 수를 포함하는 올바른 선택자로 변경
-                pagination_container = page.locator("div.tit2").first
-                pagination_text = await pagination_container.inner_text(timeout=5000)
-
-                match = re.search(r'\((\d+)/(\d+)\)', pagination_text)
-                if match:
-                    total_pages = int(match.group(2))
-                logger.info(f"총 {total_pages} 페이지를 확인했습니다.")
-            except Exception:
-                logger.warning("페이지네이션 정보를 찾을 수 없어 1페이지만 크롤링합니다.")
-
-            pages_to_crawl = total_pages
-            if max_pages_arg is not None and max_pages_arg < total_pages:
-                pages_to_crawl = max_pages_arg
-                logger.info(f"사용자 설정에 따라 최대 {pages_to_crawl} 페이지만 크롤링합니다.")
-
-            for page_num in range(1, pages_to_crawl + 1):
-                logger.info(f"--- {page_num} / {pages_to_crawl} 페이지 처리 중 ---")
-                if page_num > 1:
-                    logger.info(f"{page_num} 페이지로 이동합니다...")
-                    first_item_before = await page.locator("#resultTableDiv tbody tr:first-child a").first.inner_text()
-
-                    # [수정] 올바른 페이지 이동 JS 함수 호출
-                    await page.evaluate(f"pageSearch('lsListDiv', '{page_num}')")
-
-                    await expect(page.locator("#resultTableDiv tbody tr:first-child a").first).not_to_have_text(first_item_before, timeout=20000)
-                    logger.info("페이지 이동 완료.")
-
-                # openDetail 또는 precInfoP.do를 포함하는 링크 찾기
-                case_links = await page.query_selector_all("#resultTableDiv a[onclick*='openDetail'], #resultTableDiv a[onclick*='precInfoP.do']")
-                
-                logger.info(f"발견된 링크: {len(case_links)}개")
-                
-                for link in case_links:
-                    try:
-                        onclick = await link.get_attribute("onclick")
-                        case_name = await link.inner_text()
-                        detail_url = build_detail_url(onclick)
-                        
-                        if detail_url and case_name:
-                            # lsInfoP.do (법령)를 제외하고 precInfoP.do (판례)만 추출
-                            if 'lsInfoP.do' in detail_url:
-                                logger.debug(f"  - 법령 건너뜀: {case_name[:50]}")
-                                continue
-                            
-                            # 중복 URL 체크
-                            if detail_url in seen_urls:
-                                logger.debug(f"  - 중복 건너뜀: {case_name}")
-                                continue
-                            
-                            seen_urls.add(detail_url)
-                            safe_name = re.sub(r'[\\/*?:"<>|]', "", case_name).strip()
-                            urls_found.append({"name": safe_name, "url": detail_url})
-                            logger.info(f"  - 발견: {case_name}")
-                    except Exception as e:
-                        logger.debug(f"링크 처리 중 에러: {e}")
-                        continue
+            soup = _post_list_page(cpt_ofi_cd, page_idx)
+            urls_found.extend(_extract_urls(soup, seen))
         except Exception as e:
-            logger.error(f"목록 스크레이핑 중 에러 발생: {e}", exc_info=True)
-        finally:
-            await browser.close()
+            logger.warning(f"페이지 {page_idx} 오류: {e}")
+        time.sleep(0.15)
 
+    logger.info(f"URL 수집 완료: {len(urls_found)}건 unique")
     return urls_found
 
+
 async def main():
-    """스크립트 실행을 위한 메인 함수."""
-    parser = argparse.ArgumentParser(description="판례 목록 페이지에서 상세 URL들을 추출합니다.")
-    parser.add_argument("start_url", help="크롤링을 시작할 목록 페이지의 URL")
-    parser.add_argument("-o", "--output", required=True, help="추출된 URL을 저장할 파일 경로 (예: urls.jsonl)")
-    parser.add_argument("--max_pages", type=int, default=None, help="크롤링할 최대 페이지 수")
+    parser = argparse.ArgumentParser(description="판례 목록에서 상세 URL을 추출합니다.")
+    parser.add_argument("start_url", help="cptOfiCd가 포함된 시작 URL")
+    parser.add_argument("-o", "--output", required=True, help="출력 파일 경로 (.jsonl)")
+    parser.add_argument("--max_pages", type=int, default=None, help="최대 페이지 수")
     args = parser.parse_args()
 
     urls = await fetch_urls(args.start_url, args.max_pages)
@@ -114,12 +117,11 @@ async def main():
         output_dir = os.path.dirname(args.output)
         if output_dir:
             os.makedirs(output_dir, exist_ok=True)
-
-        with open(args.output, 'w', encoding='utf-8') as f:
+        with open(args.output, "w", encoding="utf-8") as f:
             for item in urls:
-                f.write(json.dumps(item, ensure_ascii=False) + '\n')
-        logger.info(f"총 {len(urls)}개의 URL을 '{args.output}' 파일에 저장했습니다.")
+                f.write(json.dumps(item, ensure_ascii=False) + "\n")
+        logger.info(f"총 {len(urls)}개 URL → '{args.output}'")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
-

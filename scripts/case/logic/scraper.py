@@ -301,7 +301,7 @@ def save_case_chunks_to_mongodb(
         if not chunks:
             logger.warning(f"⚠️  {base_doc_id}: 청크가 없습니다. 메타데이터 청크 생성")
             chunks = [{
-                "chunk_id": f"doc:{base_doc_id}:metadata",
+                "chunk_id": section_chunk_id("case", base_doc_id, "metadata", 1),
                 "doc_id": base_doc_id,
                 "title": "메타데이터",
                 "text": f"제목: {doc_title}\n출처: {url}",

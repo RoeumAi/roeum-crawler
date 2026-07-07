@@ -394,8 +394,8 @@ def split_articles_by_number(content: str) -> list:
     return articles
 
 
-def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None, 
-                   sub_title: str = "", effective_date: str = None) -> str:
+def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
+                   sub_title: str = "", effective_date: str = None, dept_name: str = None) -> str:
     """
     행정예규를 MongoDB에 조별로 분리하여 저장 (law.py와 동일)
     
@@ -480,6 +480,8 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 }
                 if dept_code:
                     meta["dept_code"] = dept_code
+                if dept_name:
+                    meta["dept_name"] = dept_name
 
                 article_doc = {
                     "chunk_id": article_chunk_id("adrule", doc_id, article_number),
@@ -527,24 +529,22 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         return False
 
 
-async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None, 
-                                sub_title: str = "", effective_date: str = None, executor=None) -> str:
+async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
+                                sub_title: str = "", effective_date: str = None, executor=None,
+                                dept_name: str = None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
+    import functools
     loop = asyncio.get_event_loop()
     if executor is None:
         executor = ThreadPoolExecutor(max_workers=1)
-    
+
     try:
-        result = await loop.run_in_executor(
-            executor, 
-            save_to_mongodb, 
-            chunks, 
-            doc_title, 
-            doc_id, 
-            url, 
-            dept_code,
-            sub_title,
-            effective_date
+        fn = functools.partial(
+            save_to_mongodb,
+            chunks, doc_title, doc_id, url,
+            dept_code, sub_title, effective_date, dept_name,
+        )
+        result = await loop.run_in_executor(executor, fn
         )
         return result
     except Exception as e:
@@ -553,7 +553,9 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
 
 async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, debug: bool = False, save_to_db: bool = True, save_jsonl: bool = True, dept_code: str = None):
     """Playwright를 실행하여 웹페이지 컨텐츠를 가져오고 파일로 저장합니다."""
+    dept_name = None
     if isinstance(url, dict):
+        dept_name = url.get("dept_name", "")
         url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -652,13 +654,14 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             # sub_title과 effective_date를 전달하여 메타데이터 완전성 보장
             if save_to_db and chunks:
                 _adrule_action = await save_to_mongodb_async(
-                    chunks, 
-                    doc_title, 
-                    doc_id, 
-                    url, 
+                    chunks,
+                    doc_title,
+                    doc_id,
+                    url,
                     dept_code,
                     sub_title=sub_title,
-                    effective_date=effective_date
+                    effective_date=effective_date,
+                    dept_name=dept_name,
                 )
             
             # 성공적으로 완료된 문서 정보 반환

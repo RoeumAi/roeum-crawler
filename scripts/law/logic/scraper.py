@@ -265,6 +265,24 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
         db = get_mongo_db()
         repo = UnifiedDocumentRepository(db)
         
+        # 0. 같은 law_id의 구 현행 버전 비활성화
+        #    현재 크롤링 중인 법령이 '현행' 버전일 때만 실행
+        #    (시행예정 버전은 구 버전을 비활성화하지 않음)
+        law_id = unified_doc.get("law_id", "")
+        is_upcoming = unified_doc.get("is_upcoming", False)
+        current_doc_id = unified_doc.get("doc_id", "")
+        if law_id and not is_upcoming:
+            col = db["law"]
+            col.update_many(
+                {
+                    "metadata.law_id": law_id,
+                    "metadata.is_active": True,
+                    "metadata.is_upcoming": False,
+                    "doc_id": {"$ne": current_doc_id},
+                },
+                {"$set": {"metadata.is_active": False}},
+            )
+
         # 1. 조별로 분리
         articles = split_articles_by_number(unified_doc["content"])
         
@@ -306,11 +324,18 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                     }
                 }
                 
-                # 부처 코드 및 부처명 추가
+                # 부처 코드 및 부처명
                 if dept_code:
                     article_doc["metadata"]["dept_code"] = dept_code
                 if unified_doc.get("dept_name"):
                     article_doc["metadata"]["dept_name"] = unified_doc["dept_name"]
+
+                # 법령ID (같은 법령의 다른 버전 추적용)
+                if unified_doc.get("law_id"):
+                    article_doc["metadata"]["law_id"] = unified_doc["law_id"]
+
+                # 시행예정 여부
+                article_doc["metadata"]["is_upcoming"] = unified_doc.get("is_upcoming", False)
 
                 # 변경 감지 포함 upsert
                 doc_id, action_result = repo.upsert_with_change_detection(article_doc)
@@ -385,8 +410,12 @@ async def scrape_and_save(
     - save_to_db: MongoDB에 저장할지 여부 (기본값: True)
     """
     dept_name = None
+    law_id = None
+    is_upcoming = False
     if isinstance(url, dict):
         dept_name = url.get("dept_name", "")
+        law_id = url.get("law_id", "")
+        is_upcoming = bool(url.get("is_upcoming", False))
         url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -408,8 +437,12 @@ async def scrape_and_save(
             html = await page.content()
             logger.info("데이터 파싱 중...")
             unified_doc = parse_law_html(html, url)
-            if unified_doc and dept_name:
-                unified_doc["dept_name"] = dept_name
+            if unified_doc:
+                if dept_name:
+                    unified_doc["dept_name"] = dept_name
+                if law_id:
+                    unified_doc["law_id"] = law_id
+                unified_doc["is_upcoming"] = is_upcoming
 
             # JSONL 파일로 저장
             if save_jsonl and unified_doc:

@@ -18,6 +18,7 @@ except NameError:
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.identifiers import article_chunk_id, normalize_article_number
 
 # 스크레이퍼 타입에 맞는 로거 생성
 logger = get_logger(__name__, scraper_type='interpretation')
@@ -114,9 +115,11 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
         for idx, section in enumerate(sections_data, 1):
             try:
                 article_number = section.get('article_number')
+                article_number = normalize_article_number(article_number)
                 
                 # law/adrule과 동일한 스키마 (article_number만 사용, article_number_numeric 제거)
                 section_doc = {
+                    "chunk_id": article_chunk_id("interpretation", doc_id, article_number),
                     "doc_id": doc_id,
                     "article_number": article_number,
                     "article_title": section.get('article_title'),

@@ -15,6 +15,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
+from scripts.core.identifiers import article_chunk_id
 
 logger = get_logger(__name__, scraper_type='law')
 
@@ -289,7 +290,9 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                 
                 # 조별 문서 생성
                 article_doc = {
+                    "chunk_id": article_chunk_id("law", article_doc_id, article['article_number']),
                     "doc_id": article_doc_id,
+                    "doc_type": "법령",
                     "article_number": article['article_number'],
                     "article_number_numeric": article['article_number_numeric'],
                     "article_title": article['article_title'],

@@ -358,8 +358,20 @@ class UnifiedDocumentRepository:
                 metadata = VersionManager.prepare_metadata_update(existing_doc, new_doc)
                 metadata["last_check_at"] = datetime.now().isoformat()
                 
-                # 메타데이터만 업데이트 (metadata 필드 안의 각 필드를 개별 업데이트)
+                # 내용이 같아도 식별자/표시 필드는 최신 스키마로 보강한다.
                 update_dict = {}
+                for field in (
+                    "chunk_id",
+                    "doc_type",
+                    "article_number",
+                    "article_number_numeric",
+                    "article_title",
+                    "sub_title",
+                    "subtitle",
+                    "chunk_seq",
+                ):
+                    if field in new_doc:
+                        update_dict[field] = new_doc[field]
                 for key, value in metadata.items():
                     update_dict[f"metadata.{key}"] = value
                 

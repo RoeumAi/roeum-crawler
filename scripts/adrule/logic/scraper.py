@@ -24,6 +24,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.utils.ocr import call_clova_ocr
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
+from scripts.core.identifiers import article_chunk_id, normalize_article_number
 
 logger = get_logger(__name__, scraper_type='adrule')
 
@@ -463,7 +464,10 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         for idx, article in enumerate(articles, 1):
             try:
                 # 조별 문서 생성 (law.py와 동일한 스키마)
-                article_number = article['article_number'] if article['article_number'] else None
+                article_number = normalize_article_number(
+                    article['article_number'],
+                    fallback=str(idx),
+                )
 
                 meta = {
                     "source_url": url,
@@ -478,6 +482,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     meta["dept_code"] = dept_code
 
                 article_doc = {
+                    "chunk_id": article_chunk_id("adrule", doc_id, article_number),
                     "doc_id": doc_id,
                     "article_number": article_number,
                     "article_title": article['article_title'],

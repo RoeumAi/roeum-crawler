@@ -15,6 +15,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.identifiers import document_chunk_id
 
 logger = get_logger(__name__, scraper_type='judgment')
 
@@ -136,8 +137,10 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
         ]).strip()
 
         document_data = {
+            "chunk_id": document_chunk_id("judgment", doc_id),
             "doc_id": doc_id,
             "doc_type": "주요판정사례",
+            "article_number": "1",
             "title": parsed.get("title"),
             "sub_title": parsed.get("data_category"),
             "content": content,

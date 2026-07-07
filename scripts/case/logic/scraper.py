@@ -17,6 +17,7 @@ sys.path.append(project_root)
 
 # --- 로거 설정 ---
 from scripts.utils.logger_config import get_logger
+from scripts.core.identifiers import section_chunk_id
 logger = get_logger(__name__, scraper_type='case')
 
 def clean_spaces(text: str) -> str:
@@ -343,7 +344,14 @@ def save_case_chunks_to_mongodb(
                     if existing and existing.get("content_hash") == content_hash:
                         collection.update_one(
                             {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
-                            {"$set": {"metadata.last_check_at": datetime.now().isoformat()}}
+                            {"$set": {
+                                "chunk_id": section_chunk_id("case", base_doc_id, chunk_title, seq),
+                                "sub_title": doc_subtitle,
+                                "subtitle": doc_subtitle,
+                                "article_number": str(seq),
+                                "article_title": chunk_title,
+                                "metadata.last_check_at": datetime.now().isoformat(),
+                            }}
                         )
                         no_change_count += 1
                         continue
@@ -372,10 +380,14 @@ def save_case_chunks_to_mongodb(
                         chunk_meta["token_count"] = token_cnt
 
                     chunk_doc = {
+                        "chunk_id": section_chunk_id("case", base_doc_id, chunk_title, seq),
                         "doc_id": base_doc_id,
                         "doc_type": chunk_title,
                         "title": doc_title,
+                        "sub_title": doc_subtitle,
                         "subtitle": doc_subtitle,
+                        "article_number": str(seq),
+                        "article_title": chunk_title,
                         "chunk_seq": seq,
                         "content": sub_content,
                         "content_hash": content_hash,
@@ -456,4 +468,3 @@ async def save_case_chunks_to_mongodb_async(
     except Exception as e:
         logger.error(f"MongoDB 비동기 청크 저장 실패: {e}")
         return False
-

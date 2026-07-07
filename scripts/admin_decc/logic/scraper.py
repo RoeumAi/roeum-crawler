@@ -17,6 +17,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.identifiers import section_chunk_id
 logger = get_logger(__name__, scraper_type='admin_decc')
 
 
@@ -168,10 +169,14 @@ def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, ch
                     chunk_meta["token_count"] = token_cnt
 
                 chunk_doc = {
+                    "chunk_id": section_chunk_id("admin_decc", doc_id, chunk_title, seq),
                     "doc_id": doc_id,
                     "doc_type": chunk_title,
                     "title": doc_title,
+                    "sub_title": doc_subtitle,
                     "subtitle": doc_subtitle,
+                    "article_number": str(seq),
+                    "article_title": chunk_title,
                     "chunk_seq": seq,
                     "content": sub_content,
                 }

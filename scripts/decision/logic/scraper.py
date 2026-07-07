@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
+from scripts.core.identifiers import document_chunk_id
 
 logger = get_logger(__name__, scraper_type='decision')
 
@@ -90,8 +91,10 @@ def _build_document(jgmt_sn: str, title: str, registered_at: str, source_url: st
     title은 판정 요지의 핵심 문장을 담고 있어 그 자체로 의미있는 콘텐츠입니다.
     """
     return {
+        "chunk_id": document_chunk_id("decision", jgmt_sn),
         "doc_id": jgmt_sn,
         "doc_type": "심의결정례",
+        "article_number": "1",
         "title": title,
         "sub_title": "",
         "content": title,  # 심의결정례의 콘텐츠는 제목(요지) 그 자체

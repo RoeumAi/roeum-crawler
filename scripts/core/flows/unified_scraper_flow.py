@@ -66,8 +66,8 @@ async def fetch_urls_task(
             # [업데이트] 새로운 URL 구조로 변경됨
             list_page_url = f"https://www.law.go.kr/LSW/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd={config.dept_code}"
         elif scraper_type == "interpretation":
-            # 법령해석 전용 URL (상위 분류 및 하위 분류 포함)
-            list_page_url = "https://www.law.go.kr/LSW/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=733&upperOfiClsCd=010501&ofiClsCd=350101"
+            # 중앙부처 1차 해석: 고용노동부 소관 법령 기준
+            list_page_url = "https://www.law.go.kr/cgmExpcAstSc.do?menuId=391&subMenuId=397&tabMenuId=741&query="
         elif scraper_type == "judgment":
             # 중앙노동위원회 주요판정사례
             list_page_url = "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"

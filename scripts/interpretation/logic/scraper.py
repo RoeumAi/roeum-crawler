@@ -76,8 +76,59 @@ def split_sections_by_header(sections: dict) -> list:
     return section_list
 
 
-def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str, 
-                   sub_title: str = "", effective_date: str = None) -> bool:
+def _parse_taxlaw_body(body_text: str) -> dict | None:
+    """Parse NTS taxlaw-rendered interpretation pages exposed from law.go.kr."""
+    lines = [line.strip() for line in body_text.splitlines() if line.strip()]
+    try:
+        start_idx = lines.index("화면내 검색") + 1
+    except ValueError:
+        start_idx = 0
+
+    content_lines = lines[start_idx:]
+    if not content_lines:
+        return None
+
+    doc_title = content_lines[0]
+    doc_number = ""
+    doc_date = ""
+    for line in content_lines[1:8]:
+        if not doc_number and re.search(r"\d", line) and "：" not in line and ":" not in line:
+            doc_number = line
+        if "생산일자" in line or "등록일자" in line:
+            doc_date = re.sub(r"^.*?[：:]\s*", "", line).strip().rstrip(".")
+            if doc_date:
+                break
+
+    sections = {}
+    current_header = None
+    valid_headers = {"요지", "회신", "답변내용", "결정내용", "판결내용", "상세내용"}
+    stop_headers = {"PDF로 보기", "저장", "인쇄", "보관", "관련 주제어", "관련 법령"}
+
+    for line in content_lines[1:]:
+        if line in stop_headers:
+            continue
+        if line in valid_headers:
+            current_header = line
+            sections.setdefault(current_header, "")
+            continue
+        if current_header:
+            sections[current_header] += line + "\n"
+
+    sections = {header: content.strip() for header, content in sections.items() if content.strip()}
+    if not sections:
+        return None
+
+    return {
+        "doc_title": doc_title,
+        "sub_title": ", ".join(part for part in ["국세청", doc_number, doc_date] if part),
+        "effective_date": doc_date.replace(".", "-") if doc_date else datetime.now().strftime('%Y-%m-%d'),
+        "sections_data": split_sections_by_header(sections),
+    }
+
+
+def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
+                   sub_title: str = "", effective_date: str = None,
+                   ofi_cls_cd: str = "350101") -> bool:
     """
     법령해석을 MongoDB에 섹션별로 분리하여 저장 (law/adrule와 동일한 스키마)
     
@@ -133,6 +184,9 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                         "effective": effective_date,
                         "updated_at": datetime.now().isoformat(),
                         "is_active": True,
+                        "cpt_ofi_code": "1492000",
+                        "cpt_ofi_name": "고용노동부",
+                        "ofi_cls_cd": ofi_cls_cd,
                         "article_index": idx,
                         "total_articles": len(sections_data),
                     }
@@ -174,6 +228,7 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
 
 async def save_to_mongodb_async(sections_data: list, doc_title: str, doc_id: str, url: str,
                                 sub_title: str = "", effective_date: str = None,
+                                ofi_cls_cd: str = "350101",
                                 executor=None) -> bool:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     loop = asyncio.get_event_loop()
@@ -189,7 +244,8 @@ async def save_to_mongodb_async(sections_data: list, doc_title: str, doc_id: str
             doc_id, 
             url,
             sub_title,
-            effective_date
+            effective_date,
+            ofi_cls_cd
         )
         return result
     except Exception as e:
@@ -215,12 +271,14 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
     """
     # url이 dict인지 확인 (list_scraper에서 전달)
     if isinstance(url, dict):
+        detail_url = url.get('url')
         onclick_attr = url.get('onclick')
         doc_seq = url.get('doc_seq')
         ofi_cls_cd = url.get('ofi_cls_cd', '350101')  # 기본값 설정
-        logger.info(f"법령해석 문서를 스크래핑합니다 (onclick): {onclick_attr}")
+        logger.info(f"법령해석 문서를 스크래핑합니다: {detail_url or onclick_attr}")
     else:
         # 레거시: URL 문자열
+        detail_url = url
         onclick_attr = None
         doc_seq = None
         ofi_cls_cd = '350101'  # 기본값
@@ -231,8 +289,11 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
         page = await browser.new_page()
         
         try:
-            # onclick 속성이 있으면 목록 페이지를 먼저 열고 onclick 실행
-            if onclick_attr:
+            # 상세 URL이 있으면 직접 이동한다.
+            if detail_url:
+                logger.info(f"페이지로 이동 중: {detail_url}")
+                await page.goto(detail_url, wait_until='networkidle', timeout=60000)
+            elif onclick_attr:
                 base_url = "https://www.law.go.kr/LSW/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=733&upperOfiClsCd=010501&ofiClsCd=350101"
                 logger.info(f"목록 페이지로 이동: {base_url}")
                 await page.goto(base_url, wait_until='networkidle', timeout=60000)
@@ -247,75 +308,78 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                 logger.info(f"페이지로 이동 중: {url}")
                 await page.goto(url, wait_until='networkidle', timeout=60000)
             
-            # 문서 정보 추출
-            doc_title = await page.locator('#contentBody h2').inner_text(timeout=30000)
-            
             # doc_seq 추출 (onclick이 없는 경우)
             if not doc_seq:
                 # URL에서 추출
                 from urllib.parse import urlparse, parse_qs
-                parsed_url = urlparse(url)
+                parsed_url = urlparse(detail_url or url)
                 query_params = parse_qs(parsed_url.query)
-                doc_seq = query_params.get('cgmExpcSeq', [None])[0]
+                doc_seq = (
+                    query_params.get('cgmExpcDatSeq', [None])[0] or
+                    query_params.get('cgmExpcSeq', [None])[0]
+                )
                 if not doc_seq:
-                    logger.error(f"문서 ID를 찾을 수 없습니다: {url}")
+                    logger.error(f"문서 ID를 찾을 수 없습니다: {detail_url or url}")
                     return {"status": "error", "error": "No doc_seq"}
-            
-            logger.info(f"문서 제목: {doc_title}, ID: {doc_seq}")
-            
-            subtitle_locator = page.locator('#contentBody div.subtit1')
-            subtitle = await subtitle_locator.inner_text() if await subtitle_locator.count() > 0 else ""
-            department, doc_number, doc_date = parse_subtitle(subtitle)
-            
+
             # doc_id는 doc_seq 사용 (고유 ID)
             doc_id = doc_seq
-            
-            # source_url 생성 (간결한 형식: https://www.law.go.kr/중앙부처1차해석/{제목})
-            # 제목에서 공백 제거하고 URL 인코딩
-            from urllib.parse import quote
-            clean_title = doc_title.strip().replace(' ', '')
-            source_url = f"https://www.law.go.kr/중앙부처1차해석/{quote(clean_title)}/"
-            
-            # sub_title 생성 (부처명, 문서번호, 날짜)
-            sub_title_parts = []
-            if department and department != "정보 없음":
-                sub_title_parts.append(department)
-            if doc_number and doc_number != "정보 없음":
-                sub_title_parts.append(doc_number)
-            if doc_date and doc_date != "정보 없음":
-                sub_title_parts.append(doc_date)
-            
-            sub_title = ", ".join(sub_title_parts) if sub_title_parts else ""
-            
-            # effective_date 추출 (doc_date에서 변환)
-            effective_date = datetime.now().strftime('%Y-%m-%d')
-            if doc_date and doc_date != "정보 없음":
-                try:
-                    # "YYYY.MM.DD" 형식을 "YYYY-MM-DD"로 변환
-                    effective_date = doc_date.replace(".", "-")
-                except:
-                    pass
-            
-            # 섹션 정보 추출
-            sections = {}
-            content_elements = await page.locator('#contentBody h4, #contentBody .pty4').all()
-            current_header = None
-            
-            for element in content_elements:
-                tag_name = await element.evaluate('el => el.tagName.toLowerCase()')
-                element_id = await element.get_attribute('id')
-                
-                if tag_name == 'h4' and element_id != 'expcNotice':
-                    header_text = await element.inner_text()
-                    current_header = header_text.strip().replace('【', '').replace('】', '')
-                    if current_header and current_header not in sections:
-                        sections[current_header] = ""
-                elif tag_name == 'p' and current_header:
-                    paragraph_text = await element.inner_text()
-                    sections[current_header] += paragraph_text.strip() + "\n"
-            
-            # 섹션별로 분리
-            sections_data = split_sections_by_header(sections)
+
+            source_url = detail_url or f"https://www.law.go.kr/LSW/cgmExpcInfoP.do?mode=2&cgmExpcDatSeq={doc_id}&ofiClsCd={ofi_cls_cd}"
+
+            if await page.locator('#contentBody h2').count() > 0:
+                doc_title = await page.locator('#contentBody h2').inner_text(timeout=30000)
+                subtitle_locator = page.locator('#contentBody div.subtit1')
+                subtitle = await subtitle_locator.inner_text() if await subtitle_locator.count() > 0 else ""
+                department, doc_number, doc_date = parse_subtitle(subtitle)
+
+                sub_title_parts = []
+                if department and department != "정보 없음":
+                    sub_title_parts.append(department)
+                if doc_number and doc_number != "정보 없음":
+                    sub_title_parts.append(doc_number)
+                if doc_date and doc_date != "정보 없음":
+                    sub_title_parts.append(doc_date)
+
+                sub_title = ", ".join(sub_title_parts) if sub_title_parts else ""
+
+                effective_date = datetime.now().strftime('%Y-%m-%d')
+                if doc_date and doc_date != "정보 없음":
+                    try:
+                        effective_date = doc_date.replace(".", "-")
+                    except Exception:
+                        pass
+
+                sections = {}
+                content_elements = await page.locator('#contentBody h4, #contentBody .pty4').all()
+                current_header = None
+
+                for element in content_elements:
+                    tag_name = await element.evaluate('el => el.tagName.toLowerCase()')
+                    element_id = await element.get_attribute('id')
+
+                    if tag_name == 'h4' and element_id != 'expcNotice':
+                        header_text = await element.inner_text()
+                        current_header = header_text.strip().replace('【', '').replace('】', '')
+                        if current_header and current_header not in sections:
+                            sections[current_header] = ""
+                    elif tag_name == 'p' and current_header:
+                        paragraph_text = await element.inner_text()
+                        sections[current_header] += paragraph_text.strip() + "\n"
+
+                sections_data = split_sections_by_header(sections)
+            else:
+                body_text = await page.locator('body').inner_text(timeout=30000)
+                parsed = _parse_taxlaw_body(body_text)
+                if not parsed:
+                    logger.error(f"문서 본문을 파싱할 수 없습니다: {detail_url or url}")
+                    return {"status": "error", "error": "No parseable content", "doc_id": doc_id}
+                doc_title = parsed["doc_title"]
+                sub_title = parsed["sub_title"]
+                effective_date = parsed["effective_date"]
+                sections_data = parsed["sections_data"]
+
+            logger.info(f"문서 제목: {doc_title}, ID: {doc_seq}")
             
             # MongoDB에 저장
             if save_to_db and sections_data:
@@ -325,7 +389,8 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                     doc_id=doc_id,
                     url=source_url,
                     sub_title=sub_title,
-                    effective_date=effective_date
+                    effective_date=effective_date,
+                    ofi_cls_cd=ofi_cls_cd
                 )
                 if success:
                     logger.info(f"✅ MongoDB 저장 완료: {doc_id}")

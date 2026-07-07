@@ -45,7 +45,7 @@ def get_list_page_url(scraper_type: str, config) -> str:
     elif scraper_type == "adrule":
         return f"https://www.law.go.kr/LSW/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd={config.dept_code}"
     elif scraper_type == "interpretation":
-        return "https://www.law.go.kr/LSW/cgmExpcSc.do?menuId=11&subMenuId=729&tabMenuId=733&upperOfiClsCd=010501&ofiClsCd=350101"
+        return "https://www.law.go.kr/cgmExpcAstSc.do?menuId=391&subMenuId=397&tabMenuId=741&query="
     elif scraper_type == "judgment":
         return "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
     elif scraper_type == "mediation_case":

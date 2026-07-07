@@ -16,6 +16,8 @@ logger = get_logger(__name__, scraper_type='law')
 API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
 OC = "inwoong100"
 PAGE_SIZE = 100
+# org=1492000: 고용노동부 소관 법령만 반환 (cptOfiCd와 달리 실제 소관 부처 기준 필터)
+ORG_CODE = "1492000"
 
 
 def _fetch_page(page: int) -> list:
@@ -26,6 +28,7 @@ def _fetch_page(page: int) -> list:
         "page": page,
         "display": PAGE_SIZE,
         "query": "",
+        "org": ORG_CODE,
     }
     resp = requests.get(API_BASE, params=params, timeout=30)
     resp.raise_for_status()
@@ -41,6 +44,7 @@ def _total_pages() -> int:
         "page": 1,
         "display": PAGE_SIZE,
         "query": "",
+        "org": ORG_CODE,
     }
     resp = requests.get(API_BASE, params=params, timeout=30)
     resp.raise_for_status()

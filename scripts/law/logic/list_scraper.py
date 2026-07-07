@@ -40,19 +40,29 @@ def _fetch_org_page(org: str, page: int) -> dict:
     }
 
 
-def _fetch_upcoming_versions(ls_id: str, today: str) -> list:
-    """법령ID로 시행예정(오늘 이후) 버전 목록을 반환합니다."""
+def _fetch_upcoming_versions(law_name: str, org_code: str, today: str) -> list:
+    """법령명 + org 코드로 검색하여 시행예정(오늘 이후) 버전 목록을 반환합니다.
+
+    참고: law.go.kr DRF의 LsId 파라미터는 법령 그룹 ID가 아니라 검색 오프셋으로
+    동작하므로 사용 불가. 법령명으로 검색 후 동일 법령명 + 미래 efYd로 필터링합니다.
+    """
     params = {
         "OC": OC, "target": "law", "type": "JSON",
-        "page": 1, "display": 20, "LsId": ls_id,
+        "page": 1, "display": 10,
+        "query": law_name, "org": org_code,
     }
     try:
         resp = requests.get(API_BASE, params=params, timeout=20)
         resp.raise_for_status()
         items = resp.json().get("LawSearch", {}).get("law", [])
-        return [it for it in items if (it.get("시행일자", "") or "") > today]
+        # 동일 법령명 + 오늘 이후 시행일자만 반환
+        return [
+            it for it in items
+            if it.get("법령명한글", "").strip() == law_name
+            and (it.get("시행일자", "") or "") > today
+        ]
     except Exception as e:
-        logger.warning(f"법령ID {ls_id} 시행예정 조회 실패: {e}")
+        logger.warning(f"법령 '{law_name}' 시행예정 조회 실패: {e}")
         return []
 
 
@@ -121,10 +131,10 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
                     "is_upcoming": is_upcoming,
                 })
 
-            # 시행예정 버전 — 법령ID 기준으로 1회만 조회
-            if ls_id and ls_id not in upcoming_check_done:
-                upcoming_check_done.add(ls_id)
-                upcoming = _fetch_upcoming_versions(ls_id, today)
+            # 시행예정 버전 — 법령명 기준으로 1회만 조회
+            if name and name not in upcoming_check_done:
+                upcoming_check_done.add(name)
+                upcoming = _fetch_upcoming_versions(name, org_code, today)
                 for up in upcoming:
                     up_mst = up.get("법령일련번호", "")
                     up_efy = up.get("시행일자", "")

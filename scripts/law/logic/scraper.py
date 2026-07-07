@@ -303,10 +303,12 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                     }
                 }
                 
-                # 부처 코드 추가
+                # 부처 코드 및 부처명 추가
                 if dept_code:
                     article_doc["metadata"]["dept_code"] = dept_code
-                
+                if unified_doc.get("dept_name"):
+                    article_doc["metadata"]["dept_name"] = unified_doc["dept_name"]
+
                 # 변경 감지 포함 upsert
                 doc_id, action_result = repo.upsert_with_change_detection(article_doc)
                 
@@ -379,7 +381,9 @@ async def scrape_and_save(
     - dept_code: 부처 코드 (MongoDB 저장 시 필요)
     - save_to_db: MongoDB에 저장할지 여부 (기본값: True)
     """
+    dept_name = None
     if isinstance(url, dict):
+        dept_name = url.get("dept_name", "")
         url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -401,6 +405,8 @@ async def scrape_and_save(
             html = await page.content()
             logger.info("데이터 파싱 중...")
             unified_doc = parse_law_html(html, url)
+            if unified_doc and dept_name:
+                unified_doc["dept_name"] = dept_name
 
             # JSONL 파일로 저장
             if save_jsonl and unified_doc:
@@ -409,7 +415,7 @@ async def scrape_and_save(
                 logger.info(f"✅ JSONL 파일 저장: {doc_filename}")
             elif not unified_doc:
                 logger.warning("문서 파싱 실패: JSONL 파일이 저장되지 않았습니다.")
-            
+
             # MongoDB에 저장 (async 처리)
             if save_to_db and unified_doc:
                 _law_action = await save_to_mongodb_async(unified_doc, dept_code)

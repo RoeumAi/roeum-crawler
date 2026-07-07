@@ -102,6 +102,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
                 "name": safe_name,
                 "url": url,
                 "effective": efy,  # 시행일자 — update 모드 변경 감지에 사용
+                "dept_name": item.get("소관부처명", "").strip(),  # 소관부처명 — RAG 필터링용
             })
 
         if page_num < pages_to_crawl:

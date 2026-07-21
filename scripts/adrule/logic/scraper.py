@@ -24,8 +24,8 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.utils.ocr import call_clova_ocr
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
-from scripts.core.database.source_versioning import enrich_source_document
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
+from scripts.core.lawgokr_stable_id import fetch_stable_adrule_id
 
 logger = get_logger(__name__, scraper_type='adrule')
 
@@ -396,7 +396,8 @@ def split_articles_by_number(content: str) -> list:
 
 
 def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
-                   sub_title: str = "", effective_date: str = None, dept_name: str = None) -> str:
+                   sub_title: str = "", effective_date: str = None, dept_name: str = None,
+                   is_upcoming: bool = False, adrule_id: str = None) -> str:
     """
     행정예규를 MongoDB에 조별로 분리하여 저장 (law.py와 동일)
     
@@ -428,7 +429,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
-        collection = db['adrule']
+        repo = UnifiedDocumentRepository(db, collection_name="adrule")
         
         # 모든 청크를 하나의 content로 통합
         content_parts = []
@@ -474,15 +475,16 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     "source_url": url,
                     "source_type": "web",
                     "effective": effective_date,
-                    "updated_at": datetime.now().isoformat(),
-                    "is_active": True,
                     "article_index": idx,
                     "total_articles": len(articles),
+                    "is_upcoming": is_upcoming,
                 }
                 if dept_code:
                     meta["dept_code"] = dept_code
                 if dept_name:
                     meta["dept_name"] = dept_name
+                if adrule_id:
+                    meta["adrule_id"] = adrule_id
 
                 article_doc = {
                     "chunk_id": article_chunk_id("adrule", doc_id, article_number),
@@ -493,27 +495,21 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     "sub_title": sub_title,
                     "content": article['content'],
                     "doc_type": "행정규칙",
+                    "metadata": meta,
                 }
-                article_doc = enrich_source_document(article_doc, "adrule")
 
-                set_fields = dict(article_doc)
-                set_fields.update({f"metadata.{k}": v for k, v in meta.items()})
+                # 변경 감지 포함 upsert (law.py와 동일한 버전관리 경로)
+                _, action_result = repo.upsert_with_change_detection(article_doc)
 
-                # MongoDB에 upsert (created_at은 최초 insert 시에만 설정)
-                result = collection.update_one(
-                    {"doc_id": doc_id, "article_number": article_number},
-                    {
-                        "$set": set_fields,
-                        "$setOnInsert": {"metadata.created_at": datetime.now().strftime('%Y-%m-%d')},
-                    },
-                    upsert=True
-                )
+                if action_result["action"] == "insert":
+                    logger.info(f"💾 신규 저장: {doc_id} (article_number: {article_number})")
+                elif action_result["action"] == "new_version":
+                    logger.info(f"✅ 새 버전 생성: {doc_id} (article_number: {article_number})")
+                elif action_result["action"] == "update_existing":
+                    logger.info(f"🔄 기존 버전 유지: {doc_id} (article_number: {article_number})")
 
-                if result.upserted_id:
-                    logger.info(f"✅ 새 조문 생성: {doc_id} (article_number: {article_number})")
-                else:
-                    logger.info(f"🔄 조문 업데이트: {doc_id} (article_number: {article_number})")
-
+                if action_result["action"] in ("insert", "new_version"):
+                    any_changed = True
                 saved_count += 1
 
             except Exception as e:
@@ -533,7 +529,8 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
 
 async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
                                 sub_title: str = "", effective_date: str = None, executor=None,
-                                dept_name: str = None) -> str:
+                                dept_name: str = None, is_upcoming: bool = False,
+                                adrule_id: str = None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     import functools
     loop = asyncio.get_event_loop()
@@ -544,10 +541,10 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
         fn = functools.partial(
             save_to_mongodb,
             chunks, doc_title, doc_id, url,
-            dept_code, sub_title, effective_date, dept_name,
+            dept_code=dept_code, sub_title=sub_title, effective_date=effective_date,
+            dept_name=dept_name, is_upcoming=is_upcoming, adrule_id=adrule_id,
         )
-        result = await loop.run_in_executor(executor, fn
-        )
+        result = await loop.run_in_executor(executor, fn)
         return result
     except Exception as e:
         logger.error(f"MongoDB 비동기 저장 실패: {e}")
@@ -556,8 +553,10 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
 async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, debug: bool = False, save_to_db: bool = True, save_jsonl: bool = True, dept_code: str = None):
     """Playwright를 실행하여 웹페이지 컨텐츠를 가져오고 파일로 저장합니다."""
     dept_name = None
+    is_upcoming = False
     if isinstance(url, dict):
         dept_name = url.get("dept_name", "")
+        is_upcoming = bool(url.get("is_upcoming", False))
         url = url.get("url", "")
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
@@ -628,7 +627,12 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             if not doc_id:
                 doc_id = re.sub(r'[^a-zA-Z0-9]', '', doc_title)
 
-            document_data = { 
+            # 행정규칙ID(안정 ID) 조회 — 실패해도 크롤링은 계속 진행
+            adrule_id = fetch_stable_adrule_id(doc_id)
+            if not adrule_id:
+                logger.warning(f"행정규칙ID API 조회 실패: doc_id={doc_id}")
+
+            document_data = {
                 "doc_id": doc_id, 
                 "doc_type": "행정예규",
                 "title": doc_title, 
@@ -664,6 +668,8 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                     sub_title=sub_title,
                     effective_date=effective_date,
                     dept_name=dept_name,
+                    is_upcoming=is_upcoming,
+                    adrule_id=adrule_id,
                 )
             
             # 성공적으로 완료된 문서 정보 반환

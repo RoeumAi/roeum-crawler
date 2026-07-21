@@ -16,7 +16,7 @@ roeum-crawler가 다루는 10개 문서 유형 중 law/adrule은 별도 스펙(`
   - 실제로 law 컬렉션(별도 스펙 대상이지만 동일 구조 사용)에서 진짜 중복 277건, chunk_id 포맷이 두 시점 사이 바뀌면서 생긴 잔존 구버전 103건이 확인됨 — 8종에도 같은 리스크가 잠재해 있다.
   - 코드베이스에는 `doc_id`/`chunk_id`에 unique=True 인덱스를 거는 레거시 `DocumentRepository`/`ChunkRepository`(`scripts/core/database/repository.py`)가 이미 존재하지만, 현재 10종 스크래퍼 어디에서도 쓰이지 않는 죽은 코드다.
 - `case.py`의 `save_case_to_mongodb`/`save_case_to_mongodb_async`(필터: `{doc_id}` 단독, `chunk_id` 없이 저장)는 실제 크롤링 흐름에서 호출되지 않는 죽은 코드로 확인됨.
-- `adrule.py`는 `UnifiedDocumentRepository`를 import만 하고 실제로 호출하지 않는 미완성 상태(2026-02-08 커밋에서 추가된 채 방치). 이번 설계에서 decision/mediation_case를 다운그레이드하면서 같은 패턴(단순 upsert)으로 통일하므로, adrule의 이 미사용 import도 함께 제거한다.
+- (2026-07-21 갱신) `adrule.py`가 `UnifiedDocumentRepository`를 import만 하고 호출하지 않던 미완성 상태는 `2026-07-17-law-adrule-version-tracking-design.md` 스펙의 별도 구현(law_id/adrule_id 안정 ID 조회 + `upsert_with_change_detection` 연동)으로 이미 해소되었다. adrule은 law와 동일하게 버전관리 대상이므로 이 설계(8종 단순화)의 범위에서 제외한다.
 
 ## 결정 사항
 
@@ -51,7 +51,7 @@ def upsert_chunk(collection, filter_fields: dict, doc: dict) -> str:
 | decision | `UnifiedDocumentRepository.upsert_with_change_detection()` | `upsert_chunk` 사용, `is_active` 필드 제거 |
 | mediation_case | `UnifiedDocumentRepository.upsert_with_change_detection()` | `upsert_chunk` 사용, `is_active` 필드 제거 |
 
-adrule의 미사용 `UnifiedDocumentRepository` import도 이 작업에서 함께 제거한다 (adrule 자체의 버전관리 구현은 별도 스펙 대상).
+(2026-07-21 갱신) adrule은 이제 자체 버전관리 스펙에서 `UnifiedDocumentRepository`를 실제로 사용하므로, 이 작업은 adrule을 건드리지 않는다.
 
 ## Backfill 정리 스크립트 (1회성)
 

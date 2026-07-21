@@ -16,6 +16,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id
+from scripts.core.lawgokr_stable_id import fetch_stable_law_id
 
 logger = get_logger(__name__, scraper_type='law')
 
@@ -274,24 +275,16 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
         repo = UnifiedDocumentRepository(db)
-        
-        # 0. 같은 law_id의 구 현행 버전 비활성화
-        #    현재 크롤링 중인 법령이 '현행' 버전일 때만 실행
-        #    (시행예정 버전은 구 버전을 비활성화하지 않음)
+
+        # 구 현행 버전 비활성화/승격은 refresh_current_status_flow(일일 배치)가 전담한다.
+        # 여기서는 법령ID(안정 ID)만 조회해서 저장해둔다.
+        base_doc_id = unified_doc["doc_id"]
         law_id = unified_doc.get("law_id", "")
-        is_upcoming = unified_doc.get("is_upcoming", False)
-        current_doc_id = unified_doc.get("doc_id", "")
-        if law_id and not is_upcoming:
-            col = db["law"]
-            col.update_many(
-                {
-                    "metadata.law_id": law_id,
-                    "metadata.is_active": True,
-                    "metadata.is_upcoming": False,
-                    "doc_id": {"$ne": current_doc_id},
-                },
-                {"$set": {"metadata.is_active": False}},
-            )
+        stable_law_id = fetch_stable_law_id(base_doc_id)
+        if stable_law_id:
+            law_id = stable_law_id
+        elif law_id:
+            logger.warning(f"법령ID API 조회 실패, title 기반 law_id로 대체: doc_id={base_doc_id}")
 
         # 1. 조별로 분리
         articles = split_articles_by_number(unified_doc["content"])
@@ -306,7 +299,6 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
             }]
         
         # 2. 각 조마다 독립 문서 생성 및 저장
-        base_doc_id = unified_doc["doc_id"]
         saved_count = 0
         failed_count = 0
         any_changed = False
@@ -340,9 +332,9 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                 if unified_doc.get("dept_name"):
                     article_doc["metadata"]["dept_name"] = unified_doc["dept_name"]
 
-                # 법령ID (같은 법령의 다른 버전 추적용)
-                if unified_doc.get("law_id"):
-                    article_doc["metadata"]["law_id"] = unified_doc["law_id"]
+                # 법령ID (같은 법령의 다른 버전 추적용, 안정 ID 우선)
+                if law_id:
+                    article_doc["metadata"]["law_id"] = law_id
 
                 # 시행예정 여부
                 article_doc["metadata"]["is_upcoming"] = unified_doc.get("is_upcoming", False)

@@ -72,7 +72,13 @@ def parse_args():
         default='0 9 * * 1',  # 매주 월요일 09:00
         help='Cron 스케줄 (기본값: 매주 월요일 09:00)'
     )
-    
+
+    parser.add_argument(
+        '--refresh',
+        action='store_true',
+        help='law/adrule 현재 시행 버전 일일 재계산 deployment 생성'
+    )
+
     return parser.parse_args()
 
 
@@ -136,6 +142,33 @@ print(f"✅ {{deployment.name}} 배포 완료")
     return run_command(cmd, f"{config.display_name} deployment 생성")
 
 
+def deploy_refresh_flow(schedule='10 0 * * *'):
+    """law/adrule 현재 시행 버전 일일 재계산 deployment 생성"""
+    deploy_script = f"""
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent))
+
+from prefect.deployments import Deployment
+from scripts.core.flows.refresh_current_status_flow import refresh_current_status_flow
+
+deployment = Deployment.build_from_flow(
+    flow=refresh_current_status_flow,
+    name="refresh-current-status",
+    schedule="{schedule}"
+)
+
+deployment.apply()
+print(f"✅ {{deployment.name}} 배포 완료")
+"""
+    temp_file = "/tmp/deploy_refresh_current_status.py"
+    with open(temp_file, 'w') as f:
+        f.write(deploy_script)
+
+    cmd = f"cd {project_root} && python3 {temp_file}"
+    return run_command(cmd, "law/adrule 현재 시행 버전 재계산 deployment 생성")
+
+
 def list_deployments():
     """현재 배포된 deployment 목록"""
     cmd = "prefect deployment ls"
@@ -175,7 +208,21 @@ def main():
         for scraper_type in args.delete:
             delete_deployment(scraper_type)
         return 0
-    
+
+    # --refresh 옵션 (law/adrule 현재 시행 버전 일일 재계산)
+    if args.refresh:
+        print("\n🔍 Prefect 서버 상태 확인 중...")
+        result = subprocess.run("prefect server health-check", shell=True, capture_output=True, text=True)
+        if result.returncode != 0:
+            print("\n⚠️  Prefect 서버가 실행 중이지 않습니다.")
+            print("   다음 명령어로 서버를 시작하세요:")
+            print("   prefect server start")
+            print()
+            return 1
+        print("✅ Prefect 서버가 실행 중입니다.\n")
+        success = deploy_refresh_flow()
+        return 0 if success else 1
+
     # 배포할 scraper 결정
     if args.scraper is None:
         scrapers = get_scraper_list()

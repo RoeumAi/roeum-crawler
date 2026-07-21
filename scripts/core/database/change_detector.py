@@ -9,7 +9,7 @@
 """
 
 import hashlib
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 
 
@@ -236,3 +236,69 @@ class ChangeLogger:
             logger.info(f"🔄 기존 버전 업데이트: {doc_id}")
             logger.info(f"   - 버전: {details.get('version_number', 'unknown')} (변경 없음)")
             logger.info(f"   - 메타데이터 업데이트: {', '.join(details.get('updated_fields', []))}")
+
+
+class ArticleDiffBuilder:
+    """old/new 조문 리스트를 article_number 기준으로 매칭해 신구대조표를 만든다."""
+
+    @staticmethod
+    def build(old_articles: List[Dict], new_articles: List[Dict]) -> List[Dict]:
+        """
+        old_articles/new_articles: [{"article_number": str, "content": str}, ...]
+
+        Returns:
+            무변경 조문을 제외한 diff 리스트:
+            [{"article_number": str, "change_type": "개정"|"신설"|"삭제",
+              "old_content": str|None, "new_content": str|None}]
+        """
+        old_map = {
+            a["article_number"]: a.get("content", "")
+            for a in old_articles if a.get("article_number")
+        }
+        new_map = {
+            a["article_number"]: a.get("content", "")
+            for a in new_articles if a.get("article_number")
+        }
+
+        diffs = []
+        for article_number in set(old_map) | set(new_map):
+            old_content = old_map.get(article_number)
+            new_content = new_map.get(article_number)
+
+            if old_content is not None and new_content is not None:
+                if old_content == new_content:
+                    continue
+                if ArticleDiffBuilder._is_deleted_marker(new_content):
+                    diffs.append({
+                        "article_number": article_number,
+                        "change_type": "삭제",
+                        "old_content": old_content,
+                        "new_content": None,
+                    })
+                else:
+                    diffs.append({
+                        "article_number": article_number,
+                        "change_type": "개정",
+                        "old_content": old_content,
+                        "new_content": new_content,
+                    })
+            elif old_content is None and new_content is not None:
+                diffs.append({
+                    "article_number": article_number,
+                    "change_type": "신설",
+                    "old_content": None,
+                    "new_content": new_content,
+                })
+            elif old_content is not None and new_content is None:
+                diffs.append({
+                    "article_number": article_number,
+                    "change_type": "삭제",
+                    "old_content": old_content,
+                    "new_content": None,
+                })
+        return diffs
+
+    @staticmethod
+    def _is_deleted_marker(content: str) -> bool:
+        normalized = (content or "").strip().strip("<>").strip()
+        return normalized == "삭제"

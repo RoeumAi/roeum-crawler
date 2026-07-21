@@ -276,6 +276,7 @@ async def run_single_scraper(
 
         # Step 1.5 (update 모드): 이미 크롤링된 URL 제거
         total_discovered = len(urls)
+        skipped_count = 0
         if mode == "update":
             # law/adrule: 시행일자 기반 변경 감지 (더 정확)
             # 스크래퍼별 필터 전략
@@ -298,6 +299,7 @@ async def run_single_scraper(
                 print(f"📍 Step 1.5: update 모드 — 최근 {since_days}일 이내 크롤링된 URL 필터링 중...")
                 crawled_urls = get_recently_crawled_urls(config.collection_name, since_days)
                 urls = filter_new_urls(urls, crawled_urls)
+            skipped_count = total_discovered - len(urls)
             print(f"✅ Step 1.5 완료: {total_discovered}개 중 {len(urls)}개 신규/변경 크롤링 대상\n")
 
             if not urls:
@@ -307,7 +309,7 @@ async def run_single_scraper(
                     "total_urls": total_discovered,
                     "total_success": 0,
                     "total_failed": 0,
-                    "skipped": total_discovered,
+                    "skipped": skipped_count,
                 }
 
         # Step 2: 병렬 스크래핑
@@ -331,8 +333,10 @@ async def run_single_scraper(
                         save_to_db=True,
                         save_jsonl=save_jsonl
                     )
-                    action = result.get("action", "insert") if result else "insert"
-                    return {"status": "success", "doc_id": result.get("doc_id") if result else None, "action": action}
+                    if not result or result.get("status") == "failed":
+                        return {"status": "failed", "error": "scrape_and_save returned None or failed"}
+                    action = result.get("action", "insert")
+                    return {"status": "success", "doc_id": result.get("doc_id"), "action": action}
                 except Exception as e:
                     return {"status": "failed", "error": str(e)}
 
@@ -350,7 +354,8 @@ async def run_single_scraper(
             "total_urls": total_discovered,
             "total_success": success_count,
             "total_no_change": no_change_count,
-            "total_failed": failed_count
+            "total_failed": failed_count,
+            "skipped": skipped_count,
         }
 
     except Exception as e:

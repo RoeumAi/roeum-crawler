@@ -25,7 +25,7 @@ def fetch_stable_law_id(doc_id: str) -> Optional[str]:
         resp = requests.get(API_BASE, params=params, timeout=TIMEOUT_SECONDS)
         resp.raise_for_status()
         data = resp.json()
-        law_id = data.get("기본정보", {}).get("법령ID")
+        law_id = data.get("법령", {}).get("기본정보", {}).get("법령ID")
         return str(law_id) if law_id else None
     except Exception as e:
         logger.warning(f"법령ID 조회 실패 (MST={doc_id}): {e}")
@@ -39,7 +39,7 @@ def fetch_stable_adrule_id(doc_id: str) -> Optional[str]:
         resp = requests.get(API_BASE, params=params, timeout=TIMEOUT_SECONDS)
         resp.raise_for_status()
         data = resp.json()
-        adrule_id = data.get("행정규칙기본정보", {}).get("행정규칙ID")
+        adrule_id = data.get("AdmRulService", {}).get("행정규칙기본정보", {}).get("행정규칙ID")
         return str(adrule_id) if adrule_id else None
     except Exception as e:
         logger.warning(f"행정규칙ID 조회 실패 (ID={doc_id}): {e}")

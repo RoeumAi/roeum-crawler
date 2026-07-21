@@ -14,6 +14,7 @@ from datetime import datetime
 import logging
 
 from scripts.core.database.change_detector import ChangeDetector, VersionManager, ChangeLogger
+from scripts.core.database.source_versioning import enrich_source_document
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +60,14 @@ class UnifiedDocumentRepository:
             self.collection.create_index([("metadata.source_type", 1)])
             self.collection.create_index([("metadata.created_at", -1)])
             self.collection.create_index([("metadata.effective", 1)])
+            self.collection.create_index(
+                [("chunk_id", 1), ("content_hash", 1)],
+                name="idx_citation_chunk_hash",
+            )
+            self.collection.create_index(
+                [("source_version_id", 1)],
+                name="idx_source_version_id",
+            )
             
             # 텍스트 검색 인덱스
             self.collection.create_index([
@@ -283,6 +292,7 @@ class UnifiedDocumentRepository:
           }
         """
         try:
+            new_doc = enrich_source_document(new_doc, self.collection_name)
             doc_id = new_doc.get("doc_id")
             article_number = new_doc.get("article_number")
             

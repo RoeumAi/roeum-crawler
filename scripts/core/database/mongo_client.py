@@ -8,6 +8,8 @@ from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 import logging
 
+from scripts.core.database.mongo_config import resolve_mongo_uri
+
 logger = logging.getLogger(__name__)
 
 
@@ -32,13 +34,7 @@ class MongoClientSingleton:
     def _connect(self):
         """MongoDB에 연결"""
         # .env에서 설정 읽기 (없으면 기본값)
-        mongo_uri = os.getenv(
-            "MONGODB_URI",
-            os.getenv(
-                "MONGO_URI",
-                "mongodb+srv://loum_java:Z3DLoWC3tXrpkhJx@loum.veydouo.mongodb.net/original_db?retryWrites=true&w=majority&appName=loum"
-            )
-        )
+        mongo_uri = resolve_mongo_uri()
         db_name = os.getenv("MONGO_DB_NAME", "original_db")
         
         try:

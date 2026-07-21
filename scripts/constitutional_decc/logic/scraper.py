@@ -18,6 +18,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import section_chunk_id
+from scripts.core.database.source_versioning import enrich_source_document
 logger = get_logger(__name__, scraper_type='constitutional_decc')
 
 
@@ -184,6 +185,7 @@ def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, ch
                     "chunk_seq": seq,
                     "content": sub_content,
                 }
+                chunk_doc = enrich_source_document(chunk_doc, "constitutional_decc")
                 set_fields = dict(chunk_doc)
                 set_fields.update({f"metadata.{k}": v for k, v in chunk_meta.items()})
 

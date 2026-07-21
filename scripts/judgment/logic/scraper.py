@@ -16,6 +16,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import document_chunk_id
+from scripts.core.database.source_versioning import enrich_source_document
 
 logger = get_logger(__name__, scraper_type='judgment')
 
@@ -86,6 +87,7 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
         db = get_mongo_db()
         collection = db['judgment']
 
+        document_data = enrich_source_document(document_data, "judgment")
         result = collection.update_one(
             {"doc_id": document_data.get("doc_id")},
             {"$set": document_data},

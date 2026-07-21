@@ -9,7 +9,6 @@ from urllib.parse import urlparse, parse_qs
 import sys
 from collections import defaultdict
 from datetime import datetime
-import hashlib
 
 # --- 프로젝트 루트 경로 설정 ---
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
@@ -18,6 +17,7 @@ sys.path.append(project_root)
 # --- 로거 설정 ---
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import section_chunk_id
+from scripts.core.database.source_versioning import enrich_source_document, sha256_content
 logger = get_logger(__name__, scraper_type='case')
 
 def clean_spaces(text: str) -> str:
@@ -336,7 +336,7 @@ def save_case_chunks_to_mongodb(
                 # 각 서브청크를 개별 문서로 저장
                 for seq, sub_content in enumerate(sub_chunks, 1):
                     # content_hash로 변경 여부 판단 — 동일하면 last_check_at만 갱신
-                    content_hash = hashlib.md5(sub_content.encode("utf-8")).hexdigest()
+                    content_hash = sha256_content(sub_content)
                     existing = collection.find_one(
                         {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
                         {"content_hash": 1}
@@ -392,6 +392,7 @@ def save_case_chunks_to_mongodb(
                         "content": sub_content,
                         "content_hash": content_hash,
                     }
+                    chunk_doc = enrich_source_document(chunk_doc, "case")
                     set_fields = dict(chunk_doc)
                     set_fields.update({f"metadata.{k}": v for k, v in chunk_meta.items()})
 

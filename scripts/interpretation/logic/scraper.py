@@ -19,6 +19,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
+from scripts.core.database.source_versioning import enrich_source_document
 
 # 스크레이퍼 타입에 맞는 로거 생성
 logger = get_logger(__name__, scraper_type='interpretation')
@@ -191,6 +192,7 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                         "total_articles": len(sections_data),
                     }
                 }
+                section_doc = enrich_source_document(section_doc, "interpretation")
 
                 # created_at을 제외한 $set 필드 구성
                 set_fields = {k: v for k, v in section_doc.items() if k != "metadata"}

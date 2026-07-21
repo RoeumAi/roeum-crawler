@@ -24,6 +24,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.utils.ocr import call_clova_ocr
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
+from scripts.core.database.source_versioning import enrich_source_document
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
 
 logger = get_logger(__name__, scraper_type='adrule')
@@ -493,6 +494,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     "content": article['content'],
                     "doc_type": "행정규칙",
                 }
+                article_doc = enrich_source_document(article_doc, "adrule")
 
                 set_fields = dict(article_doc)
                 set_fields.update({f"metadata.{k}": v for k, v in meta.items()})

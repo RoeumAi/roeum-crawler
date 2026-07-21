@@ -3,6 +3,7 @@ import re
 import time
 import os
 import sys
+from datetime import date
 
 import requests
 
@@ -63,11 +64,13 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
     행정규칙 목록 API를 순회하며 상세 페이지 URL과 시행일자를 반환합니다.
 
     Returns:
-        list: [{"name": str, "url": str, "effective": str}, ...]
+        list: [{"name": str, "url": str, "effective": str, "is_upcoming": bool}, ...]
         - url: https://www.law.go.kr/admRulInfoP.do?admRulSeq={행정규칙일련번호}
         - effective: 시행일자 (YYYYMMDD)
+        - is_upcoming: 시행일자가 오늘보다 미래인지 여부 (law list_scraper와 동일 기준)
     """
     logger.info(f"행정규칙 목록 API 수집 시작 (참조 URL: {start_url})")
+    today = date.today().strftime("%Y%m%d")
 
     total_pages = _total_pages()
     logger.info(f"총 {total_pages} 페이지 확인")
@@ -107,6 +110,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
                 "name": safe_name,
                 "url": url,
                 "effective": efy,  # 시행일자 — update 모드 변경 감지에 사용
+                "is_upcoming": bool(efy) and efy > today,
             })
 
         if page_num < pages_to_crawl:

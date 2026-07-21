@@ -201,10 +201,20 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
     
     # 6. 통합 문서 생성
     content = "\n\n".join(chunks) if chunks else ""
-    
+
     if not content:
-        logger.warning("문서 내용을 찾지 못했습니다.")
-        return None
+        # 조문 구조 없는 단문 법령 — contentBody 전체 텍스트를 그대로 사용
+        raw_text = "\n".join(
+            line.strip()
+            for line in content_div.get_text(separator="\n").splitlines()
+            if line.strip()
+        )
+        if raw_text:
+            logger.info("조문 구조 없는 단문 법령 — 전체 텍스트로 저장합니다.")
+            content = raw_text
+        else:
+            logger.warning("문서 내용을 찾지 못했습니다.")
+            return None
     
     unified_doc = {
         "doc_id": doc_id,

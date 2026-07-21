@@ -1,11 +1,22 @@
-import math
-import re
-import time
+"""
+law list_scraper — Playwright DOM 직접 파싱 방식
+
+DRF open API(target=law)는 현행 버전만 반환하고 시행예정 버전을 포함하지 않는다.
+law.go.kr 목록 페이지를 Playwright로 렌더링하면 현행 + 시행예정 모두 표시된다.
+AJAX 파라미터를 재현하는 대신, 브라우저가 렌더링한 DOM을 직접 파싱하고
+pageSearch() JS 함수로 페이지 이동한다.
+
+onclick 패턴: lsReturnSearch('법령명','efYd','타입','lsiSeq','0')
+  타입코드 '2' = 시행예정, '3' = 현행
+"""
+
+import asyncio
 import os
+import re
 import sys
 from datetime import date
 
-import requests
+from playwright.async_api import async_playwright
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
@@ -14,144 +25,139 @@ from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='law')
 
-API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
-OC = "inwoong100"
-PAGE_SIZE = 100
+# 수집 대상 소관부처: (cptOfiCd, 부처명)
+ORG_CODES = [
+    ("1492000", "고용노동부"),
+    ("1790365", "개인정보보호위원회"),
+]
 
-# 수집 대상 소관부처 코드 → 부처명
-ORG_CODES = {
-    "1492000": "고용노동부",
-    "1790365": "개인정보보호위원회",
-}
+LIST_URL_BASE = "https://www.law.go.kr/lsAstSc.do?menuId=391&subMenuId=397&tabMenuId=437"
 
-
-def _fetch_org_page(org: str, page: int) -> dict:
-    """단일 org의 특정 페이지 결과 반환 (items list, totalCnt)."""
-    params = {
-        "OC": OC, "target": "law", "type": "JSON",
-        "page": page, "display": PAGE_SIZE, "query": "", "org": org,
-    }
-    resp = requests.get(API_BASE, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json().get("LawSearch", {})
-    return {
-        "items": data.get("law", []),
-        "totalCnt": int(data.get("totalCnt", 0)),
-    }
+# onclick 파싱: lsReturnSearch('법령명','efYd','타입코드','lsiSeq', ...)
+_ONCLICK_RE = re.compile(
+    r"lsReturnSearch\('([^']+)'\s*,\s*'(\d{8})'\s*,\s*'(\d+)'\s*,\s*'(\d+)'"
+)
+# "총 N건(현재/전체)" 패턴
+_TOTAL_PAGES_RE = re.compile(r"총\s*[\d,]+건\s*\(\s*\d+\s*/\s*(\d+)\s*\)")
 
 
-def _fetch_upcoming_versions(law_name: str, org_code: str, today: str) -> list:
-    """법령명 + org 코드로 검색하여 시행예정(오늘 이후) 버전 목록을 반환합니다.
+def _parse_total_pages(text: str) -> int:
+    m = _TOTAL_PAGES_RE.search(text)
+    return int(m.group(1)) if m else 1
 
-    참고: law.go.kr DRF의 LsId 파라미터는 법령 그룹 ID가 아니라 검색 오프셋으로
-    동작하므로 사용 불가. 법령명으로 검색 후 동일 법령명 + 미래 efYd로 필터링합니다.
-    """
-    params = {
-        "OC": OC, "target": "law", "type": "JSON",
-        "page": 1, "display": 10,
-        "query": law_name, "org": org_code,
-    }
-    try:
-        resp = requests.get(API_BASE, params=params, timeout=20)
-        resp.raise_for_status()
-        items = resp.json().get("LawSearch", {}).get("law", [])
-        # 동일 법령명 + 오늘 이후 시행일자만 반환
-        return [
-            it for it in items
-            if it.get("법령명한글", "").strip() == law_name
-            and (it.get("시행일자", "") or "") > today
-        ]
-    except Exception as e:
-        logger.warning(f"법령 '{law_name}' 시행예정 조회 실패: {e}")
-        return []
+
+async def _extract_page_items(page, dept_name: str, today: str, seen: set) -> list:
+    """현재 렌더링된 페이지에서 법령 항목을 추출합니다."""
+    onclicks = await page.evaluate('''() => {
+        const result = [];
+        document.querySelectorAll("table tbody tr").forEach(tr => {
+            const a = tr.querySelector("a[onclick]");
+            if (a) result.push(a.getAttribute("onclick") || "");
+        });
+        return result;
+    }''')
+
+    items = []
+    for onclick in onclicks:
+        m = _ONCLICK_RE.search(onclick)
+        if not m:
+            continue
+
+        law_name, efy, type_code, lsi_seq = m.groups()
+        law_name = law_name.strip()
+        if not lsi_seq or lsi_seq in seen:
+            continue
+        seen.add(lsi_seq)
+
+        is_upcoming = efy > today
+        safe_name = re.sub(r'[\\/*?:"<>|]', "", law_name).strip() or f"law_{lsi_seq}"
+
+        items.append({
+            "name": safe_name,
+            "url": f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={lsi_seq}&efYd={efy}",
+            "effective": efy,
+            "dept_name": dept_name,
+            "law_id": law_name,   # 같은 법령의 버전 추적용 (법령명 = 그룹 키)
+            "is_upcoming": is_upcoming,
+        })
+
+    return items
+
+
+async def _fetch_org_all_pages(page, org_code: str, dept_name: str,
+                               today: str, max_pages_arg: int | None) -> list:
+    """한 부처의 전체 목록을 페이지별로 수집합니다."""
+    main_url = f"{LIST_URL_BASE}&cptOfiCd={org_code}"
+    await page.goto(main_url, wait_until="networkidle", timeout=30000)
+    await page.wait_for_timeout(1500)
+
+    # 총 페이지 수 파싱
+    total_text = await page.evaluate('''() => {
+        const el = document.querySelector(".search_list_total, .tit2, #lawListCnt");
+        return el ? el.innerText : document.body.innerText.substring(0, 500);
+    }''')
+    total_pages = _parse_total_pages(total_text)
+    logger.info(f"[{dept_name}] 총 {total_pages}페이지 (raw: {total_text[:50].strip()})")
+
+    if max_pages_arg:
+        total_pages = min(total_pages, max_pages_arg)
+
+    seen: set = set()
+    # 첫 페이지 추출
+    all_items = await _extract_page_items(page, dept_name, today, seen)
+
+    # 이후 페이지
+    for page_idx in range(2, total_pages + 1):
+        await page.evaluate(f"pageSearch('lsListDiv', '{page_idx}')")
+        await page.wait_for_load_state("networkidle")
+        await page.wait_for_timeout(500)
+
+        items = await _extract_page_items(page, dept_name, today, seen)
+        all_items.extend(items)
+
+        if page_idx % 5 == 0:
+            logger.info(f"[{dept_name}] {page_idx}/{total_pages}페이지, 누적 {len(all_items)}건")
+
+    return all_items
 
 
 async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
     """
-    법령 목록 API를 순회하며 상세 페이지 URL과 메타데이터를 반환합니다.
+    법령 목록 페이지를 Playwright로 순회하며 URL 목록을 반환합니다.
 
-    - ORG_CODES에 정의된 각 소관부처의 현행 법령 수집
-    - 각 법령의 시행예정(미래 efYd) 버전도 함께 수집
-    - update 시 동일 법령의 구 버전은 upsert_with_change_detection이 is_active=false 처리
+    - ORG_CODES에 정의된 각 부처의 법령 수집 (현행 + 시행예정)
+    - pageSearch() JS 호출로 페이지 이동, DOM에서 onclick 파싱
 
     Returns:
         list: [{"name", "url", "effective", "dept_name", "law_id", "is_upcoming"}, ...]
     """
-    logger.info(f"법령 목록 API 수집 시작 (참조 URL: {start_url})")
-
+    logger.info(f"법령 목록 수집 시작 (참조 URL: {start_url})")
     today = date.today().strftime("%Y%m%d")
+
     urls_found = []
-    seen = set()  # lsiSeq 기준 중복 방지
+    seen_urls: set = set()
 
-    for org_code, dept_name in ORG_CODES.items():
-        logger.info(f"[{dept_name}] org={org_code} 수집 시작")
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
 
-        # 총 페이지 수 확인
-        first = _fetch_org_page(org_code, 1)
-        total_cnt = first["totalCnt"]
-        total_pages = math.ceil(total_cnt / PAGE_SIZE)
-        logger.info(f"[{dept_name}] 총 {total_cnt}건 ({total_pages}페이지)")
-
-        pages_to_crawl = total_pages
-        if max_pages_arg is not None and 0 < max_pages_arg < total_pages:
-            pages_to_crawl = max_pages_arg
-            logger.info(f"[{dept_name}] 최대 {pages_to_crawl}페이지로 제한")
-
-        all_items = list(first["items"])
-        for page_num in range(2, pages_to_crawl + 1):
+        for org_code, dept_name in ORG_CODES:
+            logger.info(f"[{dept_name}] org={org_code} 수집 시작")
             try:
-                result = _fetch_org_page(org_code, page_num)
-                all_items.extend(result["items"])
+                items = await _fetch_org_all_pages(
+                    page, org_code, dept_name, today, max_pages_arg
+                )
+                for item in items:
+                    url = item["url"]
+                    if url not in seen_urls:
+                        seen_urls.add(url)
+                        urls_found.append(item)
+                upcoming = sum(1 for it in items if it["is_upcoming"])
+                logger.info(f"[{dept_name}] {len(items)}건 수집 (시행예정 {upcoming}건)")
             except Exception as e:
-                logger.error(f"[{dept_name}] 페이지 {page_num} 조회 실패: {e}")
-            time.sleep(0.3)
+                logger.error(f"[{dept_name}] 수집 실패: {e}")
 
-        # 현행 버전 처리 + 시행예정 버전 조회
-        upcoming_check_done = set()
-        for item in all_items:
-            mst = item.get("법령일련번호", "")
-            efy = item.get("시행일자", "")
-            name = item.get("법령명한글", "").strip()
-            ls_id = item.get("법령ID", "")
-            actual_dept = item.get("소관부처명", dept_name).strip()
-            if not mst:
-                continue
+        await browser.close()
 
-            # 현행 버전 추가
-            if mst not in seen:
-                seen.add(mst)
-                safe_name = re.sub(r'[\\/*?:"<>|]', "", name).strip() or f"law_{mst}"
-                is_upcoming = efy > today if efy else False
-                urls_found.append({
-                    "name": safe_name,
-                    "url": f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={mst}&efYd={efy}",
-                    "effective": efy,
-                    "dept_name": actual_dept,
-                    "law_id": ls_id,
-                    "is_upcoming": is_upcoming,
-                })
-
-            # 시행예정 버전 — 법령명 기준으로 1회만 조회
-            if name and name not in upcoming_check_done:
-                upcoming_check_done.add(name)
-                upcoming = _fetch_upcoming_versions(name, org_code, today)
-                for up in upcoming:
-                    up_mst = up.get("법령일련번호", "")
-                    up_efy = up.get("시행일자", "")
-                    up_name = up.get("법령명한글", "").strip()
-                    if not up_mst or up_mst in seen:
-                        continue
-                    seen.add(up_mst)
-                    safe_up = re.sub(r'[\\/*?:"<>|]', "", up_name).strip() or f"law_{up_mst}"
-                    urls_found.append({
-                        "name": safe_up,
-                        "url": f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={up_mst}&efYd={up_efy}",
-                        "effective": up_efy,
-                        "dept_name": up.get("소관부처명", dept_name).strip(),
-                        "law_id": ls_id,
-                        "is_upcoming": True,
-                    })
-                time.sleep(0.2)
-
-    logger.info(f"✅ 법령 URL 수집 완료: {len(urls_found)}개 (현행+시행예정)")
+    logger.info(f"✅ 법령 URL 수집 완료: {len(urls_found)}건 (현행+시행예정)")
     return urls_found

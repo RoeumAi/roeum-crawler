@@ -11,7 +11,7 @@ import sys
 from datetime import date, datetime
 from typing import Dict, Optional
 
-from prefect import flow, get_run_logger
+from prefect import flow
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 if project_root not in sys.path:
@@ -86,15 +86,14 @@ def refresh_collection(collection, id_field: str, today: Optional[str] = None) -
 def refresh_current_status_flow() -> Dict:
     from scripts.core.database.mongo_client import get_mongo_db
 
-    run_logger = get_run_logger()
     db = get_mongo_db()
     today = date.today().isoformat()
 
     law_summary = refresh_collection(db["law"], "law_id", today)
-    run_logger.info(f"law 재계산 완료: {law_summary}")
+    logger.info(f"law 재계산 완료: {law_summary}")
 
     adrule_summary = refresh_collection(db["adrule"], "adrule_id", today)
-    run_logger.info(f"adrule 재계산 완료: {adrule_summary}")
+    logger.info(f"adrule 재계산 완료: {adrule_summary}")
 
     return {
         "law": law_summary,
@@ -104,5 +103,6 @@ def refresh_current_status_flow() -> Dict:
 
 
 if __name__ == "__main__":
-    result = refresh_current_status_flow()
+    # Prefect 서버가 없는 launchd 운영 환경에서는 오케스트레이션 없이 순수 함수로 실행
+    result = refresh_current_status_flow.fn()
     print(f"\n최종 결과: {result}")

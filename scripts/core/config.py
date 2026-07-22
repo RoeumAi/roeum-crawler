@@ -5,8 +5,7 @@
 개별 scraper 설정은 각 폴더의 config.py에서 정의합니다.
 """
 
-import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 # ============================================================================
@@ -130,9 +129,7 @@ class EnvironmentConfig:
     """환경 설정"""
     
     # MongoDB
-    mongodb_url: str = field(
-        default_factory=lambda: os.getenv("MONGODB_URI", os.getenv("MONGO_URI", ""))
-    )
+    mongodb_url: str = "mongodb+srv://loum_chanhee:1G2BLczQ1nipQvXC@loum.veydouo.mongodb.net/?retryWrites=true&w=majority&appName=loum"
     mongodb_database: str = "original_db"
     
     # Prefect

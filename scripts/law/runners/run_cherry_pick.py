@@ -1,7 +1,7 @@
 """
 특정 법령명으로 law.go.kr 검색 → 현행 lsiSeq 추출 → 조문 크롤링 → MongoDB 저장
 
-대상: 고용노동부/개인정보보호위원회 외 부처 소관이지만 DB에 필요한 6개 법령
+대상: 고용노동부/개인정보보호위원회 외 부처 소관이지만 DB에 필요한 9개 법령
 """
 
 import asyncio
@@ -19,7 +19,7 @@ from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='law')
 
-# ── 크롤링 대상 6개 법령 ──
+# ── 크롤링 대상 9개 법령 ──
 TARGET_LAWS = [
     ("민사소송법",                          "법무부"),
     ("주택임대차보호법",                      "법무부"),
@@ -27,6 +27,10 @@ TARGET_LAWS = [
     ("재난 및 안전관리 기본법",                 "행정안전부"),
     ("지방교육자치에 관한 법률",                 "교육부"),
     ("한부모가족지원법",                       "여성가족부"),
+    # 2026-07-01 ALL_DB 백필분, org=1492000 프루닝 때 삭제된 뒤 미복구였던 3개 (2026-07-22 추가)
+    ("초·중등교육법",                        "교육부"),
+    ("공공감사에 관한 법률",                    "감사원"),
+    ("자본시장과 금융투자업에 관한 법률",           "금융위원회"),
 ]
 
 LIST_URL_BASE = "https://www.law.go.kr/lsAstSc.do?menuId=391&subMenuId=397&tabMenuId=437"

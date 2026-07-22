@@ -37,6 +37,11 @@ echo "======================================" >> "$LOG_FILE"
 "$PYTHON" -u crawl.py --mode update --since 1 --concurrent 3 >> "$LOG_FILE" 2>&1
 EXIT_CODE=$?
 
+echo "======================================" >> "$LOG_FILE"
+echo "law/adrule 현재 시행 버전 재계산 시작: $(date)" >> "$LOG_FILE"
+echo "======================================" >> "$LOG_FILE"
+"$PYTHON" -u scripts/core/flows/refresh_current_status_flow.py >> "$LOG_FILE" 2>&1
+
 END_TIME=$(date +%s)
 DURATION=$(( (END_TIME - START_TIME) / 60 ))
 

@@ -15,6 +15,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
 from scripts.core.identifiers import document_chunk_id
 from scripts.core.database.source_versioning import enrich_source_document
 
@@ -132,11 +133,29 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
         query_params = parse_qs(parsed_url.query)
         doc_id = query_params.get("jgmtSn", [None])[0] or parsed.get("title")
 
-        # 판정사항과 판정요지를 content에 포함
-        content = "\n\n".join([
+        html_content = "\n\n".join([
             f"판정사항: {parsed.get('judgment_points', '')}",
             f"판정요지: {parsed.get('judgment_summary', '')}"
         ]).strip()
+        pdf_result = await asyncio.to_thread(
+            extract_attachment_text,
+            html,
+            detail_url,
+        )
+        if pdf_result["success"]:
+            content = f"{html_content}\n\n[첨부 PDF 전문]\n{pdf_result['text']}".strip()
+            logger.info(
+                f"✅ {doc_id}: PDF 본문 추출 완료 "
+                f"({pdf_result['content_source']}, {len(pdf_result['text']):,}자)"
+            )
+        else:
+            content = html_content
+            logger.warning(
+                f"⚠️ {doc_id}: PDF 본문 추출 실패 — HTML 요약 유지 "
+                f"({pdf_result['error']})"
+            )
+
+        attachment = pdf_result.get("attachment") or {}
 
         document_data = {
             "chunk_id": document_chunk_id("judgment", doc_id),
@@ -152,7 +171,16 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 "created_at": datetime.now().isoformat(),
                 "updated_at": datetime.now().isoformat(),
                 "is_active": True,
-                "effective": parsed.get("registered_at")
+                "effective": parsed.get("registered_at"),
+                "attachment_name": attachment.get("name"),
+                "attachment_url": attachment.get("download_url"),
+                "attachment_file_id": attachment.get("file_id"),
+                "content_source": pdf_result.get("content_source"),
+                "pdf_page_count": pdf_result.get("page_count"),
+                "pdf_is_searchable": pdf_result.get("is_searchable"),
+                "pdf_cost_usd": pdf_result.get("cost_usd", 0.0),
+                "pdf_error": pdf_result.get("error", ""),
+                "pdf_retry_needed": pdf_retry_needed(pdf_result),
             }
         }
 

@@ -17,7 +17,12 @@ sys.path.append(project_root)
 # --- 로거 설정 ---
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import section_chunk_id
-from scripts.core.database.source_versioning import enrich_source_document, sha256_content
+from scripts.core.database.source_versioning import (
+    build_mongo_set_fields,
+    enrich_source_document,
+    is_complete_chunk_save,
+    sha256_content,
+)
 logger = get_logger(__name__, scraper_type='case')
 
 def clean_spaces(text: str) -> str:
@@ -212,12 +217,17 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
                 logger.info(f"✅ {doc_id}: MongoDB 저장 성공")
             else:
                 logger.error(f"❌ {doc_id}: MongoDB 저장 실패")
+                return {
+                    "doc_id": doc_id,
+                    "status": "failed",
+                    "error": "MongoDB save failed",
+                }
 
         if process_chunks and save_jsonl and chunks:
             chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
             save_to_file(chunks, chunk_filename)
 
-        return {"doc_id": doc_id, "status": "success"}
+        return {"doc_id": doc_id, "status": "success", "action": "insert"}
 
     except Exception as e:
         logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
@@ -393,8 +403,7 @@ def save_case_chunks_to_mongodb(
                         "content_hash": content_hash,
                     }
                     chunk_doc = enrich_source_document(chunk_doc, "case")
-                    set_fields = dict(chunk_doc)
-                    set_fields.update({f"metadata.{k}": v for k, v in chunk_meta.items()})
+                    set_fields = build_mongo_set_fields(chunk_doc, chunk_meta)
 
                     collection.update_one(
                         {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
@@ -421,7 +430,11 @@ def save_case_chunks_to_mongodb(
         else:
             logger.error(f"❌ {base_doc_id}: 청크 저장 완전 실패 (시도: {len(chunks)}, 성공: {saved_count})")
         
-        return saved_count > 0
+        return is_complete_chunk_save(
+            saved=saved_count,
+            unchanged=no_change_count,
+            failed=failed_count,
+        )
         
     except Exception as e:
         logger.error(f"MongoDB 청크 저장 실패: {str(e)}", exc_info=True)

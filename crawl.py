@@ -67,6 +67,13 @@ def get_list_page_url(scraper_type: str, config) -> str:
 # UPDATE 모드: 이미 크롤링된 URL 조회
 # ============================================================================
 
+def get_crawled_doc_id_filter(collection_name: str) -> dict:
+    """Return the Mongo filter for documents that daily update may skip."""
+    if collection_name in {"judgment", "mediation_case"}:
+        return {"metadata.pdf_retry_needed": {"$ne": True}}
+    return {}
+
+
 def get_all_crawled_urls(collection_name: str) -> Set[str]:
     """
     MongoDB에서 컬렉션의 모든 doc_id 집합을 반환합니다.
@@ -77,7 +84,10 @@ def get_all_crawled_urls(collection_name: str) -> Set[str]:
     try:
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
-        doc_ids = db[collection_name].distinct("doc_id")
+        doc_ids = db[collection_name].distinct(
+            "doc_id",
+            get_crawled_doc_id_filter(collection_name),
+        )
         return set(str(d) for d in doc_ids if d)
     except Exception as e:
         print(f"⚠️  MongoDB 전체 URL 조회 실패 (update 모드 필터 건너뜀): {e}")

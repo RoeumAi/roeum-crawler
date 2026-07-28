@@ -39,3 +39,24 @@ def enrich_source_document(document: dict, collection: str) -> dict:
         enriched.pop("source_version_id", None)
     enriched["metadata"] = metadata
     return enriched
+
+
+def build_mongo_set_fields(document: dict, metadata: dict | None = None) -> dict:
+    """Build a conflict-free MongoDB $set document using dotted metadata paths."""
+    set_fields = copy.deepcopy(document)
+    embedded_metadata = dict(set_fields.pop("metadata", {}) or {})
+    embedded_metadata.update(metadata or {})
+    set_fields.update(
+        {f"metadata.{key}": value for key, value in embedded_metadata.items()}
+    )
+    return set_fields
+
+
+def is_complete_chunk_save(
+    *,
+    saved: int,
+    unchanged: int = 0,
+    failed: int,
+) -> bool:
+    """Return True only when at least one chunk was handled and none failed."""
+    return saved + unchanged > 0 and failed == 0

@@ -18,7 +18,11 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import section_chunk_id
-from scripts.core.database.source_versioning import enrich_source_document
+from scripts.core.database.source_versioning import (
+    build_mongo_set_fields,
+    enrich_source_document,
+    is_complete_chunk_save,
+)
 logger = get_logger(__name__, scraper_type='legislation_expc')
 
 
@@ -178,8 +182,7 @@ def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, ch
                     "content": sub_content,
                 }
                 chunk_doc = enrich_source_document(chunk_doc, "legislation_expc")
-                set_fields = dict(chunk_doc)
-                set_fields.update({f"metadata.{k}": v for k, v in chunk_meta.items()})
+                set_fields = build_mongo_set_fields(chunk_doc, chunk_meta)
 
                 try:
                     collection.update_one(
@@ -196,7 +199,7 @@ def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, ch
                     failed += 1
 
         logger.info(f"✅ {doc_id}: {saved}개 저장 (실패: {failed})")
-        return saved > 0
+        return is_complete_chunk_save(saved=saved, failed=failed)
     except Exception as e:
         logger.error(f"MongoDB 저장 실패: {e}", exc_info=True)
         return False
@@ -238,12 +241,18 @@ async def scrape_and_save(url, output_dir: str = "", output_name: str = "",
         logger.info(f"✅ {doc_id}: {len(chunks)}개 청크 파싱")
 
         if save_to_db:
-            await loop.run_in_executor(
+            success = await loop.run_in_executor(
                 None,
                 lambda: save_to_mongodb(doc_id, doc_title, doc_subtitle, url, chunks)
             )
+            if not success:
+                return {
+                    "doc_id": doc_id,
+                    "status": "failed",
+                    "error": "MongoDB save failed",
+                }
 
-        return {"doc_id": doc_id, "status": "success"}
+        return {"doc_id": doc_id, "status": "success", "action": "insert"}
 
     except Exception as e:
         logger.error(f"스크래핑 실패 {url}: {e}", exc_info=True)

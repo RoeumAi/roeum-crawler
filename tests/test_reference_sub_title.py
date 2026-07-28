@@ -28,6 +28,16 @@ class ReferenceSubTitleTest(unittest.TestCase):
             "대구고등법원-2019나23597",
         )
 
+    def test_supports_legacy_case_code_variants(self):
+        for title in (
+            "대법원 2004. 1. 15.자 2002무30 결정",
+            "인천지방법원-2010고정2472",
+            "서울행정법원-99구2832",
+            "헌법재판소 2022. 8. 31.자 2020헌마1025 결정",
+        ):
+            with self.subTest(title=title):
+                self.assertEqual(legacy_pdf_case_sub_title(title), title)
+
 
 if __name__ == "__main__":
     unittest.main()

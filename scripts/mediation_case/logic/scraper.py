@@ -17,6 +17,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
 from scripts.core.identifiers import document_chunk_id
+from scripts.utils.reference_sub_title import extract_nlrc_case_number
 
 logger = get_logger(__name__, scraper_type='mediation_case')
 
@@ -178,7 +179,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             "doc_type": "조정사건례",
             "article_number": "1",
             "title": parsed.get("title"),
-            "sub_title": parsed.get("data_category"),
+            "sub_title": extract_nlrc_case_number(parsed.get("title") or ""),
             "content": content,
             "metadata": {
                 "source_url": detail_url,

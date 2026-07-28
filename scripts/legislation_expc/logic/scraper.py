@@ -175,7 +175,6 @@ def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, ch
                     "doc_type": chunk_title,
                     "title": doc_title,
                     "sub_title": doc_subtitle,
-                    "subtitle": doc_subtitle,
                     "article_number": str(seq),
                     "article_title": chunk_title,
                     "chunk_seq": seq,

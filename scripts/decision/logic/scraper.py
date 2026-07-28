@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..',
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import document_chunk_id
+from scripts.utils.reference_sub_title import extract_court_reference
 
 logger = get_logger(__name__, scraper_type='decision')
 
@@ -96,7 +97,7 @@ def _build_document(jgmt_sn: str, title: str, registered_at: str, source_url: st
         "doc_type": "심의결정례",
         "article_number": "1",
         "title": title,
-        "sub_title": "",
+        "sub_title": extract_court_reference(title),
         "content": title,  # 심의결정례의 콘텐츠는 제목(요지) 그 자체
         "metadata": {
             "source_url": source_url,

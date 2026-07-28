@@ -1,6 +1,7 @@
-"""Backfill constitutional_decc sub_title with the dedicated case number.
+"""Restore constitutional_decc sub_title from the official full subtitle.
 
-Read-only by default. Pass --apply to update MongoDB.
+Read-only by default. Pass --apply to update MongoDB and remove the duplicate
+legacy ``subtitle`` field from this collection.
 """
 
 from __future__ import annotations
@@ -11,18 +12,18 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 from bs4 import BeautifulSoup
 
-from scripts.constitutional_decc.logic.scraper import _extract_case_number
+from scripts.constitutional_decc.logic.scraper import _extract_sub_title
 from scripts.core.database.mongo_client import get_mongo_db
 
 
-def fetch_case_number(url: str) -> str:
+def fetch_sub_title(url: str) -> str:
     response = requests.get(
         url,
         headers={"User-Agent": "Mozilla/5.0"},
         timeout=30,
     )
     response.raise_for_status()
-    return _extract_case_number(BeautifulSoup(response.text, "html.parser"))
+    return _extract_sub_title(BeautifulSoup(response.text, "html.parser"))
 
 
 def main() -> None:
@@ -46,37 +47,40 @@ def main() -> None:
     errors = {}
     with ThreadPoolExecutor(max_workers=args.workers) as executor:
         futures = {
-            executor.submit(fetch_case_number, url): doc_id
+            executor.submit(fetch_sub_title, url): doc_id
             for doc_id, url in representatives.items()
         }
         for future in as_completed(futures):
             doc_id = futures[future]
             try:
-                case_number = future.result()
-                if not case_number:
-                    raise RuntimeError("case number not found")
-                results[doc_id] = case_number
+                sub_title = future.result()
+                if not sub_title:
+                    raise RuntimeError("sub_title not found")
+                results[doc_id] = sub_title
             except Exception as exc:
                 errors[doc_id] = str(exc)
 
     matched_documents = 0
     changed_documents = 0
-    for doc_id, case_number in results.items():
+    for doc_id, sub_title in results.items():
         query = {"doc_id": doc_id}
         matched_documents += collection.count_documents(query)
         changed_documents += collection.count_documents(
             {
                 **query,
                 "$or": [
-                    {"sub_title": {"$ne": case_number}},
-                    {"subtitle": {"$ne": case_number}},
+                    {"sub_title": {"$ne": sub_title}},
+                    {"subtitle": {"$exists": True}},
                 ],
             }
         )
         if args.apply:
             collection.update_many(
                 query,
-                {"$set": {"sub_title": case_number, "subtitle": case_number}},
+                {
+                    "$set": {"sub_title": sub_title},
+                    "$unset": {"subtitle": ""},
+                },
             )
 
     print(

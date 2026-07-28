@@ -37,18 +37,11 @@ def clean_spaces(text: str) -> str:
     return text.strip()
 
 
-def _extract_case_number(soup: BeautifulSoup) -> str:
-    """Extract only the constitutional case number for sub_title."""
-    dedicated = soup.select_one("#detcNo")
-    if dedicated:
-        value = clean_spaces(dedicated.get("value", ""))
-        if value:
-            return value
-
+def _extract_sub_title(soup: BeautifulSoup) -> str:
+    """Extract the full constitutional decision subtitle without outer brackets."""
     subtitle = soup.select_one(".subtit1, .subtit2, div.subtit2")
-    subtitle_text = clean_spaces(subtitle.get_text()) if subtitle else ""
-    match = re.search(r"\d{2,4}헌[가-힣]\d+", subtitle_text)
-    return match.group(0) if match else ""
+    value = clean_spaces(subtitle.get_text()) if subtitle else ""
+    return re.sub(r"^\[(.+)\]$", r"\1", value.strip())
 
 
 def get_doc_id_from_url(url: str) -> str | None:
@@ -197,7 +190,6 @@ def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, ch
                     "doc_type": chunk_title,
                     "title": doc_title,
                     "sub_title": doc_subtitle,
-                    "subtitle": doc_subtitle,
                     "article_number": str(seq),
                     "article_title": chunk_title,
                     "chunk_seq": seq,
@@ -253,13 +245,13 @@ async def scrape_and_save(url, output_dir: str = "", output_name: str = "",
             title_el = soup.select_one(".tit_doc, h2, h3")
             doc_title = clean_spaces(title_el.get_text()) if title_el else url
 
-        doc_subtitle = _extract_case_number(soup)
+        doc_subtitle = _extract_sub_title(soup)
         if not doc_subtitle:
-            logger.error(f"사건번호 추출 실패: {url}")
+            logger.error(f"헌재결정례 부제 추출 실패: {url}")
             return {
                 "doc_id": doc_id,
                 "status": "failed",
-                "error": "Case number extraction failed",
+                "error": "Constitutional decision subtitle extraction failed",
             }
 
         con_scroll = soup.select_one("#conScroll")

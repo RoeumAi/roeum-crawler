@@ -158,15 +158,15 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             detail_url,
         )
         if pdf_result["success"]:
-            content = f"{html_content}\n\n[첨부 PDF 전문]\n{pdf_result['text']}".strip()
+            content = f"{html_content}\n\n[첨부파일 전문]\n{pdf_result['text']}".strip()
             logger.info(
-                f"✅ {doc_id}: PDF 본문 추출 완료 "
+                f"✅ {doc_id}: 첨부파일 본문 추출 완료 "
                 f"({pdf_result['content_source']}, {len(pdf_result['text']):,}자)"
             )
         else:
             content = html_content
             logger.warning(
-                f"⚠️ {doc_id}: PDF 본문 추출 실패 — HTML 요약 유지 "
+                f"⚠️ {doc_id}: 첨부파일 본문 추출 실패 — HTML 요약 유지 "
                 f"({pdf_result['error']})"
             )
 

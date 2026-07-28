@@ -225,9 +225,10 @@
 - 저장 단위: 문서
 - 청크 ID: `mediation_case:{doc_id}`
 - `doc_type = "조정사건례"`
-- 상세 페이지의 공식 PDF 첨부를 우선 추출하고, 텍스트 PDF는 native parsing,
-  스캔 PDF는 `chat_generation /api/extract-text` OCR 결과를 본문에 추가한다.
-- 신규 URL도 동일하게 PDF를 확인한다. PDF가 있는데 추출 API·다운로드가 일시
+- 상세 페이지의 공식 PDF/HWP/HWPX 첨부를 우선 추출한다. 텍스트 PDF와
+  HWP/HWPX는 native parsing, 스캔 PDF는 `chat_generation /api/extract-text`
+  OCR 결과를 본문에 추가한다.
+- 신규 URL도 동일하게 지원 첨부파일을 확인한다. 첨부가 있는데 추출 API·다운로드가 일시
   실패하면 `metadata.pdf_retry_needed=true`로 저장하여 다음 일일 실행에서
   자동 재시도한다. PDF가 없는 게시물은 HTML 본문을 정상 결과로 유지한다.
 - 주요 metadata:
@@ -254,9 +255,10 @@
 - 저장 단위: 문서
 - 청크 ID: `judgment:{doc_id}`
 - `doc_type = "주요판정사례"`
-- 상세 페이지의 공식 PDF 첨부를 내려받아 `chat_generation /api/extract-text`로
-  native text/OCR 추출하고, HTML 판정요지와 PDF 전문을 함께 저장한다.
-- 신규 URL도 동일하게 PDF를 확인한다. PDF가 있는데 추출 API·다운로드가 일시
+- 상세 페이지의 공식 PDF/HWP/HWPX 첨부를 내려받아
+  `chat_generation /api/extract-text`로 native text/OCR 추출하고,
+  HTML 판정요지와 첨부파일 전문을 함께 저장한다.
+- 신규 URL도 동일하게 지원 첨부파일을 확인한다. 첨부가 있는데 추출 API·다운로드가 일시
   실패하면 `metadata.pdf_retry_needed=true`로 저장하여 다음 일일 실행에서
   자동 재시도한다. PDF가 없는 게시물은 HTML 본문을 정상 결과로 유지한다.
 - 주요 metadata:

@@ -41,6 +41,19 @@ def extracted_pdf(text: str) -> dict:
         "error": "",
     }
 
+def extracted_hwp(text: str) -> dict:
+    result = extracted_pdf(text)
+    result["content_source"] = "hwp_text"
+    result["attachment"] = {
+        "name": "첨부.hwp",
+        "file_id": "66_66_1",
+        "download_url": "https://nlrc.go.kr/download.hwp",
+    }
+    result["page_count"] = None
+    result["is_searchable"] = True
+    result["cost_usd"] = 0.0
+    return result
+
 
 class NlrcPdfScraperTest(unittest.IsolatedAsyncioTestCase):
     async def test_judgment_stores_pdf_full_text_and_attachment_metadata(self):
@@ -106,6 +119,35 @@ class NlrcPdfScraperTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(captured["metadata"]["attachment_name"], "첨부.pdf")
         self.assertFalse(captured["metadata"]["pdf_retry_needed"])
 
+    async def test_mediation_stores_hwp_full_text_and_attachment_metadata(self):
+        captured = {}
+
+        with (
+            patch.object(mediation_scraper, "_fetch_detail_html", return_value=MEDIATION_HTML),
+            patch.object(
+                mediation_scraper,
+                "extract_attachment_text",
+                return_value=extracted_hwp("조정 HWP 전체 본문"),
+            ),
+            patch.object(
+                mediation_scraper,
+                "save_mediation_to_mongodb",
+                side_effect=lambda document: captured.update(document) or True,
+            ),
+        ):
+            result = await mediation_scraper.scrape_and_save(
+                "https://nlrc.go.kr/nlrc/mainCase/mediatioin/detail.do"
+                "?jgmtSn=1&jgmtDcsnSeCd=66",
+                output_dir="",
+                output_name="test",
+                save_jsonl=False,
+            )
+
+        self.assertEqual(result["status"], "success")
+        self.assertIn("조정 HWP 전체 본문", captured["content"])
+        self.assertEqual(captured["metadata"]["content_source"], "hwp_text")
+        self.assertEqual(captured["metadata"]["attachment_name"], "첨부.hwp")
+
     async def test_judgment_keeps_html_content_when_pdf_extraction_fails(self):
         captured = {}
         fallback = {
@@ -116,7 +158,7 @@ class NlrcPdfScraperTest(unittest.IsolatedAsyncioTestCase):
             "page_count": None,
             "is_searchable": None,
             "cost_usd": 0.0,
-            "error": "PDF attachment not found",
+            "error": "Supported attachment not found",
         }
 
         with (

@@ -24,6 +24,16 @@ DETAIL_HTML = """
 </ul>
 """
 
+HWP_DETAIL_HTML = """
+<a
+  data-cl-cd="66"
+  data-file-id="66_66_1"
+  data-key="1"
+  data-nlrc-event="click-download"
+  title="조정사례.hwp"
+>조정사례.hwp</a>
+"""
+
 
 class NlrcPdfTest(unittest.TestCase):
     def test_extracts_official_pdf_attachment_identifiers(self):
@@ -44,6 +54,13 @@ class NlrcPdfTest(unittest.TestCase):
                 }
             ],
         )
+
+    def test_extracts_hwp_attachment_identifiers(self):
+        attachments = extract_pdf_attachments(HWP_DETAIL_HTML)
+
+        self.assertEqual(len(attachments), 1)
+        self.assertEqual(attachments[0]["name"], "조정사례.hwp")
+        self.assertEqual(attachments[0]["file_id"], "66_66_1")
 
     @patch("scripts.utils.nlrc_pdf._call_extract_text")
     @patch("scripts.utils.nlrc_pdf._download_pdf")
@@ -73,6 +90,34 @@ class NlrcPdfTest(unittest.TestCase):
         self.assertEqual(result["page_count"], 9)
         self.assertEqual(result["attachment"]["file_id"], "65_65_13896")
 
+    @patch("scripts.utils.nlrc_pdf._call_extract_text")
+    @patch("scripts.utils.nlrc_pdf._download_pdf")
+    def test_returns_hwp_text_and_provenance(
+        self,
+        download_attachment,
+        call_extract_text,
+    ):
+        download_attachment.return_value = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+        call_extract_text.return_value = {
+            "is_success": True,
+            "full_text": "HWP 전체 본문",
+            "file_type": "hwp",
+            "page_count": None,
+            "is_searchable": True,
+            "cost_usd": 0.0,
+        }
+
+        result = extract_attachment_text(
+            HWP_DETAIL_HTML,
+            "https://nlrc.go.kr/nlrc/mainCase/mediatioin/detail.do"
+            "?jgmtSn=1&jgmtDcsnSeCd=66",
+        )
+
+        self.assertTrue(result["success"])
+        self.assertEqual(result["text"], "HWP 전체 본문")
+        self.assertEqual(result["content_source"], "hwp_text")
+        self.assertEqual(result["attachment"]["file_id"], "66_66_1")
+
     def test_missing_pdf_returns_html_fallback_result(self):
         result = extract_attachment_text(
             "<html><body>첨부 없음</body></html>",
@@ -81,7 +126,7 @@ class NlrcPdfTest(unittest.TestCase):
 
         self.assertFalse(result["success"])
         self.assertEqual(result["content_source"], "html_fallback")
-        self.assertEqual(result["error"], "PDF attachment not found")
+        self.assertEqual(result["error"], "Supported attachment not found")
         self.assertFalse(pdf_retry_needed(result))
 
     def test_pdf_extraction_failure_needs_retry(self):

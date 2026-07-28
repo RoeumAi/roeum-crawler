@@ -175,6 +175,12 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 "attachment_name": attachment.get("name"),
                 "attachment_url": attachment.get("download_url"),
                 "attachment_file_id": attachment.get("file_id"),
+                "attachment_names": [
+                    item.get("name") for item in pdf_result.get("attachments", [])
+                ],
+                "attachment_file_ids": [
+                    item.get("file_id") for item in pdf_result.get("attachments", [])
+                ],
                 "content_source": pdf_result.get("content_source"),
                 "pdf_page_count": pdf_result.get("page_count"),
                 "pdf_is_searchable": pdf_result.get("is_searchable"),

@@ -258,6 +258,8 @@
 - 상세 페이지의 공식 PDF/HWP/HWPX 첨부를 내려받아
   `chat_generation /api/extract-text`로 native text/OCR 추출하고,
   HTML 판정요지와 첨부파일 전문을 함께 저장한다.
+- 한 상세 페이지에 지원 첨부파일이 여러 개 있으면 첫 파일만 선택하지 않고
+  모든 첨부의 전문을 파일명과 함께 결합하여 저장한다.
 - 신규 URL도 동일하게 지원 첨부파일을 확인한다. 첨부가 있는데 추출 API·다운로드가 일시
   실패하면 `metadata.pdf_retry_needed=true`로 저장하여 다음 일일 실행에서
   자동 재시도한다. PDF가 없는 게시물은 HTML 본문을 정상 결과로 유지한다.

@@ -24,6 +24,8 @@ CONTENT_TYPES = {
 
 def pdf_retry_needed(result: dict) -> bool:
     """Return whether an attached PDF failed extraction and should be retried."""
+    if "retry_needed" in result:
+        return bool(result["retry_needed"])
     return bool(result.get("attachment")) and not bool(result.get("success"))
 
 
@@ -124,7 +126,7 @@ def extract_attachment_text(
     detail_url: str,
     base_url: str | None = None,
 ) -> dict:
-    """Extract the first PDF attachment, returning a structured fallback result."""
+    """Extract every supported attachment, returning a structured result."""
     attachments = extract_pdf_attachments(html)
     if not attachments:
         return {
@@ -132,50 +134,71 @@ def extract_attachment_text(
             "text": "",
             "content_source": "html_fallback",
             "attachment": None,
+            "attachments": [],
             "page_count": None,
             "is_searchable": None,
             "cost_usd": 0.0,
             "error": "Supported attachment not found",
+            "retry_needed": False,
         }
 
-    attachment = attachments[0]
-    try:
-        pdf_bytes = _download_pdf(attachment, detail_url)
-        extracted = _call_extract_text(
-            pdf_bytes,
-            attachment["name"],
-            base_url=base_url,
-        )
-        text = (extracted.get("full_text") or "").strip()
-        if not extracted.get("is_success") or not text:
-            raise RuntimeError(text or "chat_generation returned no PDF text")
+    extracted_parts = []
+    content_sources = []
+    page_counts = []
+    searchable_states = []
+    total_cost = 0.0
+    errors = []
 
-        is_searchable = bool(extracted.get("is_searchable"))
-        file_type = str(extracted.get("file_type") or "").lower()
-        if file_type in {"hwp", "hwpx"}:
-            content_source = f"{file_type}_text"
-        elif file_type in {"hwp_ocr", "hwpx_ocr"}:
-            content_source = file_type
-        else:
-            content_source = "pdf_text" if is_searchable else "pdf_ocr"
-        return {
-            "success": True,
-            "text": text,
-            "content_source": content_source,
-            "attachment": attachment,
-            "page_count": extracted.get("page_count"),
-            "is_searchable": is_searchable,
-            "cost_usd": float(extracted.get("cost_usd") or 0.0),
-            "error": "",
-        }
-    except Exception as exc:
-        return {
-            "success": False,
-            "text": "",
-            "content_source": "html_fallback",
-            "attachment": attachment,
-            "page_count": None,
-            "is_searchable": None,
-            "cost_usd": 0.0,
-            "error": str(exc),
-        }
+    for attachment in attachments:
+        try:
+            file_bytes = _download_pdf(attachment, detail_url)
+            extracted = _call_extract_text(
+                file_bytes,
+                attachment["name"],
+                base_url=base_url,
+            )
+            text = (extracted.get("full_text") or "").strip()
+            if not extracted.get("is_success") or not text:
+                raise RuntimeError(
+                    text or "chat_generation returned no attachment text"
+                )
+
+            is_searchable = bool(extracted.get("is_searchable"))
+            file_type = str(extracted.get("file_type") or "").lower()
+            if file_type in {"hwp", "hwpx"}:
+                source = f"{file_type}_text"
+            elif file_type in {"hwp_ocr", "hwpx_ocr"}:
+                source = file_type
+            else:
+                source = "pdf_text" if is_searchable else "pdf_ocr"
+
+            extracted_parts.append(f"[첨부: {attachment['name']}]\n{text}")
+            content_sources.append(source)
+            if extracted.get("page_count") is not None:
+                page_counts.append(int(extracted["page_count"]))
+            searchable_states.append(is_searchable)
+            total_cost += float(extracted.get("cost_usd") or 0.0)
+        except Exception as exc:
+            errors.append(f"{attachment['name']}: {exc}")
+
+    success = bool(extracted_parts)
+    return {
+        "success": success,
+        "text": "\n\n".join(extracted_parts),
+        "content_source": (
+            content_sources[0]
+            if len(set(content_sources)) == 1
+            else "mixed_attachments"
+            if content_sources
+            else "html_fallback"
+        ),
+        "attachment": attachments[0],
+        "attachments": attachments,
+        "page_count": sum(page_counts) if page_counts else None,
+        "is_searchable": (
+            all(searchable_states) if searchable_states else None
+        ),
+        "cost_usd": total_cost,
+        "error": "; ".join(errors),
+        "retry_needed": bool(errors),
+    }

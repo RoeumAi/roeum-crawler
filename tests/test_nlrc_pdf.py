@@ -34,6 +34,8 @@ HWP_DETAIL_HTML = """
 >조정사례.hwp</a>
 """
 
+MULTI_ATTACHMENT_HTML = DETAIL_HTML + HWP_DETAIL_HTML
+
 
 class NlrcPdfTest(unittest.TestCase):
     def test_extracts_official_pdf_attachment_identifiers(self):
@@ -85,7 +87,7 @@ class NlrcPdfTest(unittest.TestCase):
         )
 
         self.assertTrue(result["success"])
-        self.assertEqual(result["text"], "PDF 전체 본문")
+        self.assertIn("PDF 전체 본문", result["text"])
         self.assertEqual(result["content_source"], "pdf_ocr")
         self.assertEqual(result["page_count"], 9)
         self.assertEqual(result["attachment"]["file_id"], "65_65_13896")
@@ -114,9 +116,51 @@ class NlrcPdfTest(unittest.TestCase):
         )
 
         self.assertTrue(result["success"])
-        self.assertEqual(result["text"], "HWP 전체 본문")
+        self.assertIn("HWP 전체 본문", result["text"])
         self.assertEqual(result["content_source"], "hwp_text")
         self.assertEqual(result["attachment"]["file_id"], "66_66_1")
+
+    @patch("scripts.utils.nlrc_pdf._call_extract_text")
+    @patch("scripts.utils.nlrc_pdf._download_pdf")
+    def test_extracts_all_supported_attachments(
+        self,
+        download_attachment,
+        call_extract_text,
+    ):
+        download_attachment.side_effect = [
+            b"%PDF",
+            b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1",
+        ]
+        call_extract_text.side_effect = [
+            {
+                "is_success": True,
+                "full_text": "첫 번째 본문",
+                "file_type": "pdf",
+                "page_count": 2,
+                "is_searchable": True,
+                "cost_usd": 0.0,
+            },
+            {
+                "is_success": True,
+                "full_text": "두 번째 본문",
+                "file_type": "hwp",
+                "page_count": None,
+                "is_searchable": True,
+                "cost_usd": 0.0,
+            },
+        ]
+
+        result = extract_attachment_text(
+            MULTI_ATTACHMENT_HTML,
+            "https://nlrc.go.kr/detail",
+        )
+
+        self.assertTrue(result["success"])
+        self.assertIn("첫 번째 본문", result["text"])
+        self.assertIn("두 번째 본문", result["text"])
+        self.assertEqual(len(result["attachments"]), 2)
+        self.assertEqual(result["content_source"], "mixed_attachments")
+        self.assertFalse(pdf_retry_needed(result))
 
     def test_missing_pdf_returns_html_fallback_result(self):
         result = extract_attachment_text(

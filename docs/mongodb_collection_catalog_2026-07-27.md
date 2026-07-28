@@ -147,6 +147,8 @@
 - 청크 ID: `case:{doc_id}:{doc_type}:{chunk_seq}`
 - 주요 추가 필드:
   `chunk_seq`, `article_number`, `article_title`, `subtitle`
+- `sub_title`과 호환 필드 `subtitle`에는 재판부·선고일·결과를 섞지 않고
+  상세 페이지의 `#detcNo` 사건번호만 저장한다. 예: `2019헌바454`
 - 주요 metadata:
   `chapter`, `effective`, `chunk_index`, `total_chunks`,
   `total_sub_chunks`, `token_count`

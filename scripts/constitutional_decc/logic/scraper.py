@@ -37,6 +37,20 @@ def clean_spaces(text: str) -> str:
     return text.strip()
 
 
+def _extract_case_number(soup: BeautifulSoup) -> str:
+    """Extract only the constitutional case number for sub_title."""
+    dedicated = soup.select_one("#detcNo")
+    if dedicated:
+        value = clean_spaces(dedicated.get("value", ""))
+        if value:
+            return value
+
+    subtitle = soup.select_one(".subtit1, .subtit2, div.subtit2")
+    subtitle_text = clean_spaces(subtitle.get_text()) if subtitle else ""
+    match = re.search(r"\d{2,4}헌[가-힣]\d+", subtitle_text)
+    return match.group(0) if match else ""
+
+
 def get_doc_id_from_url(url: str) -> str | None:
     try:
         params = parse_qs(urlparse(url).query)
@@ -239,9 +253,14 @@ async def scrape_and_save(url, output_dir: str = "", output_name: str = "",
             title_el = soup.select_one(".tit_doc, h2, h3")
             doc_title = clean_spaces(title_el.get_text()) if title_el else url
 
-        subtit = soup.select_one(".subtit1, .subtit2, div.subtit2")
-        doc_subtitle = clean_spaces(subtit.get_text()) if subtit else ""
-        doc_subtitle = re.sub(r'^\[(.+)\]$', r'\1', doc_subtitle.strip())
+        doc_subtitle = _extract_case_number(soup)
+        if not doc_subtitle:
+            logger.error(f"사건번호 추출 실패: {url}")
+            return {
+                "doc_id": doc_id,
+                "status": "failed",
+                "error": "Case number extraction failed",
+            }
 
         con_scroll = soup.select_one("#conScroll")
         content_html = con_scroll.decode_contents() if con_scroll else ""

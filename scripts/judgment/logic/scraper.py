@@ -22,6 +22,8 @@ from scripts.core.database.source_versioning import enrich_source_document
 
 logger = get_logger(__name__, scraper_type='judgment')
 
+MAX_PDF_RETRIES = 3
+
 DEFAULT_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
     "Referer": "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
@@ -88,6 +90,23 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
         collection = db['judgment']
+
+        doc_id = document_data.get("doc_id")
+        if document_data["metadata"].get("pdf_retry_needed"):
+            existing = collection.find_one(
+                {"doc_id": doc_id}, {"metadata.pdf_retry_count": 1}
+            )
+            prev_retry_count = (existing or {}).get("metadata", {}).get("pdf_retry_count", 0)
+            retry_count = prev_retry_count + 1
+            if retry_count >= MAX_PDF_RETRIES:
+                logger.warning(
+                    f"⚠️ {doc_id}: 첨부파일 추출 {MAX_PDF_RETRIES}회 연속 실패 — "
+                    f"재시도 중단, HTML 요약만 유지"
+                )
+                document_data["metadata"]["pdf_retry_needed"] = False
+            document_data["metadata"]["pdf_retry_count"] = retry_count
+        else:
+            document_data["metadata"]["pdf_retry_count"] = 0
 
         document_data = enrich_source_document(document_data, "judgment")
         result = collection.update_one(

@@ -21,6 +21,8 @@ from scripts.utils.reference_sub_title import extract_nlrc_case_number
 
 logger = get_logger(__name__, scraper_type='mediation_case')
 
+MAX_PDF_RETRIES = 3
+
 DETAIL_URL = "https://nlrc.go.kr/nlrc/mainCase/mediatioin/detail.do"
 DEFAULT_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
@@ -100,6 +102,21 @@ def save_mediation_to_mongodb(document_data: dict) -> bool:
 
         db = get_mongo_db()
         repo = UnifiedDocumentRepository(db, collection_name='mediation_case')
+
+        doc_id = document_data.get("doc_id")
+        if document_data["metadata"].get("pdf_retry_needed"):
+            existing = repo.find_by_id(doc_id, active_only=True)
+            prev_retry_count = (existing or {}).get("metadata", {}).get("pdf_retry_count", 0)
+            retry_count = prev_retry_count + 1
+            if retry_count >= MAX_PDF_RETRIES:
+                logger.warning(
+                    f"⚠️ {doc_id}: 첨부파일 추출 {MAX_PDF_RETRIES}회 연속 실패 — "
+                    f"재시도 중단, HTML 요약만 유지"
+                )
+                document_data["metadata"]["pdf_retry_needed"] = False
+            document_data["metadata"]["pdf_retry_count"] = retry_count
+        else:
+            document_data["metadata"]["pdf_retry_count"] = 0
 
         doc_id, action_result = repo.upsert_with_change_detection(document_data)
         action = action_result.get("action", "unknown")

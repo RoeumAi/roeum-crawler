@@ -235,6 +235,24 @@ def filter_new_urls(url_items: List, crawled_urls: Set[str],
 # 단일 스크래퍼 실행
 # ============================================================================
 
+def summarize_scrape_results(results) -> tuple[int, int, int]:
+    """scrape_with_semaphore 결과 목록을 (성공, 변경없음, 실패) 건수로 집계한다.
+
+    action == "no_change" 인 경우만 변경없음으로 집계하고, 그 외 성공
+    (new_version/update_existing/insert 등)은 모두 성공으로 집계한다.
+    """
+    success_count = sum(
+        1 for r in results
+        if isinstance(r, dict) and r.get("status") == "success" and r.get("action") != "no_change"
+    )
+    no_change_count = sum(
+        1 for r in results
+        if isinstance(r, dict) and r.get("status") == "success" and r.get("action") == "no_change"
+    )
+    failed_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "failed")
+    return success_count, no_change_count, failed_count
+
+
 async def run_single_scraper(
     scraper_type: str,
     max_concurrent: int,
@@ -353,9 +371,7 @@ async def run_single_scraper(
         tasks = [scrape_with_semaphore(url) for url in urls]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
-        success_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "success" and r.get("action") != "update_existing")
-        no_change_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "success" and r.get("action") == "update_existing")
-        failed_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "failed")
+        success_count, no_change_count, failed_count = summarize_scrape_results(results)
 
         print(f"\n✅ Step 2 완료: {success_count}개 성공, {no_change_count}개 변경없음, {failed_count}개 실패\n")
 

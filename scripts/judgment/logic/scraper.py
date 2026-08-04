@@ -18,7 +18,7 @@ from scripts.utils.logger_config import get_logger
 from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.reference_sub_title import extract_nlrc_case_number
-from scripts.core.database.source_versioning import enrich_source_document
+from scripts.core.database.source_versioning import enrich_source_document, sha256_content
 
 logger = get_logger(__name__, scraper_type='judgment')
 
@@ -92,10 +92,20 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
         collection = db['judgment']
 
         doc_id = document_data.get("doc_id")
+        content_hash = sha256_content(document_data.get("content"))
+        existing = collection.find_one(
+            {"doc_id": doc_id}, {"content_hash": 1, "metadata.pdf_retry_count": 1}
+        )
+
+        if existing is None:
+            action = "new_version"
+        elif existing.get("content_hash") == content_hash:
+            action = "no_change"
+        else:
+            action = "update_existing"
+        document_data["_action"] = action
+
         if document_data["metadata"].get("pdf_retry_needed"):
-            existing = collection.find_one(
-                {"doc_id": doc_id}, {"metadata.pdf_retry_count": 1}
-            )
             prev_retry_count = (existing or {}).get("metadata", {}).get("pdf_retry_count", 0)
             retry_count = prev_retry_count + 1
             if retry_count >= MAX_PDF_RETRIES:
@@ -108,19 +118,20 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
         else:
             document_data["metadata"]["pdf_retry_count"] = 0
 
-        document_data = enrich_source_document(document_data, "judgment")
+        to_store = {k: v for k, v in document_data.items() if k != "_action"}
+        to_store = enrich_source_document(to_store, "judgment")
         result = collection.update_one(
-            {"doc_id": document_data.get("doc_id")},
-            {"$set": document_data},
+            {"doc_id": to_store.get("doc_id")},
+            {"$set": to_store},
             upsert=True
         )
 
         if result.upserted_id:
-            logger.info(f"✅ 새 문서 생성: {document_data.get('doc_id')}")
+            logger.info(f"✅ 새 문서 생성: {to_store.get('doc_id')}")
         elif result.modified_count > 0:
-            logger.info(f"🔄 문서 업데이트: {document_data.get('doc_id')}")
+            logger.info(f"🔄 문서 업데이트: {to_store.get('doc_id')}")
         else:
-            logger.info(f"⏭️  문서 변경 없음: {document_data.get('doc_id')}")
+            logger.info(f"⏭️  문서 변경 없음: {to_store.get('doc_id')}")
 
         return True
     except Exception as e:
@@ -219,7 +230,8 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             if not success:
                 return {"doc_id": doc_id, "status": "failed"}
 
-        return {"doc_id": doc_id, "status": "success"}
+        action = document_data.pop("_action", "new_version")
+        return {"doc_id": doc_id, "status": "success", "action": action}
 
     except Exception as e:
         logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)

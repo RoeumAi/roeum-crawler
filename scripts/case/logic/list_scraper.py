@@ -19,6 +19,8 @@ logger = get_logger(__name__, scraper_type='case')
 
 AJAX_URL = "https://www.law.go.kr/LSW/precAstScListR.do"
 PAGE_SIZE = 50
+MAX_PAGE_RETRIES = 3
+RETRY_BACKOFF_SECONDS = 3
 
 _HEADERS = {
     "User-Agent": "Mozilla/5.0",
@@ -37,6 +39,22 @@ def _post_list_page(cpt_ofi_cd: str, page_index: int) -> BeautifulSoup:
     )
     resp.raise_for_status()
     return BeautifulSoup(resp.text, "html.parser")
+
+
+def _post_list_page_with_retry(cpt_ofi_cd: str, page_index: int) -> BeautifulSoup:
+    """법령정보센터 서버가 순간적으로 연결을 끊는 경우가 있어 재시도한다."""
+    last_exc = None
+    for attempt in range(1, MAX_PAGE_RETRIES + 1):
+        try:
+            return _post_list_page(cpt_ofi_cd, page_index)
+        except Exception as e:
+            last_exc = e
+            logger.warning(
+                f"{page_index}페이지 요청 실패 ({attempt}/{MAX_PAGE_RETRIES}): {e}"
+            )
+            if attempt < MAX_PAGE_RETRIES:
+                time.sleep(RETRY_BACKOFF_SECONDS * attempt)
+    raise last_exc
 
 
 def _get_total_pages(soup: BeautifulSoup) -> int:
@@ -80,7 +98,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
     urls_found = []
     seen = set()
 
-    soup1 = _post_list_page(cpt_ofi_cd, 1)
+    soup1 = _post_list_page_with_retry(cpt_ofi_cd, 1)
     total_pages = _get_total_pages(soup1)
     logger.info(f"총 {total_pages}페이지")
 

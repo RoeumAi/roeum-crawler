@@ -322,6 +322,7 @@ def save_case_chunks_to_mongodb(
         no_change_count = 0
         failed_count = 0
         judgment_date = extract_judgment_date(doc_subtitle)
+        current_keys = set()
 
         for chunk_idx, chunk in enumerate(chunks, 1):
             try:
@@ -356,13 +357,16 @@ def save_case_chunks_to_mongodb(
                             {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
                             {"$set": {
                                 "chunk_id": section_chunk_id("case", base_doc_id, chunk_title, seq),
+                                "title": doc_title,
                                 "sub_title": doc_subtitle,
                                 "article_number": str(seq),
                                 "article_title": chunk_title,
                                 "metadata.last_check_at": datetime.now().isoformat(),
+                                "metadata.is_active": True,
                             }}
                         )
                         no_change_count += 1
+                        current_keys.add((chunk_title, seq))
                         continue
 
                     # token_count 계산 (토크나이저 있을 때만)
@@ -412,6 +416,7 @@ def save_case_chunks_to_mongodb(
                         upsert=True
                     )
                     saved_count += 1
+                    current_keys.add((chunk_title, seq))
 
                     if len(sub_chunks) > 1:
                         logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title} (seq: {seq}/{len(sub_chunks)})")
@@ -422,6 +427,25 @@ def save_case_chunks_to_mongodb(
                 logger.error(f"   ❌ 청크 저장 실패 ({chunk.get('title', 'Unknown')}): {str(e)}")
                 failed_count += 1
                 continue
+
+        if failed_count == 0 and current_keys:
+            deactivated = 0
+            for existing_chunk in collection.find(
+                {"doc_id": base_doc_id, "metadata.is_active": {"$ne": False}},
+                {"doc_type": 1, "chunk_seq": 1},
+            ):
+                key = (existing_chunk.get("doc_type"), existing_chunk.get("chunk_seq"))
+                if key not in current_keys:
+                    collection.update_one(
+                        {"doc_id": base_doc_id, "doc_type": key[0], "chunk_seq": key[1]},
+                        {"$set": {
+                            "metadata.is_active": False,
+                            "metadata.deactivated_at": datetime.now().isoformat(),
+                        }}
+                    )
+                    deactivated += 1
+            if deactivated:
+                logger.info(f"🗑️  {base_doc_id}: {deactivated}개 청크 비활성화(is_active=False) — 최신 크롤에서 더 이상 발견되지 않음")
 
         if saved_count > 0 or no_change_count > 0:
             logger.info(f"✅ {base_doc_id}: {saved_count}개 저장, {no_change_count}개 변경없음 (실패: {failed_count})")

@@ -1,7 +1,10 @@
 """
 특정 법령명으로 law.go.kr 검색 → 현행 lsiSeq 추출 → 조문 크롤링 → MongoDB 저장
 
-대상: 고용노동부/개인정보보호위원회 외 부처 소관이지만 DB에 필요한 9개 법령
+대상: 고용노동부/개인정보보호위원회 외 부처 소관이지만 DB에 필요한 법령들
+
+인자로 법령명을 주면 그 법령만 처리한다:
+    python -m scripts.law.runners.run_cherry_pick "일자리위원회의 설치 및 운영에 관한 규정"
 """
 
 import asyncio
@@ -19,7 +22,7 @@ from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='law')
 
-# ── 크롤링 대상 9개 법령 ──
+# ── 크롤링 대상 법령 ──
 TARGET_LAWS = [
     ("민사소송법",                          "법무부"),
     ("주택임대차보호법",                      "법무부"),
@@ -31,7 +34,25 @@ TARGET_LAWS = [
     ("초·중등교육법",                        "교육부"),
     ("공공감사에 관한 법률",                    "감사원"),
     ("자본시장과 금융투자업에 관한 법률",           "금융위원회"),
+    # 2026-08-10 추가: LOUM-v1-1(goyong_law) 큐레이션 셋에는 있는데 original_db 에는
+    # 없어, 채팅 출처를 눌러도 원문으로 연결되지 않던 유일한 법령(15개 조문).
+    # 고용노동부(고용정책총괄과) 소관이지만 제14조 존속기한이 지나 '현행법령' 검색에
+    # 잡히지 않는다 → 검색을 건너뛰고 lsiSeq 를 직접 지정한다.
+    ("일자리위원회의 설치 및 운영에 관한 규정", "고용노동부",
+     "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=240559&efYd=20220218"),
 ]
+
+
+def selected_targets() -> list[tuple]:
+    """인자로 법령명을 주면 그것만, 없으면 TARGET_LAWS 전체를 대상으로 한다."""
+    wanted = [a for a in sys.argv[1:] if not a.startswith("-")]
+    if not wanted:
+        return TARGET_LAWS
+    picked = [t for t in TARGET_LAWS if t[0] in wanted]
+    missing = set(wanted) - {t[0] for t in picked}
+    if missing:
+        raise SystemExit(f"TARGET_LAWS 에 없는 법령: {', '.join(sorted(missing))}")
+    return picked
 
 LIST_URL_BASE = "https://www.law.go.kr/lsAstSc.do?menuId=391&subMenuId=397&tabMenuId=437"
 
@@ -103,23 +124,32 @@ async def main():
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
 
-        for law_name, dept_name in TARGET_LAWS:
+        for target in selected_targets():
+            law_name, dept_name = target[0], target[1]
+            # 3번째 원소가 있으면 검색을 건너뛰고 그 URL 을 그대로 쓴다.
+            # 존속기한이 지나 '현행법령' 검색에 안 잡히는 법령을 위한 경로다.
+            explicit_url = target[2] if len(target) > 2 else None
             logger.info(f"\n{'='*50}")
-            logger.info(f"[{dept_name}] {law_name} 검색 중...")
+            logger.info(f"[{dept_name}] {law_name} {'(URL 직접 지정)' if explicit_url else '검색 중...'}")
 
-            hit = await find_current_lsi_seq(page, law_name, today)
-            if not hit:
-                results["failed"].append(f"{law_name} (검색 결과 없음)")
-                continue
+            if explicit_url:
+                url = explicit_url
+                law_id, is_upcoming = law_name, False
+            else:
+                hit = await find_current_lsi_seq(page, law_name, today)
+                if not hit:
+                    results["failed"].append(f"{law_name} (검색 결과 없음)")
+                    continue
+                url = f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={hit['lsi_seq']}&efYd={hit['efy']}"
+                law_id, is_upcoming = hit["law_name"], hit["is_upcoming"]
 
-            url = f"https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq={hit['lsi_seq']}&efYd={hit['efy']}"
             safe_name = re.sub(r'[\\/*?:"<>| ]', "_", law_name)
 
             url_dict = {
                 "url":         url,
                 "dept_name":   dept_name,
-                "law_id":      hit["law_name"],
-                "is_upcoming": hit["is_upcoming"],
+                "law_id":      law_id,
+                "is_upcoming": is_upcoming,
             }
 
             logger.info(f"  크롤링 시작: {url}")

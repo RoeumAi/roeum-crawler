@@ -23,6 +23,7 @@ from scripts.core.database.refresh_promotion import (
     group_active_documents_by_stable_id,
     plan_group_transitions,
 )
+from scripts.core.database.upcoming_diff_sync import sync_collection_upcoming_diffs
 
 logger = get_logger(__name__, scraper_type='refresh_current_status')
 
@@ -79,6 +80,11 @@ def refresh_collection(collection, id_field: str, today: Optional[str] = None) -
         if plan["promoted"]:
             summary["promoted"] += 1
         summary["deactivated"] += len(plan["deactivate"])
+
+    # 승격 여부와 무관하게, 시행예정 버전들의 신구대조표를 매일 최신 상태로 유지한다.
+    # (run_daily.sh의 crawl.py 경로는 unified_scraper_flow의 동기화 태스크를 거치지 않는다)
+    diff_summary = sync_collection_upcoming_diffs(collection, id_field)
+    summary["diff_articles"] = diff_summary["diff_articles"]
     return summary
 
 

@@ -216,6 +216,25 @@ class SyncCollectionUpcomingDiffsTest(unittest.TestCase):
         self.assertEqual(g1_up["metadata"]["update_summary"]["old_content"], "구")
 
 
+class RefreshCollectionSyncsUpcomingDiffsTest(unittest.TestCase):
+    def test_daily_refresh_writes_diffs_for_upcoming_versions_without_promotion(self):
+        # run_daily.sh 경로: 승격이 없어도 시행예정 버전의 신구대조표가 생성되어야 한다
+        from scripts.core.flows.refresh_current_status_flow import refresh_collection
+
+        collection = FakeCollection([
+            make_chunk("cur", "1", "구 조문", effective="2025-10-01"),
+            make_chunk("up1", "1", "신 조문", effective="2026-08-20", is_upcoming=True),
+        ])
+
+        summary = refresh_collection(collection, "law_id", today="2026-08-12")
+
+        self.assertEqual(summary["promoted"], 0)
+        self.assertEqual(summary["diff_articles"], 1)
+        up1 = collection.find({"doc_id": "up1"})[0]
+        self.assertEqual(up1["metadata"]["update_summary"]["change_type"], "개정")
+        self.assertEqual(up1["metadata"]["update_summary"]["old_content"], "구 조문")
+
+
 class SyncScraperUpcomingDiffsTest(unittest.TestCase):
     def test_law_scraper_syncs_with_law_id(self):
         from scripts.core.database.upcoming_diff_sync import sync_scraper_upcoming_diffs

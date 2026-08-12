@@ -475,6 +475,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     "source_url": url,
                     "source_type": "web",
                     "effective": effective_date,
+                    "created_at": datetime.now().strftime('%Y-%m-%d'),
                     "article_index": idx,
                     "total_articles": len(articles),
                     "is_upcoming": is_upcoming,

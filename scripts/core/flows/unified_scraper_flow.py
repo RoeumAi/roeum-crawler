@@ -406,6 +406,27 @@ async def store_in_mongodb_task(
         }
 
 
+# TASK 5: 시행예정 버전 신구대조표 동기화
+# ============================================================================
+
+@task(name="Sync Upcoming Diffs", retries=1, retry_delay_seconds=30)
+async def sync_upcoming_diffs_task(scraper_type: str) -> Dict:
+    """
+    law/adrule 크롤링 직후, 시행예정 버전들의 신구대조표(metadata.update_summary)를
+    직전 버전과 비교해 미리 생성한다. 그 외 스크래퍼는 건너뛴다.
+    """
+    logger = get_run_logger()
+
+    try:
+        from scripts.core.database.mongo_client import get_mongo_db
+        from scripts.core.database.upcoming_diff_sync import sync_scraper_upcoming_diffs
+
+        return sync_scraper_upcoming_diffs(get_mongo_db(), scraper_type)
+    except Exception as e:
+        logger.error(f"❌ 시행예정 신구대조표 동기화 실패: {str(e)}")
+        return {"status": "failed", "scraper_type": scraper_type, "error": str(e)}
+
+
 # ============================================================================
 # MAIN FLOW
 # ============================================================================
@@ -515,13 +536,24 @@ async def unified_scraper_flow(
     logger.info("="*80)
     
     mongodb_result = await store_in_mongodb_task(scraper_type, total_success)
-    
+
     if mongodb_result["status"] != "success":
         logger.warning(f"⚠️ MongoDB 저장 작업 확인 실패: {mongodb_result.get('error')}")
     else:
         actual_saved = mongodb_result.get('actual_saved_count', 0)
         logger.info(f"✅ MongoDB 저장 작업 완료: {actual_saved}개 문서 저장됨")
-    
+
+    # STEP 5: 시행예정 버전 신구대조표(update_summary) 동기화 (law/adrule만 해당)
+    diff_sync_result = await sync_upcoming_diffs_task(scraper_type)
+    if diff_sync_result["status"] == "success":
+        logger.info(
+            f"✅ 시행예정 신구대조표 동기화: "
+            f"그룹 {diff_sync_result['groups_with_upcoming']}개, "
+            f"diff 조문 {diff_sync_result['diff_articles']}개"
+        )
+    elif diff_sync_result["status"] == "failed":
+        logger.warning(f"⚠️ 시행예정 신구대조표 동기화 실패: {diff_sync_result.get('error')}")
+
     # 최종 결과
     logger.info("\n" + "="*80)
     logger.info("✅ 워크플로우 완료")

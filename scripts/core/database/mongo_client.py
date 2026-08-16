@@ -6,9 +6,25 @@ MongoDB 연결 관리 (싱글톤 패턴)
 import os
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
+from dotenv import load_dotenv
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def resolve_mongo_uri() -> str:
+    """MongoDB 연결 문자열을 환경변수에서 읽는다.
+
+    MONGODB_URI(우선) 또는 MONGO_URI 에서 읽으며, 하드코딩된 기본값은 두지 않는다.
+    둘 다 없으면 운영 자격증명으로 조용히 붙는 대신 명확히 실패한다.
+    """
+    mongo_uri = os.getenv("MONGODB_URI") or os.getenv("MONGO_URI")
+    if not mongo_uri:
+        raise RuntimeError(
+            "MONGODB_URI(또는 MONGO_URI) 환경변수가 설정되지 않았습니다. "
+            "MongoDB 연결 문자열을 .env 또는 환경변수로 제공하세요."
+        )
+    return mongo_uri
 
 
 def assert_local_mongo_target(crawler_env: str, mongo_uri: str) -> None:
@@ -46,14 +62,10 @@ class MongoClientSingleton:
     
     def _connect(self):
         """MongoDB에 연결"""
-        # .env에서 설정 읽기 (없으면 기본값)
-        mongo_uri = os.getenv(
-            "MONGODB_URI",
-            os.getenv(
-                "MONGO_URI",
-                "mongodb+srv://loum_java:Z3DLoWC3tXrpkhJx@loum.veydouo.mongodb.net/original_db?retryWrites=true&w=majority&appName=loum"
-            )
-        )
+        # .env를 환경변수로 로드 (crawl.py 등 __main__ 밖 실행 경로도 커버)
+        load_dotenv()
+        # 연결 문자열은 환경변수에서만 읽는다 (하드코딩 기본값 없음)
+        mongo_uri = resolve_mongo_uri()
         assert_local_mongo_target(os.getenv("CRAWLER_ENV", ""), mongo_uri)
         db_name = os.getenv("MONGO_DB_NAME", "original_db")
         

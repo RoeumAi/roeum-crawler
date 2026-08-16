@@ -4,7 +4,7 @@ services:
     image: mongo:7.0
     container_name: roeum-crawler-mongo-local
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - ./mongodata:/data/db
     healthcheck:

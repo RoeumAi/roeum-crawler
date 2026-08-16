@@ -24,6 +24,35 @@ from scripts.core.database.source_versioning import enrich_source_document
 # 스크레이퍼 타입에 맞는 로거 생성
 logger = get_logger(__name__, scraper_type='interpretation')
 
+def normalize_doc_date(doc_date):
+    """'2006.9.1' 같은 문서 날짜를 'YYYY-MM-DD' 로 정규화한다 (zero-padding 포함).
+
+    parse_subtitle 이 뽑아내는 날짜는 원문 표기를 그대로 따라가서 월·일이 한 자리일
+    수 있다(`[고용노동부 임금근로시간정책팀-2534, 2006. 9. 1.]`). 기존에는
+    `doc_date.replace(".", "-")` 로만 바꿔서 "2006-9-1" 이 그대로 저장됐다.
+
+    metadata.effective 는 문자열로 저장되고 검색 단계에서 **사전식으로** 비교되므로
+    (chat_generation retriever 의 $gte/$lte), 자리수가 맞지 않으면 순서가 깨진다:
+        "2006-9-1" > "2006-12-31"   ← 한 자리 월이 12월보다 뒤로 간다
+    실제로 운영 DB 표본 4,000건 중 3,238건(81%)이 이 상태였고, interpretation 에
+    걸리는 날짜 필터가 조용히 잘못된 결과를 내고 있었다. (기존 데이터는 MongoDB 에서
+    일괄 정정함 — 11,681건.)
+
+    law/adrule/case 스크래퍼는 이미 `.zfill(2)` 로 맞춰 저장한다. 이 함수는
+    interpretation 을 같은 규약에 맞춘다.
+
+    파싱할 수 없으면 빈 문자열을 반환한다 — 호출부가 기존 폴백을 그대로 적용한다.
+    """
+    if not doc_date:
+        return ""
+    m = re.match(r"^\s*(\d{4})\s*\.\s*(\d{1,2})\s*\.\s*(\d{1,2})\s*\.?\s*$", str(doc_date))
+    if not m:
+        logger.debug(f"날짜 정규화 실패(형식 불일치): {doc_date!r}")
+        return ""
+    year, month, day = m.groups()
+    return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
+
+
 def parse_subtitle(subtitle_text):
     """부제목 text에서 부서, 문서번호, 날짜를 추출합니다."""
     logger.debug(f"Subtitle 파싱 시도: {subtitle_text}")
@@ -122,7 +151,7 @@ def _parse_taxlaw_body(body_text: str) -> dict | None:
     return {
         "doc_title": doc_title,
         "sub_title": ", ".join(part for part in ["국세청", doc_number, doc_date] if part),
-        "effective_date": doc_date.replace(".", "-") if doc_date else datetime.now().strftime('%Y-%m-%d'),
+        "effective_date": normalize_doc_date(doc_date) or datetime.now().strftime('%Y-%m-%d'),
         "sections_data": split_sections_by_header(sections),
     }
 
@@ -348,7 +377,10 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                 effective_date = datetime.now().strftime('%Y-%m-%d')
                 if doc_date and doc_date != "정보 없음":
                     try:
-                        effective_date = doc_date.replace(".", "-")
+                        # zero-padding 포함 정규화. 실패하면 위의 폴백을 유지한다.
+                        normalized = normalize_doc_date(doc_date)
+                        if normalized:
+                            effective_date = normalized
                     except Exception:
                         pass
 

@@ -68,7 +68,7 @@ def refresh_collection(collection, id_field: str, today: Optional[str] = None) -
     active_docs = list(collection.find(
         {"metadata.is_active": True},
         {"doc_id": 1, f"metadata.{id_field}": 1, "metadata.effective": 1,
-         "metadata.is_upcoming": 1, "metadata.created_at": 1},
+         "metadata.is_upcoming": 1, "metadata.created_at": 1, "metadata.updated_at": 1},
     ))
     groups = group_active_documents_by_stable_id(active_docs, id_field)
 

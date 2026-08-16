@@ -157,22 +157,34 @@ def get_crawled_effective_dates(collection_name: str, url_list: list | None = No
         db = get_mongo_db()
         collection = db[collection_name]
 
+        # 비활성 문서도 포함해야 한다. refresh 재계산이 비활성화한 문서의 URL이
+        # effective_map에서 빠지면 매일 "신규"로 오인해 재크롤링 루프가 생긴다
+        # (2027년 적용 최저임금 고시 사례).
         if url_list:
             # 당일 발견된 URL만 조회 - 전체 스캔 타임아웃 방지
-            query = {"metadata.is_active": True, "metadata.source_url": {"$in": url_list}}
+            query = {"metadata.source_url": {"$in": url_list}}
         else:
-            query = {"metadata.is_active": True, "metadata.source_url": {"$exists": True}}
+            query = {"metadata.source_url": {"$exists": True}}
 
         docs = collection.find(
             query,
-            {"metadata.source_url": 1, "metadata.effective": 1},
+            {"metadata.source_url": 1, "metadata.effective": 1, "metadata.is_active": 1},
         ).max_time_ms(60000)
 
-        return {
-            doc["metadata"]["source_url"]: doc.get("metadata", {}).get("effective", "")
-            for doc in docs
-            if doc.get("metadata", {}).get("source_url")
-        }
+        # 활성 버전이 있으면 그 effective를 쓰고, 없으면 비활성 버전 중 최신 effective
+        active_map: dict = {}
+        inactive_map: dict = {}
+        for doc in docs:
+            meta = doc.get("metadata", {})
+            source_url = meta.get("source_url")
+            if not source_url:
+                continue
+            effective = meta.get("effective") or ""
+            target = active_map if meta.get("is_active") else inactive_map
+            if effective >= target.get(source_url, ""):
+                target[source_url] = effective
+
+        return {**inactive_map, **active_map}
 
     except Exception as e:
         print(f"⚠️  MongoDB effective 조회 실패 (전체 재크롤링): {e}")

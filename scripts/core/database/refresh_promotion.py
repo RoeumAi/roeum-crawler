@@ -26,7 +26,9 @@ def group_active_documents_by_stable_id(documents: List[Dict], id_field: str) ->
         group.setdefault(doc_id, {
             "effective": metadata.get("effective") or "",
             "is_upcoming": bool(metadata.get("is_upcoming", False)),
-            "created_at": metadata.get("created_at") or "",
+            # created_at이 없는 과거 버그 데이터는 updated_at(삽입 시점)으로
+            # tie-break한다. ""로 두면 같은 effective 중복 정리에서 항상 진다.
+            "created_at": metadata.get("created_at") or metadata.get("updated_at") or "",
         })
     return groups
 

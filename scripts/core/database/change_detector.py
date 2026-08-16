@@ -174,7 +174,12 @@ class VersionManager:
         
         # 메타데이터에 버전 정보 추가
         metadata.update(version_info)
-        
+
+        # created_at이 비어 있으면(스크래퍼가 누락) 삽입 시점으로 채운다.
+        # 비어 있으면 refresh 재계산의 created_at tie-break에서 항상 지게 된다.
+        if not metadata.get("created_at"):
+            metadata["created_at"] = datetime.now().strftime('%Y-%m-%d')
+
         return metadata
     
     @staticmethod
@@ -194,7 +199,12 @@ class VersionManager:
         # 기존 버전 정보 유지
         if current_doc:
             metadata["version"] = current_doc.get("metadata", {}).get("version", 1)
-            metadata["created_at"] = current_doc.get("metadata", {}).get("created_at")
+            # 기존 created_at이 None이면(과거 버그 데이터) 새 문서 값으로 백필
+            metadata["created_at"] = (
+                current_doc.get("metadata", {}).get("created_at")
+                or metadata.get("created_at")
+                or datetime.now().strftime('%Y-%m-%d')
+            )
             # 내용 변경 없을 때는 updated_at도 유지
             metadata["updated_at"] = current_doc.get("metadata", {}).get("updated_at")
         

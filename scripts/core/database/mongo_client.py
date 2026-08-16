@@ -11,6 +11,21 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def assert_local_mongo_target(crawler_env: str, mongo_uri: str) -> None:
+    """CRAWLER_ENV=local 이면 MongoDB 대상이 로컬인지 강제한다.
+
+    운영 MongoDB Atlas 오염을 막기 위한 가드. local 이 아니면 아무 것도 하지 않아
+    운영/Mac mini 동작은 그대로 유지된다.
+    """
+    if (crawler_env or "").lower() != "local":
+        return
+    if "localhost" not in mongo_uri and "127.0.0.1" not in mongo_uri:
+        raise RuntimeError(
+            "CRAWLER_ENV=local 인데 MONGODB_URI가 로컬(localhost/127.0.0.1)을 "
+            "가리키지 않습니다. 운영 Atlas 오염 방지를 위해 중단합니다."
+        )
+
+
 class MongoClientSingleton:
     """MongoDB 연결을 관리하는 싱글톤"""
     
@@ -39,6 +54,7 @@ class MongoClientSingleton:
                 "mongodb+srv://loum_java:Z3DLoWC3tXrpkhJx@loum.veydouo.mongodb.net/original_db?retryWrites=true&w=majority&appName=loum"
             )
         )
+        assert_local_mongo_target(os.getenv("CRAWLER_ENV", ""), mongo_uri)
         db_name = os.getenv("MONGO_DB_NAME", "original_db")
         
         try:

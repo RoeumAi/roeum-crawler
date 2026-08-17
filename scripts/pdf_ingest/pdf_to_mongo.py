@@ -23,6 +23,7 @@ import pymupdf  # pip install pymupdf
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from scripts.core.database.mongo_client import MongoClientSingleton
+from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
 
 # PDF 파일 디렉토리 (Mac Mini 경로)
 PDF_BASE = Path("/Users/loum/loum/pdf_db")
@@ -50,7 +51,9 @@ def extract_pdf_text(pdf_path: Path) -> str:
             if text.strip():
                 pages.append(text.strip())
         doc.close()
-        return "\n\n".join(pages)
+        # Strip print footers (e.g. hrdb.kr print header/URL/page number) that
+        # repeat on every page, so they never enter the DB.
+        return clean_pdf_artifacts("\n\n".join(pages))
     except Exception as e:
         print(f"  ⚠ 텍스트 추출 실패 {pdf_path.name}: {e}")
         return ""

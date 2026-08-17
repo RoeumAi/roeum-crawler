@@ -45,3 +45,6 @@ send_discord*.py
 timing_check.py
 verify_mongo.py
 /tmp/
+
+# 재사용 백필 (PDF 출처/파싱 흔적 제거) — 추적 대상
+!scripts/migrations/backfill_clean_pdf_artifacts.py

@@ -16,6 +16,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
+from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.reference_sub_title import extract_nlrc_case_number
 from scripts.core.database.source_versioning import enrich_source_document, sha256_content
@@ -185,6 +186,10 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 f"⚠️ {doc_id}: 첨부파일 본문 추출 실패 — HTML 요약 유지 "
                 f"({pdf_result['error']})"
             )
+
+        # Strip PDF page markers / attachment-filename markers so the citation
+        # panel and public search show clean text.
+        content = clean_pdf_artifacts(content)
 
         attachment = pdf_result.get("attachment") or {}
 

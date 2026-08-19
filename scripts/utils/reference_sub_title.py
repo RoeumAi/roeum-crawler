@@ -38,6 +38,39 @@ def extract_nlrc_case_number(title: str) -> str:
     return re.sub(r"\s+", "", match.group(1)) if match else ""
 
 
+# 판정문 헤더의 '사    건' 라벨. normalize_reference_text 가 공백 런을 한 칸으로
+# 접으므로 헤더는 "사 건 중앙…"이 되고, 본문 산문의 "이 사건 근로자"("사건",
+# 붙어 씀)와 구분된다. 앞뒤에 한글이 붙은 경우는 라벨이 아니다.
+_NLRC_BODY_CASE_LABEL = re.compile(r"(?<![가-힣])사 건(?![가-힣])")
+_NLRC_BODY_HEAD_CHARS = 6000
+
+
+def extract_nlrc_case_number_from_body(text: str) -> str:
+    """판정문 본문(첨부 PDF 전문 포함)에서 이 문서 자신의 사건번호를 추출한다.
+
+    nlrc.go.kr 상세 페이지에는 사건번호 필드가 아예 없어(실측 2026-08-19,
+    BD_table 항목: 자료구분/담당부서/…/판정사항/판정요지/첨부파일) 제목에 번호가
+    없는 문서는 첨부 판정문 본문이 유일한 소스다.
+
+    본문에는 초심(지노위) 번호 등 다른 사건의 번호도 인용되므로 순서를 지킨다:
+      1) '사 건' 라벨 뒤 120자 안의 번호 — 판정문 헤더의 자기 사건번호
+      2) 라벨이 없으면 본문 앞부분(6,000자)의 첫 번째 번호
+    """
+    normalized = normalize_reference_text(text)
+    if not normalized:
+        return ""
+    head = normalized[:_NLRC_BODY_HEAD_CHARS]
+
+    for label in _NLRC_BODY_CASE_LABEL.finditer(head):
+        segment = head[label.end(): label.end() + 120]
+        match = NLRC_CASE_NUMBER.search(segment)
+        if match:
+            return re.sub(r"\s+", "", match.group(1))
+
+    match = NLRC_CASE_NUMBER.search(head)
+    return re.sub(r"\s+", "", match.group(1)) if match else ""
+
+
 def legacy_pdf_case_sub_title(title: str) -> str:
     """Use a legacy PDF judgment title as its citation subtitle when numbered."""
     normalized = normalize_reference_text(title)

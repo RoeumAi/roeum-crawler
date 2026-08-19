@@ -17,7 +17,10 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
 from scripts.core.identifiers import document_chunk_id
-from scripts.utils.reference_sub_title import extract_nlrc_case_number
+from scripts.utils.reference_sub_title import (
+    extract_nlrc_case_number,
+    extract_nlrc_case_number_from_body,
+)
 from scripts.core.database.source_versioning import enrich_source_document, sha256_content
 
 logger = get_logger(__name__, scraper_type='judgment')
@@ -194,7 +197,14 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             "doc_type": "주요판정사례",
             "article_number": "1",
             "title": parsed.get("title"),
-            "sub_title": extract_nlrc_case_number(parsed.get("title") or ""),
+            # 제목에 사건번호가 없는 문서(구세대 312/411)가 다수라, 첨부 판정문
+            # 본문에서 한 번 더 추출한다. 상세 페이지에는 사건번호 필드가 없어
+            # (2026-08-19 실측) 본문이 유일한 폴백이다. sub_title 이 비면 FE 출처
+            # 라벨이 제목 문장으로 나가는 문제의 재발 방지.
+            "sub_title": (
+                extract_nlrc_case_number(parsed.get("title") or "")
+                or extract_nlrc_case_number_from_body(content)
+            ),
             "content": content,
             "metadata": {
                 "source_url": detail_url,

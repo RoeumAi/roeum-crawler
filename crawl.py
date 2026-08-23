@@ -35,6 +35,33 @@ from scripts.core.config import get_scraper_config, get_scraper_list, ENV
 
 
 # ============================================================================
+# 종료 코드 (run_daily.sh 의 재시도 판단에 사용)
+# ============================================================================
+
+EXIT_OK = 0                 # 정상 (개별 문서 단위 실패만 있어도 여기 포함)
+EXIT_FATAL = 1              # 실행 자체가 중단됨 (예외/사용자 중단)
+EXIT_LISTING_FAILURE = 2    # URL 목록조차 수집 못한 스크래퍼 존재 → 외부 수집원 일시 장애 가능성, 재시도 대상
+
+
+def compute_exit_code(results: Dict[str, dict]) -> int:
+    """스크래퍼 결과 딕셔너리로 종료 코드를 결정한다.
+
+    URL 목록 수집 단계에서 실패(발견 URL 0개)한 스크래퍼가 하나라도 있으면
+    law.go.kr 등 외부 수집원의 일시 장애(점검·404)일 가능성이 높으므로
+    EXIT_LISTING_FAILURE(2)를 반환해 상위 스크립트가 전체 재시도를 하도록 한다.
+
+    개별 문서 단위 실패(목록은 정상 수집)만 있는 경우는 이미 문서 단위로 재시도되고
+    다음 실행에서 자연히 따라잡히므로 전체 재시도 대상으로 보지 않는다(EXIT_OK).
+    """
+    for result in results.values():
+        if not isinstance(result, dict):
+            continue
+        if result.get("status") == "failed" and not result.get("total_urls"):
+            return EXIT_LISTING_FAILURE
+    return EXIT_OK
+
+
+# ============================================================================
 # URL 아이템에서 리스트 페이지 URL 반환 (스크래퍼별 분기)
 # ============================================================================
 
@@ -598,17 +625,20 @@ def main():
         print(f"⏱️  소요 시간: {elapsed:.1f}분 ({int(elapsed // 60)}시간 {int(elapsed % 60)}분)")
         print()
 
-        return 0
+        exit_code = compute_exit_code(results)
+        if exit_code == EXIT_LISTING_FAILURE:
+            print("⚠️  일부 스크래퍼가 URL 목록 수집에 실패했습니다 (외부 수집원 일시 장애 가능성).")
+        return exit_code
 
     except KeyboardInterrupt:
         print("\n\n⚠️  사용자가 중단했습니다.")
-        return 1
+        return EXIT_FATAL
 
     except Exception as e:
         print(f"\n❌ 오류 발생: {e}")
         import traceback
         traceback.print_exc()
-        return 1
+        return EXIT_FATAL
 
 
 if __name__ == '__main__':

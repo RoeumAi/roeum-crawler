@@ -77,6 +77,18 @@ class BuildMessageTest(unittest.TestCase):
         msg = build_message(SUCCESS_LOG, duration_min=19, attempts=1, date_str="2026-08-23 00:00")
         self.assertNotIn("재시도", msg)
 
+    def test_default_title_is_daily(self):
+        msg = build_message(SUCCESS_LOG, duration_min=19, attempts=1, date_str="2026-08-23 00:00")
+        self.assertIn("일일 크롤러 업데이트", msg)
+
+    def test_custom_title_used_for_weekly(self):
+        msg = build_message(
+            SUCCESS_LOG, duration_min=19, attempts=1, date_str="2026-08-23 00:00",
+            title="주간 크롤러 업데이트",
+        )
+        self.assertIn("주간 크롤러 업데이트", msg)
+        self.assertNotIn("일일 크롤러 업데이트", msg)
+
 
 if __name__ == "__main__":
     unittest.main()

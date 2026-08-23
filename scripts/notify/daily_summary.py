@@ -67,7 +67,13 @@ def parse_scraper_results(log_content: str) -> dict:
     return results
 
 
-def build_message(log_content: str, duration_min: int, attempts: int, date_str: str) -> str:
+def build_message(
+    log_content: str,
+    duration_min: int,
+    attempts: int,
+    date_str: str,
+    title: str = "일일 크롤러 업데이트",
+) -> str:
     """로그 내용으로 Discord 알림 메시지 문자열을 만든다."""
     results = parse_scraper_results(log_content)
 
@@ -78,7 +84,7 @@ def build_message(log_content: str, duration_min: int, attempts: int, date_str: 
     mins = duration_min % 60
     duration_str = f"{hours}시간 {mins}분" if hours > 0 else f"{mins}분"
 
-    out = [f"📊 **일일 크롤러 업데이트** ({date_str})\n"]
+    out = [f"📊 **{title}** ({date_str})\n"]
 
     listing_failures = []  # URL 목록조차 못 모은 스크래퍼 (외부 수집원 장애 신호)
     other_failures = []    # 목록은 모았으나 실패 상태인 스크래퍼
@@ -145,12 +151,13 @@ def main():
     parser.add_argument('--duration', type=int, default=0, help='소요 시간(분)')
     parser.add_argument('--attempts', type=int, default=1, help='크롤링 시도 횟수 (재시도 포함)')
     parser.add_argument('--date', default='', help='표시용 날짜 문자열')
+    parser.add_argument('--title', default='일일 크롤러 업데이트', help='메시지 제목')
     args = parser.parse_args()
 
     with open(args.log, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    msg = build_message(content, args.duration, args.attempts, args.date)
+    msg = build_message(content, args.duration, args.attempts, args.date, title=args.title)
 
     try:
         send_discord(args.webhook, msg)

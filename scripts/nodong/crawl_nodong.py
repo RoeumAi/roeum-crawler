@@ -41,7 +41,7 @@ def run(max_pages: int | None, concurrent: int):
 
     if not url_items:
         print("⚠️  수집된 URL이 없습니다. 종료합니다.")
-        return
+        return 2
 
     # Step 2: 상세 페이지 크롤링 + MongoDB 저장
     print(f"\n📍 Step 2: 상세 페이지 크롤링 + MongoDB 저장 (동시 {concurrent}개)...")
@@ -81,6 +81,8 @@ def run(max_pages: int | None, concurrent: int):
     print(f"   종료:      {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
 
+    return 1 if failed_count else 0
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="nodong.kr 행정해석 크롤러")
@@ -88,4 +90,4 @@ if __name__ == "__main__":
     parser.add_argument("--concurrent", type=int, default=3, help="동시 처리 수 (기본: 3)")
     args = parser.parse_args()
 
-    run(max_pages=args.pages, concurrent=args.concurrent)
+    sys.exit(run(max_pages=args.pages, concurrent=args.concurrent))

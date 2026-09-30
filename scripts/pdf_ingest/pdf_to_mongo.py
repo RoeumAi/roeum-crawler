@@ -16,6 +16,7 @@ import hashlib
 import os
 import re
 import sys
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 
@@ -24,6 +25,7 @@ import pymupdf  # pip install pymupdf
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from scripts.core.database.mongo_client import MongoClientSingleton
 from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
+from scripts.utils.source_quality import has_legal_body
 
 # PDF 파일 디렉토리 (Mac Mini 경로)
 PDF_BASE = Path("/Users/loum/loum/pdf_db")
@@ -63,6 +65,7 @@ def extract_pdf_text(pdf_path: Path) -> str:
 
 def parse_case_filename(name: str) -> dict:
     """판례 파일명에서 법원명, 사건번호, 제목 추출"""
+    name = unicodedata.normalize("NFC", name)
     # "대법원 1994. 4. 12. 선고 92다20309 판결" 형식
     m = re.match(r"(.+법원[^\s]*)\s+(\d{4})\.\s*(\d+)\.\s*(\d+)\.?\s*선고\s*([^\s]+)\s*판결", name)
     if m:
@@ -88,6 +91,12 @@ def parse_case_filename(name: str) -> dict:
 
 def parse_interpretation_filename(name: str) -> dict:
     """행정해석 파일명에서 부처, 문서번호 추출"""
+    name = unicodedata.normalize("NFC", name)
+    # 구형 문서번호: "감독 32130-844 (1991.3.26)". 본문 인용번호는 추출하지 않는다.
+    legacy = re.fullmatch(r"(?:(고용노동부|노동부)\s+)?([가-힣]+\s+\d+-\d+)\s*(?:[（(]([^()（）]+)[）)])?", name)
+    if legacy:
+        dept, number, date = legacy.groups()
+        return {"dept": dept or "고용노동부", "doc_number": number, "date": date or "", "title": name}
     # "고용노동부 근로기준과-2328 (2004.5.12)" 형식
     m = re.match(r"(.+부처?|.+위원회|.+팀|.+과|.+실)?\s*([가-힣]+[-]\d+)\s*[\(（]?(.+?)[\)）]?$", name)
     if m:
@@ -100,6 +109,7 @@ def parse_interpretation_filename(name: str) -> dict:
 
 def parse_decision_filename(name: str) -> dict:
     """결정례 파일명에서 위원회명, 사건번호 추출"""
+    name = unicodedata.normalize("NFC", name)
     m = re.match(r"(.+위원회)\s+(.+?)\s*[\(（](.+?)[\)）]?$", name)
     if m:
         committee, case_num, date_str = m.groups()
@@ -250,7 +260,7 @@ def process_directory(type_name: str, pdf_dir: Path, collection_name: str, db, d
 
         # 텍스트 추출
         text = extract_pdf_text(pdf_path)
-        if not text or len(text) < 50:
+        if not has_legal_body({"content": text, "title": name}):
             print(f"  ⚠ 텍스트 부족: {name[:50]}")
             failed += 1
             continue
@@ -264,7 +274,7 @@ def process_directory(type_name: str, pdf_dir: Path, collection_name: str, db, d
                 "court": parsed["court"],
                 "case_number": parsed["case_number"],
                 "date": parsed["date"],
-                "court_date": f"{parsed['court']} {parsed['date']}" if parsed["date"] else parsed["court"],
+                "court_date": parsed["title"] if parsed["case_number"] else "",
             }
         elif type_name == "행정해석":
             parsed = parse_interpretation_filename(name)

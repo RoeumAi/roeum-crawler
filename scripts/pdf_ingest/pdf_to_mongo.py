@@ -20,8 +20,6 @@ import unicodedata
 from datetime import datetime
 from pathlib import Path
 
-import pymupdf  # pip install pymupdf
-
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from scripts.core.database.mongo_client import MongoClientSingleton
 from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
@@ -45,6 +43,8 @@ OVERLAP_CHARS = 200
 
 def extract_pdf_text(pdf_path: Path) -> str:
     """pymupdf로 PDF 전체 텍스트 추출"""
+    import pymupdf  # PDF를 읽을 때만 필요하며 파일명 파서는 독립적으로 사용한다.
+
     try:
         doc = pymupdf.open(str(pdf_path))
         pages = []

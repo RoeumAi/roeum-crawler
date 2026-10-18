@@ -46,12 +46,13 @@ def usable_document(extracted: dict) -> dict:
     projection = dict(metadata.get("paragraph_projection") or {})
     verified = (extracted.get("extraction_status") == "complete" and
                 projection.get("status") == "complete" and bool(extracted.get("document_blocks")))
+    blocks = extracted.get("document_blocks")
+    has_structure = isinstance(structured, str) and bool(structured.strip()) and bool(blocks)
     if not verified:
-        # Failed structure validation must not discard readable source text or
-        # present the rejected layout as a verified table/paragraph structure.
-        text = raw if isinstance(raw, str) and raw.strip() else text
+        # The parser already flattens rejected page layouts. Other, valid pages
+        # retain their paragraphs/tables even when the document is partial.
         projection["status"] = "needs_review"
     metadata["paragraph_projection"] = projection
     return dict(extracted, is_success=True, structured_text=text,
-                document_blocks=extracted["document_blocks"] if verified else [{"kind": "text", "text": text}],
+                document_blocks=blocks if has_structure else [{"kind": "text", "text": text}],
                 extraction_metadata=metadata, quality_complete=verified)

@@ -45,10 +45,15 @@ def attachment_body_heading(result: dict) -> str:
 
 
 def preserve_existing_after_failure(collection, existing: dict, document: dict) -> bool:
-    """A failed refresh only records retry diagnostics, never replaces old body/hash."""
+    """Keep old text for empty/major-loss refreshes; usable partial text may replace it."""
     metadata = document['metadata']
     if not existing or not metadata.get('pdf_retry_needed'):
         return False
+    if metadata.get('pdf_extraction_status') == 'partial':
+        old_text = ''.join(char for char in existing.get('content', '') if not char.isspace())
+        new_text = ''.join(char for char in document.get('content', '') if not char.isspace())
+        if new_text and len(new_text) >= 0.65 * len(old_text):
+            return False
     count = existing.get('metadata', {}).get('pdf_retry_count', 0) + 1
     selector = {'_id': existing['_id']} if '_id' in existing else {'doc_id': document['doc_id']}
     collection.update_one(selector, {'$set': {

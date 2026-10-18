@@ -2,24 +2,18 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 from urllib.parse import urlencode
+from datetime import datetime
 
-import requests as http_requests
 from bs4 import BeautifulSoup
 from curl_cffi import requests as curl_requests
+from scripts.utils.document_extraction import call_extract_text as _call_extract_text, usable_document
 
 
 NLRC_BASE_URL = "https://nlrc.go.kr"
 DOWNLOAD_PATH = "/nlrc/cmmn/file/download.do"
-DEFAULT_CHAT_GENERATION_URL = "http://127.0.0.1:8000"
 SUPPORTED_EXTENSIONS = {".pdf", ".hwp", ".hwpx"}
-CONTENT_TYPES = {
-    ".pdf": "application/pdf",
-    ".hwp": "application/x-hwp",
-    ".hwpx": "application/vnd.hancom.hwpx",
-}
 
 
 def pdf_retry_needed(result: dict) -> bool:
@@ -27,6 +21,45 @@ def pdf_retry_needed(result: dict) -> bool:
     if "retry_needed" in result:
         return bool(result["retry_needed"])
     return bool(result.get("attachment")) and not bool(result.get("success"))
+
+
+def attachment_display_metadata(summary: str, result: dict) -> dict:
+    """Pass validated source structure through Mongo/API metadata without cleanup."""
+    if not result.get('success') or not result.get('document_blocks'):
+        return {}
+    blocks = [{'kind': 'text', 'text': part} for part in summary.split('\n\n') if part]
+    blocks.append({'kind': 'text', 'role': 'heading', 'text': attachment_body_heading(result)})
+    blocks.extend(result['document_blocks'])
+    extractions = result.get('extractions', [])
+    complete = not result.get('retry_needed') and bool(extractions) and all(
+        item.get('metadata', {}).get('paragraph_projection', {}).get('status') == 'complete'
+        for item in extractions)
+    return {'document_blocks': blocks,
+            'paragraph_projection': {'version': 'legal-paragraphs-v1',
+                                     'status': 'complete' if complete else 'needs_review'},
+            'attachment_extractions': extractions}
+
+
+def attachment_body_heading(result: dict) -> str:
+    return '[첨부파일 추출 본문 · 일부 미확인]' if result.get('retry_needed') else '[첨부파일 전문]'
+
+
+def preserve_existing_after_failure(collection, existing: dict, document: dict) -> bool:
+    """A failed refresh only records retry diagnostics, never replaces old body/hash."""
+    metadata = document['metadata']
+    if not existing or not metadata.get('pdf_retry_needed'):
+        return False
+    count = existing.get('metadata', {}).get('pdf_retry_count', 0) + 1
+    selector = {'_id': existing['_id']} if '_id' in existing else {'doc_id': document['doc_id']}
+    collection.update_one(selector, {'$set': {
+        'metadata.pdf_retry_needed': True,
+        'metadata.pdf_retry_count': count,
+        'metadata.pdf_error': metadata.get('pdf_error', ''),
+        'metadata.pdf_last_attempt_status': metadata.get('pdf_extraction_status') or 'failed',
+        'metadata.pdf_last_attempt_at': datetime.now().isoformat(),
+    }})
+    document['_action'] = 'no_change'
+    return True
 
 
 def extract_pdf_attachments(html: str) -> list[dict]:
@@ -93,33 +126,6 @@ def _download_pdf(attachment: dict, detail_url: str) -> bytes:
     return content
 
 
-def _call_extract_text(
-    pdf_bytes: bytes,
-    filename: str,
-    base_url: str | None = None,
-) -> dict:
-    service_url = (
-        base_url
-        or os.getenv("CHAT_GENERATION_URL")
-        or DEFAULT_CHAT_GENERATION_URL
-    ).rstrip("/")
-    response = http_requests.post(
-        f"{service_url}/api/extract-text",
-        files={
-            "file": (
-                filename,
-                pdf_bytes,
-                CONTENT_TYPES.get(
-                    Path(filename).suffix.lower(),
-                    "application/octet-stream",
-                ),
-            )
-        },
-        timeout=900,
-    )
-    response.raise_for_status()
-    return response.json()
-
 
 def extract_attachment_text(
     html: str,
@@ -148,6 +154,8 @@ def extract_attachment_text(
     searchable_states = []
     total_cost = 0.0
     errors = []
+    document_blocks = []
+    extraction_records = []
 
     for attachment in attachments:
         try:
@@ -157,7 +165,15 @@ def extract_attachment_text(
                 attachment["name"],
                 base_url=base_url,
             )
-            text = (extracted.get("full_text") or "").strip()
+            total_cost += float(extracted.get("cost_usd") or 0.0)
+            extracted = usable_document(extracted)
+            metadata = extracted['extraction_metadata']
+            if not extracted['quality_complete']:
+                errors.append(f"{attachment['name']}: extraction_quality_needs_review")
+            # The layout projection contains paragraph/table boundaries. Raw
+            # full_text retains physical print lines and is a legacy fallback.
+            text = (extracted.get("structured_text") or extracted.get("full_text") or "").strip()
+            text = text.replace("\r\n", "\n").replace("\r", "\n")
             if not extracted.get("is_success") or not text:
                 raise RuntimeError(
                     text or "chat_generation returned no attachment text"
@@ -172,19 +188,26 @@ def extract_attachment_text(
             else:
                 source = "pdf_text" if is_searchable else "pdf_ocr"
 
-            extracted_parts.append(f"[첨부: {attachment['name']}]\n{text}")
+            extracted_parts.append(f"[첨부: {attachment['name']}]\n\n{text}")
+            document_blocks.append({"kind": "text", "role": "heading", "text": f"[첨부: {attachment['name']}]"})
+            document_blocks.extend(extracted.get("document_blocks") or [{"kind": "text", "text": text}])
+            extraction_records.append({"name": attachment["name"], "metadata": metadata,
+                                       "extraction_status": extracted.get("extraction_status")})
             content_sources.append(source)
             if extracted.get("page_count") is not None:
                 page_counts.append(int(extracted["page_count"]))
             searchable_states.append(is_searchable)
-            total_cost += float(extracted.get("cost_usd") or 0.0)
         except Exception as exc:
             errors.append(f"{attachment['name']}: {exc}")
 
+    # Preserve available attachments and expose incompleteness separately.
     success = bool(extracted_parts)
     return {
         "success": success,
         "text": "\n\n".join(extracted_parts),
+        "document_blocks": document_blocks,
+        "extractions": extraction_records,
+        "extraction_status": "complete" if success and not errors else "partial" if success else "failed",
         "content_source": (
             content_sources[0]
             if len(set(content_sources)) == 1

@@ -2,9 +2,9 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 import json
 import os
-import re
 import sys
 from datetime import datetime
+from html import unescape
 from urllib.parse import urlparse, parse_qs
 
 from curl_cffi import requests
@@ -15,8 +15,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
-from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
+from scripts.utils.nlrc_pdf import (extract_attachment_text, pdf_retry_needed,
+                                    attachment_display_metadata, attachment_body_heading, preserve_existing_after_failure)
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.reference_sub_title import (
     extract_nlrc_case_number,
@@ -37,10 +37,7 @@ DEFAULT_HEADERS = {
 def clean_text(text: str) -> str:
     if not text:
         return ""
-    text = text.replace("\xa0", " ")
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n\s+", "\n", text)
-    return text.strip()
+    return "\n".join(" ".join(line.split()) for line in unescape(text).splitlines()).strip()
 
 
 def _fetch_detail_html(url: str) -> str:
@@ -100,6 +97,8 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
         existing = collection.find_one(
             {"doc_id": doc_id}, {"content_hash": 1, "metadata.pdf_retry_count": 1}
         )
+        if preserve_existing_after_failure(collection, existing, document_data):
+            return True
 
         if existing is None:
             action = "new_version"
@@ -115,7 +114,7 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
             if retry_count >= MAX_PDF_RETRIES:
                 logger.warning(
                     f"⚠️ {doc_id}: 첨부파일 추출 {MAX_PDF_RETRIES}회 연속 실패 — "
-                    f"재시도 중단, HTML 요약만 유지"
+                    f"재시도 중단, 확보한 본문 유지"
                 )
                 document_data["metadata"]["pdf_retry_needed"] = False
             document_data["metadata"]["pdf_retry_count"] = retry_count
@@ -178,7 +177,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             detail_url,
         )
         if pdf_result["success"]:
-            content = f"{html_content}\n\n[첨부파일 전문]\n{pdf_result['text']}".strip()
+            content = f"{html_content}\n\n{attachment_body_heading(pdf_result)}\n{pdf_result['text']}".strip()
             logger.info(
                 f"✅ {doc_id}: 첨부파일 본문 추출 완료 "
                 f"({pdf_result['content_source']}, {len(pdf_result['text']):,}자)"
@@ -189,10 +188,6 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 f"⚠️ {doc_id}: 첨부파일 본문 추출 실패 — HTML 요약 유지 "
                 f"({pdf_result['error']})"
             )
-
-        # Strip PDF page markers / attachment-filename markers so the citation
-        # panel and public search show clean text.
-        content = clean_pdf_artifacts(content)
 
         attachment = pdf_result.get("attachment") or {}
 
@@ -212,6 +207,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             ),
             "content": content,
             "metadata": {
+                **attachment_display_metadata(html_content, pdf_result),
                 "source_url": detail_url,
                 "source_type": "web",
                 "created_at": datetime.now().isoformat(),
@@ -229,6 +225,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 ],
                 "content_source": pdf_result.get("content_source"),
                 "pdf_page_count": pdf_result.get("page_count"),
+                "pdf_extraction_status": pdf_result.get("extraction_status"),
                 "pdf_is_searchable": pdf_result.get("is_searchable"),
                 "pdf_cost_usd": pdf_result.get("cost_usd", 0.0),
                 "pdf_error": pdf_result.get("error", ""),

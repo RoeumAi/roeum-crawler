@@ -75,6 +75,10 @@ class NlrcPdfTest(unittest.TestCase):
         call_extract_text.return_value = {
             "is_success": True,
             "full_text": "PDF 전체 본문",
+            "structured_text": "PDF 전체 본문",
+            "extraction_status": "complete",
+            "extraction_metadata": {"paragraph_projection": {"status": "complete"}},
+            "document_blocks": [{"kind": "text", "text": "PDF 전체 본문"}],
             "page_count": 9,
             "is_searchable": False,
             "cost_usd": 0.12,
@@ -135,6 +139,10 @@ class NlrcPdfTest(unittest.TestCase):
             {
                 "is_success": True,
                 "full_text": "첫 번째 본문",
+                "structured_text": "첫 번째 본문",
+                "extraction_status": "complete",
+                "extraction_metadata": {"paragraph_projection": {"status": "complete"}},
+                "document_blocks": [{"kind": "text", "text": "첫 번째 본문"}],
                 "file_type": "pdf",
                 "page_count": 2,
                 "is_searchable": True,
@@ -160,7 +168,8 @@ class NlrcPdfTest(unittest.TestCase):
         self.assertIn("두 번째 본문", result["text"])
         self.assertEqual(len(result["attachments"]), 2)
         self.assertEqual(result["content_source"], "mixed_attachments")
-        self.assertFalse(pdf_retry_needed(result))
+        self.assertEqual(result["extraction_status"], "partial")
+        self.assertTrue(pdf_retry_needed(result))
 
     def test_missing_pdf_returns_html_fallback_result(self):
         result = extract_attachment_text(
@@ -189,7 +198,7 @@ class NlrcPdfTest(unittest.TestCase):
 
         self.assertFalse(pdf_retry_needed(result))
 
-    @patch("scripts.utils.nlrc_pdf.http_requests.post")
+    @patch("scripts.utils.document_extraction.http_requests.post")
     def test_extract_api_uses_standard_multipart_upload(self, post):
         response = Mock()
         response.json.return_value = {"is_success": True, "full_text": "본문"}

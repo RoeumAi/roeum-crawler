@@ -30,7 +30,7 @@ def test_search_chunks_never_split_or_duplicate_words():
     assert all(len(chunk)<=15 for chunk in chunks)
 
 
-def test_local_ingest_requires_complete_common_parser_and_saves_canonical_display(tmp_path):
+def test_local_ingest_saves_canonical_display_and_keeps_partial_text(tmp_path):
     source = tmp_path / '대법원 2023. 11. 1. 선고 2023다123 판결.pdf'
     source.write_bytes(b'%PDF source')
     text = '하나의 단일한 판단으로 살펴볼 필요가 있다. ' * 180
@@ -52,5 +52,34 @@ def test_local_ingest_requires_complete_common_parser_and_saves_canonical_displa
     assert all(doc['content_hash'] and doc['source_version_id'] for doc in saved)
     collection.reset_mock()
     with patch('scripts.pdf_ingest.pdf_to_mongo.call_extract_text',return_value=dict(complete,extraction_status='partial')):
-        assert process_directory('판례',tmp_path,'case',{'case':collection},False)==(0,0,1)
+        assert process_directory('판례',tmp_path,'case',{'case':collection},False)==(1,0,0)
+    partial = collection.update_one.call_args_list[0].args[1]['$set']
+    assert partial['metadata']['document_text'] == text
+    assert partial['metadata']['pdf_extraction_status'] == 'partial'
+    assert partial['metadata']['paragraph_projection']['status'] == 'needs_review'
+    assert partial['metadata']['pdf_retry_needed']
+
+
+def test_short_partial_source_text_is_not_discarded_by_length(tmp_path):
+    source = tmp_path / '일부 읽힌 원본.pdf'
+    source.write_bytes(b'%PDF source')
+    collection = Mock()
+    collection.find_one.return_value = None
+    payload = {'is_success': True, 'full_text': '읽힌 본문', 'extraction_status': 'partial',
+               'extraction_metadata': {'failed_page_numbers': [2]}}
+    with patch('scripts.pdf_ingest.pdf_to_mongo.call_extract_text', return_value=payload):
+        assert process_directory('판례', tmp_path, 'case', {'case': collection}, False) == (1, 0, 0)
+    doc = collection.update_one.call_args.args[1]['$set']
+    assert doc['content'] == '읽힌 본문'
+    assert doc['metadata']['extraction_metadata']['failed_page_numbers'] == [2]
+
+
+def test_error_message_is_not_ingested_as_source_text(tmp_path):
+    source = tmp_path / '읽기 실패.pdf'
+    source.write_bytes(b'%PDF source')
+    collection = Mock()
+    collection.find_one.return_value = None
+    payload = {'is_success': False, 'full_text': 'extraction failed', 'extraction_status': 'failed'}
+    with patch('scripts.pdf_ingest.pdf_to_mongo.call_extract_text', return_value=payload):
+        assert process_directory('판례', tmp_path, 'case', {'case': collection}, False) == (0, 0, 1)
     collection.update_one.assert_not_called()

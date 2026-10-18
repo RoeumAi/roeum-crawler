@@ -168,7 +168,8 @@ class NlrcPdfTest(unittest.TestCase):
         self.assertIn("두 번째 본문", result["text"])
         self.assertEqual(len(result["attachments"]), 2)
         self.assertEqual(result["content_source"], "mixed_attachments")
-        self.assertFalse(pdf_retry_needed(result))
+        self.assertEqual(result["extraction_status"], "partial")
+        self.assertTrue(pdf_retry_needed(result))
 
     def test_missing_pdf_returns_html_fallback_result(self):
         result = extract_attachment_text(

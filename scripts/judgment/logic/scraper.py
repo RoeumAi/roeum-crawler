@@ -16,7 +16,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.utils.nlrc_pdf import (extract_attachment_text, pdf_retry_needed,
-                                    attachment_display_metadata, preserve_existing_after_failure)
+                                    attachment_display_metadata, attachment_body_heading, preserve_existing_after_failure)
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.reference_sub_title import (
     extract_nlrc_case_number,
@@ -114,7 +114,7 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
             if retry_count >= MAX_PDF_RETRIES:
                 logger.warning(
                     f"⚠️ {doc_id}: 첨부파일 추출 {MAX_PDF_RETRIES}회 연속 실패 — "
-                    f"재시도 중단, HTML 요약만 유지"
+                    f"재시도 중단, 확보한 본문 유지"
                 )
                 document_data["metadata"]["pdf_retry_needed"] = False
             document_data["metadata"]["pdf_retry_count"] = retry_count
@@ -177,7 +177,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             detail_url,
         )
         if pdf_result["success"]:
-            content = f"{html_content}\n\n[첨부파일 전문]\n{pdf_result['text']}".strip()
+            content = f"{html_content}\n\n{attachment_body_heading(pdf_result)}\n{pdf_result['text']}".strip()
             logger.info(
                 f"✅ {doc_id}: 첨부파일 본문 추출 완료 "
                 f"({pdf_result['content_source']}, {len(pdf_result['text']):,}자)"
@@ -225,6 +225,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 ],
                 "content_source": pdf_result.get("content_source"),
                 "pdf_page_count": pdf_result.get("page_count"),
+                "pdf_extraction_status": pdf_result.get("extraction_status"),
                 "pdf_is_searchable": pdf_result.get("is_searchable"),
                 "pdf_cost_usd": pdf_result.get("cost_usd", 0.0),
                 "pdf_error": pdf_result.get("error", ""),

@@ -16,7 +16,7 @@ def test_db_prefers_paragraphs_and_keeps_empty_table_columns():
     assert result['text'] == '[첨부: 사례.pdf]\n\n앞\n\n항목\t\t금액\n뒤'
 
 
-def test_partial_or_unverified_pdf_is_not_publishable():
+def test_partial_or_unverified_pdf_returns_text_with_quality_warning():
     html = '<a data-nlrc-event="click-download" data-file-id="1" data-key="1" title="사례.pdf"></a>'
     for status, projection in [('partial', 'complete'), ('complete', 'needs_review'), ('complete', None)]:
         payload = {'is_success': True, 'full_text': '일부 읽은 본문', 'file_type': 'pdf',
@@ -25,8 +25,10 @@ def test_partial_or_unverified_pdf_is_not_publishable():
         with patch('scripts.utils.nlrc_pdf._download_pdf', return_value=b'%PDF'), \
              patch('scripts.utils.nlrc_pdf._call_extract_text', return_value=payload):
             result = extract_attachment_text(html, 'https://nlrc.go.kr/')
-        assert not result['success'] and result['retry_needed']
-        assert not result['text'] and not result['document_blocks']
+        assert result['success'] and result['retry_needed']
+        assert result['extraction_status'] == 'partial'
+        assert '일부 읽은 본문' in result['text']
+        assert result['document_blocks'][-1] == {'kind':'text','text':'일부 읽은 본문'}
 
 
 def test_one_failed_attachment_never_publishes_the_other_as_complete():
@@ -37,8 +39,14 @@ def test_one_failed_attachment_never_publishes_the_other_as_complete():
     with patch('scripts.utils.nlrc_pdf._download_pdf', return_value=b'%PDF'), \
          patch('scripts.utils.nlrc_pdf._call_extract_text', side_effect=[complete, RuntimeError('read failed')]):
         result = extract_attachment_text(html, 'https://nlrc.go.kr/')
-    assert not result['success'] and result['retry_needed']
-    assert result['text']=='' and result['document_blocks']==[]
+    assert result['success'] and result['retry_needed']
+    assert result['extraction_status'] == 'partial'
+    assert result['text'] == '[첨부: 사례1.pdf]\n\n본문'
+    assert result['document_blocks'][-1]['text'] == '본문'
+    from scripts.utils.nlrc_pdf import attachment_display_metadata
+    displayed = attachment_display_metadata('요약', result)
+    assert displayed['paragraph_projection']['status'] == 'needs_review'
+    assert displayed['document_blocks'][1]['text'] == '[첨부파일 추출 본문 · 일부 미확인]'
 
 
 def test_failed_refresh_updates_only_retry_metadata():

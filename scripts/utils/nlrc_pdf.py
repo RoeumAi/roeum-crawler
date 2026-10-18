@@ -8,7 +8,7 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 from curl_cffi import requests as curl_requests
-from scripts.utils.document_extraction import call_extract_text as _call_extract_text, require_complete_pdf
+from scripts.utils.document_extraction import call_extract_text as _call_extract_text, usable_document
 
 
 NLRC_BASE_URL = "https://nlrc.go.kr"
@@ -28,16 +28,20 @@ def attachment_display_metadata(summary: str, result: dict) -> dict:
     if not result.get('success') or not result.get('document_blocks'):
         return {}
     blocks = [{'kind': 'text', 'text': part} for part in summary.split('\n\n') if part]
-    blocks.append({'kind': 'text', 'role': 'heading', 'text': '[첨부파일 전문]'})
+    blocks.append({'kind': 'text', 'role': 'heading', 'text': attachment_body_heading(result)})
     blocks.extend(result['document_blocks'])
     extractions = result.get('extractions', [])
-    complete = bool(extractions) and all(
+    complete = not result.get('retry_needed') and bool(extractions) and all(
         item.get('metadata', {}).get('paragraph_projection', {}).get('status') == 'complete'
         for item in extractions)
     return {'document_blocks': blocks,
             'paragraph_projection': {'version': 'legal-paragraphs-v1',
                                      'status': 'complete' if complete else 'needs_review'},
             'attachment_extractions': extractions}
+
+
+def attachment_body_heading(result: dict) -> str:
+    return '[첨부파일 추출 본문 · 일부 미확인]' if result.get('retry_needed') else '[첨부파일 전문]'
 
 
 def preserve_existing_after_failure(collection, existing: dict, document: dict) -> bool:
@@ -162,9 +166,10 @@ def extract_attachment_text(
                 base_url=base_url,
             )
             total_cost += float(extracted.get("cost_usd") or 0.0)
-            metadata = extracted.get("extraction_metadata") or {}
-            if Path(attachment["name"]).suffix.lower() == ".pdf":
-                require_complete_pdf(extracted)
+            extracted = usable_document(extracted)
+            metadata = extracted['extraction_metadata']
+            if not extracted['quality_complete']:
+                errors.append(f"{attachment['name']}: extraction_quality_needs_review")
             # The layout projection contains paragraph/table boundaries. Raw
             # full_text retains physical print lines and is a legacy fallback.
             text = (extracted.get("structured_text") or extracted.get("full_text") or "").strip()
@@ -195,13 +200,14 @@ def extract_attachment_text(
         except Exception as exc:
             errors.append(f"{attachment['name']}: {exc}")
 
-    # Never publish only the successful attachment when another one failed.
-    success = bool(extracted_parts) and not errors
+    # Preserve available attachments and expose incompleteness separately.
+    success = bool(extracted_parts)
     return {
         "success": success,
-        "text": "\n\n".join(extracted_parts) if success else "",
-        "document_blocks": document_blocks if success else [],
+        "text": "\n\n".join(extracted_parts),
+        "document_blocks": document_blocks,
         "extractions": extraction_records,
+        "extraction_status": "complete" if success and not errors else "partial" if success else "failed",
         "content_source": (
             content_sources[0]
             if len(set(content_sources)) == 1

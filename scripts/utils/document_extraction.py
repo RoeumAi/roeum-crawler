@@ -1,4 +1,4 @@
-"""Shared document extractor client and PDF publication gate."""
+"""Shared extraction client with separate text availability and quality status."""
 import os
 from pathlib import Path
 import requests as http_requests
@@ -34,9 +34,24 @@ def call_extract_text(
     return response.json()
 
 
-def require_complete_pdf(extracted: dict) -> None:
-    projection = (extracted.get("extraction_metadata") or {}).get("paragraph_projection") or {}
-    if (not extracted.get("is_success") or extracted.get("extraction_status") != "complete"
-            or projection.get("status") != "complete" or not extracted.get("document_blocks")
-            or not extracted.get("structured_text", "").strip()):
-        raise ValueError("PDF page/paragraph coverage is not complete")
+def usable_document(extracted: dict) -> dict:
+    """Return available text; completeness is quality metadata, not availability."""
+    structured = extracted.get("structured_text")
+    raw = extracted.get("full_text")
+    text = structured if isinstance(structured, str) and structured.strip() else raw
+    if (not isinstance(text, str) or not text.strip() or
+            not (extracted.get("is_success") is True or extracted.get("extraction_status") == "partial")):
+        raise ValueError("Document extraction returned no usable text")
+    metadata = dict(extracted.get("extraction_metadata") or {})
+    projection = dict(metadata.get("paragraph_projection") or {})
+    verified = (extracted.get("extraction_status") == "complete" and
+                projection.get("status") == "complete" and bool(extracted.get("document_blocks")))
+    if not verified:
+        # Failed structure validation must not discard readable source text or
+        # present the rejected layout as a verified table/paragraph structure.
+        text = raw if isinstance(raw, str) and raw.strip() else text
+        projection["status"] = "needs_review"
+    metadata["paragraph_projection"] = projection
+    return dict(extracted, is_success=True, structured_text=text,
+                document_blocks=extracted["document_blocks"] if verified else [{"kind": "text", "text": text}],
+                extraction_metadata=metadata, quality_complete=verified)

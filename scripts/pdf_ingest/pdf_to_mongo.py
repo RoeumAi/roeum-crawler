@@ -22,7 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from scripts.core.database.mongo_client import MongoClientSingleton
-from scripts.utils.document_extraction import call_extract_text, require_complete_pdf
+from scripts.utils.document_extraction import call_extract_text, usable_document
 from scripts.core.database.source_versioning import enrich_source_document
 
 # PDF 파일 디렉토리 (Mac Mini 경로)
@@ -42,10 +42,9 @@ OVERLAP_CHARS = 200
 # ─── 텍스트 추출 ──────────────────────────────────────────
 
 def extract_pdf_document(pdf_path: Path) -> dict:
-    """Use the same native/visual parser and coverage gate as scheduled crawls."""
+    """Keep available text and its quality status from the common parser."""
     result = call_extract_text(pdf_path.read_bytes(), pdf_path.name)
-    require_complete_pdf(result)
-    return result
+    return usable_document(result)
 
 
 def extract_pdf_text(pdf_path: Path) -> str:
@@ -256,10 +255,10 @@ def process_directory(type_name: str, pdf_dir: Path, collection_name: str, db, d
             extraction = extract_pdf_document(pdf_path)
             text = extraction['structured_text']
         except Exception as exc:
-            print(f"  ⚠ 검증되지 않은 PDF: {name[:50]} ({exc})")
+            print(f"  ⚠ 읽을 수 없는 PDF: {name[:50]} ({exc})")
             failed += 1
             continue
-        if not text or len(text) < 50:
+        if not text.strip():
             print(f"  ⚠ 텍스트 부족: {name[:50]}")
             failed += 1
             continue
@@ -313,7 +312,9 @@ def process_directory(type_name: str, pdf_dir: Path, collection_name: str, db, d
                     doc['metadata'].update(document_blocks=extraction['document_blocks'],
                         document_text=text, document_blocks_scope='section',
                         paragraph_projection=extraction['extraction_metadata']['paragraph_projection'],
-                        extraction_metadata=extraction['extraction_metadata'])
+                        extraction_metadata=extraction['extraction_metadata'],
+                        pdf_extraction_status=extraction.get('extraction_status'),
+                        pdf_retry_needed=not extraction['quality_complete'])
                 doc = enrich_source_document(doc, collection_name)
                 col.update_one(
                     {"chunk_id": doc["chunk_id"]},

@@ -53,7 +53,8 @@ def test_failed_refresh_updates_only_retry_metadata():
     from unittest.mock import Mock
     from scripts.utils.nlrc_pdf import preserve_existing_after_failure
     collection = Mock()
-    existing = {'_id': 'stable-id', 'content_hash':'original-hash', 'metadata': {'pdf_retry_count': 5}}
+    existing = {'_id': 'stable-id', 'content_hash':'original-hash',
+                'content': '보존해야 하는 기존 본문이다. ' * 20, 'metadata': {'pdf_retry_count': 5}}
     document = {'doc_id':'1','content':'읽힌 부분 본문','metadata':{
         'pdf_retry_needed':True,'pdf_error':'partial','pdf_extraction_status':'partial'}}
     assert preserve_existing_after_failure(collection, existing, document)

@@ -1,0 +1,64 @@
+from unittest.mock import patch
+
+from scripts.utils.nlrc_pdf import extract_attachment_text
+
+
+def test_db_prefers_paragraphs_and_keeps_empty_table_columns():
+    html = '<a data-nlrc-event="click-download" data-file-id="1" data-key="1" title="사례.pdf"></a>'
+    payload = {'is_success': True, 'full_text': 'flattened',
+               'structured_text': '앞\r\n\r\n항목\t\t금액\r뒤', 'file_type': 'pdf',
+               'extraction_status': 'complete', 'document_blocks': [{'kind':'text','text':'앞'}],
+               'extraction_metadata': {'paragraph_projection': {'status':'complete'}}}
+    with patch('scripts.utils.nlrc_pdf._download_pdf', return_value=b'%PDF'), \
+         patch('scripts.utils.nlrc_pdf._call_extract_text', return_value=payload):
+        result = extract_attachment_text(html, 'https://nlrc.go.kr/')
+    assert result['success']
+    assert result['text'] == '[첨부: 사례.pdf]\n\n앞\n\n항목\t\t금액\n뒤'
+
+
+def test_partial_or_unverified_pdf_is_not_publishable():
+    html = '<a data-nlrc-event="click-download" data-file-id="1" data-key="1" title="사례.pdf"></a>'
+    for status, projection in [('partial', 'complete'), ('complete', 'needs_review'), ('complete', None)]:
+        payload = {'is_success': True, 'full_text': '일부 읽은 본문', 'file_type': 'pdf',
+                   'extraction_status': status, 'document_blocks': [{'kind':'text','text':'본문'}],
+                   'extraction_metadata': {'paragraph_projection': {'status': projection}}}
+        with patch('scripts.utils.nlrc_pdf._download_pdf', return_value=b'%PDF'), \
+             patch('scripts.utils.nlrc_pdf._call_extract_text', return_value=payload):
+            result = extract_attachment_text(html, 'https://nlrc.go.kr/')
+        assert not result['success'] and result['retry_needed']
+        assert not result['text'] and not result['document_blocks']
+
+
+def test_one_failed_attachment_never_publishes_the_other_as_complete():
+    html = ''.join(f'<a data-nlrc-event="click-download" data-file-id="{i}" data-key="1" title="사례{i}.pdf"></a>' for i in (1,2))
+    complete = {'is_success': True, 'structured_text':'본문', 'extraction_status':'complete',
+                'document_blocks':[{'kind':'text','text':'본문'}],
+                'extraction_metadata':{'paragraph_projection':{'status':'complete'}}}
+    with patch('scripts.utils.nlrc_pdf._download_pdf', return_value=b'%PDF'), \
+         patch('scripts.utils.nlrc_pdf._call_extract_text', side_effect=[complete, RuntimeError('read failed')]):
+        result = extract_attachment_text(html, 'https://nlrc.go.kr/')
+    assert not result['success'] and result['retry_needed']
+    assert result['text']=='' and result['document_blocks']==[]
+
+
+def test_failed_refresh_updates_only_retry_metadata():
+    from unittest.mock import Mock
+    from scripts.utils.nlrc_pdf import preserve_existing_after_failure
+    collection = Mock()
+    existing = {'_id': 'stable-id', 'content_hash':'original-hash', 'metadata': {'pdf_retry_count': 5}}
+    document = {'doc_id':'1','content':'요약만 남음','metadata':{'pdf_retry_needed':True,'pdf_error':'partial'}}
+    assert preserve_existing_after_failure(collection, existing, document)
+    query, update = collection.update_one.call_args.args
+    assert query == {'_id':'stable-id'}
+    assert all(key.startswith('metadata.pdf_') for key in update['$set'])
+    assert update['$set']['metadata.pdf_retry_count']==6
+    assert document['_action']=='no_change'
+
+
+def test_plain_hwp_text_cannot_claim_verified_paragraph_or_table_structure():
+    from scripts.utils.nlrc_pdf import attachment_display_metadata
+    result = {'success': True, 'document_blocks': [{'kind':'text','text':'표가 평문으로 추출됨'}],
+              'extractions': [{'extraction_status':'complete','metadata':{'layout_status':'unverified'}}]}
+    assert attachment_display_metadata('요약', result)['paragraph_projection']['status']=='needs_review'
+    result['extractions'][0]['metadata']['paragraph_projection']={'status':'complete'}
+    assert attachment_display_metadata('요약', result)['paragraph_projection']['status']=='complete'

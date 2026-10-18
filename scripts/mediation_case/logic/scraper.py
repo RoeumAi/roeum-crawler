@@ -2,7 +2,6 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 import json
 import os
-import re
 import sys
 from datetime import datetime
 from urllib.parse import urlparse, parse_qs
@@ -15,7 +14,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
+from scripts.utils.nlrc_pdf import (extract_attachment_text, pdf_retry_needed,
+                                    attachment_display_metadata, preserve_existing_after_failure)
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.reference_sub_title import extract_nlrc_case_number
 
@@ -35,10 +35,7 @@ def clean_text(text: str) -> str:
     """텍스트 정리"""
     if not text:
         return ""
-    text = text.replace("\xa0", " ")
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n\s+", "\n", text)
-    return text.strip()
+    return "\n".join(" ".join(line.split()) for line in text.splitlines()).strip()
 
 
 def _fetch_detail_html(jgmt_sn: str, jgmt_dcsn_se_cd: str = "66") -> str:
@@ -106,6 +103,8 @@ def save_mediation_to_mongodb(document_data: dict) -> bool:
         doc_id = document_data.get("doc_id")
         if document_data["metadata"].get("pdf_retry_needed"):
             existing = repo.find_by_id(doc_id, active_only=True)
+            if preserve_existing_after_failure(db['mediation_case'], existing, document_data):
+                return True
             prev_retry_count = (existing or {}).get("metadata", {}).get("pdf_retry_count", 0)
             retry_count = prev_retry_count + 1
             if retry_count >= MAX_PDF_RETRIES:
@@ -199,6 +198,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             "sub_title": extract_nlrc_case_number(parsed.get("title") or ""),
             "content": content,
             "metadata": {
+                **attachment_display_metadata(html_content, pdf_result),
                 "source_url": detail_url,
                 "source_type": "web",
                 "created_at": datetime.now().isoformat(),

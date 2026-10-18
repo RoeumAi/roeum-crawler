@@ -75,6 +75,10 @@ class NlrcPdfTest(unittest.TestCase):
         call_extract_text.return_value = {
             "is_success": True,
             "full_text": "PDF 전체 본문",
+            "structured_text": "PDF 전체 본문",
+            "extraction_status": "complete",
+            "extraction_metadata": {"paragraph_projection": {"status": "complete"}},
+            "document_blocks": [{"kind": "text", "text": "PDF 전체 본문"}],
             "page_count": 9,
             "is_searchable": False,
             "cost_usd": 0.12,
@@ -135,6 +139,10 @@ class NlrcPdfTest(unittest.TestCase):
             {
                 "is_success": True,
                 "full_text": "첫 번째 본문",
+                "structured_text": "첫 번째 본문",
+                "extraction_status": "complete",
+                "extraction_metadata": {"paragraph_projection": {"status": "complete"}},
+                "document_blocks": [{"kind": "text", "text": "첫 번째 본문"}],
                 "file_type": "pdf",
                 "page_count": 2,
                 "is_searchable": True,
@@ -189,7 +197,7 @@ class NlrcPdfTest(unittest.TestCase):
 
         self.assertFalse(pdf_retry_needed(result))
 
-    @patch("scripts.utils.nlrc_pdf.http_requests.post")
+    @patch("scripts.utils.document_extraction.http_requests.post")
     def test_extract_api_uses_standard_multipart_upload(self, post):
         response = Mock()
         response.json.return_value = {"is_success": True, "full_text": "본문"}

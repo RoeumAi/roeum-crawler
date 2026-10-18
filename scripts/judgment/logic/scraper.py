@@ -2,7 +2,6 @@ import asyncio
 from concurrent.futures import ThreadPoolExecutor
 import json
 import os
-import re
 import sys
 from datetime import datetime
 from urllib.parse import urlparse, parse_qs
@@ -15,8 +14,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.utils.nlrc_pdf import extract_attachment_text, pdf_retry_needed
-from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
+from scripts.utils.nlrc_pdf import (extract_attachment_text, pdf_retry_needed,
+                                    attachment_display_metadata, preserve_existing_after_failure)
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.reference_sub_title import (
     extract_nlrc_case_number,
@@ -37,10 +36,7 @@ DEFAULT_HEADERS = {
 def clean_text(text: str) -> str:
     if not text:
         return ""
-    text = text.replace("\xa0", " ")
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n\s+", "\n", text)
-    return text.strip()
+    return "\n".join(" ".join(line.split()) for line in text.splitlines()).strip()
 
 
 def _fetch_detail_html(url: str) -> str:
@@ -100,6 +96,8 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
         existing = collection.find_one(
             {"doc_id": doc_id}, {"content_hash": 1, "metadata.pdf_retry_count": 1}
         )
+        if preserve_existing_after_failure(collection, existing, document_data):
+            return True
 
         if existing is None:
             action = "new_version"
@@ -190,10 +188,6 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 f"({pdf_result['error']})"
             )
 
-        # Strip PDF page markers / attachment-filename markers so the citation
-        # panel and public search show clean text.
-        content = clean_pdf_artifacts(content)
-
         attachment = pdf_result.get("attachment") or {}
 
         document_data = {
@@ -212,6 +206,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             ),
             "content": content,
             "metadata": {
+                **attachment_display_metadata(html_content, pdf_result),
                 "source_url": detail_url,
                 "source_type": "web",
                 "created_at": datetime.now().isoformat(),

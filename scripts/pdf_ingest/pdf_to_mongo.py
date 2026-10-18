@@ -14,16 +14,15 @@ DB/결정례/  → decision 컬렉션
 import argparse
 import hashlib
 import os
-import re
 import sys
 from datetime import datetime
 from pathlib import Path
 
-import pymupdf  # pip install pymupdf
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from scripts.core.database.mongo_client import MongoClientSingleton
-from scripts.utils.pdf_text_cleaner import clean_pdf_artifacts
+from scripts.utils.document_extraction import call_extract_text, require_complete_pdf
+from scripts.core.database.source_versioning import enrich_source_document
 
 # PDF 파일 디렉토리 (Mac Mini 경로)
 PDF_BASE = Path("/Users/loum/loum/pdf_db")
@@ -41,75 +40,68 @@ OVERLAP_CHARS = 200
 
 # ─── 텍스트 추출 ──────────────────────────────────────────
 
+def extract_pdf_document(pdf_path: Path) -> dict:
+    """Use the same native/visual parser and coverage gate as scheduled crawls."""
+    result = call_extract_text(pdf_path.read_bytes(), pdf_path.name)
+    require_complete_pdf(result)
+    return result
+
+
 def extract_pdf_text(pdf_path: Path) -> str:
-    """pymupdf로 PDF 전체 텍스트 추출"""
-    try:
-        doc = pymupdf.open(str(pdf_path))
-        pages = []
-        for page in doc:
-            text = page.get_text("text")
-            if text.strip():
-                pages.append(text.strip())
-        doc.close()
-        # Strip print footers (e.g. hrdb.kr print header/URL/page number) that
-        # repeat on every page, so they never enter the DB.
-        return clean_pdf_artifacts("\n\n".join(pages))
-    except Exception as e:
-        print(f"  ⚠ 텍스트 추출 실패 {pdf_path.name}: {e}")
-        return ""
+    return extract_pdf_document(pdf_path)['structured_text']
 
 
 # ─── 파일명 파싱 ──────────────────────────────────────────
 
+def _filename_date(value: str) -> str:
+    parts = value.replace(' ', '').strip('.').split('.')
+    if len(parts) != 3 or not all(part.isdigit() for part in parts):
+        return ''
+    try:
+        datetime(*(int(part) for part in parts))
+    except ValueError:
+        return ''
+    return '.'.join(parts)
+
+
 def parse_case_filename(name: str) -> dict:
-    """판례 파일명에서 법원명, 사건번호, 제목 추출"""
-    # "대법원 1994. 4. 12. 선고 92다20309 판결" 형식
-    m = re.match(r"(.+법원[^\s]*)\s+(\d{4})\.\s*(\d+)\.\s*(\d+)\.?\s*선고\s*([^\s]+)\s*판결", name)
-    if m:
-        court, y, mo, d, case_num = m.groups()
-        return {
-            "court": court.strip(),
-            "date": f"{y}.{mo}.{d}",
-            "case_number": case_num.strip(),
-            "title": f"{court.strip()} {y}.{mo}.{d}. 선고 {case_num} 판결",
-        }
-    # "광주고등법원-2016나10826" 하이픈 축약 형식
-    m2 = re.match(r"(.+법원[가-힣]*)-(\d+[가-힣]+\d+)", name)
-    if m2:
-        court, case_num = m2.groups()
-        return {
-            "court": court.strip(),
-            "date": "",
-            "case_number": case_num.strip(),
-            "title": f"{court.strip()} {case_num} 판결",
-        }
-    return {"court": "", "date": "", "case_number": "", "title": name}
+    result = {"court": "", "date": "", "case_number": "", "title": name}
+    before, marker, after = name.partition(' 선고 ')
+    if marker:
+        court, separator, date = before.partition(' ')
+        case_number, ending, _ = after.partition(' 판결')
+        date = _filename_date(date)
+        if '법원' in court and separator and date and ending and case_number and ' ' not in case_number:
+            return dict(court=court, date=date, case_number=case_number,
+                        title=f'{court} {date}. 선고 {case_number} 판결')
+    court, separator, case_number = name.partition('-')
+    if separator and '법원' in court and case_number and case_number[0].isdigit():
+        return dict(court=court.strip(),date='',case_number=case_number.strip(),title=f'{court.strip()} {case_number.strip()} 판결')
+    return result
+
+
+def _dated_filename(name: str):
+    normalized = name.replace('（', '(').replace('）', ')')
+    body, separator, date = normalized.partition('(')
+    return body.strip(), date.rstrip(')').strip() if separator else ''
 
 
 def parse_interpretation_filename(name: str) -> dict:
-    """행정해석 파일명에서 부처, 문서번호 추출"""
-    # "고용노동부 근로기준과-2328 (2004.5.12)" 형식
-    m = re.match(r"(.+부처?|.+위원회|.+팀|.+과|.+실)?\s*([가-힣]+[-]\d+)\s*[\(（]?(.+?)[\)）]?$", name)
-    if m:
-        dept = (m.group(1) or "").strip()
-        doc_num = m.group(2).strip()
-        date_str = (m.group(3) or "").strip().rstrip(")")
-        return {"dept": dept or "고용노동부", "doc_number": doc_num, "date": date_str, "title": name}
-    return {"dept": "고용노동부", "doc_number": "", "date": "", "title": name}
+    body, date = _dated_filename(name)
+    parts = body.split()
+    for i, part in enumerate(parts):
+        department, separator, number = part.partition('-')
+        if separator and department and number.isdigit():
+            return dict(dept=' '.join(parts[:i]) or '고용노동부',doc_number=part,date=date,title=name)
+    return dict(dept='고용노동부',doc_number='',date='',title=name)
 
 
 def parse_decision_filename(name: str) -> dict:
-    """결정례 파일명에서 위원회명, 사건번호 추출"""
-    m = re.match(r"(.+위원회)\s+(.+?)\s*[\(（](.+?)[\)）]?$", name)
-    if m:
-        committee, case_num, date_str = m.groups()
-        return {
-            "committee": committee.strip(),
-            "case_number": case_num.strip(),
-            "date": date_str.strip(),
-            "title": name,
-        }
-    return {"committee": "", "case_number": "", "date": "", "title": name}
+    body, date = _dated_filename(name)
+    committee, separator, case_number = body.partition('위원회')
+    if separator and date and case_number.strip():
+        return dict(committee=committee+'위원회',case_number=case_number.strip(),date=date,title=name)
+    return dict(committee='',case_number='',date='',title=name)
 
 
 # ─── doc_id 생성 ──────────────────────────────────────────
@@ -117,36 +109,43 @@ def parse_decision_filename(name: str) -> dict:
 def make_doc_id(prefix: str, name: str) -> str:
     """파일명 기반 doc_id 생성 (prefix_해시8자리)"""
     h = hashlib.md5(name.encode("utf-8")).hexdigest()[:8]
-    safe = re.sub(r"[^가-힣a-z0-9_\-]", "_", name.lower())[:30]
+    safe = ''.join(c if ('가' <= c <= '힣' or 'a' <= c <= 'z' or '0' <= c <= '9' or c in '_-') else '_' for c in name.lower())[:30]
     return f"pdf_{prefix}_{safe}_{h}"
 
 
 # ─── 텍스트 청크 분할 ─────────────────────────────────────
 
 def split_text(text: str, max_chars: int = MAX_CHUNK_CHARS, overlap: int = OVERLAP_CHARS) -> list[str]:
-    """텍스트를 max_chars 기준으로 청크 분할 (문단 단위 우선)"""
-    if len(text) <= max_chars:
-        return [text]
+    """Search chunks keep whole words; canonical display is stored separately.
 
-    paragraphs = re.split(r"\n{2,}", text)
-    chunks, current = [], ""
-    for para in paragraphs:
-        if len(current) + len(para) + 2 <= max_chars:
-            current = (current + "\n\n" + para).lstrip()
+    overlap remains in the signature for older callers, but no longer duplicates text.
+    A word longer than the budget stays intact instead of splitting an identifier.
+    """
+    if max_chars < 1:
+        raise ValueError('max_chars must be positive')
+    chunks, current = [], ''
+    for paragraph in text.split('\n\n'):
+        if not paragraph:
+            continue
+        if len(paragraph) <= max_chars:
+            pieces = [paragraph]
         else:
-            if current:
+            pieces, fragment = [], ''
+            for word in paragraph.split():
+                if fragment and len(fragment) + len(word) + 1 > max_chars:
+                    pieces.append(fragment)
+                    fragment = ''
+                fragment = (fragment + ' ' + word).lstrip()
+            if fragment:
+                pieces.append(fragment)
+        for piece in pieces:
+            if current and len(current) + len(piece) + 2 > max_chars:
                 chunks.append(current)
-            # 단일 문단이 max_chars 초과 시 강제 분할
-            if len(para) > max_chars:
-                for i in range(0, len(para), max_chars - overlap):
-                    chunks.append(para[i:i + max_chars])
-                current = ""
-            else:
-                current = para
-
+                current = ''
+            current = (current + '\n\n' + piece).lstrip()
     if current:
         chunks.append(current)
-    return chunks if chunks else [text]
+    return chunks or [text]
 
 
 # ─── MongoDB 문서 생성 ────────────────────────────────────
@@ -249,7 +248,13 @@ def process_directory(type_name: str, pdf_dir: Path, collection_name: str, db, d
             continue
 
         # 텍스트 추출
-        text = extract_pdf_text(pdf_path)
+        try:
+            extraction = extract_pdf_document(pdf_path)
+            text = extraction['structured_text']
+        except Exception as exc:
+            print(f"  ⚠ 검증되지 않은 PDF: {name[:50]} ({exc})")
+            failed += 1
+            continue
         if not text or len(text) < 50:
             print(f"  ⚠ 텍스트 부족: {name[:50]}")
             failed += 1
@@ -300,6 +305,12 @@ def process_directory(type_name: str, pdf_dir: Path, collection_name: str, db, d
         try:
             for seq, chunk_text in enumerate(chunks, 1):
                 doc = builder(doc_id, seq, total, chunk_text, meta)
+                if seq == 1:
+                    doc['metadata'].update(document_blocks=extraction['document_blocks'],
+                        document_text=text, document_blocks_scope='section',
+                        paragraph_projection=extraction['extraction_metadata']['paragraph_projection'],
+                        extraction_metadata=extraction['extraction_metadata'])
+                doc = enrich_source_document(doc, collection_name)
                 col.update_one(
                     {"chunk_id": doc["chunk_id"]},
                     {"$set": doc},

@@ -2,12 +2,25 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-from scripts.pdf_ingest.pdf_to_mongo import make_doc_id, split_text, process_directory, parse_case_filename
+from scripts.pdf_ingest.pdf_to_mongo import (make_doc_id, split_text, process_directory,
+    parse_case_filename, parse_interpretation_filename, parse_decision_filename)
 
 
 def test_existing_decomposed_unicode_id_is_unchanged():
     name = '광주고등법원 2023. 11. 1. 선고 (제주)2022나10981 판결'
     assert make_doc_id('case', name) == 'pdf_case__________________2023__11__1___484c9372'
+
+
+@pytest.mark.parametrize('parser,name,field,expected', [
+    (parse_case_filename, '광주고등법원 2023. 11. 1. 선고 (제주)2022나10981 판결', 'case_number', '(제주)2022나10981'),
+    (parse_interpretation_filename, '고용노동부 근로기준과-2328 (2004.5.12)', 'doc_number', '근로기준과-2328'),
+    (parse_decision_filename, '서울지방노동위원회 2017부해665 (2017. 5. 17)', 'case_number', '2017부해665'),
+])
+def test_mac_decomposed_filenames_keep_readable_metadata(parser, name, field, expected):
+    import unicodedata
+    parsed = parser(unicodedata.normalize('NFD', name))
+    assert parsed == parser(name)
+    assert parsed[field] == expected
 
 
 def test_search_chunks_never_split_or_duplicate_words():

@@ -15,6 +15,7 @@ import argparse
 import hashlib
 import os
 import sys
+import unicodedata
 from datetime import datetime
 from pathlib import Path
 
@@ -65,6 +66,7 @@ def _filename_date(value: str) -> str:
 
 
 def parse_case_filename(name: str) -> dict:
+    name = unicodedata.normalize('NFC', name)
     result = {"court": "", "date": "", "case_number": "", "title": name}
     before, marker, after = name.partition(' 선고 ')
     if marker:
@@ -87,6 +89,7 @@ def _dated_filename(name: str):
 
 
 def parse_interpretation_filename(name: str) -> dict:
+    name = unicodedata.normalize('NFC', name)
     body, date = _dated_filename(name)
     parts = body.split()
     for i, part in enumerate(parts):
@@ -97,6 +100,7 @@ def parse_interpretation_filename(name: str) -> dict:
 
 
 def parse_decision_filename(name: str) -> dict:
+    name = unicodedata.normalize('NFC', name)
     body, date = _dated_filename(name)
     committee, separator, case_number = body.partition('위원회')
     if separator and date and case_number.strip():

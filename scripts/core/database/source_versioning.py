@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from scripts.utils.source_quality import has_legal_body
+
 import copy
 import hashlib
 from typing import Any
@@ -25,6 +27,9 @@ def enrich_source_document(document: dict, collection: str) -> dict:
     chunk_id = str(enriched.get("chunk_id") or enriched.get("doc_id") or "").strip()
     metadata = dict(enriched.get("metadata") or {})
     metadata.setdefault("is_active", True)
+    if not has_legal_body(enriched):
+        metadata["is_stub"] = True
+        metadata["is_searchable"] = False
 
     source_version_id = build_source_version_id(
         collection,

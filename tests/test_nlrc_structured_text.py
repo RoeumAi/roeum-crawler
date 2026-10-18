@@ -62,3 +62,14 @@ def test_plain_hwp_text_cannot_claim_verified_paragraph_or_table_structure():
     assert attachment_display_metadata('요약', result)['paragraph_projection']['status']=='needs_review'
     result['extractions'][0]['metadata']['paragraph_projection']={'status':'complete'}
     assert attachment_display_metadata('요약', result)['paragraph_projection']['status']=='complete'
+
+
+def test_source_html_character_references_do_not_leak_into_title_or_summary():
+    from scripts.judgment.logic.scraper import _parse_detail
+    from scripts.mediation_case.logic.scraper import clean_text
+    source = '''<table class="BD_table"><tr><th class="title">지배&amp;#8228;개입&amp;nbsp;사례</th></tr>
+    <tr><th>판정사항</th><td>첫 문단&amp;nbsp;본문\n\n둘째 문단 &amp;lt;관련자료&amp;gt;</td></tr></table>'''
+    parsed = _parse_detail(source)
+    assert parsed['title'] == '지배․개입 사례'
+    assert parsed['judgment_points'] == '첫 문단 본문\n\n둘째 문단 <관련자료>'
+    assert clean_text('조정&#8228;중재\n\n본문') == '조정․중재\n\n본문'

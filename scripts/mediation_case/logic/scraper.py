@@ -4,6 +4,7 @@ import json
 import os
 import sys
 from datetime import datetime
+from html import unescape
 from urllib.parse import urlparse, parse_qs
 
 from curl_cffi import requests
@@ -35,7 +36,7 @@ def clean_text(text: str) -> str:
     """텍스트 정리"""
     if not text:
         return ""
-    return "\n".join(" ".join(line.split()) for line in text.splitlines()).strip()
+    return "\n".join(" ".join(line.split()) for line in unescape(text).splitlines()).strip()
 
 
 def _fetch_detail_html(jgmt_sn: str, jgmt_dcsn_se_cd: str = "66") -> str:

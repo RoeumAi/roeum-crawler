@@ -55,7 +55,7 @@ def preserve_existing_after_failure(collection, existing: dict, document: dict) 
         'metadata.pdf_retry_needed': True,
         'metadata.pdf_retry_count': count,
         'metadata.pdf_error': metadata.get('pdf_error', ''),
-        'metadata.pdf_last_attempt_status': 'failed',
+        'metadata.pdf_last_attempt_status': metadata.get('pdf_extraction_status') or 'failed',
         'metadata.pdf_last_attempt_at': datetime.now().isoformat(),
     }})
     document['_action'] = 'no_change'

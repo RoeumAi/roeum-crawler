@@ -54,12 +54,14 @@ def test_failed_refresh_updates_only_retry_metadata():
     from scripts.utils.nlrc_pdf import preserve_existing_after_failure
     collection = Mock()
     existing = {'_id': 'stable-id', 'content_hash':'original-hash', 'metadata': {'pdf_retry_count': 5}}
-    document = {'doc_id':'1','content':'요약만 남음','metadata':{'pdf_retry_needed':True,'pdf_error':'partial'}}
+    document = {'doc_id':'1','content':'읽힌 부분 본문','metadata':{
+        'pdf_retry_needed':True,'pdf_error':'partial','pdf_extraction_status':'partial'}}
     assert preserve_existing_after_failure(collection, existing, document)
     query, update = collection.update_one.call_args.args
     assert query == {'_id':'stable-id'}
     assert all(key.startswith('metadata.pdf_') for key in update['$set'])
     assert update['$set']['metadata.pdf_retry_count']==6
+    assert update['$set']['metadata.pdf_last_attempt_status']=='partial'
     assert document['_action']=='no_change'
 
 

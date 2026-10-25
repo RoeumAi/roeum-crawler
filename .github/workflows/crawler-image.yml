@@ -102,10 +102,9 @@ jobs:
           echo "registered $TASK_DEF_ARN"
           # 예약의 다른 설정(시각·상태·네트워크)은 그대로 두고 태스크 정의만 바꾼다. 꺼진 예약은 꺼진 채로 남는다.
           aws scheduler get-schedule --name "$SCHEDULE_NAME" > /tmp/schedule.json
-          jq --arg td "$TASK_DEF_ARN" '{
-              Name, GroupName, ScheduleExpression, ScheduleExpressionTimezone, FlexibleTimeWindow,
-              State, Description, ActionAfterCompletion,
-              Target: (.Target | .EcsParameters.TaskDefinitionArn = $td)
-            } | with_entries(select(.value != null))' /tmp/schedule.json > /tmp/schedule-update.json
+          # update-schedule 은 전체를 덮어쓰므로 읽기 전용 필드만 빼고 나머지(KMS·시작/종료일 등)는 그대로 넘긴다.
+          jq --arg td "$TASK_DEF_ARN" \
+            'del(.Arn, .CreationDate, .LastModificationDate) | .Target.EcsParameters.TaskDefinitionArn = $td' \
+            /tmp/schedule.json > /tmp/schedule-update.json
           aws scheduler update-schedule --cli-input-json file:///tmp/schedule-update.json
           echo "schedule $SCHEDULE_NAME → $TASK_DEF_ARN"

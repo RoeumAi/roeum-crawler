@@ -33,6 +33,7 @@ ENV HF_HUB_OFFLINE=1 \
     SAVE_JSONL=false \
     CRAWLER_LOG_STDOUT=1 \
     CRAWLER_DISCORD_SUMMARY=0 \
+    CRAWLER_RESOURCE_LOG=1 \
     PYTHON=python3
 
 ENTRYPOINT ["/app/docker/entrypoint.sh"]

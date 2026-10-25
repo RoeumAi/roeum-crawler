@@ -151,8 +151,14 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
                     )
                 except Exception as first_error:
                     # 부처 목록 첫 페이지부터 다시 연다(같은 seen 없이 새로 수집).
-                    logger.warning(f"[{dept_name}] 수집 실패, 한 번 더 시도: {first_error}")
+                    logger.warning(f"[{dept_name}] 수집 실패, 새 탭으로 한 번 더 시도: {first_error}")
                     await asyncio.sleep(3)
+                    # 실패한 탭은 닫혔거나 멈췄을 수 있다.
+                    try:
+                        await page.close()
+                    except Exception:
+                        pass
+                    page = await browser.new_page()
                     items = await _fetch_org_all_pages(
                         page, org_code, dept_name, today, max_pages_arg
                     )

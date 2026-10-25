@@ -10,6 +10,7 @@
 #   PYTHON             파이썬 (기본: 맥미니 conda env, 없으면 python3)
 #   CRAWLER_LOG_STDOUT 1이면 실행 로그를 표준 출력에도 낸다 (컨테이너 → CloudWatch Logs)
 #   CRAWLER_DISCORD_SUMMARY 0이면 Discord 일일 요약을 보내지 않는다 (배치 관리 알림으로 대체된 환경)
+#   CRAWLER_RESOURCE_LOG 1이면 크롤링 시도마다 최대 메모리·CPU 시간을 RESOURCE 한 줄로 로그에 남긴다 (GNU time 필요)
 CRAWLER_DIR="${CRAWLER_DIR:-$(cd "$(dirname "$0")" && pwd)}"
 if [ -z "$PYTHON" ]; then
     if [ -x "/Users/loum/miniconda3/envs/crawler/bin/python" ]; then
@@ -22,7 +23,6 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 DATE_STR=$(date "+%Y-%m-%d %H:%M")
 mkdir -p "$CRAWLER_DIR/logs"
 LOG_FILE="$CRAWLER_DIR/logs/daily_${TIMESTAMP}.log"
-RESULT_DIR=$(mktemp -d "${TMPDIR:-/tmp}/roeum_crawler_result.XXXXXX")
 
 # .env 가 있는 환경(맥미니)에서만 웹훅을 읽는다. 컨테이너는 환경변수로 받는다.
 # 웹훅은 argv(ps 노출)가 아닌 환경변수로 전달. 채널별 값이 없으면 기존 DISCORD_WEBHOOK 이 기본값.
@@ -61,6 +61,7 @@ if [ -f "$LOCKFILE" ]; then
     fi
 fi
 echo $$ > "$LOCKFILE"
+RESULT_DIR=$(mktemp -d "${TMPDIR:-/tmp}/roeum_crawler_result.XXXXXX")
 trap 'rm -f "$LOCKFILE"; rm -rf "$RESULT_DIR"' EXIT
 
 cd "$CRAWLER_DIR"
@@ -79,6 +80,12 @@ RETRY_WAIT_SECONDS="${RETRY_WAIT_SECONDS:-900}"   # 재시도 전 대기 (15분)
     echo "======================================"
 } | log
 
+# 자원 사용량 줄은 로그 안(BATCH_RESULT 앞)에 남겨야 래퍼가 마지막 줄로 결과를 읽을 수 있다.
+TIME_CMD=()
+if [ "${CRAWLER_RESOURCE_LOG:-0}" = "1" ] && [ -x /usr/bin/time ]; then
+    TIME_CMD=(/usr/bin/time -f "RESOURCE max_rss_kb=%M user_s=%U sys_s=%S elapsed_s=%e")
+fi
+
 ATTEMPT=1
 SCRAPER_ARGS=()
 RESULT_ARGS=()
@@ -89,7 +96,7 @@ while true; do
         echo ""
         echo "▶ 크롤링 시도 ${ATTEMPT}/${MAX_ATTEMPTS}: $(date) ${SCRAPER_ARGS[*]}"
     } | log
-    "$PYTHON" -u crawl.py --mode update --concurrent 3 --result-json "$RESULT_JSON" "${SCRAPER_ARGS[@]}" 2>&1 | log
+    "${TIME_CMD[@]}" "$PYTHON" -u crawl.py --mode update --concurrent 3 --result-json "$RESULT_JSON" "${SCRAPER_ARGS[@]}" 2>&1 | log
     EXIT_CODE=${PIPESTATUS[0]}
 
     # 종료코드 2(=URL 목록 수집 실패)일 때만 재시도. 그 외(정상/치명)면 종료.

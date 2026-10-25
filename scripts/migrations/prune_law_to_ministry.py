@@ -18,7 +18,8 @@ if PROJECT_ROOT not in sys.path:
 from scripts.core.database.mongo_client import get_mongo_db
 
 API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
-OC = "inwoong100"
+# 국가법령 Open API 식별자(비밀 아님). 운영은 LAWGO_OC 환경변수로 준다.
+OC = os.getenv("LAWGO_OC", "inwoong100")
 ORG_CODE = "1492000"
 PAGE_SIZE = 100
 

@@ -22,6 +22,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import record_failure
 
 logger = get_logger(__name__, scraper_type='law')
 
@@ -144,9 +145,23 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
         for org_code, dept_name in ORG_CODES:
             logger.info(f"[{dept_name}] org={org_code} 수집 시작")
             try:
-                items = await _fetch_org_all_pages(
-                    page, org_code, dept_name, today, max_pages_arg
-                )
+                try:
+                    items = await _fetch_org_all_pages(
+                        page, org_code, dept_name, today, max_pages_arg
+                    )
+                except Exception as first_error:
+                    # 부처 목록 첫 페이지부터 다시 연다(같은 seen 없이 새로 수집).
+                    logger.warning(f"[{dept_name}] 수집 실패, 새 탭으로 한 번 더 시도: {first_error}")
+                    await asyncio.sleep(3)
+                    # 실패한 탭은 닫혔거나 멈췄을 수 있다.
+                    try:
+                        await page.close()
+                    except Exception:
+                        pass
+                    page = await browser.new_page()
+                    items = await _fetch_org_all_pages(
+                        page, org_code, dept_name, today, max_pages_arg
+                    )
                 for item in items:
                     url = item["url"]
                     if url not in seen_urls:
@@ -156,6 +171,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
                 logger.info(f"[{dept_name}] {len(items)}건 수집 (시행예정 {upcoming}건)")
             except Exception as e:
                 logger.error(f"[{dept_name}] 수집 실패: {e}")
+                record_failure(f"list-org:{org_code}", e)
 
         await browser.close()
 

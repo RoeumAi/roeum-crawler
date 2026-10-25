@@ -1,0 +1,15 @@
+.git
+.github
+.idea
+.prefect
+.venv
+.env
+**/__pycache__
+*.pyc
+data
+logs
+debug
+exports
+docs
+tests
+nohup.out

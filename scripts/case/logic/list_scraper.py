@@ -14,6 +14,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import record_failure
 
 logger = get_logger(__name__, scraper_type='case')
 
@@ -112,10 +113,11 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
         if page_idx % 50 == 0:
             logger.info(f"페이지 {page_idx}/{total_pages}, 현재 {len(urls_found)}건")
         try:
-            soup = _post_list_page(cpt_ofi_cd, page_idx)
+            soup = _post_list_page_with_retry(cpt_ofi_cd, page_idx)
             urls_found.extend(_extract_urls(soup, seen))
         except Exception as e:
             logger.warning(f"페이지 {page_idx} 오류: {e}")
+            record_failure(f"list-page:{page_idx}", e)
         time.sleep(0.15)
 
     logger.info(f"URL 수집 완료: {len(urls_found)}건 unique")

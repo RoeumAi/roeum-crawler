@@ -1,5 +1,5 @@
 """
-law/adrule의 '현재 시행 버전' 매일 재계산 Prefect flow.
+law/adrule의 '현재 시행 버전' 매일 재계산 (run_daily.sh 가 크롤링 뒤 실행).
 
 lawService.do로 얻은 안정 ID(law_id/adrule_id)를 기준으로 그룹핑하여,
 시행예정이던 버전이 오늘 날짜로 현행이 되면 승격시키고 구 버전을 비활성화한다.
@@ -10,8 +10,6 @@ import os
 import sys
 from datetime import date, datetime
 from typing import Dict, Optional
-
-from prefect import flow
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 if project_root not in sys.path:
@@ -82,13 +80,12 @@ def refresh_collection(collection, id_field: str, today: Optional[str] = None) -
         summary["deactivated"] += len(plan["deactivate"])
 
     # 승격 여부와 무관하게, 시행예정 버전들의 신구대조표를 매일 최신 상태로 유지한다.
-    # (run_daily.sh의 crawl.py 경로는 unified_scraper_flow의 동기화 태스크를 거치지 않는다)
+    # (crawl.py 수집 경로에는 신구대조표 동기화 단계가 따로 없다)
     diff_summary = sync_collection_upcoming_diffs(collection, id_field)
     summary["diff_articles"] = diff_summary["diff_articles"]
     return summary
 
 
-@flow(name="refresh-current-status", description="law/adrule 현재 시행 버전 일일 재계산")
 def refresh_current_status_flow() -> Dict:
     from scripts.core.database.mongo_client import get_mongo_db
 
@@ -109,6 +106,6 @@ def refresh_current_status_flow() -> Dict:
 
 
 if __name__ == "__main__":
-    # Prefect 서버가 없는 launchd 운영 환경에서는 오케스트레이션 없이 순수 함수로 실행
-    result = refresh_current_status_flow.fn()
+    # 예외는 그대로 올려 종료코드 1로 끝낸다(run_daily.sh 가 작업 실패로 보고).
+    result = refresh_current_status_flow()
     print(f"\n최종 결과: {result}")

@@ -287,7 +287,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                           save_to_db: bool = True, save_jsonl: bool = False):
     """
     단일 법령해석 문서를 스크래핑하여 MongoDB에 저장합니다.
-    unified_scraper_flow에서 호출하는 표준 함수입니다.
+    crawl.py(run_single_scraper)에서 호출하는 표준 함수입니다.
     
     Args:
         url: onclick 속성 또는 URL (dict 또는 str)
@@ -351,7 +351,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                 )
                 if not doc_seq:
                     logger.error(f"문서 ID를 찾을 수 없습니다: {detail_url or url}")
-                    return {"status": "error", "error": "No doc_seq"}
+                    return {"status": "failed", "error": "No doc_seq"}
 
             # doc_id는 doc_seq 사용 (고유 ID)
             doc_id = doc_seq
@@ -407,7 +407,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                 parsed = _parse_taxlaw_body(body_text)
                 if not parsed:
                     logger.error(f"문서 본문을 파싱할 수 없습니다: {detail_url or url}")
-                    return {"status": "error", "error": "No parseable content", "doc_id": doc_id}
+                    return {"status": "failed", "error": "No parseable content", "doc_id": doc_id}
                 doc_title = parsed["doc_title"]
                 sub_title = parsed["sub_title"]
                 effective_date = parsed["effective_date"]

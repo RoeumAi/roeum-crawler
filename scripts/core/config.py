@@ -133,9 +133,6 @@ class EnvironmentConfig:
     mongodb_url: str = os.getenv("MONGODB_URI", os.getenv("MONGO_URI", ""))
     mongodb_database: str = os.getenv("MONGO_DB_NAME", "original_db")
     
-    # Prefect
-    prefect_api_url: str = ""  # 로컬 모드
-    
     # 출력
     output_dir: str = "data/output"
     log_dir: str = "logs"

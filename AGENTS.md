@@ -5,58 +5,45 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 ## Commands
 
 ```bash
-pip install -r requirements.txt
-playwright install chromium   # 헤드리스 브라우저 설치 (최초 1회)
+pip install -r requirements.txt -r requirements-dev.txt
+playwright install chromium        # 헤드리스 브라우저 (최초 1회)
 
-# 크롤링 실행
-python3 crawl.py                                   # 모든 스크래퍼 실행
-python3 crawl.py --scraper law adrule case        # 특정 스크래퍼만 실행
-python3 crawl.py --pages 1 --concurrent 1         # 테스트 모드 (1페이지, 순차)
+python3 crawl.py --list                                   # 스크래퍼 목록
+python3 crawl.py --mode update --scraper law adrule      # 증분 수집(DB에 있는 문서는 건너뜀)
+python3 crawl.py --pages 1 --concurrent 1 --scraper case # 시험 실행
+./run_daily.sh                                            # 일일 실행(수집 → 시행 버전 재계산 → BATCH_RESULT)
 
-# Prefect 스케줄 배포 (주 1회 월요일 09:00 KST)
-prefect server start
-prefect work-pool create --type process default
-python3 deploy.py
-prefect worker start --pool default
+# 테스트 — 운영 DB에 닿지 않게 가짜 로컬 주소로
+MONGODB_URI=mongodb://127.0.0.1:1/x CRAWLER_ENV=local python -m pytest tests -q
 ```
 
-## 스크래퍼 목록
+⚠️ 크롤러는 **운영** MongoDB `original_db`에 쓴다. 실제 수집 실행은 승인된 경로(일일 예약)로만 한다.
 
-`scripts/core/config.py`의 `SCRAPERS` 딕셔너리에 모두 정의:
+## 스크래퍼
 
-| key | 데이터 종류 | MongoDB 컬렉션 |
-|-----|------------|---------------|
-| `law` | 법령 | law |
-| `adrule` | 행정규칙 | adrule |
-| `case` | 판례 | case |
-| `decision` | 심의결정례 | decision |
-| `interpretation` | 해석례 | interpretation |
-| `mediation_case` | 조정사건례 | mediation_case |
-| `judgment` | 주요판정사례 | judgment |
+`scripts/core/config.py`의 `SCRAPERS`에 정의(10개): `law` 법령, `adrule` 행정규칙, `case` 판례, `decision` 심의결정례, `interpretation` 해석례, `mediation_case` 조정사건례, `judgment` 주요판정사례, `constitutional_decc` 헌재결정례, `legislation_expc` 법제처해석례, `admin_decc` 행정심판재결례. 컬렉션 이름은 키와 같다.
 
-## 아키텍처
+## 구조
 
 ```
-crawl.py (CLI 진입점)
-    └─ scripts/core/flows/unified_scraper_flow.py   # Prefect Flow
-         ├─ scripts/{scraper_name}/                  # 스크래퍼별 Scrapy 스파이더
-         │    └─ Playwright (동적 콘텐츠 렌더링)
-         └─ scripts/core/database/unified_repository.py  # MongoDB 저장
-              └─ MongoDB Atlas (original_db)
+run_daily.sh (일일 실행, 맥미니 launchd 또는 ECS 진입점 docker/entrypoint.sh)
+  ├─ crawl.py --mode update --result-json …   # 스크래퍼 10개를 스레드로 병렬 실행
+  │    └─ scripts/<스크래퍼>/logic/{list_scraper,scraper}.py
+  │         └─ scripts/core/database/unified_repository.py → MongoDB original_db
+  ├─ scripts/core/flows/refresh_current_status_flow.py   # law/adrule 현재 시행 버전 재계산
+  └─ scripts/report/batch_result.py                       # 마지막 줄 BATCH_RESULT + 종료코드
 ```
 
-크롤링 결과는 `data/output/`에 JSONL로 저장된 후 `data/final/`로 이동, MongoDB에 적재.
+- 이미 수집했는지는 전부 DB로 판단한다(`data/`·`logs/`는 쓰기 전용). PDF 본문은 chat_generation `/api/extract-text`(`CHAT_GENERATION_URL`)로 추출한다.
+- **결과 보고 규칙**: 실패를 경고 로그로만 남기지 않는다. 목록 페이지 실패는 `scripts/core/run_report.record_failure()`로, 문서 실패는 `scrape_and_save`가 `status: "failed"`를 돌려줘서 `failedTargets`에 잡히게 한다. 종료코드: 0(끝까지 돎, failed>0이면 부분 실패) / 2(재시도 후에도 목록 전체 실패) / 1(비정상 종료·재계산 실패).
+- 운영 실행 위치: 맥미니 launchd → ECS Fargate ARM64 예약 실행으로 전환 중(`Dockerfile`, `ecs/task-definition.json`, `.github/workflows/crawler-image.yml`). 설계: 상위 작업 공간 `docs/crawler-ecs-migration-design-20261025.md`.
 
-## 새 스크래퍼 추가 방법
+## 새 스크래퍼 추가
 
-1. `scripts/core/config.py`의 `SCRAPERS`에 `ScraperConfig` 항목 추가
-2. `scripts/{new_scraper_name}/` 폴더 생성 후 기존 스크래퍼 구조 참고하여 Scrapy 스파이더 작성
-3. `unified_scraper_flow.py`에서 자동으로 `SCRAPERS` 딕셔너리를 순회하므로 별도 등록 불필요
+1. `scripts/core/config.py`의 `SCRAPERS`에 `ScraperConfig` 추가
+2. `scripts/<이름>/logic/list_scraper.py`(`fetch_urls`)와 `scraper.py`(`scrape_and_save`) 작성 — 실패 보고 규칙을 지킨다
+3. `crawl.py`의 `get_list_page_url`과 update 모드 필터 분기에 추가
 
 ## 환경 변수
 
-`scripts/core/config.py`의 `EnvironmentConfig`에 MongoDB URL이 하드코딩되어 있음. 운영 환경에서는 `.env` 파일로 오버라이드 필요.
-
-```
-MONGODB_URL    # MongoDB Atlas 연결 문자열
-```
+`.env.example` 참고. `MONGODB_URI`(필수), `CHAT_GENERATION_URL`, `OPENAI_API_KEY`(adrule 이미지 OCR), `SAVE_JSONL`, `CRAWLER_LOG_STDOUT`, `CRAWLER_DISCORD_SUMMARY`, `LAWGO_OC`, `TESSERACT_CMD`.

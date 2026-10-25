@@ -196,7 +196,9 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
         logger.info(f"✅ {doc_id}: {len(chunks)}개 청크 파싱 완료")
 
         if not chunks:
+            # 빈 본문을 저장하면 doc_id가 생겨 다음 날부터 재수집되지 않는다 → 실패로 돌려 재시도.
             logger.warning(f"⚠️  {doc_id}: 청크 파싱 결과가 비었습니다!")
+            return {"doc_id": doc_id, "status": "failed", "error": "No chunks parsed"}
         elif any(chunk.get('metadata', {}).get('is_metadata_only') for chunk in chunks):
             logger.warning(f"⚠️  {doc_id}: 메타데이터 청크만 생성됨 (실제 콘텐츠 파싱 실패)")
 

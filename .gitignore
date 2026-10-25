@@ -48,3 +48,5 @@ verify_mongo.py
 
 # 재사용 백필 (PDF 출처/파싱 흔적 제거) — 추적 대상
 !scripts/migrations/backfill_clean_pdf_artifacts.py
+# ECS 태스크 정의 템플릿은 추적한다(계정 번호·이미지는 자리표시자)
+!ecs/task-definition.json

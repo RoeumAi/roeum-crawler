@@ -1,0 +1,35 @@
+{
+  "family": "roeum-crawler",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "runtimePlatform": { "cpuArchitecture": "ARM64", "operatingSystemFamily": "LINUX" },
+  "cpu": "2048",
+  "memory": "4096",
+  "executionRoleArn": "arn:aws:iam::__AWS_ACCOUNT_ID__:role/roeum-crawler-execution",
+  "containerDefinitions": [
+    {
+      "name": "crawler",
+      "image": "__IMAGE__",
+      "essential": true,
+      "environment": [
+        { "name": "TZ", "value": "Asia/Seoul" },
+        { "name": "ROEUM_ENV", "value": "prod" },
+        { "name": "MONGO_DB_NAME", "value": "original_db" },
+        { "name": "CHAT_GENERATION_URL", "value": "http://chat-generation.local:8000" },
+        { "name": "BATCH_REPORT_JOB", "value": "legaldata-law-crawl-daily" }
+      ],
+      "secrets": [
+        { "name": "MONGODB_URI", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/MONGODB_URI" },
+        { "name": "OPENAI_API_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/chat/OPENAI_API_KEY" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/roeum-crawler",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "crawler"
+        }
+      }
+    }
+  ]
+}

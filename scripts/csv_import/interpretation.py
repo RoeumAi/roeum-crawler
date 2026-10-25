@@ -1,8 +1,8 @@
-"""행정해석 CSV(wm_id, sub_title, wm_content2)를 interpretation 컬렉션 문서로 바꾸는 순수 로직.
+"""행정해석 CSV → interpretation 컬렉션 행.
 
-크롤러가 law.go.kr 에서 수집한 문서(scraper.save_to_mongodb)와 같은 모양으로 만든다:
+크롤러가 law.go.kr 에서 수집한 문서(interpretation/logic/scraper.save_to_mongodb)와 같은 모양:
 소제목(질의요지·회답 …)마다 한 행, chunk_id·content_hash 는 같은 규칙.
-DB 접근은 runners/import_csv.py 가 한다. 여기서는 변환과 중복 판정만 한다.
+CSV 에는 요약 제목이 없어 직접 넣은 PDF 문서처럼 문서번호를 제목으로 쓴다.
 """
 import re
 from dataclasses import dataclass, field
@@ -10,7 +10,9 @@ from typing import Iterable, Optional
 
 from scripts.core.identifiers import article_chunk_id
 from scripts.core.database.source_versioning import enrich_source_document
+from scripts.csv_import.common import _DATE, convert_tables, normalize_key, parse_date, tidy
 
+COLLECTION = "interpretation"
 DOC_ID_PREFIX = "csv_interp_"
 
 # 줄 하나가 소제목이면 그 이름을 돌려준다. 괄호(【】·[])로 감싼 줄은 이름과 상관없이 소제목,
@@ -20,24 +22,9 @@ _BARE_HEADERS = re.compile(
     r"갑설|을설|병설|정설|참고|사실관계|사례|예시|개요|사건개요|상황개요|주문)\d*$"
 )
 _BRACKET_LINE = re.compile(r"^[【\[]\s*([^】\]]{1,20}?)\s*[】\]]$")
+# '【회시】1. 산업안전보건법 …' 처럼 소제목 뒤에 같은 줄로 본문이 이어지는 꼴(7천여 건)
+_BRACKET_INLINE = re.compile(r"^\s*【\s*([^】]{1,20}?)\s*】\s*(\S.*)$")
 _NUMBERING = re.compile(r"^(\d{1,2}|[가-하])[.)]\s*")
-_DATE = re.compile(r"(\d{4})\s*[.\-]\s*(\d{1,2})\s*[.\-]\s*(\d{1,2})\.?")
-
-
-def normalize_key(value: str) -> str:
-    """문서번호 비교용: 공백·대시 변형을 없앤다."""
-    return re.sub(r"\s", "", value or "").replace("－", "-").replace("–", "-")
-
-
-def parse_date(text: str) -> Optional[str]:
-    """'2026. 4. 14.' / '2019-04-17' → '2026-04-14'. 연도가 말이 안 되면 None."""
-    m = _DATE.search(text or "")
-    if not m:
-        return None
-    year, month, day = (int(g) for g in m.groups())
-    if not (1950 <= year <= 2030 and 1 <= month <= 12 and 1 <= day <= 31):
-        return None
-    return f"{year:04d}-{month:02d}-{day:02d}"
 
 
 def split_sub_title(sub_title: str) -> tuple:
@@ -73,55 +60,24 @@ def _section_title(name: str) -> str:
 
 
 def split_sections(content: str) -> list:
-    """본문을 소제목 단위로 나눈다. 소제목이 없으면 '본문' 한 덩어리."""
+    """본문을 소제목 단위로 나눈다. 소제목이 없으면 '본문' 한 덩어리. 글자 표는 마크다운 표로."""
     sections, title, buf = [], None, []
 
     def flush():
-        text = "\n".join(buf).strip()
+        text = tidy(convert_tables("\n".join(buf)))
         if text:
             sections.append({"article_title": title or "본문", "content": text})
 
     for line in (content or "").replace("\r\n", "\n").split("\n"):
-        name = _header_name(line)
+        inline = _BRACKET_INLINE.match(line)
+        name = re.sub(r"\s", "", inline.group(1)) if inline else _header_name(line)
         if name:
             flush()
-            title, buf = _section_title(name), []
+            title, buf = _section_title(name), ([inline.group(2)] if inline else [])
         else:
-            buf.append(line.rstrip())
+            buf.append(line)
     flush()
-    # 빈 줄 여러 개를 하나로
-    for s in sections:
-        s["content"] = re.sub(r"\n{3,}", "\n\n", s["content"])
     return sections
-
-
-def _clean_line(line: str) -> str:
-    text = re.sub(r"^[\s○◦•·❏■□▶\-–※]*", "", line)
-    text = re.sub(r"^(\d{1,2}|[가-하])[.)]\s*", "", text)
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def make_title(sections: list, limit: int = 80) -> str:
-    """CSV 에는 제목이 없어 질의에서 만든다.
-
-    수집 문서 제목은 대개 '…지 여부' 꼴의 요약이다. 질의 안에 '여부'로 끝나는 줄이 있으면
-    그 줄을 쓰고, 없으면 첫 줄을 limit 자로 자른다.
-    """
-    source = next((s for s in sections if s["article_title"].startswith("질의요지")), None) or (
-        sections[0] if sections else None
-    )
-    if not source:
-        return ""
-    lines = [t for t in (_clean_line(l) for l in source["content"].split("\n")) if len(t) >= 5]
-    for line in lines:
-        # 줄 전체가 '…여부'로 끝나는 질문 요약만 쓴다(문장 중간을 잘라 쓰지 않는다)
-        text = re.sub(r"[\s?？.。]+$", "", line)
-        if text.endswith("여부") and 10 <= len(text) <= 150:
-            return text
-    if not lines:
-        return ""
-    first = lines[0]
-    return first if len(first) <= limit else first[:limit].rstrip() + "…"
 
 
 @dataclass
@@ -158,17 +114,67 @@ def numbers_from_existing(doc: dict) -> Iterable[str]:
         yield doc["title"]
 
 
+def load_existing(col) -> tuple:
+    """(크롤링·PDF 문서 번호 색인, 이전에 넣은 CSV doc_id 집합)."""
+    index, imported = ExistingIndex(), set()
+    projection = {"doc_id": 1, "sub_title": 1, "title": 1, "metadata.doc_number": 1,
+                  "metadata.source_type": 1, "metadata.effective": 1}
+    for doc in col.find({}, projection).batch_size(2000):
+        doc_id = str(doc.get("doc_id") or "")
+        if doc_id.startswith(DOC_ID_PREFIX):
+            imported.add(doc_id)
+            continue
+        date = (doc.get("metadata") or {}).get("effective") or None
+        for number in numbers_from_existing(doc):
+            index.add(number, date)
+    return index, imported
+
+
 def agency_for(number: str) -> str:
     """CSV 는 대부분 고용노동부 회시지만 국세청 과세기준자문(…법규소득…)이 섞여 있다."""
     return "국세청" if "법규" in (number or "") else "고용노동부"
+
+
+SKIP_EXISTING = "이미 수집된 문서(문서번호·날짜 일치)"
+SKIP_LEGISLATION = "법제처 해석례(legislation_expc 수집 대상)"
+SKIP_CSV_DUP = "CSV 안 중복(문서번호·날짜 일치)"
+SKIP_EMPTY = "본문 없음"
+
+
+class Planner:
+    """행마다 ('insert'|'update'|'skip', 사유). 이전에 넣은 CSV 문서는 'update'(같은 doc_id 로 덮어씀)."""
+
+    def __init__(self, existing: ExistingIndex, imported_doc_ids: set):
+        self.existing, self.imported, self.seen = existing, imported_doc_ids, set()
+
+    def decide(self, row: dict) -> tuple:
+        number, date = split_sub_title(row["sub_title"])
+        key = (normalize_key(number), date)
+        if not (row.get("wm_content2") or "").strip():
+            result = ("skip", SKIP_EMPTY)
+        elif normalize_key(number).startswith("법제처"):
+            result = ("skip", SKIP_LEGISLATION)
+        elif key in self.seen:
+            result = ("skip", SKIP_CSV_DUP)
+        elif doc_id_for(row) in self.imported:
+            result = ("update", None)
+        elif self.existing.contains(number, date):
+            result = ("skip", SKIP_EXISTING)
+        else:
+            result = ("insert", None)
+        self.seen.add(key)
+        return result
+
+
+def doc_id_for(row: dict) -> str:
+    return f"{DOC_ID_PREFIX}{row['wm_id'].strip()}"
 
 
 def build_documents(row: dict, now_iso: str, source_file: str, import_batch: str) -> list:
     """CSV 한 행 → interpretation 컬렉션 행 목록(소제목마다 한 행)."""
     number, date = split_sub_title(row["sub_title"])
     sections = split_sections(row["wm_content2"])
-    title = make_title(sections) or number
-    doc_id = f"{DOC_ID_PREFIX}{row['wm_id'].strip()}"
+    doc_id = doc_id_for(row)
     raw_date = date.replace("-0", "-").replace("-", ".") if date else ""
     agency = agency_for(number)
     sub_title = ", ".join(p for p in [agency, number, raw_date] if p)
@@ -176,11 +182,11 @@ def build_documents(row: dict, now_iso: str, source_file: str, import_batch: str
     for idx, section in enumerate(sections, 1):
         article_number = str(idx)
         doc = {
-            "chunk_id": article_chunk_id("interpretation", doc_id, article_number),
+            "chunk_id": article_chunk_id(COLLECTION, doc_id, article_number),
             "doc_id": doc_id,
             "article_number": article_number,
             "article_title": section["article_title"],
-            "title": title,
+            "title": number,
             "sub_title": sub_title,
             "content": section["content"],
             "doc_type": "법령해석",
@@ -201,35 +207,27 @@ def build_documents(row: dict, now_iso: str, source_file: str, import_batch: str
         }
         if agency == "고용노동부":
             doc["metadata"]["cpt_ofi_code"] = "1492000"
-        docs.append(enrich_source_document(doc, "interpretation"))
+        docs.append(enrich_source_document(doc, COLLECTION))
     return docs
 
 
-SKIP_EXISTING = "이미 수집된 문서(문서번호·날짜 일치)"
-SKIP_IMPORTED = "이전에 넣은 CSV 문서(doc_id 일치)"
-SKIP_LEGISLATION = "법제처 해석례(legislation_expc 수집 대상)"
-SKIP_CSV_DUP = "CSV 안 중복(문서번호·날짜 일치)"
-SKIP_EMPTY = "본문 없음"
+def write(col, docs: list, created_at: str) -> int:
+    """행을 upsert 하고, 이전 실행에서 넣었지만 이번에 없는 소제목 행은 지운다(같은 CSV doc_id 한정)."""
+    for doc in docs:
+        set_fields = {k: v for k, v in doc.items() if k != "metadata"}
+        set_fields.update({f"metadata.{k}": v for k, v in doc["metadata"].items()})
+        col.update_one(
+            {"doc_id": doc["doc_id"], "article_number": doc["article_number"]},
+            {"$set": set_fields, "$setOnInsert": {"metadata.created_at": created_at}},
+            upsert=True,
+        )
+    keep = [d["article_number"] for d in docs]
+    col.delete_many({"doc_id": docs[0]["doc_id"], "article_number": {"$nin": keep}})
+    return len(docs)
 
 
-def plan_rows(rows: list, existing: ExistingIndex, imported_doc_ids: set) -> list:
-    """각 행을 ('insert', None) 또는 ('skip', 사유)로 분류한다. 순서는 CSV 그대로."""
-    seen, plan = set(), []
-    for row in rows:
-        number, date = split_sub_title(row["sub_title"])
-        key = (normalize_key(number), date)
-        if not (row.get("wm_content2") or "").strip():
-            reason = SKIP_EMPTY
-        elif normalize_key(number).startswith("법제처"):
-            reason = SKIP_LEGISLATION
-        elif f"{DOC_ID_PREFIX}{row['wm_id'].strip()}" in imported_doc_ids:
-            reason = SKIP_IMPORTED
-        elif existing.contains(number, date):
-            reason = SKIP_EXISTING
-        elif key in seen:
-            reason = SKIP_CSV_DUP
-        else:
-            reason = None
-        seen.add(key)
-        plan.append((row, "skip" if reason else "insert", reason))
-    return plan
+def preview(docs: list) -> dict:
+    head = docs[0]
+    return {"doc_id": head["doc_id"], "title": head["title"], "sub_title": head["sub_title"],
+            "effective": head["metadata"]["effective"],
+            "sections": [{"name": d["article_title"], "chars": len(d["content"])} for d in docs]}

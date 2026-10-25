@@ -10,7 +10,11 @@ import sys
 import requests
 from PIL import Image, ImageEnhance
 import pytesseract
-pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
+import shutil
+# 맥미니(Homebrew)와 컨테이너(apt)의 설치 위치가 달라 환경변수 → PATH 순으로 찾는다.
+pytesseract.pytesseract.tesseract_cmd = (
+    os.getenv("TESSERACT_CMD") or shutil.which("tesseract") or "/opt/homebrew/bin/tesseract"
+)
 import io
 import cv2
 import numpy as np

@@ -1,0 +1,111 @@
+name: Crawler Image
+
+# ECS(Fargate ARM64) 일일 크롤링 이미지.
+# - PR: ARM 러너에서 빌드하고 스모크 테스트만 한다(푸시 없음, AWS 접근 없음).
+# - main push: 빌드·스모크 → ECR 푸시 → 태스크 정의 새 개정 등록 → 예약(EventBridge Scheduler) 대상 교체.
+#   AWS 쪽 준비(vars.AWS_CRAWLER_ROLE_ARN·AWS_ACCOUNT_ID)가 없으면 푸시 이후 단계는 건너뛴다.
+# 공개 저장소라 계정 번호·역할은 저장소 변수로만 주입한다.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - Dockerfile
+      - .dockerignore
+      - requirements.txt
+      - docker/**
+      - ecs/**
+      - crawl.py
+      - run_daily.sh
+      - scripts/**
+      - .github/workflows/crawler-image.yml
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: crawler-image-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  AWS_REGION: ap-northeast-2
+  ECR_REPOSITORY: roeum-crawler
+  SCHEDULE_NAME: roeum-crawler-daily
+
+jobs:
+  build:
+    name: build-smoke-deploy
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 40
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: roeum-crawler:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test
+        run: docker run --rm --entrypoint python3 roeum-crawler:${{ github.sha }} docker/smoke_test.py
+
+      - name: Check AWS deploy settings
+        id: aws
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          ROLE: ${{ vars.AWS_CRAWLER_ROLE_ARN }}
+          ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ROLE" ] && [ -n "$ACCOUNT" ]; then echo "enabled=true" >> "$GITHUB_OUTPUT"; else
+            echo "AWS 배포 변수가 없어 푸시·배포를 건너뜁니다."; echo "enabled=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Configure AWS credentials
+        if: steps.aws.outputs.enabled == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_CRAWLER_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Push to ECR
+        id: push
+        if: steps.aws.outputs.enabled == 'true'
+        env:
+          ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
+        run: |
+          REGISTRY="$ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com"
+          aws ecr get-login-password | docker login --username AWS --password-stdin "$REGISTRY"
+          IMAGE="$REGISTRY/$ECR_REPOSITORY:${{ github.sha }}"
+          docker tag "roeum-crawler:${{ github.sha }}" "$IMAGE"
+          docker push "$IMAGE"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Register task definition and point the schedule at it
+        if: steps.aws.outputs.enabled == 'true'
+        env:
+          ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
+          IMAGE: ${{ steps.push.outputs.image }}
+        run: |
+          sed -e "s|__AWS_ACCOUNT_ID__|$ACCOUNT|g" -e "s|__IMAGE__|$IMAGE|g" ecs/task-definition.json > /tmp/taskdef.json
+          TASK_DEF_ARN=$(aws ecs register-task-definition --cli-input-json file:///tmp/taskdef.json \
+            --query 'taskDefinition.taskDefinitionArn' --output text)
+          echo "registered $TASK_DEF_ARN"
+          # 예약의 다른 설정(시각·상태·네트워크)은 그대로 두고 태스크 정의만 바꾼다. 꺼진 예약은 꺼진 채로 남는다.
+          aws scheduler get-schedule --name "$SCHEDULE_NAME" > /tmp/schedule.json
+          jq --arg td "$TASK_DEF_ARN" '{
+              Name, GroupName, ScheduleExpression, ScheduleExpressionTimezone, FlexibleTimeWindow,
+              State, Description, ActionAfterCompletion,
+              Target: (.Target | .EcsParameters.TaskDefinitionArn = $td)
+            } | with_entries(select(.value != null))' /tmp/schedule.json > /tmp/schedule-update.json
+          aws scheduler update-schedule --cli-input-json file:///tmp/schedule-update.json
+          echo "schedule $SCHEDULE_NAME → $TASK_DEF_ARN"

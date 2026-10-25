@@ -16,6 +16,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import record_failure
 
 logger = get_logger(__name__, scraper_type='constitutional_decc')
 
@@ -111,6 +112,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
             extract_from_soup(soup)
         except Exception as e:
             logger.error(f"페이지 {page_idx} 오류: {e}")
+            record_failure(f"list-page:{page_idx}", e)
 
     logger.info(f"총 {len(urls_found)}개 URL 수집 완료")
     return urls_found

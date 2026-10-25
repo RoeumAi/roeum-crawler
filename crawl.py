@@ -19,9 +19,11 @@
 """
 
 import asyncio
+import json
 import re
 import sys
 import os
+import time
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 import argparse
@@ -32,13 +34,14 @@ project_root = str(Path(__file__).parent)
 sys.path.insert(0, project_root)
 
 from scripts.core.config import get_scraper_config, get_scraper_list, ENV
+from scripts.core.run_report import start_run_report
 
 
 # ============================================================================
 # 종료 코드 (run_daily.sh 의 재시도 판단에 사용)
 # ============================================================================
 
-EXIT_OK = 0                 # 정상 (개별 문서 단위 실패만 있어도 여기 포함)
+EXIT_OK = 0                 # 정상 (개별 문서·목록 페이지 일부 실패는 결과의 failed 로 보고)
 EXIT_FATAL = 1              # 실행 자체가 중단됨 (예외/사용자 중단)
 EXIT_LISTING_FAILURE = 2    # URL 목록조차 수집 못한 스크래퍼 존재 → 외부 수집원 일시 장애 가능성, 재시도 대상
 
@@ -94,11 +97,16 @@ def get_list_page_url(scraper_type: str, config) -> str:
 # UPDATE 모드: 이미 크롤링된 URL 조회
 # ============================================================================
 
-def get_crawled_doc_id_filter(collection_name: str) -> dict:
-    """Return the Mongo filter for documents that daily update may skip."""
+def get_retry_doc_id_filter(collection_name: str) -> Optional[dict]:
+    """첨부 추출을 다시 해야 하는 doc_id 를 고르는 필터. 해당 없으면 None.
+
+    판단은 현재(active) 레코드로만 한다. 같은 doc_id 의 이전 버전(inactive)에는
+    재시도 표시가 없어서, 레코드 단위로 거르면 이전 버전 때문에 doc_id 전체가
+    "완료"로 보여 재시도가 멈춘다(조정사건례 34·41).
+    """
     if collection_name in {"judgment", "mediation_case"}:
-        return {"metadata.pdf_retry_needed": {"$ne": True}}
-    return {}
+        return {"metadata.is_active": True, "metadata.pdf_retry_needed": True}
+    return None
 
 
 def get_all_crawled_urls(collection_name: str) -> Set[str]:
@@ -107,18 +115,17 @@ def get_all_crawled_urls(collection_name: str) -> Set[str]:
 
     distinct("doc_id")를 사용해 전체 스캔(10초+) 대신 0.1초 내에 완료합니다.
     filter_new_urls에서 URL 쿼리 파라미터로부터 doc_id를 추출해 매칭합니다.
+    첨부 추출 재시도 대상(get_retry_doc_id_filter)은 집합에서 빼서 다시 수집되게 한다.
+
+    조회 실패는 예외로 올린다. 빈 집합으로 넘기면 전체를 신규로 보고 대량 재수집한다.
     """
-    try:
-        from scripts.core.database.mongo_client import get_mongo_db
-        db = get_mongo_db()
-        doc_ids = db[collection_name].distinct(
-            "doc_id",
-            get_crawled_doc_id_filter(collection_name),
-        )
-        return set(str(d) for d in doc_ids if d)
-    except Exception as e:
-        print(f"⚠️  MongoDB 전체 URL 조회 실패 (update 모드 필터 건너뜀): {e}")
-        return set()
+    from scripts.core.database.mongo_client import get_mongo_db
+    collection = get_mongo_db()[collection_name]
+    doc_ids = {str(d) for d in collection.distinct("doc_id") if d}
+    retry_filter = get_retry_doc_id_filter(collection_name)
+    if retry_filter:
+        doc_ids -= {str(d) for d in collection.distinct("doc_id", retry_filter) if d}
+    return doc_ids
 
 
 def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]:
@@ -214,8 +221,8 @@ def get_crawled_effective_dates(collection_name: str, url_list: list | None = No
         return {**inactive_map, **active_map}
 
     except Exception as e:
-        print(f"⚠️  MongoDB effective 조회 실패 (전체 재크롤링): {e}")
-        return {}
+        # 빈 매핑으로 넘기면 전체를 신규로 보고 대량 재수집한다 → 스크래퍼 실패로 올린다.
+        raise RuntimeError(f"MongoDB effective 조회 실패: {e}") from e
 
 
 def filter_new_urls(url_items: List, crawled_urls: Set[str],
@@ -288,8 +295,22 @@ def summarize_scrape_results(results) -> tuple[int, int, int]:
         1 for r in results
         if isinstance(r, dict) and r.get("status") == "success" and r.get("action") == "no_change"
     )
-    failed_count = sum(1 for r in results if isinstance(r, dict) and r.get("status") == "failed")
+    failed_count = sum(1 for r in results if not is_success_result(r))
     return success_count, no_change_count, failed_count
+
+
+def is_success_result(result) -> bool:
+    return isinstance(result, dict) and result.get("status") == "success"
+
+
+def failed_doc_target(url_item, result) -> str:
+    """실패한 문서를 배치 보고용 대상 id 로 만든다(doc_id → URL 의 Seq/Sn → URL)."""
+    doc_id = result.get("doc_id") if isinstance(result, dict) else None
+    if doc_id:
+        return f"doc:{doc_id}"
+    url_str = url_item.get("url") or url_item.get("doc_seq") if isinstance(url_item, dict) else url_item
+    m = re.search(r'(?:Seq|Sn)=(\d+)', str(url_str or ''))
+    return f"doc:{m.group(1)}" if m else f"url:{url_str}"
 
 
 async def run_single_scraper(
@@ -310,6 +331,7 @@ async def run_single_scraper(
         since_days: update 모드에서 기준 일수
     """
     config = get_scraper_config(scraper_type)
+    run_report = start_run_report(scraper_type)
 
     print(f"\n{'='*80}")
     print(f"🚀 {config.display_name} 크롤링 시작 (모드: {mode}, 동시 처리: {max_concurrent})")
@@ -338,8 +360,12 @@ async def run_single_scraper(
                 "error": "No URLs found",
                 "total_urls": 0,
                 "total_success": 0,
-                "total_failed": 0
+                "total_failed": 0,
+                "failed_targets": [f"{scraper_type}:listing"],
             }
+        listing_failed_targets = list(run_report.failed_targets)
+        if listing_failed_targets:
+            print(f"⚠️  목록 일부 실패 {len(listing_failed_targets)}건: {', '.join(listing_failed_targets[:10])}")
 
         # Step 1.5 (update 모드): 이미 크롤링된 URL 제거
         total_discovered = len(urls)
@@ -375,8 +401,9 @@ async def run_single_scraper(
                     "status": "success",
                     "total_urls": total_discovered,
                     "total_success": 0,
-                    "total_failed": 0,
+                    "total_failed": len(listing_failed_targets),
                     "skipped": skipped_count,
+                    "failed_targets": listing_failed_targets,
                 }
 
         # Step 2: 병렬 스크래핑
@@ -400,17 +427,26 @@ async def run_single_scraper(
                         save_to_db=True,
                         save_jsonl=save_jsonl
                     )
-                    if not result or result.get("status") == "failed":
-                        return {"status": "failed", "error": "scrape_and_save returned None or failed"}
+                    if not result or result.get("status") in ("failed", "error"):
+                        return {
+                            "status": "failed",
+                            "error": (result or {}).get("error") or "scrape_and_save returned None or failed",
+                            "target": failed_doc_target(url_item, result),
+                        }
                     action = result.get("action", "insert")
                     return {"status": "success", "doc_id": result.get("doc_id"), "action": action}
                 except Exception as e:
-                    return {"status": "failed", "error": str(e)}
+                    return {"status": "failed", "error": str(e), "target": failed_doc_target(url_item, None)}
 
         tasks = [scrape_with_semaphore(url) for url in urls]
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
         success_count, no_change_count, failed_count = summarize_scrape_results(results)
+        doc_failed_targets = [
+            f"{scraper_type}:{r['target']}" if isinstance(r, dict) and r.get("target")
+            else f"{scraper_type}:doc:unknown"
+            for r in results if not is_success_result(r)
+        ]
 
         print(f"\n✅ Step 2 완료: {success_count}개 성공, {no_change_count}개 변경없음, {failed_count}개 실패\n")
 
@@ -419,8 +455,9 @@ async def run_single_scraper(
             "total_urls": total_discovered,
             "total_success": success_count,
             "total_no_change": no_change_count,
-            "total_failed": failed_count,
+            "total_failed": failed_count + len(listing_failed_targets),
             "skipped": skipped_count,
+            "failed_targets": listing_failed_targets + doc_failed_targets,
         }
 
     except Exception as e:
@@ -432,27 +469,39 @@ async def run_single_scraper(
             "error": str(e),
             "total_urls": 0,
             "total_success": 0,
-            "total_failed": 0
+            "total_failed": 0,
+            "failed_targets": [f"{scraper_type}:run"],
         }
+
+
+# 스크래퍼 시작 간격(초). 00:00:00에 10개가 한꺼번에 law.go.kr에 붙으면
+# 연결이 끊겨(RemoteDisconnected) 목록 수집이 실패하던 문제를 줄인다.
+SCRAPER_START_INTERVAL_SECONDS = float(os.getenv("SCRAPER_START_INTERVAL_SECONDS", "3"))
 
 
 def _run_scraper_in_thread(args):
     """스레드 내에서 단일 스크래퍼 실행 (자체 이벤트 루프)"""
-    scraper_type, max_concurrent, max_pages, mode, since_days = args
+    scraper_type, max_concurrent, max_pages, mode, since_days, start_delay = args
+    if start_delay:
+        time.sleep(start_delay)
     return asyncio.run(run_single_scraper(scraper_type, max_concurrent, max_pages, mode, since_days))
 
 async def run_multiple_scrapers(scrapers, max_concurrent, max_pages, mode, since_days):
     """여러 scraper 병렬 실행 (스레드풀 — 동기 I/O 블로킹 우회)"""
     import concurrent.futures
     loop = asyncio.get_event_loop()
-    args_list = [(s, max_concurrent, max_pages, mode, since_days) for s in scrapers]
+    args_list = [
+        (s, max_concurrent, max_pages, mode, since_days, index * SCRAPER_START_INTERVAL_SECONDS)
+        for index, s in enumerate(scrapers)
+    ]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(scrapers)) as pool:
         futures = [loop.run_in_executor(pool, _run_scraper_in_thread, args) for args in args_list]
         task_results = await asyncio.gather(*futures, return_exceptions=True)
     results = {}
     for scraper_type, result in zip(scrapers, task_results):
         if isinstance(result, Exception):
-            results[scraper_type] = {"status": "failed", "error": str(result), "total_urls": 0, "total_success": 0, "total_failed": 0}
+            results[scraper_type] = {"status": "failed", "error": str(result), "total_urls": 0, "total_success": 0,
+                                     "total_failed": 0, "failed_targets": [f"{scraper_type}:run"]}
         else:
             results[scraper_type] = result
     return results
@@ -570,8 +619,21 @@ def parse_args():
         action='store_true',
         help='사용 가능한 scraper 목록 표시'
     )
+    parser.add_argument(
+        '--result-json',
+        default=None,
+        help='스크래퍼별 결과를 JSON 파일로 남길 경로 (run_daily.sh 의 배치 결과 보고용)'
+    )
 
     return parser.parse_args()
+
+
+def write_result_json(path: Optional[str], results: Dict[str, dict], exit_code: int) -> None:
+    """스크래퍼별 결과를 파일로 남긴다. 로그 문구를 파싱하지 않고 결과를 집계하기 위함."""
+    if not path:
+        return
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"exit_code": exit_code, "scrapers": results}, f, ensure_ascii=False, default=str)
 
 
 def main():
@@ -599,7 +661,7 @@ def main():
     print(f"   - 동시 수: {args.concurrent}")
     print(f"   - 최대 페이지: {args.pages or '무제한'}")
     if args.mode == "update":
-        print(f"   - 건너뜀 기준: 최근 {args.since}일 이내 크롤링된 URL")
+        print("   - 건너뜀 기준: DB에 이미 있는 문서 (law/adrule은 시행일자가 같은 문서)")
 
     start_time = datetime.now()
     print(f"\n⏰ 시작 시간: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
@@ -628,6 +690,7 @@ def main():
         exit_code = compute_exit_code(results)
         if exit_code == EXIT_LISTING_FAILURE:
             print("⚠️  일부 스크래퍼가 URL 목록 수집에 실패했습니다 (외부 수집원 일시 장애 가능성).")
+        write_result_json(args.result_json, results, exit_code)
         return exit_code
 
     except KeyboardInterrupt:

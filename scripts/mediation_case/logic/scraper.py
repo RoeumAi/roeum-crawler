@@ -140,7 +140,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                           save_to_db: bool = True, save_jsonl: bool = True):
     """
     조정사건례 상세 페이지를 스크레이핑하여 저장합니다.
-    unified_scraper_flow에서 호출하는 표준 함수입니다.
+    crawl.py(run_single_scraper)에서 호출하는 표준 함수입니다.
     """
     if isinstance(url, dict):
         detail_url = url.get("url") or ""

@@ -11,11 +11,13 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import call_with_retry, record_failure
 
 logger = get_logger(__name__, scraper_type='adrule')
 
 API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
-OC = "inwoong100"
+# 국가법령 Open API 식별자(비밀 아님). 운영은 LAWGO_OC 환경변수로 준다.
+OC = os.getenv("LAWGO_OC", "inwoong100")
 PAGE_SIZE = 100
 # 고용노동부 소관 행정규칙 판별 함수
 # 부처명 변형 포함: 노동부(이전 명칭), 중앙노동위원회·노동위원회(고용노동부 산하),
@@ -86,9 +88,10 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
     for page_num in range(1, pages_to_crawl + 1):
         logger.info(f"--- 페이지 {page_num} / {pages_to_crawl} 처리 중 ---")
         try:
-            items = _fetch_page(page_num)
+            items = call_with_retry(lambda: _fetch_page(page_num))
         except Exception as e:
             logger.error(f"페이지 {page_num} 조회 실패: {e}")
+            record_failure(f"list-page:{page_num}", e)
             continue
 
         logger.info(f"페이지 {page_num}: {len(items)}개 항목 발견")

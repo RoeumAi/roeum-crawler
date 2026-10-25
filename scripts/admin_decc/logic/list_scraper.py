@@ -15,11 +15,13 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import call_with_retry, record_failure
 
 logger = get_logger(__name__, scraper_type='admin_decc')
 
 DRF_URL = 'https://www.law.go.kr/DRF/lawSearch.do'
-OC = 'inwoong100'
+# 국가법령 Open API 식별자(비밀 아님). 운영은 LAWGO_OC 환경변수로 준다.
+OC = os.getenv("LAWGO_OC", "inwoong100")
 DISPLAY = 100
 BASE_DETAIL_URL = 'https://www.law.go.kr/LSW/deccInfoP.do'
 
@@ -100,10 +102,12 @@ async def fetch_urls(start_url: str = '', max_pages_arg: Optional[int] = None) -
 
     for page in range(2, total_pages + 1):
         try:
-            items, _ = await loop.run_in_executor(None, _fetch_page, page)
+            items, _ = await loop.run_in_executor(
+                None, lambda: call_with_retry(lambda: _fetch_page(page)))
             result.extend(_process_items(items))
         except Exception as e:
             logger.error(f'페이지 {page} 수집 실패: {e}')
+            record_failure(f"list-page:{page}", e)
             await asyncio.sleep(5)
             continue
 

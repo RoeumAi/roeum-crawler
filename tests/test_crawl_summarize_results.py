@@ -31,7 +31,7 @@ class SummarizeScrapeResultsTest(unittest.TestCase):
         self.assertEqual(no_change, 0)
         self.assertEqual(failed, 0)
 
-    def test_exception_results_are_ignored(self):
+    def test_exception_results_count_as_failures(self):
         results = [
             {"status": "success", "action": "new_version"},
             ValueError("gather returned an exception"),
@@ -41,7 +41,7 @@ class SummarizeScrapeResultsTest(unittest.TestCase):
 
         self.assertEqual(success, 1)
         self.assertEqual(no_change, 0)
-        self.assertEqual(failed, 0)
+        self.assertEqual(failed, 1)
 
 
 if __name__ == "__main__":

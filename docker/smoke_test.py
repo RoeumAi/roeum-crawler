@@ -55,6 +55,16 @@ def check_curl_cffi() -> None:
     print("ok curl_cffi")
 
 
+def check_batch_report_wrapper() -> None:
+    # 진입점(docker/entrypoint.sh)이 BATCH_REPORT_JOB 이 있을 때 이 래퍼로 감싼다. 없으면 보고 없이 돌아 누락 장애가 열린다.
+    path = "/app/ops/batch_report.py"
+    assert os.path.exists(path), path
+    out = subprocess.run([sys.executable, path, "smoke", "--", sys.executable, "-c", "print('BATCH_RESULT {}')"],
+                         capture_output=True, text=True, env={"PATH": os.environ.get("PATH", ""), "HOME": "/tmp"})
+    assert out.returncode == 0 and "BATCH_RESULT" in out.stdout, (out.returncode, out.stderr)
+    print("ok batch_report wrapper")
+
+
 def check_timezone() -> None:
     from datetime import datetime
     offset = datetime.now().astimezone().utcoffset()
@@ -68,5 +78,6 @@ if __name__ == "__main__":
     check_tesseract()
     asyncio.run(check_chromium())
     check_curl_cffi()
+    check_batch_report_wrapper()
     check_timezone()
     print("smoke ok")

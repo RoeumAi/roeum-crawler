@@ -16,11 +16,14 @@
         { "name": "ROEUM_ENV", "value": "prod" },
         { "name": "MONGO_DB_NAME", "value": "original_db" },
         { "name": "CHAT_GENERATION_URL", "value": "http://chat-generation.local:8000" },
-        { "name": "BATCH_REPORT_JOB", "value": "legaldata-law-crawl-daily" }
+        { "name": "BATCH_REPORT_JOB", "value": "legaldata-law-crawl-daily" },
+        { "name": "BATCH_REPORT_URL", "value": "https://api.loumpartner.com" },
+        { "name": "BATCH_REPORT_HOST", "value": "ecs-fargate" }
       ],
       "secrets": [
         { "name": "MONGODB_URI", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/MONGODB_URI" },
-        { "name": "OPENAI_API_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/chat/OPENAI_API_KEY" }
+        { "name": "OPENAI_API_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/chat/OPENAI_API_KEY" },
+        { "name": "BATCH_REPORT_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/java/INTERNAL_BATCH_REPORT_KEY" }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",

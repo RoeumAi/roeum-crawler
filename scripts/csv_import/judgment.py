@@ -19,6 +19,16 @@ _NUMBER = re.compile(rf"({REGIONS})?\s*(\d{{2,4}})\s*([가-힣]{{1,4}})\s*(\d{{1
 def case_number(sub_title: str, content: str = "") -> str:
     """'지방노동위원회(서울) 2026. 7. 14. 판정 2026부해1628' → '서울2026부해1628'."""
     text = re.sub(r"\s+", " ", sub_title or "").strip()
+    # 옛 자료 꼴: '사건번호 : 2000부해658,부노142 , 선고일자 : 2001-03-13' → 첫 번호
+    old = re.match(r"^사건번호\s*:\s*([^,]+?)\s*,", text)
+    if old:
+        first = old.group(1).strip()
+        if not re.search(r"\d", first):  # '중노위'처럼 번호가 없으면 선고일자를 붙여 구분한다
+            date = re.search(r"선고일자\s*:\s*([\d\-.]+)", text)
+            return f"{first} {date.group(1)}" if date else first
+        found = _NUMBER.search(first)
+        return "".join(found.groups()[1:]) if found and not found.group(1) else (
+            "".join(found.groups()) if found else re.sub(r"\s+", " ", first))
     region = ""
     m = re.search(r"\(([가-힣]+)\)", text)
     if m and re.fullmatch(REGIONS, m.group(1)):
@@ -40,7 +50,8 @@ def case_number(sub_title: str, content: str = "") -> str:
 
 
 def keys_of(number: str) -> set:
-    return {normalize_key(number)} if number else set()
+    """번호에 숫자가 없으면 문서를 구분할 수 없어 중복 판정에 쓰지 않는다."""
+    return {normalize_key(number)} if number and re.search(r"\d", number) else set()
 
 
 def load_existing(col) -> tuple:
@@ -104,7 +115,7 @@ def build_documents(row: dict, now_iso: str, source_file: str, import_batch: str
             "import_batch": import_batch,
             "csv_wm_id": row["wm_id"].strip(),
             "case_number": number,
-            "committee": re.split(r"\s\d{4}\s*\.", sub_title)[0].strip(),
+            "committee": "" if sub_title.startswith("사건번호") else re.split(r"\s\d{4}\s*\.", sub_title)[0].strip(),
             "effective": parse_date(sub_title),
             "updated_at": now_iso,
             "is_active": True,

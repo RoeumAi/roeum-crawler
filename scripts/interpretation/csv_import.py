@@ -104,8 +104,8 @@ def _clean_line(line: str) -> str:
 def make_title(sections: list, limit: int = 80) -> str:
     """CSV 에는 제목이 없어 질의에서 만든다.
 
-    수집 문서 제목은 대개 '…지 여부' 꼴의 요약이다. 질의 안에 '여부'로 끝나는 문장이 있으면
-    그 문장을 쓰고, 없으면 첫 줄을 limit 자로 자른다.
+    수집 문서 제목은 대개 '…지 여부' 꼴의 요약이다. 질의 안에 '여부'로 끝나는 줄이 있으면
+    그 줄을 쓰고, 없으면 첫 줄을 limit 자로 자른다.
     """
     source = next((s for s in sections if s["article_title"].startswith("질의요지")), None) or (
         sections[0] if sections else None
@@ -114,9 +114,10 @@ def make_title(sections: list, limit: int = 80) -> str:
         return ""
     lines = [t for t in (_clean_line(l) for l in source["content"].split("\n")) if len(t) >= 5]
     for line in lines:
-        m = re.search(r"([^.?!]*?여부)", line)
-        if m and 10 <= len(m.group(1).strip()) <= 150:
-            return m.group(1).strip()
+        # 줄 전체가 '…여부'로 끝나는 질문 요약만 쓴다(문장 중간을 잘라 쓰지 않는다)
+        text = re.sub(r"[\s?？.。]+$", "", line)
+        if text.endswith("여부") and 10 <= len(text) <= 150:
+            return text
     if not lines:
         return ""
     first = lines[0]

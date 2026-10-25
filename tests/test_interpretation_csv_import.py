@@ -48,6 +48,14 @@ def test_title_prefers_yeobu_sentence_over_long_background():
     assert make_title(split_sections(text)) == "사용자 친족의 괴롭힘도 과태료 대상인지 여부"
 
 
+def test_title_does_not_cut_mid_sentence_at_yeobu():
+    text = ("【질의】\n1) 노동절(5.1)에 근무했다면 휴일근로수당을 지급하여야 하는지 여부\n"
+            "2) 괴롭힘 여부를 감독관이 조사하는지 문의드립니다.\n【회시】\n답")
+    assert make_title(split_sections(text)) == "노동절(5.1)에 근무했다면 휴일근로수당을 지급하여야 하는지 여부"
+    only_mid = "【질의】\n감독관이 괴롭힘 여부를 직접 조사하는지 문의드립니다.\n【회시】\n답"
+    assert make_title(split_sections(only_mid)) == "감독관이 괴롭힘 여부를 직접 조사하는지 문의드립니다."
+
+
 def test_nts_document_is_labeled_nts():
     docs = build_documents(row("1", "기준-2026-법규소득-0065, 2026. 6. 18."), "t", "f.csv", "b")
     assert docs[0]["sub_title"].startswith("국세청, ")

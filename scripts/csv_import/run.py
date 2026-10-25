@@ -8,6 +8,7 @@
     python -m scripts.csv_import.run interpretation --csv 행정해석_260926.csv            # dry-run
     python -m scripts.csv_import.run case --csv-url "$URL" --court '대법원|고등법원|행정법원' --apply --limit 2
     python -m scripts.csv_import.run judgment --csv-url "$URL" --apply                  # 전체 저장
+    python -m scripts.csv_import.run legislation_expc --csv 행정해석_260926.csv          # 행정해석 CSV 안 법제처 해석례
 """
 import argparse
 import json
@@ -19,14 +20,16 @@ from datetime import datetime
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.append(project_root)
 
-from scripts.csv_import import case, interpretation, judgment  # noqa: E402
+from scripts.csv_import import case, interpretation, judgment, legislation  # noqa: E402
 from scripts.csv_import.common import has_table, iter_rows  # noqa: E402
 
-MODULES = {"interpretation": interpretation, "case": case, "judgment": judgment}
+MODULES = {"interpretation": interpretation, "case": case, "judgment": judgment,
+           "legislation_expc": legislation}
 DEFAULT_FILES = {"interpretation": "행정해석_260926.csv", "case": "판례_260925.csv",
-                 "judgment": "주요판정사례_260925.csv"}
+                 "judgment": "주요판정사례_260925.csv", "legislation_expc": "행정해석_260926.csv"}
 DEFAULT_BATCHES = {"interpretation": "csv-interpretation-20260926", "case": "csv-case-20260925",
-                   "judgment": "csv-judgment-20260925"}
+                   "judgment": "csv-judgment-20260925",
+                   "legislation_expc": "csv-legislation_expc-20260926"}
 
 
 def make_planner(name: str, col, court: str = None):
@@ -40,7 +43,7 @@ def make_planner(name: str, col, court: str = None):
 def _texts(name: str, built) -> list:
     if name == "interpretation":
         return [d["content"] for d in built]
-    if name == "case":
+    if name in ("case", "legislation_expc"):
         return [c["text"] for c in built["chunks"]]
     return [built["content"]]
 

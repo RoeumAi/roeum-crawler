@@ -51,8 +51,8 @@ class RunDailyTest(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.dir, ignore_errors=True)
 
-    def run_daily(self, plan, log_stdout="0"):
-        env = dict(os.environ, PYTHON=sys.executable, CRAWLER_DIR=str(self.dir),
+    def run_daily(self, plan, log_stdout="0", **extra_env):
+        env = dict(os.environ, **extra_env, PYTHON=sys.executable, CRAWLER_DIR=str(self.dir),
                    CRAWLER_LOCKFILE=str(self.dir / "lock"), CRAWLER_DISCORD_SUMMARY="0",
                    CRAWLER_LOG_STDOUT=log_stdout, RETRY_WAIT_SECONDS="0",
                    FAKE_PLAN=json.dumps(plan), FAKE_CALLS=str(self.dir / "calls"))
@@ -99,6 +99,17 @@ class RunDailyTest(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertIn("fake crawl", stdout)
+
+    def test_resource_line_stays_before_batch_result(self):
+        # 컨테이너(GNU time)에서는 RESOURCE 줄이 로그 안에 먼저 나오고 마지막 줄은 BATCH_RESULT.
+        code, _, _, stdout = self.run_daily([{"law": OK, "case": OK}], log_stdout="1",
+                                            CRAWLER_RESOURCE_LOG="1")
+
+        self.assertEqual(code, 0)
+        gnu_time = subprocess.run(["/usr/bin/time", "--version"], capture_output=True).returncode == 0 \
+            if Path("/usr/bin/time").exists() else False
+        if gnu_time:
+            self.assertIn("RESOURCE max_rss_kb=", stdout)
 
 
 if __name__ == "__main__":

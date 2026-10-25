@@ -82,7 +82,8 @@ RETRY_WAIT_SECONDS="${RETRY_WAIT_SECONDS:-900}"   # 재시도 전 대기 (15분)
 
 # 자원 사용량 줄은 로그 안(BATCH_RESULT 앞)에 남겨야 래퍼가 마지막 줄로 결과를 읽을 수 있다.
 TIME_CMD=()
-if [ "${CRAWLER_RESOURCE_LOG:-0}" = "1" ] && [ -x /usr/bin/time ]; then
+# macOS(BSD) time 은 -f 를 모르므로 GNU time 일 때만 쓴다.
+if [ "${CRAWLER_RESOURCE_LOG:-0}" = "1" ] && /usr/bin/time --version >/dev/null 2>&1; then
     TIME_CMD=(/usr/bin/time -f "RESOURCE max_rss_kb=%M user_s=%U sys_s=%S elapsed_s=%e")
 fi
 

@@ -68,14 +68,9 @@ class UnifiedDocumentRepository:
                 [("source_version_id", 1)],
                 name="idx_source_version_id",
             )
-            
-            # 텍스트 검색 인덱스
-            self.collection.create_index([
-                ("title", "text"),
-                ("content", "text"),
-                ("sub_title", "text")
-            ])
-            
+            # 텍스트 인덱스($text)는 만들지 않는다. 검색은 Atlas Search·벡터 검색을 쓰고 $text 질의가 없다.
+            # law 의 텍스트 인덱스는 660MB 로 데이터보다 컸고 사용 0회라 2026-10-26 운영에서 지웠다.
+
             logger.info("✅ UnifiedDocumentRepository 인덱스 생성 완료")
             
         except Exception as e:

@@ -1,4 +1,4 @@
-"""run_daily.sh 전체 흐름: 재시도 범위, 종료코드, 마지막 줄 BATCH_RESULT.
+"""run_daily.sh 전체 흐름: 재시도 범위, 종료코드, 마지막 줄 BATCH_RESULT, Discord 일일 요약 전송.
 
 crawl.py·재계산 스크립트를 가짜로 바꾼 임시 저장소에서 실행한다(외부 접속·DB 없음).
 """
@@ -9,7 +9,9 @@ import subprocess
 import sys
 import tempfile
 import textwrap
+import threading
 import unittest
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -43,7 +45,14 @@ class RunDailyTest(unittest.TestCase):
         shutil.copy(REPO / "run_daily.sh", self.dir / "run_daily.sh")
         (self.dir / "scripts/report").mkdir(parents=True)
         shutil.copy(REPO / "scripts/report/batch_result.py", self.dir / "scripts/report/batch_result.py")
-        (self.dir / "scripts/core/flows").mkdir(parents=True)
+        # 요약 스크립트는 실제 파일을 쓴다(인자 계약이 어긋나면 이 테스트가 잡는다).
+        shutil.copytree(REPO / "scripts/notify", self.dir / "scripts/notify",
+                        ignore=shutil.ignore_patterns("__pycache__"))
+        (self.dir / "scripts/core").mkdir(parents=True, exist_ok=True)
+        shutil.copy(REPO / "scripts/core/config.py", self.dir / "scripts/core/config.py")
+        for pkg in ("scripts", "scripts/core", "scripts/report"):
+            (self.dir / pkg / "__init__.py").touch()
+        (self.dir / "scripts/core/flows").mkdir(parents=True, exist_ok=True)
         (self.dir / "crawl.py").write_text(FAKE_CRAWL)
         self.refresh = self.dir / "scripts/core/flows/refresh_current_status_flow.py"
         self.refresh.write_text("print('refresh ok')\n")
@@ -52,8 +61,9 @@ class RunDailyTest(unittest.TestCase):
         shutil.rmtree(self.dir, ignore_errors=True)
 
     def run_daily(self, plan, log_stdout="0", **extra_env):
+        extra_env.setdefault("CRAWLER_DISCORD_SUMMARY", "0")
         env = dict(os.environ, **extra_env, PYTHON=sys.executable, CRAWLER_DIR=str(self.dir),
-                   CRAWLER_LOCKFILE=str(self.dir / "lock"), CRAWLER_DISCORD_SUMMARY="0",
+                   CRAWLER_LOCKFILE=str(self.dir / "lock"),
                    CRAWLER_LOG_STDOUT=log_stdout, RETRY_WAIT_SECONDS="0",
                    FAKE_PLAN=json.dumps(plan), FAKE_CALLS=str(self.dir / "calls"))
         proc = subprocess.run(["bash", str(self.dir / "run_daily.sh")], env=env,
@@ -110,6 +120,36 @@ class RunDailyTest(unittest.TestCase):
             if Path("/usr/bin/time").exists() else False
         if gnu_time:
             self.assertIn("RESOURCE max_rss_kb=", stdout)
+
+    def test_daily_summary_is_posted_to_discord_webhook(self):
+        received = []
+
+        class Hook(BaseHTTPRequestHandler):
+            def do_POST(self):
+                received.append(json.loads(self.rfile.read(int(self.headers["Content-Length"]))))
+                self.send_response(204)
+                self.end_headers()
+
+            def log_message(self, *args):
+                pass
+
+        server = HTTPServer(("127.0.0.1", 0), Hook)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.shutdown)
+        hook = f"http://127.0.0.1:{server.server_port}/webhook"
+        partial = {"status": "success", "total_urls": 10, "total_success": 2, "total_failed": 1,
+                   "failed_targets": ["case:doc-1"]}
+
+        code, result, _, _ = self.run_daily([{"law": OK, "case": partial}], CRAWLER_DISCORD_SUMMARY="1",
+                                            DISCORD_WEBHOOK=hook, DISCORD_WEBHOOK_DATA_COLLECT="")
+
+        self.assertEqual(code, 0)
+        self.assertEqual(result["failed"], 1)
+        self.assertEqual(len(received), 1, "일일 요약이 웹훅으로 한 번 나가야 한다")
+        content = received[0]["content"]
+        self.assertTrue(content.startswith("[ERROR] 데이터 수집 · roeum-crawler(daily)"), content)
+        self.assertIn("판례 일부 문서 실패", content)
+        self.assertIn("✅ 법령: 1건 업데이트", content)
 
 
 if __name__ == "__main__":

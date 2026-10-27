@@ -28,11 +28,11 @@ RUN useradd --create-home crawler \
     && chown -R crawler /app/logs /app/data /app/debug
 USER crawler
 
-# 컨테이너 기본값: JSONL 덤프 안 함, 로그는 표준 출력(CloudWatch), Discord 요약 대신 배치 관리 알림.
+# 컨테이너 기본값: JSONL 덤프 안 함, 로그는 표준 출력(CloudWatch). Discord 일일 요약은 웹훅(태스크 정의 비밀)이 있으면 보낸다.
 ENV HF_HUB_OFFLINE=1 \
     SAVE_JSONL=false \
     CRAWLER_LOG_STDOUT=1 \
-    CRAWLER_DISCORD_SUMMARY=0 \
+    CRAWLER_LOG_LOCATION="CloudWatch 로그 그룹 /ecs/roeum-crawler (스트림 crawler/crawler/<태스크 ID>)" \
     CRAWLER_RESOURCE_LOG=1 \
     PYTHON=python3
 

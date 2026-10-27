@@ -9,7 +9,7 @@
 #   CRAWLER_DIR        저장소 위치 (기본: 이 스크립트가 있는 곳)
 #   PYTHON             파이썬 (기본: 맥미니 conda env, 없으면 python3)
 #   CRAWLER_LOG_STDOUT 1이면 실행 로그를 표준 출력에도 낸다 (컨테이너 → CloudWatch Logs)
-#   CRAWLER_DISCORD_SUMMARY 0이면 Discord 일일 요약을 보내지 않는다 (배치 관리 알림으로 대체된 환경)
+#   CRAWLER_DISCORD_SUMMARY 0이면 Discord 일일 요약을 보내지 않는다 (테스트 등)
 #   CRAWLER_RESOURCE_LOG 1이면 크롤링 시도마다 최대 메모리·CPU 시간을 RESOURCE 한 줄로 로그에 남긴다 (GNU time 필요)
 CRAWLER_DIR="${CRAWLER_DIR:-$(cd "$(dirname "$0")" && pwd)}"
 if [ -z "$PYTHON" ]; then
@@ -130,10 +130,10 @@ DURATION=$(( (END_TIME - START_TIME) / 60 ))
 echo "종료: $(date)" | log
 
 # 알림 메시지 생성·전송은 테스트 가능한 파이썬 모듈로 위임 (scripts/notify/daily_summary.py)
-# 배치 관리 알림으로 넘어간 환경(ECS)에서는 끈다.
+# 웹훅이 없으면 보내지 않는다(CRAWLER_DISCORD_SUMMARY=0 으로 끌 수도 있다).
 if [ "${CRAWLER_DISCORD_SUMMARY:-1}" != "0" ]; then
     "$PYTHON" -u scripts/notify/daily_summary.py \
-        --log "$LOG_FILE" \
+        "${RESULT_ARGS[@]}" \
         --duration "$DURATION" \
         --attempts "$ATTEMPT" \
         --date "$DATE_STR" \

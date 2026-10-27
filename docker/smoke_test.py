@@ -6,7 +6,6 @@
 import asyncio
 import importlib
 import os
-import shutil
 import subprocess
 import sys
 
@@ -27,15 +26,6 @@ def check_tokenizer_offline() -> None:
     from scripts.utils.tokenizer_utils import count_tokens
     assert count_tokens("근로기준법 제23조 해고 등의 제한") > 0
     print("ok tokenizer (offline)")
-
-
-def check_tesseract() -> None:
-    import pytesseract
-    path = pytesseract.pytesseract.tesseract_cmd
-    assert shutil.which(path) or os.path.exists(path), path
-    langs = subprocess.run([path, "--list-langs"], capture_output=True, text=True, check=True).stdout
-    assert "kor" in langs.split(), langs
-    print(f"ok tesseract {path} (kor)")
 
 
 async def check_chromium() -> None:
@@ -75,7 +65,6 @@ def check_timezone() -> None:
 if __name__ == "__main__":
     check_scraper_modules()
     check_tokenizer_offline()
-    check_tesseract()
     asyncio.run(check_chromium())
     check_curl_cffi()
     check_batch_report_wrapper()

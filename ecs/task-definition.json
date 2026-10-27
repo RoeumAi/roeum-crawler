@@ -22,7 +22,6 @@
       ],
       "secrets": [
         { "name": "MONGODB_URI", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/MONGODB_URI" },
-        { "name": "OPENAI_API_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/chat/OPENAI_API_KEY" },
         { "name": "BATCH_REPORT_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/java/INTERNAL_BATCH_REPORT_KEY" },
         { "name": "DISCORD_WEBHOOK", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/DISCORD_WEBHOOK" }
       ],

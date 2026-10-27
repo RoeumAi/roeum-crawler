@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1 \
     PLAYWRIGHT_BROWSERS_PATH=/opt/ms-playwright
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends tzdata time tesseract-ocr tesseract-ocr-kor \
+    && apt-get install -y --no-install-recommends tzdata time \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app

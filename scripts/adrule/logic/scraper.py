@@ -1,5 +1,4 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import json
@@ -523,7 +522,13 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 continue
         
         logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
-        if saved_count == 0 and failed_count > 0:
+        try:
+            repo.mark_save_complete(url, complete=failed_count == 0)
+        except Exception as e:  # noqa: BLE001 - 표시 실패는 저장 결과로 판단한다
+            logger.error(f"저장 완료 표시 실패: {e}")
+            failed_count += 1
+        if failed_count > 0:
+            # 조문 하나라도 못 넣으면 실패로 돌려준다. save_incomplete 표시로 다음 실행이 다시 수집한다.
             return ""
         return "new_version" if any_changed else "update_existing"
             
@@ -538,10 +543,7 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
                                 adrule_id: str = None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     import functools
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
-
+    loop = asyncio.get_running_loop()
     try:
         fn = functools.partial(
             save_to_mongodb,
@@ -677,6 +679,12 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                     adrule_id=adrule_id,
                 )
             
+            if save_to_db and not chunks:
+                # 조문을 하나도 못 읽은 문서는 저장된 것이 없다 → 성공으로 세지 않는다.
+                return {"status": "failed", "doc_id": doc_id, "title": doc_title, "error": "조문(청크) 없음"}
+            if save_to_db and not _adrule_action:
+                return {"status": "failed", "doc_id": doc_id, "title": doc_title, "error": "MongoDB 저장 실패"}
+
             # 성공적으로 완료된 문서 정보 반환
             return {
                 "status": "success",

@@ -1,8 +1,8 @@
 """Strip PDF/print artifacts from crawled legal-document content.
 
 These artifacts are introduced when a document body is extracted from a PDF
-(directly via pymupdf in ``pdf_ingest``, or via the ``/api/extract-text``
-service for NLRC attachments). They are meaningless to a reader and leak the
+via the chat_generation ``/api/extract-text`` service (``pdf_ingest`` and NLRC
+attachments both go through ``scripts.utils.document_extraction``). They are meaningless to a reader and leak the
 third-party source the PDF was printed from, so they must not appear in the
 B2B citation panel or the public search DB.
 

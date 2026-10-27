@@ -149,6 +149,19 @@ class UnifiedDocumentRepository:
         
         return self.collection.find_one(query)
     
+    def mark_save_complete(self, source_url: str, complete: bool) -> None:
+        """조문 일부만 저장된 문서를 표시한다(법령·행정규칙).
+
+        update 모드는 시행일자가 같으면 건너뛰는데, 일부 조문만 새 시행일자로 저장되면 다음 실행에서
+        빠진 조문을 다시 넣을 기회가 없다. 표시가 있으면 crawl.get_crawled_effective_dates 가
+        다시 수집 대상으로 돌린다. 전부 저장되면 표시를 지운다.
+        """
+        if not source_url:
+            return
+        update = ({"$unset": {"metadata.save_incomplete": ""}} if complete
+                  else {"$set": {"metadata.save_incomplete": True}})
+        self.collection.update_many({"metadata.source_url": source_url, "metadata.is_active": True}, update)
+
     def find_by_article(self, doc_id: str, article_number, active_only: bool = True) -> Optional[Dict]:
         """doc_id + article_number 복합 키로 특정 조문 조회"""
         query = {"doc_id": doc_id, "article_number": article_number}

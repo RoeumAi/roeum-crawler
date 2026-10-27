@@ -1,5 +1,4 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from playwright.async_api import async_playwright, expect
 import json
 import re
@@ -262,9 +261,7 @@ async def save_to_mongodb_async(sections_data: list, doc_title: str, doc_id: str
                                 ofi_cls_cd: str = "350101",
                                 executor=None) -> bool:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
+    loop = asyncio.get_running_loop()
     
     try:
         result = await loop.run_in_executor(

@@ -1,8 +1,8 @@
+import asyncio
 import math
 import os
 import re
 import sys
-import time
 from html import unescape
 from urllib.parse import urljoin
 
@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
+from scripts.core.run_report import call_with_retry, record_failure
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='interpretation')
@@ -75,12 +76,22 @@ def _parse_items(html: str) -> list[dict]:
     return items
 
 
-async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
-    """Fetch MOEL-related central ministry interpretation detail URLs."""
+async def fetch_urls(start_url: str, max_pages_arg: int | None = None, retry_wait_seconds: float = 3.0):
+    """Fetch MOEL-related central ministry interpretation detail URLs.
+
+    페이지마다 몇 번 더 시도한다. 첫 페이지를 끝내 못 받으면 예외를 올려 목록 전체 실패로 보고되고,
+    중간 페이지 실패는 record_failure 로 남긴 뒤 나머지 페이지를 계속 모은다.
+    """
     logger.info(f"중앙부처 1차 해석 목록 수집 시작 (참조 URL: {start_url})")
 
-    first_html = _fetch_page(1)
+    def get(page_index: int) -> str:
+        return call_with_retry(lambda: _fetch_page(page_index), attempts=3, wait_seconds=retry_wait_seconds)
+
+    first_html = await asyncio.to_thread(get, 1)
     total_items = _parse_total(first_html)
+    if not total_items and len(_parse_items(first_html)) >= PAGE_SIZE:
+        # 전체 건수를 못 읽었는데 첫 페이지가 꽉 찼다 → 사이트 구조 변경. 1페이지만 보고 넘어가지 않게 드러낸다.
+        record_failure("list-pages", "전체 건수를 읽지 못함(사이트 구조 변경 가능)")
     total_pages = math.ceil(total_items / PAGE_SIZE) if total_items else 1
     pages_to_crawl = total_pages
     if max_pages_arg is not None and 0 < max_pages_arg < total_pages:
@@ -90,7 +101,15 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
     seen_doc_ids = set()
 
     for page_num in range(1, pages_to_crawl + 1):
-        html = first_html if page_num == 1 else _fetch_page(page_num)
+        if page_num == 1:
+            html = first_html
+        else:
+            try:
+                html = await asyncio.to_thread(get, page_num)
+            except Exception as e:  # noqa: BLE001 - 한 페이지 실패는 기록하고 계속
+                logger.error(f"❌ 목록 {page_num}페이지 수집 실패: {e}")
+                record_failure(f"list-page:{page_num}", e)
+                continue
         page_items = _parse_items(html)
         for item in page_items:
             if item["doc_seq"] in seen_doc_ids:
@@ -99,15 +118,13 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
             urls_found.append(item)
         logger.info(f"페이지 {page_num}/{pages_to_crawl}: {len(page_items)}개, 누적 {len(urls_found)}개")
         if page_num < pages_to_crawl:
-            time.sleep(0.1)
+            await asyncio.sleep(0.1)
 
     logger.info(f"✅ 중앙부처 1차 해석 URL 수집 완료: 목록 {total_items}행, 고유 문서 {len(urls_found)}개")
     return urls_found
 
-
 if __name__ == "__main__":
     import argparse
-    import asyncio
 
     parser = argparse.ArgumentParser(description="중앙부처 1차 해석 URL 수집기")
     parser.add_argument("--max_pages", type=int, default=None, help="최대 페이지 수")

@@ -9,7 +9,6 @@ title과 registered_at을 직접 사용해 MongoDB에 저장합니다.
 """
 
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 import re
@@ -74,9 +73,7 @@ def save_to_mongodb(document_data: Dict) -> bool:
 
 async def save_to_mongodb_async(document_data: Dict, executor=None) -> bool:
     """MongoDB 저장 async 래퍼 (event loop blocking 방지)"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
+    loop = asyncio.get_running_loop()
     try:
         return await loop.run_in_executor(executor, save_to_mongodb, document_data)
     except Exception as e:

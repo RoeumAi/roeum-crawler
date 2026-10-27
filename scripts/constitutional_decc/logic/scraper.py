@@ -3,26 +3,19 @@ constitutional_decc 상세 페이지 크롤러
 requests + BeautifulSoup (JS 렌더링 불필요)
 """
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import requests
 from bs4 import BeautifulSoup, NavigableString
 import re
 import os
 import sys
 from collections import defaultdict
-from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.core.identifiers import section_chunk_id
-from scripts.core.database.source_versioning import (
-    build_mongo_set_fields,
-    enrich_source_document,
-    is_complete_chunk_save,
-)
+from scripts.core.database.section_chunks import save_section_chunks
 logger = get_logger(__name__, scraper_type='constitutional_decc')
 
 
@@ -135,88 +128,7 @@ def parse_content(html: str, doc_id: str, url: str, doc_title: str) -> list:
 
 
 def save_to_mongodb(doc_id: str, doc_title: str, doc_subtitle: str, url: str, chunks: list) -> bool:
-    try:
-        from scripts.core.database.mongo_client import get_mongo_db
-        try:
-            from scripts.utils.tokenizer_utils import chunk_text_by_tokens, count_tokens
-            use_tokenizer = True
-        except Exception:
-            use_tokenizer = False
-
-        db = get_mongo_db()
-        collection = db['constitutional_decc']
-        saved = 0
-        failed = 0
-
-        for chunk_idx, chunk in enumerate(chunks, 1):
-            content = chunk.get('text', '')
-            chunk_title = chunk.get('title', '')
-
-            if use_tokenizer:
-                try:
-                    if count_tokens(content) > 8000:
-                        sub_chunks = chunk_text_by_tokens(content, max_tokens=8000, overlap_tokens=200)
-                    else:
-                        sub_chunks = [content]
-                except Exception:
-                    sub_chunks = [content]
-            else:
-                sub_chunks = [content]
-
-            for seq, sub_content in enumerate(sub_chunks, 1):
-                token_cnt = None
-                if use_tokenizer:
-                    try:
-                        token_cnt = count_tokens(sub_content)
-                    except Exception:
-                        pass
-
-                chunk_meta = {
-                    "source_url": url,
-                    "source_type": "web",
-                    "updated_at": datetime.now().isoformat(),
-                    "is_active": True,
-                    "chunk_index": chunk_idx,
-                    "total_chunks": len(chunks),
-                    "total_sub_chunks": len(sub_chunks),
-                    **chunk.get("metadata", {}),
-                }
-                if token_cnt is not None:
-                    chunk_meta["token_count"] = token_cnt
-
-                chunk_doc = {
-                    "chunk_id": section_chunk_id("constitutional_decc", doc_id, chunk_title, seq),
-                    "doc_id": doc_id,
-                    "doc_type": chunk_title,
-                    "title": doc_title,
-                    "sub_title": doc_subtitle,
-                    "article_number": str(seq),
-                    "article_title": chunk_title,
-                    "chunk_seq": seq,
-                    "content": sub_content,
-                }
-                chunk_doc = enrich_source_document(chunk_doc, "constitutional_decc")
-                set_fields = build_mongo_set_fields(chunk_doc, chunk_meta)
-
-                try:
-                    collection.update_one(
-                        {"doc_id": doc_id, "doc_type": chunk_title, "chunk_seq": seq},
-                        {
-                            "$set": set_fields,
-                            "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
-                        },
-                        upsert=True,
-                    )
-                    saved += 1
-                except Exception as e:
-                    logger.error(f"청크 저장 실패 {chunk_title}: {e}")
-                    failed += 1
-
-        logger.info(f"✅ {doc_id}: {saved}개 저장 (실패: {failed})")
-        return is_complete_chunk_save(saved=saved, failed=failed)
-    except Exception as e:
-        logger.error(f"MongoDB 저장 실패: {e}", exc_info=True)
-        return False
+    return save_section_chunks("constitutional_decc", doc_id, doc_title, doc_subtitle, url, chunks)
 
 
 async def scrape_and_save(url, output_dir: str = "", output_name: str = "",

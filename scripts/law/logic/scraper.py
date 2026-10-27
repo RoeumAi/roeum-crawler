@@ -1,5 +1,4 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import json
@@ -370,7 +369,13 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                 continue
         
         logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
-        if failed_count > 0 and saved_count == 0:
+        try:
+            repo.mark_save_complete(unified_doc.get("metadata", {}).get("source_url"), complete=failed_count == 0)
+        except Exception as e:  # noqa: BLE001 - 표시 실패는 저장 결과로 판단한다
+            logger.error(f"저장 완료 표시 실패: {e}")
+            failed_count += 1
+        if failed_count > 0:
+            # 조문 하나라도 못 넣으면 실패로 돌려준다. save_incomplete 표시로 다음 실행이 다시 수집한다.
             return ""
         return "new_version" if any_changed else "update_existing"
             
@@ -381,10 +386,7 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
 
 async def save_to_mongodb_async(unified_doc: Dict, dept_code: Optional[str] = None, executor=None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
-    
+    loop = asyncio.get_running_loop()
     try:
         result = await loop.run_in_executor(executor, save_to_mongodb, unified_doc, dept_code)
         return result
@@ -475,10 +477,12 @@ async def scrape_and_save(
             await browser.close()
         
         # 결과 반환
-        if unified_doc:
-            return {"doc_id": unified_doc.get("doc_id"), "status": "success", "action": _law_action if save_to_db else "insert"}
-        else:
-            return {"doc_id": None, "status": "failed"}
+        if not unified_doc:
+            return {"doc_id": None, "status": "failed", "error": "문서 파싱 실패"}
+        if save_to_db and not _law_action:
+            # 저장 실패(조문 일부 포함)를 성공으로 세지 않는다 → failedTargets·Discord 요약에 드러난다.
+            return {"doc_id": unified_doc.get("doc_id"), "status": "failed", "error": "MongoDB 저장 실패"}
+        return {"doc_id": unified_doc.get("doc_id"), "status": "success", "action": _law_action if save_to_db else "insert"}
 
 
 async def scrape_only(
@@ -549,5 +553,3 @@ async def scrape_only(
             return None
         finally:
             await browser.close()
-
-# 3. if __name__ == "__main__": 블록 전체 삭제

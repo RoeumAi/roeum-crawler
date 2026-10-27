@@ -1,5 +1,4 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import requests
 from bs4 import BeautifulSoup, NavigableString
 import json
@@ -16,6 +15,7 @@ sys.path.append(project_root)
 
 # --- 로거 설정 ---
 from scripts.utils.logger_config import get_logger
+from scripts.core.database.section_chunks import split_section
 from scripts.core.identifiers import section_chunk_id
 from scripts.core.database.source_versioning import (
     build_mongo_set_fields,
@@ -167,7 +167,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
         url = url.get("url", "")
     try:
         logger.info(f"페이지 요청 중: {url}")
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         resp = await loop.run_in_executor(
             None,
             lambda: requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
@@ -300,15 +300,6 @@ def save_case_chunks_to_mongodb(
         db = get_mongo_db()
         collection = db['case']
         
-        # 토크나이저 로딩 시도 (실패해도 크롤링 계속)
-        tokenizer_available = False
-        try:
-            from scripts.utils.tokenizer_utils import chunk_text_by_tokens, count_tokens
-            tokenizer_available = True
-            logger.debug("✅ 토크나이저 사용 가능")
-        except Exception as e:
-            logger.warning(f"⚠️  토크나이저 로딩 실패: {e}. 토큰 청킹 없이 진행합니다.")
-        
         # chunks가 비어있으면 경고하고 메타데이터 청크 생성
         if not chunks:
             logger.warning(f"⚠️  {base_doc_id}: 청크가 없습니다. 메타데이터 청크 생성")
@@ -331,20 +322,10 @@ def save_case_chunks_to_mongodb(
                 chunk_title = chunk.get('title', '')
                 content = chunk.get('text', '')
 
-                # 토크나이저가 있으면 토큰 기반 청킹, 없으면 그대로 저장
-                if tokenizer_available:
-                    try:
-                        token_count = count_tokens(content)
-                        if token_count > 8000:
-                            logger.info(f"   📏 {base_doc_id} - {chunk_title}: {token_count} 토큰 → 청킹 필요")
-                            sub_chunks = chunk_text_by_tokens(content, max_tokens=8000, overlap_tokens=200)
-                        else:
-                            sub_chunks = [content]
-                    except Exception as e:
-                        logger.warning(f"   ⚠️  토큰 청킹 실패: {e}. 원본 그대로 저장합니다.")
-                        sub_chunks = [content]
-                else:
-                    sub_chunks = [content]
+                # 8000토큰이 넘으면 나눈다. 분할 실패는 이 섹션 실패로 센다(통째로 넣으면 임베딩 한도 초과).
+                parts = split_section(content)
+                sub_chunks = [part for part, _ in parts]
+                token_counts = [count for _, count in parts]
 
                 # 각 서브청크를 개별 문서로 저장
                 for seq, sub_content in enumerate(sub_chunks, 1):
@@ -371,14 +352,7 @@ def save_case_chunks_to_mongodb(
                         current_keys.add((chunk_title, seq))
                         continue
 
-                    # token_count 계산 (토크나이저 있을 때만)
-                    if tokenizer_available:
-                        try:
-                            token_cnt = count_tokens(sub_content)
-                        except:
-                            token_cnt = None
-                    else:
-                        token_cnt = None
+                    token_cnt = token_counts[seq - 1]
 
                     chunk_meta = {
                         "source_url": url,
@@ -391,8 +365,7 @@ def save_case_chunks_to_mongodb(
                         "effective": judgment_date,
                         **chunk.get('metadata', {})
                     }
-                    if token_cnt is not None:
-                        chunk_meta["token_count"] = token_cnt
+                    chunk_meta["token_count"] = token_cnt
 
                     chunk_doc = {
                         "chunk_id": section_chunk_id("case", base_doc_id, chunk_title, seq),
@@ -467,9 +440,7 @@ def save_case_chunks_to_mongodb(
 
 async def save_case_to_mongodb_async(doc_id: str, title: str, subtitle: str, url: str, content: str = "", executor=None) -> bool:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지) - 메타데이터용"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
+    loop = asyncio.get_running_loop()
     
     try:
         result = await loop.run_in_executor(executor, save_case_to_mongodb, doc_id, title, subtitle, url, content)
@@ -488,9 +459,7 @@ async def save_case_chunks_to_mongodb_async(
     executor=None
 ) -> bool:
     """MongoDB 청크 저장을 async로 처리"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
+    loop = asyncio.get_running_loop()
     
     try:
         result = await loop.run_in_executor(

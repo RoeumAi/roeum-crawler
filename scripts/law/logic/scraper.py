@@ -548,5 +548,3 @@ async def scrape_only(
             return None
         finally:
             await browser.close()
-
-# 3. if __name__ == "__main__": 블록 전체 삭제

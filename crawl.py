@@ -13,9 +13,7 @@
 
 --mode 옵션:
     full   (기본): 전체 URL을 처음부터 끝까지 크롤링합니다.
-    update : MongoDB에 이미 존재하는 URL은 건너뜁니다.
-             최근 N일 이내에 크롤링된 문서를 제외하여 증분 업데이트를 수행합니다.
-             --since 옵션으로 기준 일수를 지정합니다 (기본: 7일).
+    update : MongoDB에 이미 있는 문서는 건너뜁니다(법령·행정규칙은 시행일자가 바뀐 것만 다시 수집).
 """
 
 import asyncio
@@ -25,7 +23,7 @@ import sys
 import os
 import time
 from pathlib import Path
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 import argparse
 from importlib import import_module
 from typing import Dict, Optional, List, Set
@@ -109,71 +107,54 @@ def get_retry_doc_id_filter(collection_name: str) -> Optional[dict]:
     return None
 
 
-def get_all_crawled_urls(collection_name: str) -> Set[str]:
-    """
-    MongoDB에서 컬렉션의 모든 doc_id 집합을 반환합니다.
+def candidate_doc_ids(url_items: List) -> Set[str]:
+    """목록 항목에서 filter_new_urls 가 맞춰 볼 값(URL 그대로, URL의 Seq·Sn 번호)을 모은다."""
+    candidates: Set[str] = set()
+    for item in url_items:
+        url_str = item.get("url") or item.get("doc_seq") if isinstance(item, dict) else item
+        if not url_str:
+            continue
+        candidates.add(str(url_str))
+        m = re.search(r'(?:Seq|Sn)=(\d+)', str(url_str))
+        if m:
+            candidates.add(m.group(1))
+    return candidates
 
-    distinct("doc_id")를 사용해 전체 스캔(10초+) 대신 0.1초 내에 완료합니다.
-    filter_new_urls에서 URL 쿼리 파라미터로부터 doc_id를 추출해 매칭합니다.
+
+DOC_ID_LOOKUP_BATCH = 1000
+
+
+def get_all_crawled_urls(collection_name: str, url_items: List | None = None) -> Set[str]:
+    """
+    이미 수집한 doc_id 집합을 반환한다. filter_new_urls 가 URL·URL의 번호와 맞춰 본다.
+
+    url_items 를 주면 그날 목록에 나온 후보만 $in 으로 조회한다. 컬렉션 전체 distinct 는
+    판례처럼 큰 컬렉션에서 결과 16MB 한도에 걸릴 수 있다. doc_id 가 숫자로 저장된 문서도 있어
+    숫자 문자열은 정수로도 함께 찾는다.
     첨부 추출 재시도 대상(get_retry_doc_id_filter)은 집합에서 빼서 다시 수집되게 한다.
 
     조회 실패는 예외로 올린다. 빈 집합으로 넘기면 전체를 신규로 보고 대량 재수집한다.
     """
     from scripts.core.database.mongo_client import get_mongo_db
     collection = get_mongo_db()[collection_name]
-    doc_ids = {str(d) for d in collection.distinct("doc_id") if d}
     retry_filter = get_retry_doc_id_filter(collection_name)
+
+    def lookup(extra: dict | None) -> Set[str]:
+        if url_items is None:
+            return {str(d) for d in collection.distinct("doc_id", extra or {}) if d}
+        found: Set[str] = set()
+        values = sorted(candidate_doc_ids(url_items))
+        for start in range(0, len(values), DOC_ID_LOOKUP_BATCH):
+            batch = values[start:start + DOC_ID_LOOKUP_BATCH]
+            keys = batch + [int(v) for v in batch if v.isdigit()]
+            query = {"doc_id": {"$in": keys}, **(extra or {})}
+            found |= {str(d) for d in collection.distinct("doc_id", query) if d}
+        return found
+
+    doc_ids = lookup(None)
     if retry_filter:
-        doc_ids -= {str(d) for d in collection.distinct("doc_id", retry_filter) if d}
+        doc_ids -= lookup(retry_filter)
     return doc_ids
-
-
-def get_recently_crawled_urls(collection_name: str, since_days: int) -> Set[str]:
-    """
-    MongoDB에서 최근 since_days일 이내에 크롤링된 source_url 집합을 반환합니다.
-
-    update 모드에서 이미 존재하는 URL을 건너뛰기 위해 사용합니다.
-
-    Args:
-        collection_name: MongoDB 컬렉션명
-        since_days: 기준 일수 (이 기간 이내에 크롤링된 URL은 제외)
-
-    Returns:
-        source_url 문자열 집합
-    """
-    try:
-        from scripts.core.database.mongo_client import get_mongo_db
-        db = get_mongo_db()
-        collection = db[collection_name]
-
-        cutoff = (datetime.now(timezone.utc) - timedelta(days=since_days)).isoformat()
-
-        # last_check_at 또는 created_at이 cutoff 이후인 문서의 source_url 수집
-        docs = collection.find(
-            {
-                "$or": [
-                    {"metadata.last_check_at": {"$gte": cutoff}},
-                    {"metadata.created_at": {"$gte": cutoff}},
-                ],
-                "metadata.is_active": True,
-            },
-            {"metadata.source_url": 1, "doc_id": 1}
-        ).max_time_ms(5000)
-
-        crawled_urls = set()
-        for doc in docs:
-            source_url = doc.get("metadata", {}).get("source_url", "")
-            if source_url:
-                crawled_urls.add(source_url)
-            doc_id = doc.get("doc_id", "")
-            if doc_id:
-                crawled_urls.add(str(doc_id))
-
-        return crawled_urls
-
-    except Exception as e:
-        print(f"⚠️  MongoDB 조회 실패 (update 모드 필터 건너뜀): {e}")
-        return set()
 
 
 def get_crawled_effective_dates(collection_name: str, url_list: list | None = None) -> dict:
@@ -318,17 +299,15 @@ async def run_single_scraper(
     max_concurrent: int,
     max_pages: Optional[int],
     mode: str = "full",
-    since_days: int = 7,
 ) -> Dict:
     """
-    단일 scraper 실행 (Prefect 없이 직접 실행)
+    단일 scraper 실행
 
     Args:
         scraper_type: 스크래퍼 타입
         max_concurrent: 동시 처리 수
         max_pages: 최대 페이지 수 (None = 무제한)
         mode: "full" (전체) 또는 "update" (증분)
-        since_days: update 모드에서 기준 일수
     """
     config = get_scraper_config(scraper_type)
     run_report = start_run_report(scraper_type)
@@ -386,12 +365,10 @@ async def run_single_scraper(
                 urls = filter_new_urls(urls, set(), effective_map=effective_map)
             elif scraper_type in ("case", "mediation_case", "judgment", "interpretation", "decision", "constitutional_decc", "legislation_expc", "admin_decc"):
                 print(f"📍 Step 1.5: update 모드 — 기존 URL/ID 존재 여부로 신규 항목만 필터링 중...")
-                crawled_urls = get_all_crawled_urls(config.collection_name)
+                crawled_urls = get_all_crawled_urls(config.collection_name, url_items=urls)
                 urls = filter_new_urls(urls, crawled_urls)
             else:
-                print(f"📍 Step 1.5: update 모드 — 최근 {since_days}일 이내 크롤링된 URL 필터링 중...")
-                crawled_urls = get_recently_crawled_urls(config.collection_name, since_days)
-                urls = filter_new_urls(urls, crawled_urls)
+                raise ValueError(f"update 모드 필터가 정의되지 않은 스크래퍼: {scraper_type}")
             skipped_count = total_discovered - len(urls)
             print(f"✅ Step 1.5 완료: {total_discovered}개 중 {len(urls)}개 신규/변경 크롤링 대상\n")
 
@@ -481,17 +458,17 @@ SCRAPER_START_INTERVAL_SECONDS = float(os.getenv("SCRAPER_START_INTERVAL_SECONDS
 
 def _run_scraper_in_thread(args):
     """스레드 내에서 단일 스크래퍼 실행 (자체 이벤트 루프)"""
-    scraper_type, max_concurrent, max_pages, mode, since_days, start_delay = args
+    scraper_type, max_concurrent, max_pages, mode, start_delay = args
     if start_delay:
         time.sleep(start_delay)
-    return asyncio.run(run_single_scraper(scraper_type, max_concurrent, max_pages, mode, since_days))
+    return asyncio.run(run_single_scraper(scraper_type, max_concurrent, max_pages, mode))
 
-async def run_multiple_scrapers(scrapers, max_concurrent, max_pages, mode, since_days):
+async def run_multiple_scrapers(scrapers, max_concurrent, max_pages, mode):
     """여러 scraper 병렬 실행 (스레드풀 — 동기 I/O 블로킹 우회)"""
     import concurrent.futures
     loop = asyncio.get_event_loop()
     args_list = [
-        (s, max_concurrent, max_pages, mode, since_days, index * SCRAPER_START_INTERVAL_SECONDS)
+        (s, max_concurrent, max_pages, mode, index * SCRAPER_START_INTERVAL_SECONDS)
         for index, s in enumerate(scrapers)
     ]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(scrapers)) as pool:
@@ -567,9 +544,8 @@ def parse_args():
   python3 crawl.py --scraper law
   python3 crawl.py --scraper law adrule case
 
-  # 증분 업데이트 (최근 7일 이내 크롤링된 URL 건너뜀)
+  # 증분 업데이트 (DB에 있는 문서는 건너뜀)
   python3 crawl.py --mode update --scraper case
-  python3 crawl.py --mode update --since 3    # 3일 이내 건너뜀
 
   # 동시 수 변경 / 테스트 (1페이지만)
   python3 crawl.py --concurrent 5
@@ -605,14 +581,8 @@ def parse_args():
         help=(
             '크롤링 모드 (기본값: full)\n'
             '  full  : 전체 크롤링 (모든 URL 처리)\n'
-            '  update: 증분 업데이트 (최근 크롤링된 URL 건너뜀)'
+            '  update: 증분 업데이트 (DB에 있는 문서 건너뜀)'
         )
-    )
-    parser.add_argument(
-        '--since',
-        type=int,
-        default=7,
-        help='update 모드에서 기준 일수 (이 기간 이내 크롤링된 URL 건너뜀, 기본값: 7)'
     )
     parser.add_argument(
         '--list',
@@ -670,12 +640,12 @@ def main():
     try:
         if len(scrapers) == 1:
             result = asyncio.run(run_single_scraper(
-                scrapers[0], args.concurrent, args.pages, args.mode, args.since
+                scrapers[0], args.concurrent, args.pages, args.mode
             ))
             results = {scrapers[0]: result}
         else:
             results = asyncio.run(run_multiple_scrapers(
-                scrapers, args.concurrent, args.pages, args.mode, args.since
+                scrapers, args.concurrent, args.pages, args.mode
             ))
 
         print_results(results)

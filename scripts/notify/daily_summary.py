@@ -1,19 +1,16 @@
 #!/usr/bin/env python3
 """일일 크롤링 결과를 Discord 로 보고한다(공통 형식 alert_format).
 
-run_daily.sh 가 시도마다 남긴 crawl.py --result-json 파일을 읽는다. 배치 관리 보고(BATCH_RESULT)와
+run_daily.sh 가 `python -m scripts.notify.daily_summary` 로 부른다. 시도마다 남긴 crawl.py --result-json 파일을 읽는다. 배치 관리 보고(BATCH_RESULT)와
 같은 데이터라서 두 보고의 숫자가 어긋나지 않는다. 메시지 생성(build_message)은 순수 함수라
 tests/test_daily_summary_message.py 로 검증한다.
 """
 import argparse
 import os
-import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # 스크립트 직접 실행 시 alert_format 임포트
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from alert_format import format_alert, get_env_name, resolve_webhook, send_discord  # noqa: E402
-from scripts.core.config import SCRAPERS  # noqa: E402
-from scripts.report.batch_result import (  # noqa: E402
+from scripts.core.config import SCRAPERS
+from scripts.notify.alert_format import format_alert, get_env_name, resolve_webhook, send_discord
+from scripts.report.batch_result import (
     EXIT_LISTING_FAILURE, EXIT_OK, is_listing_failure, load_attempt, merge_attempts,
 )
 

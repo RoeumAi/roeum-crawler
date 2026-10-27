@@ -53,7 +53,7 @@ if [ -f "$LOCKFILE" ]; then
             --severity WARN --kind 배치 --target "roeum-crawler(daily)" \
             --summary "이전 실행(PID=${PID})이 아직 진행 중이라 ${DATE_STR} 실행을 건너뜁니다." \
             --trace "스킵 ${DATE_STR} · lock ${LOCKFILE} · PID ${PID}" \
-            --search "맥미니 ${CRAWLER_DIR}/logs/ 의 직전 daily_*.log" \
+            --search "${CRAWLER_LOG_LOCATION:-맥미니 ${CRAWLER_DIR}/logs/ 의 직전 daily_*.log}" \
             --detail "조치: 이전 실행이 멈췄다면 PID 확인 후 종료" >/dev/null 2>&1 || true
         # 이번 실행은 아무것도 하지 않았다 → 실패로 보고해 겹친 실행이 드러나게 한다.
         echo "BATCH_RESULT {\"processed\":0,\"failed\":1,\"failedTargets\":[\"crawl:locked\"],\"summary\":\"이전 실행(PID=${PID}) 진행 중이라 건너뜀\"}"
@@ -132,14 +132,14 @@ echo "종료: $(date)" | log
 # 알림 메시지 생성·전송은 테스트 가능한 파이썬 모듈로 위임 (scripts/notify/daily_summary.py)
 # 웹훅이 없으면 보내지 않는다(CRAWLER_DISCORD_SUMMARY=0 으로 끌 수도 있다).
 if [ "${CRAWLER_DISCORD_SUMMARY:-1}" != "0" ]; then
-    "$PYTHON" -u scripts/notify/daily_summary.py \
+    "$PYTHON" -u -m scripts.notify.daily_summary \
         "${RESULT_ARGS[@]}" \
         --duration "$DURATION" \
         --attempts "$ATTEMPT" \
         --date "$DATE_STR" \
         --target "roeum-crawler(daily)" \
         --exit-code "$EXIT_CODE" \
-        --refresh-exit-code "$REFRESH_EXIT_CODE" >> "$LOG_FILE" 2>&1
+        --refresh-exit-code "$REFRESH_EXIT_CODE" 2>&1 | log
 fi
 
 # 마지막 줄: BATCH_RESULT (파일과 표준 출력 양쪽). 종료코드는 실제 결과.

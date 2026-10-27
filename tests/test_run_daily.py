@@ -140,8 +140,9 @@ class RunDailyTest(unittest.TestCase):
         partial = {"status": "success", "total_urls": 10, "total_success": 2, "total_failed": 1,
                    "failed_targets": ["case:doc-1"]}
 
-        code, result, _, _ = self.run_daily([{"law": OK, "case": partial}], CRAWLER_DISCORD_SUMMARY="1",
-                                            DISCORD_WEBHOOK=hook, DISCORD_WEBHOOK_DATA_COLLECT="")
+        code, result, _, stdout = self.run_daily([{"law": OK, "case": partial}], log_stdout="1",
+                                                 CRAWLER_DISCORD_SUMMARY="1",
+                                                 DISCORD_WEBHOOK=hook, DISCORD_WEBHOOK_DATA_COLLECT="")
 
         self.assertEqual(code, 0)
         self.assertEqual(result["failed"], 1)
@@ -150,6 +151,8 @@ class RunDailyTest(unittest.TestCase):
         self.assertTrue(content.startswith("[ERROR] 데이터 수집 · roeum-crawler(daily)"), content)
         self.assertIn("판례 일부 문서 실패", content)
         self.assertIn("✅ 법령: 1건 업데이트", content)
+        # 컨테이너(CRAWLER_LOG_STDOUT=1)에서도 전송 결과가 로그(CloudWatch)에 남는다. 마지막 줄은 여전히 BATCH_RESULT.
+        self.assertIn("Discord 알림 전송 완료", stdout)
 
 
 if __name__ == "__main__":

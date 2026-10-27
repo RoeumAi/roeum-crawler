@@ -26,7 +26,7 @@ def repo_failing_on(call_number: int) -> Mock:
 class LawSaveFailureTest(unittest.TestCase):
     def save(self, repo):
         doc = {"doc_id": "law-1", "title": "테스트법", "sub_title": "", "content": LAW_TEXT,
-               "url": "https://example.invalid", "metadata": {}}
+               "url": "https://example.invalid", "metadata": {"source_url": "https://example.invalid"}}
         with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=Mock()), \
              patch.object(law_scraper, "UnifiedDocumentRepository", return_value=repo), \
              patch.object(law_scraper, "fetch_stable_law_id", return_value="L1"):
@@ -36,7 +36,23 @@ class LawSaveFailureTest(unittest.TestCase):
         self.assertEqual(self.save(repo_failing_on(0)), "new_version")
 
     def test_one_article_failing_is_failure(self):
-        self.assertFalse(self.save(repo_failing_on(2)))
+        repo = repo_failing_on(2)
+        self.assertFalse(self.save(repo))
+        # 다음 실행이 다시 수집하도록 표시한다(시행일자가 같아도 건너뛰지 않게).
+        repo.mark_save_complete.assert_called_once_with("https://example.invalid", complete=False)
+
+    def test_complete_save_clears_mark(self):
+        repo = repo_failing_on(0)
+        self.save(repo)
+        repo.mark_save_complete.assert_called_once_with("https://example.invalid", complete=True)
+
+
+class IncompleteSaveIsRecrawledTest(unittest.TestCase):
+    def test_incomplete_law_is_recrawled_even_with_same_effective_date(self):
+        from crawl import filter_new_urls
+        items = [{"url": "u1", "effective": "20261101"}, {"url": "u2", "effective": "20261101"}]
+        effective_map = {"u1": "2026-11-01", "u2": None}
+        self.assertEqual([i["url"] for i in filter_new_urls(items, set(), effective_map=effective_map)], ["u2"])
 
 
 class AdruleSaveFailureTest(unittest.TestCase):

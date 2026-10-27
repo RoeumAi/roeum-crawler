@@ -369,8 +369,13 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                 continue
         
         logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
+        try:
+            repo.mark_save_complete(unified_doc.get("metadata", {}).get("source_url"), complete=failed_count == 0)
+        except Exception as e:  # noqa: BLE001 - 표시 실패는 저장 결과로 판단한다
+            logger.error(f"저장 완료 표시 실패: {e}")
+            failed_count += 1
         if failed_count > 0:
-            # 조문 하나라도 못 넣으면 실패로 돌려준다(빠진 조문이 활성 상태로 남지 않게 다음 실행에서 다시 시도).
+            # 조문 하나라도 못 넣으면 실패로 돌려준다. save_incomplete 표시로 다음 실행이 다시 수집한다.
             return ""
         return "new_version" if any_changed else "update_existing"
             

@@ -183,23 +183,31 @@ def get_crawled_effective_dates(collection_name: str, url_list: list | None = No
 
         docs = collection.find(
             query,
-            {"metadata.source_url": 1, "metadata.effective": 1, "metadata.is_active": 1},
+            {"metadata.source_url": 1, "metadata.effective": 1, "metadata.is_active": 1,
+             "metadata.save_incomplete": 1},
         ).max_time_ms(60000)
 
         # 활성 버전이 있으면 그 effective를 쓰고, 없으면 비활성 버전 중 최신 effective
         active_map: dict = {}
         inactive_map: dict = {}
+        incomplete: set = set()
         for doc in docs:
             meta = doc.get("metadata", {})
             source_url = meta.get("source_url")
             if not source_url:
                 continue
             effective = meta.get("effective") or ""
+            if meta.get("is_active") and meta.get("save_incomplete"):
+                incomplete.add(source_url)
             target = active_map if meta.get("is_active") else inactive_map
             if effective >= target.get(source_url, ""):
                 target[source_url] = effective
 
-        return {**inactive_map, **active_map}
+        effective_map = {**inactive_map, **active_map}
+        # 조문 일부만 저장된 문서는 시행일자와 상관없이 다시 수집한다(filter_new_urls 가 None 을 재수집으로 본다).
+        for url in incomplete:
+            effective_map[url] = None
+        return effective_map
 
     except Exception as e:
         # 빈 매핑으로 넘기면 전체를 신규로 보고 대량 재수집한다 → 스크래퍼 실패로 올린다.
@@ -231,6 +239,8 @@ def filter_new_urls(url_items: List, crawled_urls: Set[str],
             # 시행일자 기반 비교 (YYYYMMDD ↔ YYYY-MM-DD 정규화)
             if url_str not in effective_map:
                 new_items.append(item)  # 신규
+            elif effective_map[url_str] is None:
+                new_items.append(item)  # 지난 실행에서 조문 일부만 저장됨 → 다시 수집
             else:
                 stored_effective = (effective_map[url_str] or "").replace("-", "")
                 item_effective = (item.get("effective", "") if isinstance(item, dict) else "").replace("-", "")

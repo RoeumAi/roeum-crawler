@@ -24,10 +24,10 @@ def split_section(content: str) -> list[tuple[str, int]]:
     """섹션 본문을 [(조각, 토큰 수)] 로. 토크나이저 오류는 그대로 올린다."""
     from scripts.utils.tokenizer_utils import chunk_text_by_tokens, count_tokens
 
-    if count_tokens(content) > MAX_TOKENS:
-        parts = chunk_text_by_tokens(content, max_tokens=MAX_TOKENS, overlap_tokens=OVERLAP_TOKENS)
-    else:
-        parts = [content]
+    total = count_tokens(content)
+    if total <= MAX_TOKENS:
+        return [(content, total)]
+    parts = chunk_text_by_tokens(content, max_tokens=MAX_TOKENS, overlap_tokens=OVERLAP_TOKENS)
     return [(part, count_tokens(part)) for part in parts]
 
 

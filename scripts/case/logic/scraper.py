@@ -1,5 +1,4 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import requests
 from bs4 import BeautifulSoup, NavigableString
 import json
@@ -167,7 +166,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
         url = url.get("url", "")
     try:
         logger.info(f"페이지 요청 중: {url}")
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         resp = await loop.run_in_executor(
             None,
             lambda: requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
@@ -467,9 +466,7 @@ def save_case_chunks_to_mongodb(
 
 async def save_case_to_mongodb_async(doc_id: str, title: str, subtitle: str, url: str, content: str = "", executor=None) -> bool:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지) - 메타데이터용"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
+    loop = asyncio.get_running_loop()
     
     try:
         result = await loop.run_in_executor(executor, save_case_to_mongodb, doc_id, title, subtitle, url, content)
@@ -488,9 +485,7 @@ async def save_case_chunks_to_mongodb_async(
     executor=None
 ) -> bool:
     """MongoDB 청크 저장을 async로 처리"""
-    loop = asyncio.get_event_loop()
-    if executor is None:
-        executor = ThreadPoolExecutor(max_workers=1)
+    loop = asyncio.get_running_loop()
     
     try:
         result = await loop.run_in_executor(

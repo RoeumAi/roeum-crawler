@@ -38,6 +38,10 @@ run_daily.sh (일일 실행, 맥미니 launchd 또는 ECS 진입점 docker/entry
 - **결과 보고 규칙**: 실패를 경고 로그로만 남기지 않는다. 목록 페이지 실패는 `scripts/core/run_report.record_failure()`로, 문서 실패는 `scrape_and_save`가 `status: "failed"`를 돌려줘서 `failedTargets`에 잡히게 한다. 종료코드: 0(끝까지 돎, failed>0이면 부분 실패) / 2(재시도 후에도 목록 전체 실패) / 1(비정상 종료·재계산 실패).
 - 운영 실행 위치: ECS Fargate ARM64 예약 실행 `roeum-crawler-daily`(매일 00:00 KST, `Dockerfile`, `ecs/task-definition.json`, `.github/workflows/crawler-image.yml`). 맥미니 launchd `com.loum.roeum-crawler`는 꺼 두었다(plist 백업). 시작·종료는 `ops/batch_report.py`(원본: roeum-manage-server `tools/batch-report/`)가 배치 관리 시스템에 보고한다. 설계: 상위 작업 공간 `docs/crawler-ecs-migration-design-20261025.md`.
 
+## 수동 실행 도구
+
+일일 실행 밖에서 따로 돌리는 작업(지정 문서 재수집, PDF·CSV 넣기, 데이터 정비)은 `python3 manual.py`로 목록을 보고 실행한다. 운영 DB에 쓰는 작업은 미리 보기 후 `--yes`가 필요하다. 설명: `docs/manual-tasks.md`.
+
 ## 새 스크래퍼 추가
 
 1. `scripts/core/config.py`의 `SCRAPERS`에 `ScraperConfig` 추가

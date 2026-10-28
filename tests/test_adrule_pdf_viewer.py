@@ -45,5 +45,19 @@ class PdfViewerContentTest(unittest.IsolatedAsyncioTestCase):
                                                    "d", "u", "t", "o")
 
 
+class ViewerSaveMetadataTest(unittest.TestCase):
+    def test_file_source_and_partial_status_are_stored(self):
+        repo = Mock()
+        repo.upsert_with_change_detection.return_value = ("d", {"action": "insert", "version": 1})
+        chunks = [{"title": "", "text": "# 고시\n본문", "metadata": {"source_file_key": "9", "pdf_extraction_status": "partial"}}]
+        with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=Mock()), \
+             patch.object(adrule, "UnifiedDocumentRepository", return_value=repo):
+            self.assertTrue(adrule.save_to_mongodb(chunks, "고시", "d", "u"))
+        saved = repo.upsert_with_change_detection.call_args.args[0]
+        self.assertEqual(saved["content"], "# 고시\n본문")  # 제목 줄을 덧붙이지 않는다
+        self.assertEqual(saved["metadata"]["source_file_keys"], ["9"])
+        self.assertEqual(saved["metadata"]["pdf_extraction_status"], "partial")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -142,7 +142,8 @@ async def _parse_pdf_viewer_content(page, doc_id: str, url: str, doc_title: str,
                 f.write(text)
         chunks.append({
             "chunk_id": f"doc:{doc_id}:file_{index}", "doc_id": doc_id,
-            "title": doc_title if len(keys) == 1 else f"{doc_title} ({index})",
+            # 한 파일이면 제목 줄을 붙이지 않는다(파서 결과에 이미 제목이 있다). 여러 파일이면 구분용 번호만.
+            "title": "" if len(keys) == 1 else f"첨부 {index}",
             "text": text,
             "metadata": {
                 "chapter": doc_title, "source_type": "pdf", "source_file_key": key,
@@ -288,6 +289,20 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 content_parts.append(chunk_text)
         
         unified_content = "\n\n".join(content_parts) if content_parts else ""
+
+        # 원본 파일(PDF 뷰어)에서 읽은 문서는 출처·추출 상태를 남긴다. partial 이면 일부 페이지를 못 읽은 것이라
+        # 나중에 파서가 좋아졌을 때 다시 파싱할 대상을 찾을 수 있게 한다.
+        source_file_meta = {}
+        file_chunks = [c for c in chunks if isinstance(c, dict) and (c.get("metadata") or {}).get("source_file_key")]
+        if file_chunks:
+            statuses = [c["metadata"].get("pdf_extraction_status") for c in file_chunks]
+            source_file_meta = {
+                "source_type": "pdf",
+                "source_file_keys": [c["metadata"]["source_file_key"] for c in file_chunks],
+                "pdf_extraction_status": "complete" if all(st == "complete" for st in statuses) else "partial",
+            }
+            if source_file_meta["pdf_extraction_status"] != "complete":
+                logger.warning(f"⚠️ {doc_id}: 원본 파일 일부 페이지를 읽지 못함(partial) — 읽은 부분만 저장")
         
         # 조별 분리
         articles = split_articles_by_number(unified_content)
@@ -329,6 +344,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                     meta["dept_name"] = dept_name
                 if adrule_id:
                     meta["adrule_id"] = adrule_id
+                meta.update(source_file_meta)
 
                 article_doc = {
                     "chunk_id": article_chunk_id("adrule", doc_id, article_number),

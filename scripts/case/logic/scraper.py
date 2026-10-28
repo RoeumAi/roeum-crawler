@@ -229,7 +229,9 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
             chunk_filename = os.path.join(output_dir, f'{output_name}_chunks.jsonl')
             save_to_file(chunks, chunk_filename)
 
-        return {"doc_id": doc_id, "status": "success", "action": "insert"}
+        # 본문 없이 메타데이터 줄만 다시 저장한 날(재확인)은 업데이트로 세지 않는다.
+        metadata_only = bool(chunks) and all((c.get("metadata") or {}).get("is_metadata_only") for c in chunks)
+        return {"doc_id": doc_id, "status": "success", "action": "no_change" if metadata_only else "insert"}
 
     except Exception as e:
         logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)

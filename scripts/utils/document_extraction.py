@@ -3,6 +3,8 @@ import os
 from pathlib import Path
 import requests as http_requests
 
+from scripts.utils.document_blocks import blocks_markdown, has_table
+
 DEFAULT_CHAT_GENERATION_URL = "http://127.0.0.1:8000"
 CONTENT_TYPES = {".pdf": "application/pdf", ".hwp": "application/x-hwp", ".hwpx": "application/vnd.hancom.hwpx"}
 
@@ -53,6 +55,9 @@ def usable_document(extracted: dict) -> dict:
         # retain their paragraphs/tables even when the document is partial.
         projection["status"] = "needs_review"
     metadata["paragraph_projection"] = projection
+    if has_structure and has_table(blocks):
+        # 표는 탭 정렬 글 대신 Markdown 표로(화면·검색 조각에서 표가 한 문장으로 뭉개지지 않게).
+        text = blocks_markdown(blocks) or text
     return dict(extracted, is_success=True, structured_text=text,
                 document_blocks=blocks if has_structure else [{"kind": "text", "text": text}],
                 extraction_metadata=metadata, quality_complete=verified)

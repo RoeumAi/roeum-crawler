@@ -29,7 +29,7 @@ class LawSaveFailureTest(unittest.TestCase):
                "url": "https://example.invalid", "metadata": {"source_url": "https://example.invalid"}}
         with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=Mock()), \
              patch.object(law_scraper, "UnifiedDocumentRepository", return_value=repo), \
-             patch.object(law_scraper, "fetch_stable_law_id", return_value="L1"):
+             patch.object(law_scraper, "fetch_record", return_value={"법령": {"기본정보": {"법령ID": "L1"}}}):
             return law_scraper.save_to_mongodb(doc)
 
     def test_all_articles_saved_is_success(self):
@@ -45,6 +45,33 @@ class LawSaveFailureTest(unittest.TestCase):
         repo = repo_failing_on(0)
         self.save(repo)
         repo.mark_save_complete.assert_called_once_with("https://example.invalid", complete=True)
+
+
+class AnnexFailureTest(unittest.TestCase):
+    def test_annex_failure_saves_articles_but_reports_failure(self):
+        repo = repo_failing_on(0)
+        doc = {"doc_id": "law-1", "title": "테스트법", "sub_title": "", "content": LAW_TEXT,
+               "metadata": {"source_url": "https://example.invalid"}}
+        with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=Mock()), \
+             patch.object(law_scraper, "UnifiedDocumentRepository", return_value=repo), \
+             patch.object(law_scraper, "fetch_record", return_value=None):  # Open API 실패 → 별표 모름
+            self.assertFalse(law_scraper.save_to_mongodb(doc))
+        self.assertEqual(repo.upsert_with_change_detection.call_count, 2)  # 조문은 저장
+        repo.mark_save_complete.assert_called_once_with("https://example.invalid", complete=False)
+
+    def test_annex_rows_are_saved_with_articles(self):
+        repo = repo_failing_on(0)
+        doc = {"doc_id": "law-1", "title": "테스트법", "sub_title": "", "content": LAW_TEXT,
+               "metadata": {"source_url": "https://example.invalid"}}
+        annex_row = {"article_number": "별표1", "article_number_numeric": None, "article_title": "[별표 1] 기준",
+                     "content": "| a | b |", "annex": {"source_file": "a.pdf", "pdf_extraction_status": "complete"}}
+        with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=Mock()), \
+             patch.object(law_scraper, "UnifiedDocumentRepository", return_value=repo), \
+             patch.object(law_scraper, "collect_annex_articles", return_value=([annex_row], 0)):
+            self.assertEqual(law_scraper.save_to_mongodb(doc), "new_version")
+        saved = [c.args[0] for c in repo.upsert_with_change_detection.call_args_list]
+        self.assertEqual(saved[-1]["article_number"], "별표1")
+        self.assertTrue(saved[-1]["metadata"]["is_annex"])
 
 
 class IncompleteSaveIsRecrawledTest(unittest.TestCase):

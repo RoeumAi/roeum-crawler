@@ -104,7 +104,15 @@ def get_retry_doc_id_filter(collection_name: str) -> Optional[dict]:
     """
     if collection_name in {"judgment", "mediation_case"}:
         return {"metadata.is_active": True, "metadata.pdf_retry_needed": True}
+    if collection_name in METADATA_ONLY_RETRY_COLLECTIONS:
+        # 본문을 못 읽어 제목·출처만 남긴 문서(메타데이터 청크)는 매일 다시 확인한다.
+        # 원문에 정말 본문이 없는 문서(헌재 지정재판부 각하 등)도 있지만 요청 한 번이라 싸고,
+        # 그때 파싱만 실패했던 문서(판례 618235)는 다음 실행에서 채워진다.
+        return {"metadata.is_active": True, "metadata.is_metadata_only": True}
     return None
+
+
+METADATA_ONLY_RETRY_COLLECTIONS = {"case", "admin_decc", "constitutional_decc", "legislation_expc"}
 
 
 def candidate_doc_ids(url_items: List) -> Set[str]:

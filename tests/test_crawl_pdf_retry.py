@@ -35,8 +35,13 @@ class RetryDocIdFilterTest(unittest.TestCase):
         self.assertEqual(get_retry_doc_id_filter("judgment"), expected)
         self.assertEqual(get_retry_doc_id_filter("mediation_case"), expected)
 
+    def test_metadata_only_documents_are_retried(self):
+        expected = {"metadata.is_active": True, "metadata.is_metadata_only": True}
+        for name in ("case", "admin_decc", "constitutional_decc", "legislation_expc"):
+            self.assertEqual(get_retry_doc_id_filter(name), expected)
+
     def test_other_collections_have_no_retry_filter(self):
-        self.assertIsNone(get_retry_doc_id_filter("case"))
+        self.assertIsNone(get_retry_doc_id_filter("law"))
 
 
 class CrawledUrlsTest(unittest.TestCase):
@@ -66,7 +71,13 @@ class CrawledUrlsTest(unittest.TestCase):
     def test_other_collections_skip_every_existing_doc_id(self):
         docs = [{"doc_id": "1", "metadata": {"is_active": True, "pdf_retry_needed": True}}]
 
-        self.assertEqual(self._crawled("case", docs), {"1"})
+        self.assertEqual(self._crawled("interpretation", docs), {"1"})
+
+    def test_metadata_only_case_is_recrawled(self):
+        docs = [{"doc_id": "618235", "metadata": {"is_active": True, "is_metadata_only": True}},
+                {"doc_id": "618236", "metadata": {"is_active": True}}]
+
+        self.assertEqual(self._crawled("case", docs), {"618236"})
 
     def test_scoped_lookup_matches_only_todays_candidates(self):
         # 전체 distinct 대신 그날 목록 후보만 조회한다. 숫자로 저장된 doc_id 도 찾는다.

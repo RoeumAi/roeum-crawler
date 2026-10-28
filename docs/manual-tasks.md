@@ -84,3 +84,12 @@ python3 manual.py pdf-reparse --include-complete --apply     # complete 였던 �
 1. `argparse`로 인자를 받고 `if __name__ == "__main__":` 아래에서만 실행한다(`--help`가 실행 없이 떠야 한다).
 2. DB에 쓰는 도구는 미리 보기를 기본으로 하고 `--apply`로 쓰게 만든다.
 3. `manual.py`의 `TASKS`와 이 문서에 한 줄 추가한다. `tests/test_manual_tasks.py`가 모든 작업의 `--help`를 확인한다.
+
+## 파싱이 제대로 안 된 문서 다루기
+
+| 증상 | 어떻게 드러나나 | 처리 |
+|---|---|---|
+| 일일 수집 중 문서 파싱 실패 | 일일 요약 `[ERROR]`·배치 관리 PARTIAL, `failedTargets` | 다음 실행이 자동으로 다시 시도한다(신규는 DB에 없어서, 법령·행정규칙 일부 저장은 `metadata.save_incomplete`, 판정·조정 첨부는 `pdf_retry_needed`, 본문 없이 메타데이터만 남은 문서는 매일 재확인). 같은 문서가 며칠째 실패하면 `scrape:<종류> <URL> --no-db`로 원인을 본다 |
+| 수동으로 넣은 PDF가 일부 페이지만 읽힘 | `metadata.pdf_extraction_status=partial`, `pdf_retry_needed=true` | `pdf-reparse`로 지금 파서로 다시 읽는다(미리 보기 → `--apply`). 그래도 partial 이면 스캔 상태가 나쁜 원본이다 → 원본 파일을 다시 구하거나 그대로 둔다(읽은 부분은 검색됨) |
+| 별표·첨부를 못 읽음 | 문서 실패 + `save_incomplete` | 다음 실행이 다시 받는다. 계속 실패하면 Open API 응답(`target=law&MST=` / `target=admrul&ID=`)의 별표 링크를 확인 |
+| 파서 자체 문제(표가 깨짐 등) | 사람이 화면에서 발견 | chat_generation 파서 담당자에게 원본 파일과 함께 전달. 고쳐진 뒤 `pdf-reparse --include-complete`(수동 PDF) 또는 해당 문서에 `save_incomplete` 표시(크롤링 문서) |

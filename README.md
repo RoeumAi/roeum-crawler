@@ -34,7 +34,8 @@ run_daily.sh (일일 실행, 맥미니 launchd 또는 ECS 진입점 docker/entry
   └─ scripts/report/batch_result.py                       # 마지막 줄 BATCH_RESULT + 종료코드
 ```
 
-- 이미 수집했는지는 전부 DB로 판단한다(`data/`·`logs/`는 쓰기 전용). PDF 본문은 chat_generation `/api/extract-text`(`CHAT_GENERATION_URL`)로 추출한다.
+- 이미 수집했는지는 전부 DB로 판단한다(`data/`·`logs/`는 쓰기 전용). PDF·HWP 본문은 전부 chat_generation `/api/extract-text`(`CHAT_GENERATION_URL`)로 추출한다(`scripts/utils/document_extraction.py`). 표는 `document_blocks`의 칸 구조로 Markdown 표를 만든다(`scripts/utils/document_blocks.py`). 크롤러 안에서 OCR·PDF 파싱을 따로 하지 않는다.
+- 법령·행정규칙 별표는 본문 HTML에 없어 국가법령 Open API의 별표 원본 파일로 읽어 `article_number="별표N"` 행으로 저장한다(`scripts/core/lawgokr_annex.py`). 행정규칙 PDF 뷰어 문서도 뷰어의 원본 파일을 받아 같은 파서로 읽는다.
 - **결과 보고 규칙**: 실패를 경고 로그로만 남기지 않는다. 목록 페이지 실패는 `scripts/core/run_report.record_failure()`로, 문서 실패는 `scrape_and_save`가 `status: "failed"`를 돌려줘서 `failedTargets`에 잡히게 한다. 종료코드: 0(끝까지 돎, failed>0이면 부분 실패) / 2(재시도 후에도 목록 전체 실패) / 1(비정상 종료·재계산 실패).
 - 운영 실행 위치: 맥미니 launchd → ECS Fargate ARM64 예약 실행으로 전환 중(`Dockerfile`, `ecs/task-definition.json`, `.github/workflows/crawler-image.yml`). 설계: 상위 작업 공간 `docs/crawler-ecs-migration-design-20261025.md`.
 

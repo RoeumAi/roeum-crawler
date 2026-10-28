@@ -77,6 +77,7 @@ python3 manual.py pdf-reparse --include-complete --apply     # complete 였던 �
 | `fix:reference-sub-titles` | 기본=미리보기 | 웹 참조용 sub_title 보강 |
 | `fix:prune-interpretation` | 기본=쓰기(**삭제**) | 해석례를 고용노동부 관련만 남김 |
 | `fix:prune-law` | 기본=쓰기(**삭제**) | 법령을 고용노동부 소관만 남김 |
+| `fix:rescrape-paragraphs` | 기본=미리보기 | 문단 없이 한 줄로 저장된 행정심판재결례·헌재결정례·법제처해석례·판례(웹 수집분)를 원문에서 다시 받아 문단을 살린다. `--collection admin_decc --limit 20`으로 먼저 확인 |
 | `fix:retry-judgment-pdf` | 기본=미리보기 | PDF 본문 없는 주요판정사례 첨부 재추출 |
 
 ## 새 도구를 만들 때

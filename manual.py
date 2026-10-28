@@ -65,6 +65,8 @@ TASKS = [
     # 자료 넣기
     Task("pdf-ingest", "scripts.pdf_ingest.pdf_to_mongo", "자료 넣기", WRITES_DEFAULT,
          "맥미니 ~/loum/pdf_db 의 판례·행정해석·결정례 PDF 를 파싱해 넣기(--dry-run 로 미리 보기)"),
+    Task("pdf-reparse", "scripts.pdf_ingest.reparse", "자료 넣기", DRY_RUN_DEFAULT,
+         "PDF 로 넣은 판례·행정해석·결정례를 지금 파서로 다시 파싱(--apply 로 저장)"),
     Task("csv-import", "scripts.csv_import.run", "자료 넣기", DRY_RUN_DEFAULT,
          "판례·행정해석·판정사례 CSV 넣기(10-25 완료분, --apply 로 저장)"),
 

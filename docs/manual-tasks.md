@@ -44,9 +44,26 @@ python3 manual.py <작업> [인자...]    # 실행
 | 작업 | 등급 | 하는 일 |
 |---|---|---|
 | `pdf-ingest` | 기본=쓰기 | 맥미니 `~/loum/pdf_db`의 판례·행정해석·결정례 PDF를 chat_generation으로 파싱해 넣는다. `--type 판례 --dry-run`으로 먼저 확인 |
+| `pdf-reparse` | 기본=미리보기 | 이미 넣은 PDF 문서를 지금 파서로 다시 파싱(아래 "PDF 다시 파싱") |
 | `csv-import` | 기본=미리보기 | 판례·행정해석·판정사례 CSV 넣기(10-25 완료). `python3 manual.py csv-import case --csv <파일>` → `--apply` |
 
-`scripts/pdf_ingest/reparse_existing.py`는 실행기가 아니라 함수 모음이다(이미 넣은 PDF 문서를 같은 ID로 다시 파싱하는 교체본 계산). 이를 불러 임베딩까지 붙여 트랜잭션으로 바꾸는 실행기는 아직 없다.
+`pdf-ingest`는 DB에 이미 있는 파일(`metadata.source_file`)은 건너뛴다. 이미 넣은 문서를 고치려면 `pdf-reparse`를 쓴다.
+
+#### PDF 다시 파싱 (`pdf-reparse`)
+
+맥미니(원본 PDF가 `~/loum/pdf_db`에 있음)에서 실행한다. 파서는 `CHAT_GENERATION_URL`의 chat_generation이다.
+
+```bash
+python3 manual.py pdf-reparse --type 행정해석 --limit 20     # 미리 보기: 상태·글자 보존율·표 수 변화
+python3 manual.py pdf-reparse --doc-id <doc_id>              # 한 건만
+python3 manual.py pdf-reparse --apply                        # 지난 파싱이 불완전한 문서 전부 저장
+python3 manual.py pdf-reparse --include-complete --apply     # complete 였던 문서까지(표 인식 개선 반영)
+```
+
+- 대상: `metadata.source_type=pdf` + `metadata.pdf_retry_needed=true`(지난 파싱이 partial).
+- 문서·청크 ID와 청크 수는 그대로, 본문만 바꾼다. 새로 읽은 글이 없거나 35% 넘게 줄면 기존 문서를 유지한다. 한 문서는 트랜잭션 하나로 바꾼다.
+- 임베딩: 기존 벡터는 남겨 둔다. 판례·행정해석은 대표 행의 `embedding_hash`를 지워 맥미니 03:30 `mongo_embed_refresh`가 새 본문으로 다시 임베딩한다. 결정례는 그 작업의 대상 컬렉션이 아니므로 다시 임베딩하려면 그 작업에 `decision`을 넣어 돌린다.
+- OCR이 필요한 스캔 PDF는 chat_generation이 OpenAI OCR을 부른다(10-28 시험: 문서당 약 $0.002~0.013).
 
 ### 데이터 정비 (대부분 끝난 일회성 — 같은 문제가 다시 생겼을 때만)
 | 작업 | 등급 | 하는 일 |

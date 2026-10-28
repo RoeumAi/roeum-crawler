@@ -1,9 +1,14 @@
 name: PR Test Checks
 
+# 문서만 바뀐 PR 은 돌리지 않는다(Actions 사용 시간 절약). 필수 검사로 걸려 있지 않아 건너뛰어도 머지할 수 있다.
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - '**.md'
+      - docs/**
+      - .github/workflows/crawler-image.yml
 
 permissions:
   contents: read
@@ -31,4 +36,4 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run tests
-        run: python -m pytest tests/ -v
+        run: python -m pytest tests/ -q

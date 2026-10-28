@@ -38,6 +38,7 @@ def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_s
         collection = get_mongo_db()[collection_name]
         saved = 0
         failed = 0
+        current_keys = set()
 
         for chunk_idx, chunk in enumerate(chunks, 1):
             chunk_title = chunk.get('title', '')
@@ -84,11 +85,21 @@ def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_s
                         upsert=True,
                     )
                     saved += 1
+                    current_keys.add((chunk_title, seq))
                 except Exception as e:
                     logger.error(f"청크 저장 실패 {chunk_title}: {e}")
                     failed += 1
 
         logger.info(f"✅ {doc_id}: {saved}개 저장 (실패: {failed})")
+        if failed == 0 and current_keys:
+            # 이번에 없는 섹션(예: 예전에 남긴 메타데이터 청크)은 끈다. 판례 저장과 같은 규칙.
+            for row in collection.find({"doc_id": doc_id, "metadata.is_active": True},
+                                       {"doc_type": 1, "chunk_seq": 1}):
+                if (row.get("doc_type"), row.get("chunk_seq")) not in current_keys:
+                    collection.update_one({"_id": row["_id"]}, {"$set": {
+                        "metadata.is_active": False,
+                        "metadata.deactivated_at": datetime.now().isoformat(),
+                    }})
         return is_complete_chunk_save(saved=saved, failed=failed)
     except Exception as e:
         logger.error(f"MongoDB 저장 실패: {e}", exc_info=True)

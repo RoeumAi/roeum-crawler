@@ -26,6 +26,20 @@ class SaveSectionChunksTest(unittest.TestCase):
         self.assertEqual(filt, {"doc_id": "100", "doc_type": "주문", "chunk_seq": 1})
         self.assertEqual(update["$set"]["metadata.token_count"], 3)
 
+    def test_sections_not_in_this_save_are_deactivated(self):
+        collection = MagicMock()
+        collection.find.return_value = [
+            {"_id": 1, "doc_type": "주문", "chunk_seq": 1},
+            {"_id": 2, "doc_type": "메타데이터", "chunk_seq": 1},  # 예전에 본문을 못 읽어 남긴 줄
+        ]
+        with patch("scripts.core.database.mongo_client.get_mongo_db", return_value={"admin_decc": collection}), \
+             patch.object(section_chunks, "split_section", side_effect=lambda t: [(t, 3)]):
+            ok = section_chunks.save_section_chunks("admin_decc", "100", "제목", "", "u",
+                                                    [{"title": "주문", "text": "기각"}])
+        self.assertTrue(ok)
+        deactivated = [c.args[0] for c in collection.update_one.call_args_list if c.args[0] == {"_id": 2}]
+        self.assertEqual(deactivated, [{"_id": 2}])
+
     def test_tokenizer_failure_is_a_failed_save(self):
         def split(text):
             if text == "이유 본문":

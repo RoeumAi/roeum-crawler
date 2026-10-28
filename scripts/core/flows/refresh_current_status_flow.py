@@ -9,7 +9,7 @@ lawService.do로 얻은 안정 ID(law_id/adrule_id)를 기준으로 그룹핑하
 import os
 import sys
 from datetime import date, datetime
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 if project_root not in sys.path:
@@ -49,7 +49,7 @@ def apply_promotion(collection, group_id: str, plan: Dict) -> None:
             new_articles = list(collection.find(
                 {"doc_id": new_current}, {"article_number": 1, "content": 1}
             ))
-            diffs = ArticleDiffBuilder.build(old_articles, new_articles)
+            diffs = ArticleDiffBuilder.build(*comparable_articles(old_articles, new_articles))
             new_by_article = {a["article_number"]: a for a in new_articles}
             for diff in diffs:
                 if diff["article_number"] in new_by_article:
@@ -58,6 +58,20 @@ def apply_promotion(collection, group_id: str, plan: Dict) -> None:
                         {"$set": {"metadata.update_summary": diff}},
                     )
             logger.info(f"[{group_id}] 승격: {plan['old_current']} → {new_current}, 조문 변경 {len(diffs)}건")
+
+
+def _is_annex(article: Dict) -> bool:
+    return str(article.get("article_number") or "").startswith("별표")
+
+
+def comparable_articles(old_articles: List[Dict], new_articles: List[Dict]):
+    """신구대조에 쓸 조문 쌍. 옛 버전에 별표 행이 하나도 없으면(별표 수집 전에 저장된 버전) 별표를 비교에서 뺀다.
+
+    별표는 2026-10-28 부터 수집한다. 그 전 버전과 비교하면 모든 별표가 '신설'로 잘못 나온다.
+    """
+    if any(_is_annex(a) for a in old_articles):
+        return old_articles, new_articles
+    return old_articles, [a for a in new_articles if not _is_annex(a)]
 
 
 def refresh_collection(collection, id_field: str, today: Optional[str] = None) -> Dict:

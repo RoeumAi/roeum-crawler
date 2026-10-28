@@ -77,3 +77,13 @@ class CollectTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AnnexDiffTest(unittest.TestCase):
+    def test_annexes_are_not_new_when_old_version_predates_annex_collection(self):
+        from scripts.core.flows.refresh_current_status_flow import comparable_articles
+        old = [{"article_number": "1", "content": "가"}]
+        new = [{"article_number": "1", "content": "가"}, {"article_number": "별표1", "content": "| a |"}]
+        self.assertEqual(comparable_articles(old, new), (old, [new[0]]))
+        old_with = old + [{"article_number": "별표1", "content": "| b |"}]
+        self.assertEqual(comparable_articles(old_with, new), (old_with, new))

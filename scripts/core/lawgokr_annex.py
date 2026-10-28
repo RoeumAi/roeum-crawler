@@ -127,15 +127,16 @@ def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str]
             response.raise_for_status()
             document = usable_document(extract(response.content, annex.file_name))
             content, status, source = document["structured_text"].strip(), document.get("extraction_status"), annex.file_name
+            blocks = document.get("document_blocks") or []
         else:
             # 원본 파일이 없는 별표: Open API 가 준 글(선 그림 표)을 그대로 쓴다.
-            content, status, source = annex.text.strip(), "api_text", ""
+            content, status, source, blocks = annex.text.strip(), "api_text", "", []
         articles.append({
             "article_number": annex.article_number,
             "article_number_numeric": None,
             "article_title": annex.title,
             "content": content,
-            "annex": {"source_file": source, "pdf_extraction_status": status},
+            "annex": {"source_file": source, "pdf_extraction_status": status, "document_blocks": blocks},
         })
     return articles
 
@@ -163,5 +164,10 @@ def annex_metadata(article: dict) -> dict:
     annex = article.get("annex")
     if not annex:
         return {}
-    return {"is_annex": True, "annex_source_file": annex["source_file"],
+    meta = {"is_annex": True, "annex_source_file": annex["source_file"],
             "pdf_extraction_status": annex.get("pdf_extraction_status")}
+    if annex.get("document_blocks"):
+        # 법률 DB 화면은 행에 document_blocks 가 있으면 표를 표로 그린다(없으면 본문을 평문으로).
+        # document_blocks_scope 는 두지 않는다('section'이면 문서 전체를 이 행 하나로 접는다).
+        meta["document_blocks"] = annex["document_blocks"]
+    return meta

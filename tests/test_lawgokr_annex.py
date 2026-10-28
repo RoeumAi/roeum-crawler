@@ -64,7 +64,10 @@ class CollectTest(unittest.TestCase):
         self.assertEqual(failed, 0)
         self.assertEqual(rows[0]["article_number"], "별표1")
         self.assertIn("| 가 | 100만원 |", rows[0]["content"])
-        self.assertEqual(annex.annex_metadata(rows[0])["is_annex"], True)
+        meta = annex.annex_metadata(rows[0])
+        self.assertEqual(meta["is_annex"], True)
+        self.assertEqual(meta["document_blocks"][0]["kind"], "table")  # 화면이 표로 그리도록
+        self.assertNotIn("document_blocks_scope", meta)
 
     def test_api_failure_or_parse_failure_counts_as_failed(self):
         self.assertEqual(annex.collect_annex_articles("law", None, Mock()), ([], 1))

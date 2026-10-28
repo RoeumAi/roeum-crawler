@@ -89,6 +89,8 @@ TASKS = [
          WRITES_DEFAULT, "해석례를 고용노동부 관련만 남기고 삭제(--dry-run 로 미리 보기)"),
     Task("fix:prune-law", "scripts.migrations.prune_law_to_ministry", "데이터 정비", WRITES_DEFAULT,
          "법령을 고용노동부 소관만 남기고 삭제(--dry-run 로 미리 보기)"),
+    Task("fix:rescrape-paragraphs", "scripts.migrations.rescrape_paragraphs", "데이터 정비", DRY_RUN_DEFAULT,
+         "문단 없이 한 줄로 저장된 재결례·결정례·판례를 원문에서 다시 받아 문단 살리기"),
     Task("fix:retry-judgment-pdf", "scripts.migrations.retry_judgment_pdf_extraction", "데이터 정비", DRY_RUN_DEFAULT,
          "PDF 본문이 없는 주요판정사례 첨부 다시 추출"),
 ]

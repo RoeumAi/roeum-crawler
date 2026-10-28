@@ -14,6 +14,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 # --- 로거 설정 ---
+from scripts.utils.html_text import block_text
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.section_chunks import split_section
 from scripts.core.identifiers import section_chunk_id
@@ -133,9 +134,8 @@ def parse_case_law_content(html: str, doc_id: str, url: str, doc_title: str):
                 # 당사자·행정 소제목은 전문 청크 텍스트에 병합
                 current_chunk["text"] += "\n" + element_text
         elif current_chunk:
-            for br in element.find_all("br"):
-                br.replace_with("\n")
-            current_chunk["text"] += " " + element.get_text()
+            # 문단 경계를 살린다(예전에는 공백으로 이어 붙여 긴 본문이 한 줄이 됐다).
+            current_chunk["text"] += "\n\n" + block_text(element)
 
     if current_chunk and current_chunk.get('text'):
         current_chunk['text'] = clean_spaces(current_chunk['text'])

@@ -32,6 +32,18 @@ class AnnexListTest(unittest.TestCase):
         self.assertEqual([(a.article_number, a.file_name) for a in found], [("별표1", "[별표 1] 요율표.pdf")])
         self.assertTrue(found[0].url.startswith("https://"))
 
+    def test_adrule_annex_section_is_used_first_and_text_only_unit_kept(self):
+        record = {"AdmRulService": {"별표": {"별표단위": [
+            {"별표번호": "0001", "별표제목": "선정 기준", "별표내용": [["┏━┓", "┃기준┃"]]},
+            {"별표번호": "0002", "별표제목": "검사항목", "별표서식PDF파일링크": "/LSW/flDownload.do?flSeq=9"},
+        ]}, "첨부파일": ADRULE_RECORD["AdmRulService"]["첨부파일"]}}
+        found = annex.adrule_annexes(record)
+        self.assertEqual([a.article_number for a in found], ["별표1", "별표2"])
+        self.assertEqual((found[0].url, found[0].text), ("", "┏━┓\n┃기준┃"))
+        rows = annex.annex_articles(found[:1])
+        self.assertEqual(rows[0]["content"], "┏━┓\n┃기준┃")
+        self.assertEqual(rows[0]["annex"]["pdf_extraction_status"], "api_text")
+
     def test_no_annex_section(self):
         self.assertEqual(annex.law_annexes({"법령": {}}), [])
         self.assertEqual(annex.adrule_annexes({}), [])

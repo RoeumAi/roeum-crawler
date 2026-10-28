@@ -4,8 +4,9 @@
 별표를 참조하는 법령 64건·행정규칙 150건, 저장된 별표 0건). 원본 PDF 를 받아 다른 첨부와 같은
 파서로 읽어 표를 Markdown 표로 남긴다.
 
-- 법령: lawService.do?target=law&MST=<doc_id> 의 `별표.별표단위` 중 별표구분=별표(서식 제외), PDF 우선
-- 행정규칙: target=admrul&ID=<doc_id> 의 `첨부파일` 중 이름에 '별표'가 있는 파일, 같은 이름이면 PDF 우선
+- 법령(target=law&MST=)·행정규칙(target=admrul&ID=) 모두 응답의 `별표.별표단위`를 쓴다.
+  별표구분이 서식(별지)인 것은 빈 양식이라 뺀다. 파일은 PDF → HWP 순, 파일이 없으면 응답의 `별표내용` 글을 쓴다.
+- 행정규칙에 `별표` 항목이 없으면 `첨부파일` 중 이름에 '별표'가 있는 파일을 쓴다.
 """
 import re
 from dataclasses import dataclass
@@ -24,8 +25,9 @@ EXTRACTABLE = (".pdf", ".hwpx", ".hwp")
 class Annex:
     article_number: str   # "별표1", "별표1의2", 번호 없는 별표는 "별표"
     title: str            # "[별표 1] 과태료의 부과기준(제22조제1항 관련)"
-    url: str
+    url: str              # 원본 파일. 없으면 ""(→ text 사용)
     file_name: str
+    text: str = ""        # API 가 준 별표 글(파일이 없을 때만 씀)
 
 
 def _as_list(value) -> list:
@@ -43,31 +45,47 @@ def _annex_number(number: str, branch: str = "") -> str:
     return f"{main}의{sub}" if sub else str(main)
 
 
-def law_annexes(record: dict) -> list[Annex]:
-    units = _as_list(((record or {}).get("법령") or {}).get("별표", {}).get("별표단위"))
+def _flatten(value) -> str:
+    if isinstance(value, list):
+        return "\n".join(_flatten(v) for v in value)
+    return str(value or "").rstrip()
+
+
+def annexes_from_units(units) -> list[Annex]:
     annexes = []
-    for unit in units:
+    for unit in _as_list(units):
         if (unit.get("별표구분") or "별표") != "별표":
             continue  # 별지 서식은 빈 양식이라 넣지 않는다
-        link = unit.get("별표서식PDF파일링크") or unit.get("별표서식파일링크")
-        if not link:
-            continue
         number = _annex_number(unit.get("별표번호", ""), unit.get("별표가지번호", ""))
         title = (unit.get("별표제목") or "").strip()
+        pdf, hwp = unit.get("별표서식PDF파일링크"), unit.get("별표서식파일링크")
+        link = pdf or hwp or ""
+        text = _flatten(unit.get("별표내용")) if not link else ""
+        if not link and not text.strip():
+            continue
         annexes.append(Annex(
             article_number=f"별표{number}",
             title=f"[별표 {number}] {title}".replace("[별표 ]", "[별표]").strip(),
-            url=DOWNLOAD_BASE + link if link.startswith("/") else link,
-            file_name=unit.get("별표PDF파일명") or unit.get("별표HWP파일명") or f"별표{number}.pdf",
+            url=(DOWNLOAD_BASE + link if link.startswith("/") else link),
+            file_name=(unit.get("별표PDF파일명") if pdf else unit.get("별표HWP파일명")) or f"별표{number}.{'pdf' if pdf else 'hwp'}",
+            text=text,
         ))
     return annexes
+
+
+def law_annexes(record: dict) -> list[Annex]:
+    return annexes_from_units((((record or {}).get("법령") or {}).get("별표") or {}).get("별표단위"))
 
 
 ANNEX_NAME = re.compile(r"\[?\s*별표\s*(\d+)?(?:\s*의\s*(\d+))?\s*\]?")
 
 
 def adrule_annexes(record: dict) -> list[Annex]:
-    files = ((record or {}).get("AdmRulService") or {}).get("첨부파일") or {}
+    service = (record or {}).get("AdmRulService") or {}
+    units = (service.get("별표") or {}).get("별표단위") if isinstance(service.get("별표"), dict) else None
+    if units:
+        return annexes_from_units(units)
+    files = service.get("첨부파일") or {}
     links, names = _as_list(files.get("첨부파일링크")), _as_list(files.get("첨부파일명"))
     by_stem: dict[str, tuple[str, str]] = {}
     for link, name in zip(links, names):
@@ -92,15 +110,20 @@ def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str]
     extract = extract or call_extract_text
     articles = []
     for annex in annexes:
-        response = requests.get(annex.url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
-        response.raise_for_status()
-        document = usable_document(extract(response.content, annex.file_name))
+        if annex.url:
+            response = requests.get(annex.url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
+            response.raise_for_status()
+            document = usable_document(extract(response.content, annex.file_name))
+            content, status, source = document["structured_text"].strip(), document.get("extraction_status"), annex.file_name
+        else:
+            # 원본 파일이 없는 별표: Open API 가 준 글(선 그림 표)을 그대로 쓴다.
+            content, status, source = annex.text.strip(), "api_text", ""
         articles.append({
             "article_number": annex.article_number,
             "article_number_numeric": None,
             "article_title": annex.title,
-            "content": document["structured_text"].strip(),
-            "annex": {"source_file": annex.file_name, "pdf_extraction_status": document.get("extraction_status")},
+            "content": content,
+            "annex": {"source_file": source, "pdf_extraction_status": status},
         })
     return articles
 

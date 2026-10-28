@@ -15,7 +15,8 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id
-from scripts.core.lawgokr_stable_id import fetch_stable_law_id
+from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles
+from scripts.core.lawgokr_stable_id import fetch_record, stable_law_id as read_stable_law_id
 
 logger = get_logger(__name__, scraper_type='law')
 
@@ -279,7 +280,8 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
         # 여기서는 법령ID(안정 ID)만 조회해서 저장해둔다.
         base_doc_id = unified_doc["doc_id"]
         law_id = unified_doc.get("law_id", "")
-        stable_law_id = fetch_stable_law_id(base_doc_id)
+        record = fetch_record("law", base_doc_id)  # 안정 ID·별표를 한 번에
+        stable_law_id = read_stable_law_id(record)
         if stable_law_id:
             law_id = stable_law_id
         elif law_id:
@@ -296,10 +298,14 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
                 "article_title": unified_doc.get("title", ""),
                 "content": unified_doc["content"]
             }]
+
+        # 별표(표가 대부분)는 본문 HTML 에 없어 Open API 의 원본 파일로 따로 읽는다.
+        annex_rows, annex_failed = collect_annex_articles("law", record, logger)
+        articles = articles + annex_rows
         
         # 2. 각 조마다 독립 문서 생성 및 저장
         saved_count = 0
-        failed_count = 0
+        failed_count = annex_failed  # 별표를 못 읽었으면 조문은 넣되 문서는 실패로
         any_changed = False
         
         for idx, article in enumerate(articles, 1):
@@ -337,6 +343,7 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
 
                 # 시행예정 여부
                 article_doc["metadata"]["is_upcoming"] = unified_doc.get("is_upcoming", False)
+                article_doc["metadata"].update(annex_metadata(article))
 
                 # 변경 감지 포함 upsert
                 doc_id, action_result = repo.upsert_with_change_detection(article_doc)

@@ -17,7 +17,8 @@ from scripts.utils.logger_config import get_logger
 from scripts.utils.document_extraction import call_extract_text, usable_document
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
-from scripts.core.lawgokr_stable_id import fetch_stable_adrule_id
+from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles
+from scripts.core.lawgokr_stable_id import fetch_record, stable_adrule_id
 
 logger = get_logger(__name__, scraper_type='adrule')
 
@@ -241,7 +242,7 @@ def split_articles_by_number(content: str) -> list:
 
 def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
                    sub_title: str = "", effective_date: str = None, dept_name: str = None,
-                   is_upcoming: bool = False, adrule_id: str = None) -> str:
+                   is_upcoming: bool = False, adrule_id: str = None, lawgokr_record: dict = None) -> str:
     """
     행정예규를 MongoDB에 조별로 분리하여 저장 (law.py와 동일)
     
@@ -315,10 +316,16 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 "article_title": None,
                 "content": unified_content
             }]
+
+        # 별표 첨부(표가 대부분)를 원본 파일로 읽어 함께 저장한다. 못 읽으면 문서는 실패로 센다.
+        if lawgokr_record is None:
+            lawgokr_record = fetch_record("admrul", doc_id)
+        annex_rows, annex_failed = collect_annex_articles("adrule", lawgokr_record, logger)
+        articles = articles + annex_rows
         
         # 각 조마다 독립 문서 생성 및 저장
         saved_count = 0
-        failed_count = 0
+        failed_count = annex_failed
         any_changed = False
         
         for idx, article in enumerate(articles, 1):
@@ -345,6 +352,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 if adrule_id:
                     meta["adrule_id"] = adrule_id
                 meta.update(source_file_meta)
+                meta.update(annex_metadata(article))
 
                 article_doc = {
                     "chunk_id": article_chunk_id("adrule", doc_id, article_number),
@@ -396,7 +404,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
 async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
                                 sub_title: str = "", effective_date: str = None, executor=None,
                                 dept_name: str = None, is_upcoming: bool = False,
-                                adrule_id: str = None) -> str:
+                                adrule_id: str = None, lawgokr_record: dict = None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     import functools
     loop = asyncio.get_running_loop()
@@ -406,6 +414,7 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
             chunks, doc_title, doc_id, url,
             dept_code=dept_code, sub_title=sub_title, effective_date=effective_date,
             dept_name=dept_name, is_upcoming=is_upcoming, adrule_id=adrule_id,
+            lawgokr_record=lawgokr_record,
         )
         result = await loop.run_in_executor(executor, fn)
         return result
@@ -490,8 +499,9 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             if not doc_id:
                 doc_id = re.sub(r'[^a-zA-Z0-9]', '', doc_title)
 
-            # 행정규칙ID(안정 ID) 조회 — 실패해도 크롤링은 계속 진행
-            adrule_id = fetch_stable_adrule_id(doc_id)
+            # 행정규칙ID(안정 ID)·별표 첨부를 Open API 한 번으로 조회 — 안정 ID 는 실패해도 계속 진행
+            lawgokr_record = fetch_record("admrul", doc_id)
+            adrule_id = stable_adrule_id(lawgokr_record)
             if not adrule_id:
                 logger.warning(f"행정규칙ID API 조회 실패: doc_id={doc_id}")
 
@@ -533,6 +543,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                     dept_name=dept_name,
                     is_upcoming=is_upcoming,
                     adrule_id=adrule_id,
+                    lawgokr_record=lawgokr_record,
                 )
             
             if save_to_db and not chunks:

@@ -44,6 +44,11 @@ class AnnexListTest(unittest.TestCase):
         self.assertEqual(rows[0]["content"], "┏━┓\n┃기준┃")
         self.assertEqual(rows[0]["annex"]["pdf_extraction_status"], "api_text")
 
+    def test_duplicate_numbers_get_suffix(self):
+        units = [{"별표번호": "0000", "별표제목": "가", "별표서식PDF파일링크": "/a"},
+                 {"별표번호": "0000", "별표제목": "나", "별표서식PDF파일링크": "/b"}]
+        self.assertEqual([a.article_number for a in annex.annexes_from_units(units)], ["별표", "별표-2"])
+
     def test_no_annex_section(self):
         self.assertEqual(annex.law_annexes({"법령": {}}), [])
         self.assertEqual(annex.adrule_annexes({}), [])

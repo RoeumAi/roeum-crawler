@@ -70,7 +70,20 @@ def annexes_from_units(units) -> list[Annex]:
             file_name=(unit.get("별표PDF파일명") if pdf else unit.get("별표HWP파일명")) or f"별표{number}.{'pdf' if pdf else 'hwp'}",
             text=text,
         ))
-    return annexes
+    return unique_numbers(annexes)
+
+
+def unique_numbers(annexes: list[Annex]) -> list[Annex]:
+    """같은 번호(번호 없는 별표 여럿 등)는 순서대로 -2, -3 을 붙인다. 겹치면 서로 덮어써 매번 새 버전이 생긴다."""
+    seen: dict[str, int] = {}
+    result = []
+    for annex in annexes:
+        count = seen.get(annex.article_number, 0) + 1
+        seen[annex.article_number] = count
+        if count > 1:
+            annex = Annex(f"{annex.article_number}-{count}", annex.title, annex.url, annex.file_name, annex.text)
+        result.append(annex)
+    return result
 
 
 def law_annexes(record: dict) -> list[Annex]:
@@ -100,9 +113,8 @@ def adrule_annexes(record: dict) -> list[Annex]:
     for stem, (link, name) in by_stem.items():
         match = ANNEX_NAME.search(stem)
         number = _annex_number(match.group(1) or "", match.group(2) or "") if match else ""
-        annexes.append(Annex(article_number=f"별표{number}" if number else f"별표:{stem}",
-                             title=stem, url=link, file_name=name))
-    return sorted(annexes, key=lambda a: a.article_number)
+        annexes.append(Annex(article_number=f"별표{number}", title=stem, url=link, file_name=name))
+    return unique_numbers(sorted(annexes, key=lambda a: a.article_number))
 
 
 def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str], dict]] = None) -> list[dict]:

@@ -43,9 +43,17 @@ TARGET_LAWS = [
 ]
 
 
-def selected_targets() -> list[tuple]:
+def parse_args(argv=None):
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="지정 법령(TARGET_LAWS)을 law.go.kr 에서 찾아 조문을 수집해 MongoDB 에 저장한다(운영 DB 씀).")
+    parser.add_argument("laws", nargs="*", help="TARGET_LAWS 중 이 법령명만 (없으면 전체)")
+    return parser.parse_args(argv)
+
+
+def selected_targets(wanted=None) -> list[tuple]:
     """인자로 법령명을 주면 그것만, 없으면 TARGET_LAWS 전체를 대상으로 한다."""
-    wanted = [a for a in sys.argv[1:] if not a.startswith("-")]
+    wanted = list(wanted or [])
     if not wanted:
         return TARGET_LAWS
     picked = [t for t in TARGET_LAWS if t[0] in wanted]
@@ -113,7 +121,7 @@ async def find_current_lsi_seq(page, law_name: str, today: str) -> dict | None:
     return best
 
 
-async def main():
+async def main(wanted=None):
     today = date.today().strftime("%Y%m%d")
     output_dir = os.path.join(project_root, "data", "output", "law", "cherry_pick")
     os.makedirs(output_dir, exist_ok=True)
@@ -124,7 +132,7 @@ async def main():
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
 
-        for target in selected_targets():
+        for target in selected_targets(wanted):
             law_name, dept_name = target[0], target[1]
             # 3번째 원소가 있으면 검색을 건너뛰고 그 URL 을 그대로 쓴다.
             # 존속기한이 지나 '현행법령' 검색에 안 잡히는 법령을 위한 경로다.
@@ -185,4 +193,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main(parse_args().laws))

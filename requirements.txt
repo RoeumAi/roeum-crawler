@@ -1,7 +1,6 @@
 scrapy==2.11.2
 lxml>=4.9.3
 trafilatura>=1.9.0
-pdfminer.six>=20231228
 beautifulsoup4>=4.12.3
 w3lib>=2.2.1
 orjson>=3.10.7
@@ -15,14 +14,6 @@ pydantic>=2.0.0
 
 # Tokenizer for text chunking (토크나이저만 쓰므로 torch 불필요)
 transformers>=4.30.0
-
-# Image processing
-Pillow>=10.0.0
-pytesseract>=0.3.10
-opencv-python-headless>=4.8.0
-
-# OpenAI OCR (Naver CLOVA 대체)
-openai>=1.0.0
 
 # Additional utilities
 requests>=2.31.0

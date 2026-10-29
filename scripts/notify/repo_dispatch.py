@@ -8,6 +8,7 @@ b2c 의 워크플로가 이 신호를 받아 공개 법률 문서 페이지를 �
 """
 import json
 import os
+import urllib.error
 import urllib.request
 
 TOKEN_ENV = "LEGALDB_DISPATCH_TOKEN"
@@ -38,6 +39,9 @@ def dispatch_legaldb_changed() -> bool:
             ok = 200 <= resp.status < 300
         print("법률 문서 페이지 갱신 요청 전송 완료" if ok else f"법률 문서 페이지 갱신 요청 실패: HTTP {resp.status}")
         return ok
+    except urllib.error.HTTPError as e:  # 잘못된 PAT(401/403/404) 구분용. 메시지·본문·헤더는 남기지 않고 상태 코드만 기록한다.
+        print(f"법률 문서 페이지 갱신 요청 실패: HTTP {e.code}")
+        return False
     except Exception as e:  # 크롤링 결과에 영향 없음. 메시지에 토큰이 섞일 수 있어 타입만 남긴다.
         print(f"법률 문서 페이지 갱신 요청 실패: {type(e).__name__}")
         return False

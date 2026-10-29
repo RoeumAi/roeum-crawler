@@ -1,5 +1,7 @@
 """크롤링 뒤 b2c 저장소에 법률 문서 공개 페이지 갱신을 요청한다. 실패해도 크롤링 결과에는 영향이 없어야 한다."""
+import io
 import json
+import urllib.error
 from unittest import mock
 
 from scripts.notify import repo_dispatch
@@ -56,6 +58,18 @@ def test_exception_is_swallowed_and_token_not_logged(monkeypatch, capsys):
     out = capsys.readouterr()
     assert FAKE_TOKEN not in out.out + out.err
 
+
+def test_http_error_logs_status_code_only(monkeypatch, capsys):
+    monkeypatch.setenv(TOKEN_ENV, FAKE_TOKEN)
+    err = urllib.error.HTTPError(
+        repo_dispatch.DISPATCH_URL, 403, f"Forbidden {FAKE_TOKEN}", {"X-Token": FAKE_TOKEN},
+        io.BytesIO(f"body {FAKE_TOKEN}".encode()),
+    )
+    with mock.patch.object(repo_dispatch.urllib.request, "urlopen", side_effect=err):
+        assert repo_dispatch.dispatch_legaldb_changed() is False
+    out = capsys.readouterr()
+    assert "403" in out.out
+    assert FAKE_TOKEN not in out.out + out.err
 
 def test_main_never_fails(monkeypatch):
     monkeypatch.setenv(TOKEN_ENV, FAKE_TOKEN)

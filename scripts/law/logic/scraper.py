@@ -13,6 +13,8 @@ from typing import Optional, Dict, List, Tuple
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
+from scripts.utils.text_cleanup import clean_text  # noqa: E402
+
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id
@@ -196,6 +198,8 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
         
         text_with_newlines = temp_soup.get_text(separator="")
         final_text = "\n".join(line.strip() for line in text_with_newlines.splitlines() if line.strip())
+        # 본문 첫 줄이 "제N조(제목)   ①…" 로 붙어 나오므로 제목 뒤 공백을 줄바꿈으로 정규화
+        final_text = clean_text(final_text, "law")
         
         # 청크 생성
         chunk_text = f"[{article_title}]\n{final_text}"

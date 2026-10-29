@@ -6,6 +6,8 @@ import copy
 import hashlib
 from typing import Any
 
+from scripts.utils.text_cleanup import clean_text
+
 
 def sha256_content(content: Any) -> str:
     normalized = str(content or "")
@@ -21,6 +23,8 @@ def build_source_version_id(collection: str, chunk_id: str, content_hash: str) -
 
 def enrich_source_document(document: dict, collection: str) -> dict:
     enriched = copy.deepcopy(document)
+    if isinstance(enriched.get("content"), str):
+        enriched["content"] = clean_text(enriched["content"], collection)  # 수집 저장 경로 공용 정리(멱등)
     content_hash = sha256_content(enriched.get("content"))
     chunk_id = str(enriched.get("chunk_id") or enriched.get("doc_id") or "").strip()
     metadata = dict(enriched.get("metadata") or {})

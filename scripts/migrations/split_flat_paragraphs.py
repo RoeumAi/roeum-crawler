@@ -5,7 +5,7 @@
 
 대상: 지정 컬렉션의 활성 행 중 metadata.source_type(기본 csv)이 맞고, 800자 넘는데 줄바꿈이 없는 행.
 웹 수집분은 원문에 문단이 있으므로 fix:rescrape-paragraphs 를 쓴다.
-공백만 빈 줄로 바꾸므로(글자 그대로) 임베딩은 다시 계산되지 않는다. 바뀌지 않는 행은 쓰지 않는다.
+공백만 빈 줄로 바꾸므로(글자 그대로) 임베딩은 다시 계산되지 않는다(content_hash·source_version_id 는 다시 계산). 바뀌지 않는 행은 쓰지 않는다.
 """
 import argparse
 import re
@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from pymongo import UpdateOne  # noqa: E402
 
+from scripts.core.database.source_versioning import build_source_version_id, sha256_content  # noqa: E402
 from scripts.utils.paragraph_split import same_text_ignoring_space, split_paragraphs  # noqa: E402
 
 BATCH = 500
@@ -36,7 +37,7 @@ def run(args, db, out=print) -> dict:
     totals = {"rows": 0, "changed": 0, "unchanged": 0, "written": 0}
     ops = []
     shown = 0
-    cursor = collection.find(query, {"content": 1, "doc_id": 1, "doc_type": 1})
+    cursor = collection.find(query, {"content": 1, "doc_id": 1, "doc_type": 1, "chunk_id": 1})
     if args.limit:
         cursor = cursor.limit(args.limit)
     for row in cursor:
@@ -53,7 +54,11 @@ def run(args, db, out=print) -> dict:
             out(f"\n== {row.get('doc_id')} [{row.get('doc_type')}] 문단 1 → {after.count(chr(10) * 2) + 1}")
             out(after[:600] + ("…" if len(after) > 600 else ""))
         if args.apply:
-            ops.append(UpdateOne({"_id": row["_id"], "content": before}, {"$set": {"content": after}}))
+            content_hash = sha256_content(after)
+            chunk_id = str(row.get("chunk_id") or row.get("doc_id") or "").strip()
+            fields = {"content": after, "content_hash": content_hash,
+                      "source_version_id": build_source_version_id(args.collection, chunk_id, content_hash)}
+            ops.append(UpdateOne({"_id": row["_id"], "content": before}, {"$set": fields}))
             if len(ops) >= BATCH:
                 totals["written"] += collection.bulk_write(ops, ordered=False).modified_count
                 ops = []

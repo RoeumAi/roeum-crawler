@@ -93,6 +93,8 @@ TASKS = [
          "문단 없이 한 줄로 저장된 재결례·결정례·판례를 원문에서 다시 받아 문단 살리기"),
     Task("fix:split-paragraphs", "scripts.migrations.split_flat_paragraphs", "데이터 정비", DRY_RUN_DEFAULT,
          "원문이 없는 한 줄 본문(CSV 판례 등)을 번호 앞에서 문단으로 나누기(글자 그대로)"),
+    Task("fix:text-cleanup", "scripts.migrations.text_cleanup", "데이터 정비", DRY_RUN_DEFAULT,
+         "깨진 가운뎃점(？)·HTML 흔적(<br>, &nbsp;)·법령 조문 제목 뒤 공백 정리(--apply 로 저장)"),
     Task("fix:retry-judgment-pdf", "scripts.migrations.retry_judgment_pdf_extraction", "데이터 정비", DRY_RUN_DEFAULT,
          "PDF 본문이 없는 주요판정사례 첨부 다시 추출"),
 ]

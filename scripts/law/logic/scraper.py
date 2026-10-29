@@ -8,11 +8,12 @@ import os
 from urllib.parse import urlparse, parse_qs
 import sys
 from datetime import datetime
-from scripts.utils.text_cleanup import clean_text
 from typing import Optional, Dict, List, Tuple
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
+
+from scripts.utils.text_cleanup import clean_text  # noqa: E402
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository

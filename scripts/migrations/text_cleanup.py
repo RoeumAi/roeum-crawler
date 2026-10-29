@@ -4,9 +4,14 @@
     python3 manual.py fix:text-cleanup --apply
 
 고치는 것: 한글 사이 `？`→`ㆍ`, `<br>`→줄바꿈, `&nbsp;`→공백, 법령 `제N조(제목)` 뒤 공백 2칸 이상→줄바꿈.
-바뀐 행은 content_hash·source_version_id 를 다시 계산한다.
-공백만 바뀐 행은 임베딩을 건드리지 않고, 글자가 바뀐 판례·행정해석은 대표 행(title+whole)의
-embedding_hash 를 지워 03:30 갱신 작업이 다시 임베딩하게 한다.
+마크다운 표 행(`|` 로 시작하는 줄)의 <br> 은 칸 안 줄바꿈이라 그대로 둔다.
+바뀐 행은 content_hash·source_version_id 를 다시 계산한다(공백만 바뀌어도).
+임베딩: 판례·행정해석(문서당 벡터)은 글자가 바뀐 문서의 대표 행(title+whole) embedding_hash 를 지워
+03:30 갱신 작업이 다시 임베딩한다(공백만 바뀌면 그대로). 행마다 벡터인 컬렉션(법령 등)은 embedding_hash 와
+content_hash 를 비교하므로 content_hash 가 바뀐 행은 공백만 바뀌어도 03:30 에 다시 임베딩된다.
+
+순서: 반드시 이 작업을 --apply(기본 컬렉션 전부)로 먼저 돌린 뒤에 저장 경로 정리·법령 스크래퍼 변경이 든
+크롤러 이미지를 배포한다. 반대면 다음 크롤에서 영향받은 법령 조문·문서마다 새 버전이 생긴다.
 """
 import argparse
 import re
@@ -42,7 +47,7 @@ def run(args, db, out=print) -> dict:
     totals = {}
     for name in args.collections:
         collection = db[name]
-        stat = {"rows": 0, "changed": 0, "reembed_docs": 0, "written": 0}
+        stat = {"rows": 0, "changed": 0, "hash_changed": 0, "reembed_docs": 0, "written": 0}
         totals[name] = stat
         ops, reembed, shown = [], set(), 0
         for row in collection.find(ACTIVE, {"content": 1, "doc_id": 1, "chunk_id": 1}):
@@ -54,6 +59,7 @@ def run(args, db, out=print) -> dict:
             if after == before:
                 continue
             stat["changed"] += 1
+            stat["hash_changed"] += 1  # 본문이 바뀌면 content_hash 도 바뀐다
             if letters(after) != letters(before) and name in REEMBED_COLLECTIONS:
                 reembed.add(row.get("doc_id"))
             if shown < args.samples:
@@ -73,9 +79,13 @@ def run(args, db, out=print) -> dict:
         stat["reembed_docs"] = len(reembed)
         if args.apply:
             for doc_id in reembed:
+                if not doc_id:
+                    continue
                 collection.update_many({"doc_id": doc_id, "metadata.embed_recipe": WHOLE_DOCUMENT_RECIPE,
                                         **ACTIVE}, {"$unset": {"embedding_hash": ""}})
-        out(f"[{name}] 바뀔 행 {stat['changed']}/{stat['rows']}, 재임베딩 문서 {stat['reembed_docs']}")
+        per_row = "" if name in REEMBED_COLLECTIONS else "  (행마다 벡터 — content_hash 가 바뀐 행은 03:30 에 재임베딩)"
+        out(f"[{name}] 바뀔 행 {stat['changed']}/{stat['rows']}, content_hash 바뀜 {stat['hash_changed']}행, "
+            f"재임베딩 문서 {stat['reembed_docs']}{per_row}")
     out(f"\n요약: {totals}" + ("" if args.apply else "  (미리 보기 — 저장하려면 --apply)"))
     return totals
 

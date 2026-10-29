@@ -26,6 +26,19 @@ class CleanTextTest(unittest.TestCase):
         self.assertEqual(clean_text(text, "case"), text)
         self.assertEqual(clean_text("제23조(제목) ① 한 칸", "law"), "제23조(제목) ① 한 칸")
 
+    def test_markdown_table_rows_keep_br(self):
+        row = "| 구분 | 내용<br>둘째 줄 |"
+        self.assertEqual(clean_text(row, "law"), row)
+        self.assertEqual(clean_text("  " + row, "case"), "  " + row)
+        mixed = f"가<br>나\n{row}\n|---|---|\n다<br/>라"
+        expected = f"가\n나\n{row}\n|---|---|\n다\n라"
+        self.assertEqual(clean_text(mixed, "case"), expected)
+        self.assertEqual(clean_text(expected, "case"), expected)
+
+    def test_law_gap_accepts_nbsp_and_ideographic_space(self):
+        self.assertEqual(clean_text("제23조(해고)\u00a0\u00a0① 가", "law"), "제23조(해고)\n① 가")
+        self.assertEqual(clean_text("제23조(해고)\u3000\u3000① 가", "law"), "제23조(해고)\n① 가")
+
     def test_idempotent(self):
         text = "제23조(해고)   ① 도？소매<br>끝&nbsp;"
         for collection in ("law", "case"):
@@ -123,6 +136,23 @@ class RunTest(unittest.TestCase):
         self.assertNotIn("embedding_hash", db["case"].rows[2])
         # law: 공백만 → 유지
         self.assertEqual(db["law"].rows[0]["embedding_hash"], "x")
+
+
+class RunEdgeTest(unittest.TestCase):
+    def test_missing_doc_id_skips_unset_and_summary_reports_hash_changes(self):
+        db = FakeDb()
+        db["case"] = FakeCollection([{"_id": 1, "content": "도？소매", "metadata": {"is_active": True}}])
+        lines = []
+        totals = m.run(args(apply=True, collections=["case"]), db, out=lines.append)
+        self.assertEqual(db["case"].unsets, [])
+        self.assertEqual(totals["case"]["hash_changed"], 1)
+        self.assertTrue(any("content_hash 바뀜 1행" in line for line in lines))
+
+    def test_law_summary_warns_reembed(self):
+        db = make_db()
+        lines = []
+        m.run(args(), db, out=lines.append)
+        self.assertTrue(any(line.startswith("[law]") and "재임베딩" in line and "content_hash" in line for line in lines))
 
 
 class SavePathTest(unittest.TestCase):

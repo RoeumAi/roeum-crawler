@@ -26,52 +26,86 @@ def message(scrapers, **kw):
     kw.setdefault("duration_min", 19)
     kw.setdefault("attempts", 1)
     kw.setdefault("date_str", "2026-10-28 00:00")
-    return build_message(scrapers, **kw)
+    return build_message(scrapers, **kw)["embeds"][0]
+
+
+# 10-29 00:00 실행 재현: 별표 파싱 중 추출 서버가 재시작해 행정규칙 50건·법령 2건 실패
+OCT29 = {
+    "law": dict(ok(success=57, no_change=0, skipped=100, total=160), total_failed=2,
+                failure_reasons={"국가법령 Open API 일시 오류": 2}),
+    "adrule": dict(ok(success=105, skipped=24_000, total=24_155), total_failed=50,
+                   failure_reasons={"문서 추출 서버(chat_generation) 연결 실패": 49, "국가법령 Open API 일시 오류": 1}),
+    "case": ok(no_change=1, skipped=17_273, total=17_274),
+    "constitutional_decc": ok(no_change=6, skipped=198, total=204),
+}
 
 
 class BuildMessageTest(unittest.TestCase):
-    def test_success_is_info_report_in_common_format(self):
-        lines = message(SUCCESS).split("\n")
-        self.assertEqual(lines[0], "[INFO] 보고 · roeum-crawler(daily)")
-        self.assertIn("전체 업데이트 3건", lines[1])
-        self.assertEqual(lines[2], "- 환경: prod")
-        self.assertTrue(lines[4].startswith("- 검색: 맥미니"))
-        text = "\n".join(lines)
-        self.assertIn("✅ 판례: 3건 업데이트", text)
-        self.assertIn("⬜ 행정규칙: 미실행", text)
-        self.assertNotIn("재시도", text)
+    def test_success_is_one_embed_with_status_title_and_lines(self):
+        embed = message(SUCCESS)
+        self.assertEqual(embed["title"], "✅ 법률 자료 일일 수집 — 성공")
+        lines = embed["description"].split("\n")
+        self.assertEqual(lines[0], "🕛 2026-10-28 00:00 실행 · 19분 소요")
+        self.assertEqual(lines[1], "")
+        self.assertEqual(lines[2], "✅ 판례: 3건 업데이트 (변경없음 0 · 건너뜀 29,997)")  # 업데이트가 변경 없음보다 먼저
+        self.assertEqual(lines[3], "✅ 법령: 변경 없음 (건너뜀 165)")
+        self.assertIn("⬜ 행정규칙: 미실행", lines)
+        self.assertEqual(lines[-1], "🔢 전체 업데이트 3건 · 변경없음 0건")
+        self.assertNotIn("실패 원인", embed["description"])
+        self.assertEqual(embed["footer"]["text"], "[INFO] 데이터 수집 · roeum-crawler(daily) · 환경 prod")
 
-    def test_partial_failure_on_successful_scraper_is_error(self):
-        # status 가 success 여도 문서 실패가 있으면 숨기지 않는다(옛 로그 파싱은 ✅ 로 보여 줬다).
+    def test_failures_come_first_with_reasons_and_log_location(self):
+        embed = message(OCT29, duration_min=22, log_location="CloudWatch /ecs/roeum-crawler")
+        self.assertEqual(embed["title"], "❌ 법률 자료 일일 수집 — 일부 실패")
+        lines = embed["description"].split("\n")
+        self.assertEqual(lines[2:6], [
+            "❌ 법령: 실패 2건 (업데이트 57 · 변경없음 0)",
+            "❌ 행정규칙: 실패 50건 (업데이트 105 · 변경없음 0)",
+            "✅ 판례: 변경 없음 (재확인 1 · 건너뜀 17,273)",
+            "✅ 헌재결정례: 변경 없음 (재확인 6 · 건너뜀 198)",
+        ])
+        text = embed["description"]
+        self.assertIn("**실패 원인**\n• 문서 추출 서버(chat_generation) 연결 실패 49건\n• 국가법령 Open API 일시 오류 3건", text)
+        self.assertIn("다음 실행에서 자동으로 다시 수집", text)
+        self.assertIn("로그: CloudWatch /ecs/roeum-crawler", text)
+        self.assertTrue(text.endswith("🔢 전체 업데이트 162건 · 변경없음 7건"))
+        self.assertTrue(embed["footer"]["text"].startswith("[ERROR] 데이터 수집"))
+
+    def test_failure_without_known_reason_is_counted_as_other(self):
+        # status 가 success 여도 문서 실패가 있으면 숨기지 않는다.
         scrapers = dict(SUCCESS, case=dict(ok(success=2, total=10), total_failed=4))
-        msg = message(scrapers)
-        self.assertTrue(msg.startswith("[ERROR] 데이터 수집 ·"))
-        self.assertIn("판례 일부 문서 실패", msg.split("\n")[1])
-        self.assertIn("❌ 판례: 실패 4건", msg)
+        embed = message(scrapers)
+        self.assertEqual(embed["title"], "❌ 법률 자료 일일 수집 — 일부 실패")
+        self.assertIn("❌ 판례: 실패 4건", embed["description"])
+        self.assertIn("• 기타 저장 실패 4건", embed["description"])
 
     def test_listing_failure_is_warn_with_external_source_wording(self):
-        msg = message(LISTING_FAILURE, attempts=3, exit_code=2)
-        self.assertTrue(msg.startswith("[WARN] 데이터 수집 · roeum-crawler(daily)"))
-        self.assertIn("법령 미수집", msg)
-        self.assertIn("2회 재시도", msg)
-        self.assertIn("데이터 유실 아님", msg)
+        embed = message(LISTING_FAILURE, attempts=3, exit_code=2)
+        self.assertEqual(embed["title"], "⚠️ 법률 자료 일일 수집 — 수집원 일시 오류")
+        text = embed["description"]
+        self.assertIn("수집원 오류로 2회 재시도", text)
+        self.assertIn("법령 목록 미수집 — 데이터 유실 아님", text)
+        self.assertTrue(embed["footer"]["text"].startswith("[WARN]"))
 
     def test_crash_or_missing_result_is_error(self):
-        msg = message({}, missing_attempt=True, exit_code=1)
-        self.assertTrue(msg.startswith("[ERROR] 데이터 수집 ·"))
-        self.assertIn("크롤러 비정상 종료(코드 1)", msg)
+        embed = message({}, missing_attempt=True, exit_code=1)
+        self.assertEqual(embed["title"], "🚨 법률 자료 일일 수집 — 실패")
+        self.assertIn("• 크롤러 비정상 종료(코드 1)", embed["description"])
 
     def test_refresh_failure_is_error(self):
-        msg = message(SUCCESS, refresh_exit_code=3)
-        self.assertTrue(msg.startswith("[ERROR] 데이터 수집 ·"))
-        self.assertIn("버전 재계산 실패(코드 3)", msg)
+        embed = message(SUCCESS, refresh_exit_code=3)
+        self.assertIn("버전 재계산 실패(코드 3)", embed["description"])
+        self.assertTrue(embed["footer"]["text"].startswith("[ERROR]"))
 
-    def test_log_location_is_configurable_for_ecs(self):
-        msg = message(SUCCESS, log_location="CloudWatch 로그 그룹 /ecs/roeum-crawler")
-        self.assertIn("- 검색: CloudWatch 로그 그룹 /ecs/roeum-crawler", msg)
-
-    def test_message_within_discord_limit(self):
-        self.assertLessEqual(len(message(SUCCESS, attempts=3)), 2000)
+    def test_payload_is_valid_discord_embed_within_limits(self):
+        payload = build_message(OCT29, duration_min=22, attempts=3, date_str="d")
+        self.assertEqual(set(payload), {"embeds"})
+        embed = payload["embeds"][0]
+        self.assertLessEqual(len(embed["title"]), 256)
+        self.assertLessEqual(len(embed["description"]), 4096)
+        self.assertLessEqual(len(embed["footer"]["text"]), 2048)
+        self.assertIsInstance(embed["color"], int)
+        json.dumps(payload)
 
 
 class MainTest(unittest.TestCase):
@@ -83,7 +117,7 @@ class MainTest(unittest.TestCase):
     def run_main(self, env, send=None):
         out = io.StringIO()
         with mock.patch.dict("os.environ", env, clear=True), \
-             mock.patch("scripts.notify.daily_summary.send_discord", send or mock.Mock()) as sent, \
+             mock.patch("scripts.notify.daily_summary.send_discord_payload", send or mock.Mock()) as sent, \
              contextlib.redirect_stdout(out):
             daily_summary.main(["--attempt-json", str(self.result), "--date", "d"])
         return out.getvalue(), sent
@@ -91,9 +125,9 @@ class MainTest(unittest.TestCase):
     def test_reads_result_json_and_sends_to_data_collect_channel(self):
         out, sent = self.run_main({"DISCORD_WEBHOOK": "https://example.invalid/old",
                                    "DISCORD_WEBHOOK_DATA_COLLECT": "https://example.invalid/data"})
-        url, msg = sent.call_args.args
+        url, payload = sent.call_args.args
         self.assertEqual(url, "https://example.invalid/data")
-        self.assertIn("전체 업데이트 3건", msg)
+        self.assertIn("전체 업데이트 3건", payload["embeds"][0]["description"])
         self.assertIn("전송 완료", out)
 
     def test_skips_without_webhook(self):

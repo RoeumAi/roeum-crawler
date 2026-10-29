@@ -399,6 +399,7 @@ async def run_single_scraper(
                     "total_failed": len(listing_failed_targets),
                     "skipped": skipped_count,
                     "failed_targets": listing_failed_targets,
+                    "failure_reasons": dict(run_report.reason_counts),
                 }
 
         # Step 2: 병렬 스크래핑
@@ -453,6 +454,7 @@ async def run_single_scraper(
             "total_failed": failed_count + len(listing_failed_targets),
             "skipped": skipped_count,
             "failed_targets": listing_failed_targets + doc_failed_targets,
+            "failure_reasons": dict(run_report.reason_counts),
         }
 
     except Exception as e:

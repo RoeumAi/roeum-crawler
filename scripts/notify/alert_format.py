@@ -84,10 +84,14 @@ def resolve_webhook(channel, explicit=None, environ=None) -> str:
 
 
 def send_discord(webhook_url: str, message: str) -> None:
-    payload = json.dumps({"content": message}).encode("utf-8")
+    send_discord_payload(webhook_url, {"content": message})
+
+
+def send_discord_payload(webhook_url: str, payload: dict) -> None:
+    """웹훅 payload(content·embeds) 그대로 보낸다. 2xx 가 아니면 HTTPError."""
     req = urllib.request.Request(
         webhook_url,
-        data=payload,
+        data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json", "User-Agent": "DiscordBot (private, 1.0)"},
         method="POST",
     )

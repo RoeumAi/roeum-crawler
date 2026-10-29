@@ -147,10 +147,11 @@ class RunDailyTest(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(result["failed"], 1)
         self.assertEqual(len(received), 1, "일일 요약이 웹훅으로 한 번 나가야 한다")
-        content = received[0]["content"]
-        self.assertTrue(content.startswith("[ERROR] 데이터 수집 · roeum-crawler(daily)"), content)
-        self.assertIn("판례 일부 문서 실패", content)
-        self.assertIn("✅ 법령: 1건 업데이트", content)
+        embed = received[0]["embeds"][0]
+        self.assertEqual(embed["title"], "❌ 법률 자료 일일 수집 — 일부 실패")
+        self.assertIn("❌ 판례: 실패 1건", embed["description"])
+        self.assertIn("✅ 법령: 1건 업데이트", embed["description"])
+        self.assertTrue(embed["footer"]["text"].startswith("[ERROR] 데이터 수집 · roeum-crawler(daily)"))
         # 컨테이너(CRAWLER_LOG_STDOUT=1)에서도 전송 결과가 로그(CloudWatch)에 남는다. 마지막 줄은 여전히 BATCH_RESULT.
         self.assertIn("Discord 알림 전송 완료", stdout)
 

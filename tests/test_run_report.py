@@ -3,7 +3,10 @@ import threading
 import unittest
 from unittest.mock import patch
 
-from scripts.core.run_report import call_with_retry, record_failure, start_run_report
+from scripts.core.run_report import (
+    EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, OTHER, call_with_retry, classify_failure, note_reason,
+    record_failure, start_run_report,
+)
 
 
 class RunReportTest(unittest.TestCase):
@@ -45,6 +48,27 @@ class RunReportTest(unittest.TestCase):
 
         self.assertEqual(reports["law"].failed_targets, ["law:list-page:law"])
         self.assertEqual(reports["adrule"].failed_targets, ["adrule:list-page:adrule"])
+
+
+class ReasonTest(unittest.TestCase):
+    def test_classify_failure(self):
+        self.assertEqual(classify_failure("ConnectionError: HTTPConnectionPool(host='chat-generation.local', port=8000)"),
+                         EXTRACT_SERVER_DOWN)
+        self.assertEqual(classify_failure("404 Client Error: Not Found for url: https://www.law.go.kr/DRF/lawSearch.do"),
+                         LAWGOKR_API_ERROR)
+        self.assertEqual(classify_failure("boom"), OTHER)
+
+    def test_list_failure_and_noted_reason_are_counted(self):
+        async def run():
+            report = start_run_report("adrule")
+            record_failure("list-page:127", "404 Client Error: Not Found for url: https://www.law.go.kr/DRF/x")
+            note_reason(EXTRACT_SERVER_DOWN)
+            note_reason(EXTRACT_SERVER_DOWN)
+            return report
+
+        report = asyncio.run(run())
+        self.assertEqual(dict(report.reason_counts), {LAWGOKR_API_ERROR: 1, EXTRACT_SERVER_DOWN: 2})
+        self.assertEqual(report.failed_targets, ["adrule:list-page:127"])  # 원인만 센 것은 대상에 넣지 않는다
 
 
 class CallWithRetryTest(unittest.TestCase):

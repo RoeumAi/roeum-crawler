@@ -57,7 +57,7 @@ OTHER = "기타 오류"
 def classify_failure(reason) -> str:
     """실패 메시지를 사람이 읽을 원인 분류로 줄인다(요약에 원인별 건수로 보인다)."""
     text = str(reason)
-    if "chat-generation" in text or "chat_generation" in text or "extract-text" in text:
+    if any(k in text for k in ("chat-generation", "chat_generation", "extract-text", "추출 서버")):
         return EXTRACT_SERVER_DOWN
     if "law.go.kr" in text or "Open API" in text:
         return LAWGOKR_API_ERROR

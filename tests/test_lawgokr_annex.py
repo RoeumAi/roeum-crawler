@@ -2,7 +2,6 @@
 import unittest
 from unittest.mock import Mock, patch
 
-import requests
 
 from scripts.core import lawgokr_annex as annex
 
@@ -77,44 +76,15 @@ class CollectTest(unittest.TestCase):
             self.assertEqual(annex.collect_annex_articles("law", LAW_RECORD, Mock()), ([], 1))
 
 
-class ExtractGateTest(unittest.TestCase):
-    def setUp(self):
-        self.now = [100.0]
-        self.slept = []
-        self.gate = annex._ExtractGate(clock=lambda: self.now[0], sleep=self.slept.append)
-
-    def test_calls_are_spaced(self):
-        self.gate.call(lambda b, n: {"ok": 1}, b"", "a.pdf")
-        self.now[0] += 0.5
-        self.gate.call(lambda b, n: {"ok": 2}, b"", "b.pdf")
-        self.assertEqual(self.slept, [annex.EXTRACT_INTERVAL_SECONDS - 0.5])
-
-    def test_connection_error_pauses_further_calls(self):
-        def down(b, n):
-            raise requests.ConnectionError("HTTPConnectionPool(host='chat-generation.local')")
-        with self.assertRaises(requests.ConnectionError):
-            self.gate.call(down, b"", "a.pdf")
-        sent = Mock()
-        with self.assertRaises(annex.ExtractServerUnavailable):
-            self.gate.call(sent, b"", "b.pdf")
-        sent.assert_not_called()  # 쉬는 동안은 서버에 보내지 않는다
-        self.now[0] += annex.EXTRACT_PAUSE_SECONDS + 1
-        self.assertEqual(self.gate.call(lambda b, n: {"ok": 1}, b"", "c.pdf"), {"ok": 1})
-
-    def test_client_error_does_not_pause(self):
-        def bad_file(b, n):
-            raise requests.HTTPError("400", response=Mock(status_code=400))
-        with self.assertRaises(requests.HTTPError):
-            self.gate.call(bad_file, b"", "a.pdf")
-        self.assertEqual(self.gate.call(lambda b, n: {"ok": 1}, b"", "b.pdf"), {"ok": 1})
-
-    def test_paused_annex_counts_as_failed_with_reason(self):
+class PausedExtractTest(unittest.TestCase):
+    def test_paused_server_counts_as_failed_with_reason(self):
         from scripts.core.run_report import EXTRACT_SERVER_DOWN, start_run_report
+        from scripts.utils.document_extraction import ExtractServerUnavailable
         report = start_run_report("adrule")
-        self.gate._paused_until = self.now[0] + 60
-        with patch.object(annex, "_gate", self.gate), \
-             patch.object(annex.requests, "get", return_value=Mock(content=b"%PDF", raise_for_status=Mock())):
-            self.assertEqual(annex.collect_annex_articles("law", LAW_RECORD, Mock(), extract=Mock()), ([], 1))
+        with patch.object(annex.requests, "get", return_value=Mock(content=b"%PDF", raise_for_status=Mock())):
+            rows = annex.collect_annex_articles("law", LAW_RECORD, Mock(),
+                                                extract=Mock(side_effect=ExtractServerUnavailable("x")))
+        self.assertEqual(rows, ([], 1))
         self.assertEqual(report.reason_counts[EXTRACT_SERVER_DOWN], 1)
 
 

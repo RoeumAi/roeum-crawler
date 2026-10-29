@@ -74,6 +74,31 @@ class AnnexFailureTest(unittest.TestCase):
         self.assertTrue(saved[-1]["metadata"]["is_annex"])
 
 
+class AnnexFailureReasonTest(unittest.TestCase):
+    def test_reason_reaches_run_report_through_executor_thread(self):
+        """save_to_mongodb 는 executor 스레드에서 돈다 — 그래도 별표 실패 원인이 실행 보고에 남아야 한다."""
+        import asyncio
+        from concurrent.futures import ThreadPoolExecutor
+        from scripts.core.run_report import LAWGOKR_API_ERROR, start_run_report
+
+        repo = repo_failing_on(0)
+        doc = {"doc_id": "law-1", "title": "테스트법", "sub_title": "", "content": LAW_TEXT,
+               "metadata": {"source_url": "https://example.invalid"}}
+
+        async def run():
+            report = start_run_report("law")
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                result = await law_scraper.save_to_mongodb_async(doc, executor=executor)
+            return report, result
+
+        with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=Mock()), \
+             patch.object(law_scraper, "UnifiedDocumentRepository", return_value=repo), \
+             patch.object(law_scraper, "fetch_record", return_value=None):  # Open API 실패 → 별표 모름
+            report, result = asyncio.run(run())
+        self.assertFalse(result)
+        self.assertEqual(dict(report.reason_counts), {LAWGOKR_API_ERROR: 1})
+
+
 class IncompleteSaveIsRecrawledTest(unittest.TestCase):
     def test_incomplete_law_is_recrawled_even_with_same_effective_date(self):
         from crawl import filter_new_urls

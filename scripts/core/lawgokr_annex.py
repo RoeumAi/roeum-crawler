@@ -8,14 +8,10 @@
   별표구분이 서식(별지)인 것은 빈 양식이라 뺀다. 파일은 PDF → HWP 순, 파일이 없으면 응답의 `별표내용` 글을 쓴다.
 - 행정규칙에 `별표` 항목이 없으면 `첨부파일` 중 이름에 '별표'가 있는 파일을 쓴다.
 
-파서(chat_generation)는 운영 AI 채팅과 같은 서버다. 10-29 00시에 별표 519개를 쉬지 않고 보내다
-그 서버가 메모리 상한에 걸려 재시작했다. 그래서 스크래퍼(스레드)가 여럿이어도 한 번에 하나씩,
-간격을 두고 보내고, 서버가 응답하지 않으면 잠시 보내지 않는다(못 읽은 문서는 다음 실행이 다시 받는다).
+파서 호출 속도 제한·멈춤은 document_extraction.call_extract_text 가 맡는다. 멈춘 동안 못 읽은 별표는
+문서를 실패로 세어(save_incomplete) 다음 실행이 다시 받는다.
 """
-import os
 import re
-import threading
-import time
 from dataclasses import dataclass
 from pathlib import PurePosixPath
 from typing import Callable, Optional
@@ -23,50 +19,10 @@ from typing import Callable, Optional
 import requests
 
 from scripts.core.run_report import EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, classify_failure, note_reason
-from scripts.utils.document_extraction import call_extract_text, usable_document
+from scripts.utils.document_extraction import ExtractServerUnavailable, call_extract_text, usable_document
 
 DOWNLOAD_BASE = "https://www.law.go.kr"
 EXTRACTABLE = (".pdf", ".hwpx", ".hwp")
-
-# 파서 호출 사이 최소 간격(초)과, 연결이 끊긴 뒤 다시 보내지 않을 시간(초)
-EXTRACT_INTERVAL_SECONDS = float(os.getenv("ANNEX_EXTRACT_INTERVAL_SECONDS", "2"))
-EXTRACT_PAUSE_SECONDS = float(os.getenv("ANNEX_EXTRACT_PAUSE_SECONDS", "600"))
-
-
-class ExtractServerUnavailable(RuntimeError):
-    """파서가 응답하지 않아 이번 별표를 보내지 않았다."""
-
-
-class _ExtractGate:
-    """스크래퍼 스레드 전체에서 파서 호출을 하나씩·간격을 두고 보내고, 끊기면 잠시 멈춘다."""
-
-    def __init__(self, clock=time.monotonic, sleep=time.sleep):
-        self._lock = threading.Lock()
-        self._clock, self._sleep = clock, sleep
-        self._last_call = None
-        self._paused_until = 0.0
-
-    def call(self, extract: Callable[[bytes, str], dict], content: bytes, file_name: str) -> dict:
-        with self._lock:
-            now = self._clock()
-            if now < self._paused_until:
-                raise ExtractServerUnavailable("추출 서버 응답 없음 — 잠시 별표 파싱을 건너뜀")
-            if self._last_call is not None:
-                wait = EXTRACT_INTERVAL_SECONDS - (now - self._last_call)
-                if wait > 0:
-                    self._sleep(wait)
-            try:
-                return extract(content, file_name)
-            except requests.RequestException as e:
-                status = getattr(getattr(e, "response", None), "status_code", None)
-                if status is None or status >= 500:  # 연결 실패·시간 초과·5xx → 서버가 힘든 상태
-                    self._paused_until = self._clock() + EXTRACT_PAUSE_SECONDS
-                raise
-            finally:
-                self._last_call = self._clock()
-
-
-_gate = _ExtractGate()
 
 
 @dataclass(frozen=True)
@@ -173,7 +129,7 @@ def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str]
         if annex.url:
             response = requests.get(annex.url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
             response.raise_for_status()
-            document = usable_document(_gate.call(extract, response.content, annex.file_name))
+            document = usable_document(extract(response.content, annex.file_name))
             content, status, source = document["structured_text"].strip(), document.get("extraction_status"), annex.file_name
             blocks = document.get("document_blocks") or []
         else:

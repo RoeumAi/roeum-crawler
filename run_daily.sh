@@ -142,6 +142,9 @@ if [ "${CRAWLER_DISCORD_SUMMARY:-1}" != "0" ]; then
         --refresh-exit-code "$REFRESH_EXIT_CODE" 2>&1 | log
 fi
 
+# b2c 공개 법률 문서 페이지 갱신 요청. 실패해도 크롤링 결과에 영향 없음(stdout 은 로그로만, BATCH_RESULT 가 마지막 줄).
+"$PYTHON" -u -m scripts.notify.repo_dispatch 2>&1 | log || true
+
 # 마지막 줄: BATCH_RESULT (파일과 표준 출력 양쪽). 종료코드는 실제 결과.
 BATCH_LINE=$("$PYTHON" scripts/report/batch_result.py final \
     "${RESULT_ARGS[@]}" \

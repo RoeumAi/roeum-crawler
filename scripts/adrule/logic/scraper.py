@@ -1,4 +1,5 @@
 import asyncio
+import contextvars
 from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import json
@@ -416,7 +417,8 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
             dept_name=dept_name, is_upcoming=is_upcoming, adrule_id=adrule_id,
             lawgokr_record=lawgokr_record,
         )
-        result = await loop.run_in_executor(executor, fn)
+        # 실행 보고(run_report)가 별표 실패 원인을 세도록 현재 컨텍스트를 스레드로 넘긴다.
+        result = await loop.run_in_executor(executor, contextvars.copy_context().run, fn)
         return result
     except Exception as e:
         logger.error(f"MongoDB 비동기 저장 실패: {e}")

@@ -10,6 +10,7 @@ from typing import Optional
 
 import requests
 
+from scripts.core.run_report import call_with_retry
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='lawgokr_stable_id')
@@ -21,13 +22,19 @@ TIMEOUT_SECONDS = 10
 
 
 def fetch_record(target: str, doc_id: str) -> Optional[dict]:
-    """Open API 상세(JSON). target=law 는 MST, admrul 은 ID(일련번호). 실패 시 None."""
+    """Open API 상세(JSON). target=law 는 MST, admrul 은 ID(일련번호). 실패 시 None.
+
+    멀쩡한 문서에도 잠깐 404 를 줄 때가 있어(10-29 법령 2건) 몇 번 더 시도한다."""
     key = "MST" if target == "law" else "ID"
     params = {"OC": OC, "target": target, key: doc_id, "type": "JSON"}
-    try:
+
+    def fetch():
         resp = requests.get(API_BASE, params=params, timeout=TIMEOUT_SECONDS)
         resp.raise_for_status()
         return resp.json()
+
+    try:
+        return call_with_retry(fetch)
     except Exception as e:
         logger.warning(f"Open API 조회 실패 ({target} {key}={doc_id}): {e}")
         return None

@@ -10,6 +10,7 @@
 
 import contextvars
 import time
+from collections import Counter
 from typing import Callable, List, Optional, TypeVar
 
 T = TypeVar("T")
@@ -24,10 +25,13 @@ class RunReport:
         self.scraper_type = scraper_type
         self.failed_targets: List[str] = []
         self.reasons: List[str] = []
+        # 원인 분류별 건수 — 일일 요약의 "실패 원인" 줄. 문서 실패는 원인을 아는 곳(별표 등)에서 note_reason 으로 센다.
+        self.reason_counts: Counter = Counter()
 
     def fail(self, target: str, reason: str) -> None:
         self.failed_targets.append(f"{self.scraper_type}:{target}")
         self.reasons.append(f"{target}: {reason}"[:300])
+        self.reason_counts[classify_failure(reason)] += 1
 
 
 def start_run_report(scraper_type: str) -> RunReport:
@@ -44,8 +48,36 @@ def record_failure(target: str, reason) -> None:
         report.fail(target, str(reason))
 
 
-def call_with_retry(fn: Callable[[], T], attempts: int = 2, wait_seconds: float = 3.0) -> T:
-    """목록 페이지 요청을 몇 번 더 시도한다. 마지막 예외는 그대로 올린다."""
+EXTRACT_SERVER_DOWN = "문서 추출 서버(chat_generation) 연결 실패"
+LAWGOKR_API_ERROR = "국가법령 Open API 일시 오류"
+TIMEOUT = "응답 시간 초과"
+OTHER = "기타 오류"
+
+
+def classify_failure(reason) -> str:
+    """실패 메시지를 사람이 읽을 원인 분류로 줄인다(요약에 원인별 건수로 보인다)."""
+    text = str(reason)
+    if any(k in text for k in ("chat-generation", "chat_generation", "extract-text", "추출 서버")):
+        return EXTRACT_SERVER_DOWN
+    if "law.go.kr" in text or "Open API" in text:
+        return LAWGOKR_API_ERROR
+    if "Timeout" in text or "timed out" in text:
+        return TIMEOUT
+    return OTHER
+
+
+def note_reason(category: str) -> None:
+    """실패 대상은 따로 세는 곳(문서 결과)이 있고 원인만 남길 때 쓴다. 보고가 없으면 무시."""
+    report = _current.get()
+    if report is not None:
+        report.reason_counts[category] += 1
+
+
+def call_with_retry(fn: Callable[[], T], attempts: int = 3, wait_seconds: float = 5.0) -> T:
+    """목록 페이지 요청을 몇 번 더 시도한다(5·10초 간격). 마지막 예외는 그대로 올린다.
+
+    law.go.kr Open API 는 멀쩡한 페이지에도 잠깐 404 를 돌려줄 때가 있어(10-29 행정규칙 127쪽)
+    3초 간격 2회로는 부족했다."""
     last_exc: Exception | None = None
     for attempt in range(1, attempts + 1):
         try:

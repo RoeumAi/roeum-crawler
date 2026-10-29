@@ -1,21 +1,36 @@
 #!/usr/bin/env python3
-"""일일 크롤링 결과를 Discord 로 보고한다(공통 형식 alert_format).
+"""일일 크롤링 결과를 Discord 로 보고한다(embed 한 장).
 
 run_daily.sh 가 `python -m scripts.notify.daily_summary` 로 부른다. 시도마다 남긴 crawl.py --result-json 파일을 읽는다. 배치 관리 보고(BATCH_RESULT)와
 같은 데이터라서 두 보고의 숫자가 어긋나지 않는다. 메시지 생성(build_message)은 순수 함수라
 tests/test_daily_summary_message.py 로 검증한다.
+
+보이는 순서(10-29 사용자 요청 — 예전 글은 '세부:' 아래 줄이 한 덩어리로 붙어 읽기 어려웠다):
+    제목: 상태 한 줄(성공·일부 실패…)
+    실행 시각·소요 시간
+    자료 유형마다 한 줄 — 실패 → 업데이트 → 변경 없음 순
+    실패가 있으면 원인별 건수와 로그 위치
+    전체 합계
+    꼬리말: 환경·대상·심각도 같은 기술 정보
 """
 import argparse
 import os
 
 from scripts.core.config import SCRAPERS
-from scripts.notify.alert_format import format_alert, get_env_name, resolve_webhook, send_discord
+from scripts.notify.alert_format import get_env_name, resolve_webhook, send_discord_payload
 from scripts.report.batch_result import (
     EXIT_LISTING_FAILURE, EXIT_OK, is_listing_failure, load_attempt, merge_attempts,
 )
 
 # 로그 위치 안내. ECS 는 태스크 정의에서 CloudWatch 위치로 바꾼다.
 DEFAULT_LOG_LOCATION = "맥미니 loum@100.93.93.51 의 ~/loum/roeum-crawler/logs/daily_*.log"
+TITLE = "법률 자료 일일 수집"
+COLORS = {"INFO": 0x2ECC71, "WARN": 0xE67E22, "ERROR": 0xE74C3C}
+DESCRIPTION_LIMIT = 4000  # Discord embed description 4096자 제한 여유
+OTHER_REASON = "기타 저장 실패"
+
+# 줄 정렬 순서: 실패 → 수집원 오류 → 업데이트 → 변경 없음 → 미실행
+_ORDER = {"partial": 0, "listing": 1, "updated": 2, "unchanged": 3, "missing": 4}
 
 
 def _n(result: dict, key: str) -> int:
@@ -23,20 +38,33 @@ def _n(result: dict, key: str) -> int:
 
 
 def describe_scraper(name: str, result: dict | None) -> tuple[str, str]:
-    """스크래퍼 한 줄과 상태(ok·listing·partial·missing)."""
+    """스크래퍼 한 줄과 상태(partial·listing·updated·unchanged·missing)."""
     if result is None:
         return f"⬜ {name}: 미실행", "missing"
     if is_listing_failure(result):
-        return f"⚠️ {name}: 수집원 일시 오류 (URL 목록 수집 실패)", "listing"
+        return f"⚠️ {name}: 수집원 일시 오류 (목록을 못 받음)", "listing"
     success, no_change = _n(result, "total_success"), _n(result, "total_no_change")
     skipped, failed = _n(result, "skipped"), _n(result, "total_failed")
     if failed:
-        return f"❌ {name}: 실패 {failed:,}건 (업데이트 {success:,} / 변경없음 {no_change:,})", "partial"
+        return f"❌ {name}: 실패 {failed:,}건 (업데이트 {success:,} · 변경없음 {no_change:,})", "partial"
     if success:
-        return f"✅ {name}: {success:,}건 업데이트 (변경없음 {no_change:,}건 / 건너뜀 {skipped:,}건)", "ok"
+        return f"✅ {name}: {success:,}건 업데이트 (변경없음 {no_change:,} · 건너뜀 {skipped:,})", "updated"
     if no_change:
-        return f"✅ {name}: 변경 없음 (재확인 {no_change:,}건 / 건너뜀 {skipped:,}건)", "ok"
-    return f"✅ {name}: 변경 없음 (건너뜀 {skipped:,}건)", "ok"
+        return f"✅ {name}: 변경 없음 (재확인 {no_change:,} · 건너뜀 {skipped:,})", "unchanged"
+    return f"✅ {name}: 변경 없음 (건너뜀 {skipped:,})", "unchanged"
+
+
+def failure_reasons(scrapers: dict) -> dict[str, int]:
+    """원인별 실패 건수. 원인을 모르는 문서 실패는 '기타 저장 실패'로 센다."""
+    totals: dict[str, int] = {}
+    for result in scrapers.values():
+        reasons = {k: int(v) for k, v in (result.get("failure_reasons") or {}).items() if int(v) > 0}
+        for reason, count in reasons.items():
+            totals[reason] = totals.get(reason, 0) + count
+        unexplained = _n(result, "total_failed") - sum(reasons.values())
+        if unexplained > 0:
+            totals[OTHER_REASON] = totals.get(OTHER_REASON, 0) + unexplained
+    return dict(sorted(totals.items(), key=lambda item: -item[1]))
 
 
 def build_message(
@@ -51,54 +79,67 @@ def build_message(
     target: str = "roeum-crawler(daily)",
     env: str = "prod",
     log_location: str = DEFAULT_LOG_LOCATION,
-) -> str:
-    """심각도: 크롤러·재계산 비정상 종료나 문서 실패 → ERROR, 외부 수집원 목록 실패만 → WARN, 그 외 INFO."""
+) -> dict:
+    """Discord 웹훅 payload(embed 한 장).
+
+    심각도: 크롤러·재계산 비정상 종료나 문서 실패 → ERROR, 외부 수집원 목록 실패만 → WARN, 그 외 INFO.
+    """
     hours, mins = divmod(duration_min, 60)
     duration_str = f"{hours}시간 {mins}분" if hours else f"{mins}분"
     total_updated = sum(_n(r, "total_success") for r in scrapers.values())
     total_no_change = sum(_n(r, "total_no_change") for r in scrapers.values())
 
-    details = [f"실행 시각: {date_str}"]
-    listing, partial = [], []
-    for key, config in SCRAPERS.items():
+    rows = []
+    for index, (key, config) in enumerate(SCRAPERS.items()):
         line, state = describe_scraper(config.display_name, scrapers.get(key))
-        details.append(line)
-        if state == "listing":
-            listing.append(config.display_name)
-        elif state == "partial":
-            partial.append(config.display_name)
-
-    if attempts > 1:
-        details.append(f"🔁 외부 수집원 오류로 {attempts - 1}회 재시도함")
+        rows.append((_ORDER[state], index, line, state, config.display_name))
+    rows.sort()
+    partial = [name for *_, state, name in rows if state == "partial"]
+    listing = [name for *_, state, name in rows if state == "listing"]
 
     errors = []
     if missing_attempt or exit_code not in (EXIT_OK, EXIT_LISTING_FAILURE):
         errors.append(f"크롤러 비정상 종료(코드 {exit_code})")
     if refresh_exit_code != 0:
         errors.append(f"현재 시행 버전 재계산 실패(코드 {refresh_exit_code})")
-    if partial:
-        errors.append(f"{', '.join(partial)} 일부 문서 실패")
 
-    totals = f"전체 업데이트 {total_updated:,}건 (변경없음 {total_no_change:,}건) · 소요 {duration_str}"
     if errors:
-        severity, kind = "ERROR", "데이터 수집"
-        summary = "; ".join(errors) + " — 로그 확인 필요"
+        severity, status, icon = "ERROR", "실패", "🚨"
+    elif partial:
+        severity, status, icon = "ERROR", "일부 실패", "❌"
     elif listing:
-        severity, kind = "WARN", "데이터 수집"
-        summary = (f"law.go.kr 등 외부 수집원 일시 오류로 {', '.join(listing)} 미수집 "
-                   f"— 데이터 유실 아님(다음 실행 시 자동 반영)")
+        severity, status, icon = "WARN", "수집원 일시 오류", "⚠️"
     else:
-        severity, kind = "INFO", "보고"
-        summary = totals
-    if severity != "INFO":
-        details.append(f"🔢 {totals}")
+        severity, status, icon = "INFO", "성공", "✅"
 
-    return format_alert(
-        severity, kind, target, summary, env,
-        trace=f"실행 {date_str}",
-        search=f"{log_location} (grep -E '❌|Traceback')",
-        details=details,
-    )
+    when = f"🕛 {date_str} 실행 · {duration_str} 소요"
+    if attempts > 1:
+        when += f" · 수집원 오류로 {attempts - 1}회 재시도"
+    lines = [when, ""]
+    lines += [line for _, _, line, _, _ in rows]
+
+    reasons = failure_reasons(scrapers)
+    if errors or reasons or listing:
+        lines += ["", "**실패 원인**"]
+        lines += [f"• {e}" for e in errors]
+        lines += [f"• {reason} {count:,}건" for reason, count in reasons.items()]
+        if listing:
+            lines.append(f"• law.go.kr 등 외부 수집원 일시 오류로 {', '.join(listing)} 목록 미수집 — 데이터 유실 아님")
+        if reasons or listing:
+            lines.append("실패한 문서는 다음 실행에서 자동으로 다시 수집합니다.")
+        lines.append(f"로그: {log_location}")
+
+    lines += ["", f"🔢 전체 업데이트 {total_updated:,}건 · 변경없음 {total_no_change:,}건"]
+
+    description = "\n".join(lines)
+    if len(description) > DESCRIPTION_LIMIT:
+        description = description[: DESCRIPTION_LIMIT - 1] + "…"
+    return {"embeds": [{
+        "title": f"{icon} {TITLE} — {status}",
+        "description": description,
+        "color": COLORS[severity],
+        "footer": {"text": f"[{severity}] 데이터 수집 · {target} · 환경 {env}"},
+    }]}
 
 
 def main(argv=None):
@@ -114,7 +155,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     scrapers, missing = merge_attempts([load_attempt(path) for path in args.attempt_json])
-    msg = build_message(
+    payload = build_message(
         scrapers,
         duration_min=args.duration, attempts=args.attempts, date_str=args.date,
         missing_attempt=missing or not args.attempt_json,
@@ -129,7 +170,7 @@ def main(argv=None):
         print("Discord 알림 건너뜀: 웹훅 환경변수 없음")
         return
     try:
-        send_discord(url, msg)
+        send_discord_payload(url, payload)
         print("Discord 알림 전송 완료")
     except Exception as e:  # noqa: BLE001 - 알림 실패가 크롤링을 막지 않도록 (URL 노출 방지로 타입만 출력)
         print(f"Discord 알림 전송 실패: {type(e).__name__}")

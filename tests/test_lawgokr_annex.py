@@ -2,6 +2,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
+
 from scripts.core import lawgokr_annex as annex
 
 LAW_RECORD = {"법령": {"별표": {"별표단위": [
@@ -73,6 +74,18 @@ class CollectTest(unittest.TestCase):
         self.assertEqual(annex.collect_annex_articles("law", None, Mock()), ([], 1))
         with patch.object(annex.requests, "get", side_effect=RuntimeError("down")):
             self.assertEqual(annex.collect_annex_articles("law", LAW_RECORD, Mock()), ([], 1))
+
+
+class PausedExtractTest(unittest.TestCase):
+    def test_paused_server_counts_as_failed_with_reason(self):
+        from scripts.core.run_report import EXTRACT_SERVER_DOWN, start_run_report
+        from scripts.utils.document_extraction import ExtractServerUnavailable
+        report = start_run_report("adrule")
+        with patch.object(annex.requests, "get", return_value=Mock(content=b"%PDF", raise_for_status=Mock())):
+            rows = annex.collect_annex_articles("law", LAW_RECORD, Mock(),
+                                                extract=Mock(side_effect=ExtractServerUnavailable("x")))
+        self.assertEqual(rows, ([], 1))
+        self.assertEqual(report.reason_counts[EXTRACT_SERVER_DOWN], 1)
 
 
 if __name__ == "__main__":

@@ -7,6 +7,9 @@
 - 법령(target=law&MST=)·행정규칙(target=admrul&ID=) 모두 응답의 `별표.별표단위`를 쓴다.
   별표구분이 서식(별지)인 것은 빈 양식이라 뺀다. 파일은 PDF → HWP 순, 파일이 없으면 응답의 `별표내용` 글을 쓴다.
 - 행정규칙에 `별표` 항목이 없으면 `첨부파일` 중 이름에 '별표'가 있는 파일을 쓴다.
+
+파서 호출 속도 제한·멈춤은 document_extraction.call_extract_text 가 맡는다. 멈춘 동안 못 읽은 별표는
+문서를 실패로 세어(save_incomplete) 다음 실행이 다시 받는다.
 """
 import re
 from dataclasses import dataclass
@@ -15,7 +18,8 @@ from typing import Callable, Optional
 
 import requests
 
-from scripts.utils.document_extraction import call_extract_text, usable_document
+from scripts.core.run_report import EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, classify_failure, note_reason
+from scripts.utils.document_extraction import ExtractServerUnavailable, call_extract_text, usable_document
 
 DOWNLOAD_BASE = "https://www.law.go.kr"
 EXTRACTABLE = (".pdf", ".hwpx", ".hwp")
@@ -147,14 +151,20 @@ def collect_annex_articles(kind: str, record: Optional[dict], logger,
     조문은 그대로 저장하되 문서를 실패로 세어 save_incomplete 표시로 다음 실행이 다시 받게 한다."""
     if record is None:
         logger.error("별표 목록 조회 실패(Open API) — 다음 실행에서 다시 시도")
+        note_reason(LAWGOKR_API_ERROR)
         return [], 1
     annexes = law_annexes(record) if kind == "law" else adrule_annexes(record)
     if not annexes:
         return [], 0
     try:
         articles = annex_articles(annexes, extract=extract)
+    except ExtractServerUnavailable as e:
+        logger.warning(f"별표 파싱 건너뜀: {e} — 다음 실행에서 다시 시도")
+        note_reason(EXTRACT_SERVER_DOWN)
+        return [], 1
     except Exception as e:  # noqa: BLE001
         logger.error(f"별표 파싱 실패: {type(e).__name__}: {e}")
+        note_reason(classify_failure(f"{type(e).__name__}: {e}"))
         return [], 1
     logger.info(f"📎 별표 {len(articles)}건 파싱")
     return articles, 0

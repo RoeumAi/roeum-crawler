@@ -31,6 +31,18 @@ def split_section(content: str) -> list[tuple[str, int]]:
     return [(part, count_tokens(part)) for part in parts]
 
 
+def mark_doc_save_incomplete(collection, doc_id: str) -> None:
+    """일부 섹션만 저장된 문서를 표시한다. 표시가 있으면 update 모드가 doc_id 가 있어도 다시 수집한다.
+
+    저장에 성공한 섹션은 `$unset` 으로 표시를 지우므로(저장 쓰기에 함께 실린다) 전부 저장된 문서는 표시가 남지 않는다.
+    """
+    try:
+        collection.update_many({"doc_id": doc_id, "metadata.is_active": {"$ne": False}},
+                               {"$set": {"metadata.save_incomplete": True}})
+    except Exception as e:  # noqa: BLE001 - 표시 실패는 저장 실패 보고에 이미 포함된다
+        logger.error(f"{doc_id}: 저장 불완전 표시 실패: {e}")
+
+
 def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_subtitle: str,
                         url: str, chunks: list) -> bool:
     try:
@@ -39,6 +51,9 @@ def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_s
         saved = 0
         failed = 0
         current_keys = set()
+        # 같은 제목의 섹션(【이유】 두 개 등)이 같은 키로 덮어쓰지 않도록 제목별로 chunk_seq 를 이어서 매긴다.
+        # 제목이 겹치지 않는 문서는 예전과 같이 1부터 시작한다.
+        seq_used: dict[str, int] = {}
 
         for chunk_idx, chunk in enumerate(chunks, 1):
             chunk_title = chunk.get('title', '')
@@ -49,7 +64,10 @@ def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_s
                 failed += 1
                 continue
 
-            for seq, (sub_content, token_cnt) in enumerate(parts, 1):
+            seq_base = seq_used.get(chunk_title, 0)
+            seq_used[chunk_title] = seq_base + len(parts)
+            for part_no, (sub_content, token_cnt) in enumerate(parts, 1):
+                seq = seq_base + part_no
                 chunk_meta = {
                     "source_url": url,
                     "source_type": "web",
@@ -81,6 +99,7 @@ def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_s
                         {
                             "$set": set_fields,
                             "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
+                            "$unset": {"metadata.save_incomplete": ""},
                         },
                         upsert=True,
                     )
@@ -91,6 +110,8 @@ def save_section_chunks(collection_name: str, doc_id: str, doc_title: str, doc_s
                     failed += 1
 
         logger.info(f"✅ {doc_id}: {saved}개 저장 (실패: {failed})")
+        if failed:
+            mark_doc_save_incomplete(collection, doc_id)
         if failed == 0 and current_keys:
             # 이번에 없는 섹션(예: 예전에 남긴 메타데이터 청크)은 끈다. 판례 저장과 같은 규칙.
             for row in collection.find({"doc_id": doc_id, "metadata.is_active": True},

@@ -114,6 +114,17 @@ def get_retry_doc_id_filter(collection_name: str) -> Optional[dict]:
 
 METADATA_ONLY_RETRY_COLLECTIONS = {"case", "admin_decc", "constitutional_decc", "legislation_expc"}
 
+# 섹션 일부만 저장된 문서(metadata.save_incomplete)를 다시 수집하는 컬렉션.
+# 법령·행정규칙은 get_crawled_effective_dates 가 같은 표시를 쓴다.
+SAVE_INCOMPLETE_RETRY_COLLECTIONS = METADATA_ONLY_RETRY_COLLECTIONS | {"interpretation"}
+
+
+def get_save_incomplete_filter(collection_name: str) -> Optional[dict]:
+    """일부 섹션만 저장된 현재(active) 문서를 고르는 필터. 해당 없으면 None."""
+    if collection_name in SAVE_INCOMPLETE_RETRY_COLLECTIONS:
+        return {"metadata.is_active": True, "metadata.save_incomplete": True}
+    return None
+
 
 def candidate_doc_ids(url_items: List) -> Set[str]:
     """목록 항목에서 filter_new_urls 가 맞춰 볼 값(URL 그대로, URL의 Seq·Sn 번호)을 모은다."""
@@ -139,13 +150,14 @@ def get_all_crawled_urls(collection_name: str, url_items: List | None = None) ->
     url_items 를 주면 그날 목록에 나온 후보만 $in 으로 조회한다. 컬렉션 전체 distinct 는
     판례처럼 큰 컬렉션에서 결과 16MB 한도에 걸릴 수 있다. doc_id 가 숫자로 저장된 문서도 있어
     숫자 문자열은 정수로도 함께 찾는다.
-    첨부 추출 재시도 대상(get_retry_doc_id_filter)은 집합에서 빼서 다시 수집되게 한다.
+    첨부 추출 재시도·본문 없음·일부 저장 대상(get_retry_doc_id_filter, get_save_incomplete_filter)은 집합에서 빼서 다시 수집되게 한다.
 
     조회 실패는 예외로 올린다. 빈 집합으로 넘기면 전체를 신규로 보고 대량 재수집한다.
     """
     from scripts.core.database.mongo_client import get_mongo_db
     collection = get_mongo_db()[collection_name]
-    retry_filter = get_retry_doc_id_filter(collection_name)
+    retry_filters = [f for f in (get_retry_doc_id_filter(collection_name),
+                                 get_save_incomplete_filter(collection_name)) if f]
 
     def lookup(extra: dict | None) -> Set[str]:
         if url_items is None:
@@ -160,7 +172,7 @@ def get_all_crawled_urls(collection_name: str, url_items: List | None = None) ->
         return found
 
     doc_ids = lookup(None)
-    if retry_filter:
+    for retry_filter in retry_filters:
         doc_ids -= lookup(retry_filter)
     return doc_ids
 

@@ -16,7 +16,7 @@ sys.path.append(project_root)
 # --- 로거 설정 ---
 from scripts.utils.html_text import block_text
 from scripts.utils.logger_config import get_logger
-from scripts.core.database.section_chunks import split_section
+from scripts.core.database.section_chunks import mark_doc_save_incomplete, split_section
 from scripts.core.identifiers import section_chunk_id
 from scripts.core.database.source_versioning import (
     build_mongo_set_fields,
@@ -318,6 +318,9 @@ def save_case_chunks_to_mongodb(
         failed_count = 0
         judgment_date = extract_judgment_date(doc_subtitle)
         current_keys = set()
+        # 같은 제목의 섹션이 같은 키(doc_id, 제목, seq)로 덮어쓰지 않도록 제목별로 seq 를 이어서 매긴다.
+        # 제목이 겹치지 않는 문서는 예전과 같이 1부터 시작한다.
+        seq_used = {}
 
         for chunk_idx, chunk in enumerate(chunks, 1):
             try:
@@ -328,9 +331,12 @@ def save_case_chunks_to_mongodb(
                 parts = split_section(content)
                 sub_chunks = [part for part, _ in parts]
                 token_counts = [count for _, count in parts]
+                seq_base = seq_used.get(chunk_title, 0)
+                seq_used[chunk_title] = seq_base + len(sub_chunks)
 
                 # 각 서브청크를 개별 문서로 저장
-                for seq, sub_content in enumerate(sub_chunks, 1):
+                for part_no, sub_content in enumerate(sub_chunks, 1):
+                    seq = seq_base + part_no
                     # content_hash로 변경 여부 판단 — 동일하면 last_check_at만 갱신
                     content_hash = sha256_content(sub_content)
                     existing = collection.find_one(
@@ -348,13 +354,13 @@ def save_case_chunks_to_mongodb(
                                 "article_title": chunk_title,
                                 "metadata.last_check_at": datetime.now().isoformat(),
                                 "metadata.is_active": True,
-                            }}
+                            }, "$unset": {"metadata.save_incomplete": ""}}
                         )
                         no_change_count += 1
                         current_keys.add((chunk_title, seq))
                         continue
 
-                    token_cnt = token_counts[seq - 1]
+                    token_cnt = token_counts[part_no - 1]
 
                     chunk_meta = {
                         "source_url": url,
@@ -389,6 +395,7 @@ def save_case_chunks_to_mongodb(
                         {
                             "$set": set_fields,
                             "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
+                            "$unset": {"metadata.save_incomplete": ""},
                         },
                         upsert=True
                     )
@@ -404,6 +411,9 @@ def save_case_chunks_to_mongodb(
                 logger.error(f"   ❌ 청크 저장 실패 ({chunk.get('title', 'Unknown')}): {str(e)}")
                 failed_count += 1
                 continue
+
+        if failed_count:
+            mark_doc_save_incomplete(collection, base_doc_id)
 
         if failed_count == 0 and current_keys:
             deactivated = 0

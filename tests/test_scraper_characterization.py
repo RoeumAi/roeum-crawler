@@ -118,20 +118,45 @@ class InterpretationScrapeAndSaveTest(unittest.TestCase):
         self.assertEqual(result["status"], "success")
         self.assertEqual(len(db["interpretation"].docs), 1)
 
-    def test_save_failure_is_currently_reported_as_success(self):
+    def test_save_failure_is_reported_as_failed(self):
         db = FakeDB()
         db["interpretation"].fail_update = lambda update, filter_: True
         page = FakePage("임금 문의", "[고용노동부 임금근로시간정책팀-1, 2026. 9. 1.]", SECTIONS)
         result = run_interpretation(page, db)
-        self.assertEqual(result["status"], "success")  # 알려진 버그: 저장 실패인데 성공
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["error"], "MongoDB 저장 실패")
         self.assertEqual(db["interpretation"].docs, [])
 
-    def test_zero_sections_is_currently_reported_as_success(self):
+    def test_zero_sections_is_reported_as_failed(self):
         db = FakeDB()
         page = FakePage("임금 문의", "[고용노동부 임금근로시간정책팀-1, 2026. 9. 1.]", [])
         result = run_interpretation(page, db)
-        self.assertEqual(result["status"], "success")  # 알려진 버그: 본문 0개인데 성공
-        self.assertEqual(result["sections_count"], 0)
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("본문 섹션 없음", result["error"])
+        self.assertEqual(db["interpretation"].docs, [])
+
+    def test_partial_save_is_failed_and_marked_for_retry(self):
+        db = FakeDB()
+        db["interpretation"].fail_update = lambda update, filter_: filter_.get("article_number") == "2"
+        page = FakePage("임금 문의", "[고용노동부 임금근로시간정책팀-1, 2026. 9. 1.]", SECTIONS)
+        result = run_interpretation(page, db)
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual([d["metadata"].get("save_incomplete") for d in db["interpretation"].docs], [True])
+
+    def test_taxlaw_branch_with_jsonl_does_not_raise(self):
+        # SAVE_JSONL=true 에서 국세청 본문 분기가 NameError 로 저장 뒤 실패 처리되던 문제
+        import tempfile
+        db = FakeDB()
+        body = "화면내 검색\n국세 해석\n제2026-1호\n생산일자：2026.9.1.\n회신\n답변 내용입니다"
+        page = FakePage(None, "", [])
+        page.selectors["body"] = [FakeEl("body", body)]
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(interpretation_scraper, "async_playwright", fake_playwright(page)), \
+                 patch("scripts.core.database.mongo_client.get_mongo_db", return_value=db):
+                result = asyncio.run(interpretation_scraper.scrape_and_save(
+                    url=URL_ITEM, output_dir=tmp, output_name="t", save_to_db=True, save_jsonl=True))
+        self.assertEqual(result["status"], "success")
+        self.assertEqual(len(db["interpretation"].docs), 1)
 
 
 class DecisionScrapeAndSaveTest(unittest.TestCase):

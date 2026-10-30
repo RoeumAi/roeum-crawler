@@ -41,11 +41,7 @@ class ScraperSaveFailureTest(unittest.IsolatedAsyncioTestCase):
         chunks = [{"title": "질의요지", "text": "내용", "metadata": {}}]
 
         with (
-            patch.object(
-                legislation_scraper.requests,
-                "get",
-                return_value=response_with_html(html),
-            ),
+            patch("requests.get", return_value=response_with_html(html)),
             patch.object(legislation_scraper, "parse_content", return_value=chunks),
             patch.object(legislation_scraper, "save_to_mongodb", return_value=False),
         ):

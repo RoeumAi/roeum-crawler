@@ -1,9 +1,6 @@
 import asyncio
-import json
 import os
 import sys
-from datetime import datetime
-from html import unescape
 from urllib.parse import urlparse, parse_qs
 
 from curl_cffi import requests
@@ -14,9 +11,8 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.utils.nlrc_pdf import (extract_attachment_text, pdf_retry_needed,
-                                    attachment_display_metadata, attachment_body_heading, preserve_existing_after_failure)
-from scripts.core.identifiers import document_chunk_id
+from scripts.utils import nlrc_detail
+from scripts.utils.nlrc_pdf import extract_attachment_text, preserve_existing_after_failure
 from scripts.utils.reference_sub_title import (
     extract_nlrc_case_number,
     extract_nlrc_case_number_from_body,
@@ -25,8 +21,6 @@ from scripts.core.database.source_versioning import enrich_source_document, sha2
 
 logger = get_logger(__name__, scraper_type='judgment')
 
-MAX_PDF_RETRIES = 3
-
 DEFAULT_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
     "Referer": "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
@@ -34,9 +28,7 @@ DEFAULT_HEADERS = {
 
 
 def clean_text(text: str) -> str:
-    if not text:
-        return ""
-    return "\n".join(" ".join(line.split()) for line in unescape(text).splitlines()).strip()
+    return nlrc_detail.clean_text(text)
 
 
 def _fetch_detail_html(url: str) -> str:
@@ -46,13 +38,7 @@ def _fetch_detail_html(url: str) -> str:
 
 
 def _extract_table_value(soup: BeautifulSoup, label: str) -> str:
-    th = soup.find("th", string=lambda s: s and s.strip() == label)
-    if not th:
-        return ""
-    td = th.find_next_sibling("td")
-    if not td:
-        return ""
-    return clean_text(td.get_text(separator="\n"))
+    return nlrc_detail.extract_table_value(soup, label)
 
 
 def _parse_detail(html: str) -> dict:
@@ -76,13 +62,7 @@ def _parse_detail(html: str) -> dict:
 
 
 def save_to_file(data, filename):
-    if not isinstance(data, list):
-        data = [data]
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
-    with open(filename, 'w', encoding='utf-8') as f:
-        for item in data:
-            f.write(json.dumps(item, ensure_ascii=False) + '\n')
-    logger.info(f"데이터 {len(data)}건을 '{filename}' 파일에 성공적으로 저장했습니다.")
+    nlrc_detail.save_to_file(data, filename, logger)
 
 
 def save_judgment_to_mongodb(document_data: dict) -> bool:
@@ -107,18 +87,7 @@ def save_judgment_to_mongodb(document_data: dict) -> bool:
             action = "update_existing"
         document_data["_action"] = action
 
-        if document_data["metadata"].get("pdf_retry_needed"):
-            prev_retry_count = (existing or {}).get("metadata", {}).get("pdf_retry_count", 0)
-            retry_count = prev_retry_count + 1
-            if retry_count >= MAX_PDF_RETRIES:
-                logger.warning(
-                    f"⚠️ {doc_id}: 첨부파일 추출 {MAX_PDF_RETRIES}회 연속 실패 — "
-                    f"재시도 중단, 확보한 본문 유지"
-                )
-                document_data["metadata"]["pdf_retry_needed"] = False
-            document_data["metadata"]["pdf_retry_count"] = retry_count
-        else:
-            document_data["metadata"]["pdf_retry_count"] = 0
+        nlrc_detail.apply_pdf_retry_count(document_data, existing, logger)
 
         to_store = {k: v for k, v in document_data.items() if k != "_action"}
         to_store = enrich_source_document(to_store, "judgment")
@@ -175,62 +144,27 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             html,
             detail_url,
         )
-        if pdf_result["success"]:
-            content = f"{html_content}\n\n{attachment_body_heading(pdf_result)}\n{pdf_result['text']}".strip()
-            logger.info(
-                f"✅ {doc_id}: 첨부파일 본문 추출 완료 "
-                f"({pdf_result['content_source']}, {len(pdf_result['text']):,}자)"
-            )
-        else:
-            content = html_content
-            logger.warning(
-                f"⚠️ {doc_id}: 첨부파일 본문 추출 실패 — HTML 요약 유지 "
-                f"({pdf_result['error']})"
-            )
+        content = nlrc_detail.merge_attachment_content(html_content, pdf_result, doc_id, logger)
 
-        attachment = pdf_result.get("attachment") or {}
-
-        document_data = {
-            "chunk_id": document_chunk_id("judgment", doc_id),
-            "doc_id": doc_id,
-            "doc_type": "주요판정사례",
-            "article_number": "1",
-            "title": parsed.get("title"),
+        document_data = nlrc_detail.build_document(
+            collection="judgment",
+            doc_id=doc_id,
+            doc_type="주요판정사례",
+            title=parsed.get("title"),
             # 제목에 사건번호가 없는 문서(구세대 312/411)가 다수라, 첨부 판정문
             # 본문에서 한 번 더 추출한다. 상세 페이지에는 사건번호 필드가 없어
             # (2026-08-19 실측) 본문이 유일한 폴백이다. sub_title 이 비면 FE 출처
             # 라벨이 제목 문장으로 나가는 문제의 재발 방지.
-            "sub_title": (
+            sub_title=(
                 extract_nlrc_case_number(parsed.get("title") or "")
                 or extract_nlrc_case_number_from_body(content)
             ),
-            "content": content,
-            "metadata": {
-                **attachment_display_metadata(html_content, pdf_result),
-                "source_url": detail_url,
-                "source_type": "web",
-                "created_at": datetime.now().isoformat(),
-                "updated_at": datetime.now().isoformat(),
-                "is_active": True,
-                "effective": parsed.get("registered_at"),
-                "attachment_name": attachment.get("name"),
-                "attachment_url": attachment.get("download_url"),
-                "attachment_file_id": attachment.get("file_id"),
-                "attachment_names": [
-                    item.get("name") for item in pdf_result.get("attachments", [])
-                ],
-                "attachment_file_ids": [
-                    item.get("file_id") for item in pdf_result.get("attachments", [])
-                ],
-                "content_source": pdf_result.get("content_source"),
-                "pdf_page_count": pdf_result.get("page_count"),
-                "pdf_extraction_status": pdf_result.get("extraction_status"),
-                "pdf_is_searchable": pdf_result.get("is_searchable"),
-                "pdf_cost_usd": pdf_result.get("cost_usd", 0.0),
-                "pdf_error": pdf_result.get("error", ""),
-                "pdf_retry_needed": pdf_retry_needed(pdf_result),
-            }
-        }
+            content=content,
+            html_content=html_content,
+            pdf_result=pdf_result,
+            detail_url=detail_url,
+            registered_at=parsed.get("registered_at"),
+        )
 
         if save_jsonl:
             output_path = os.path.join(output_dir, f"{output_name}_document.jsonl")

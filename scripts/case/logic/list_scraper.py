@@ -57,14 +57,14 @@ def _post_list_page_with_retry(cpt_ofi_cd: str, page_index: int) -> BeautifulSou
     raise last_exc
 
 
-def _get_total_pages(soup: BeautifulSoup) -> int:
+def _get_total_pages(soup: BeautifulSoup) -> int | None:
+    """총 페이지 수. 읽지 못하면 None(호출부가 1페이지만 보게 되는 것을 실패로 기록한다)."""
     el = soup.select_one(".tit2")
     if el:
         m = re.search(r"\((\d+)/(\d+)\)", el.get_text())
         if m:
             return int(m.group(2))
-    # fallback: count links on page → 1 page
-    return 1
+    return None
 
 
 def _extract_urls(soup: BeautifulSoup, seen: set) -> list:
@@ -100,13 +100,19 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
 
     soup1 = _post_list_page_with_retry(cpt_ofi_cd, 1)
     total_pages = _get_total_pages(soup1)
+    first_page_items = _extract_urls(soup1, seen)
+    if total_pages is None:
+        # 페이지 표시를 못 읽었는데 첫 페이지가 꽉 찼다면 사이트 구조가 바뀐 것이다 → 조용히 1페이지만 보지 않는다.
+        if len(first_page_items) >= PAGE_SIZE:
+            record_failure("list-pages", "페이지 수를 읽지 못함(사이트 구조 변경 가능)")
+        total_pages = 1
     logger.info(f"총 {total_pages}페이지")
 
     if max_pages_arg:
         total_pages = min(total_pages, max_pages_arg)
         logger.info(f"최대 {total_pages}페이지로 제한")
 
-    urls_found.extend(_extract_urls(soup1, seen))
+    urls_found.extend(first_page_items)
 
     for page_idx in range(2, total_pages + 1):
         if page_idx % 50 == 0:

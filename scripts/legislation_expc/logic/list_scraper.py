@@ -40,15 +40,15 @@ def _post_list_page(page_index: int) -> BeautifulSoup:
     return BeautifulSoup(resp.text, 'html.parser')
 
 
-def _get_total_count(soup: BeautifulSoup) -> int:
+def _get_total_count(soup: BeautifulSoup) -> int | None:
+    """총 건수. 읽지 못하면 None(호출부가 1페이지만 보게 되는 것을 실패로 기록한다)."""
     for sel in ['.tit2 strong', '#totalCount', '.total strong']:
         el = soup.select_one(sel)
         if el:
             text = re.sub(r'[^\d]', '', el.get_text())
             if text:
                 return int(text)
-    # fallback: count links
-    return len(soup.select('a[href*=expcInfoP]'))
+    return None
 
 
 async def fetch_urls(start_url: str, max_pages_arg: int | None):
@@ -60,6 +60,12 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
     logger.info("1페이지 요청 중...")
     soup1 = _post_list_page(1)
     total_count = _get_total_count(soup1)
+    if total_count is None:
+        first_page_links = len(soup1.select('a[href*="expcInfoP"]'))
+        # 총 건수를 못 읽었는데 첫 페이지가 꽉 찼다면 사이트 구조가 바뀐 것이다 → 조용히 1페이지만 보지 않는다.
+        if first_page_links >= PAGE_SIZE:
+            record_failure("list-pages", "페이지 수를 읽지 못함(사이트 구조 변경 가능)")
+        total_count = first_page_links
     total_pages = (total_count + PAGE_SIZE - 1) // PAGE_SIZE
     logger.info(f"총 {total_count}건 / {total_pages}페이지")
 

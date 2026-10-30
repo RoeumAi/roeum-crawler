@@ -121,15 +121,26 @@ def adrule_annexes(record: dict) -> list[Annex]:
     return unique_numbers(sorted(annexes, key=lambda a: a.article_number))
 
 
+def download_and_extract(url: str, file_name: Optional[str] = None, fallback_name: str = "",
+                         extract: Optional[Callable[[bytes, str], dict]] = None) -> dict:
+    """원본 파일을 받아 chat_generation 으로 파싱한다(표는 Markdown 표로 남는다). 실패는 예외로 올린다.
+
+    file_name 이 없으면 응답의 Content-Disposition 에서 구하고, 그것도 없으면 fallback_name 을 쓴다."""
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
+    response.raise_for_status()
+    if file_name is None:
+        match = re.search(r'filename="?([^";]+)', response.headers.get("Content-Disposition", ""))
+        file_name = requests.utils.unquote(match.group(1)) if match else fallback_name
+    return usable_document((extract or call_extract_text)(response.content, file_name))
+
+
 def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str], dict]] = None) -> list[dict]:
     """별표마다 조문과 같은 모양의 행을 만든다. 하나라도 못 읽으면 예외(호출하는 쪽이 실패로 센다)."""
     extract = extract or call_extract_text
     articles = []
     for annex in annexes:
         if annex.url:
-            response = requests.get(annex.url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
-            response.raise_for_status()
-            document = usable_document(extract(response.content, annex.file_name))
+            document = download_and_extract(annex.url, annex.file_name, extract=extract)
             content, status, source = document["structured_text"].strip(), document.get("extraction_status"), annex.file_name
             blocks = document.get("document_blocks") or []
         else:

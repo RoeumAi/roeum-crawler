@@ -2,7 +2,6 @@
 
 네트워크·실제 DB·브라우저 없이 가짜 저장소와 가짜 Playwright 로 돌린다.
 """
-import asyncio
 import contextvars
 import json
 import os

@@ -7,7 +7,6 @@ import os
 from urllib.parse import urlparse, parse_qs
 import sys
 from collections import defaultdict
-from datetime import datetime
 
 # --- 프로젝트 루트 경로 설정 ---
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
@@ -16,14 +15,7 @@ sys.path.append(project_root)
 # --- 로거 설정 ---
 from scripts.utils.html_text import block_text
 from scripts.utils.logger_config import get_logger
-from scripts.core.database.section_chunks import mark_doc_save_incomplete, split_section
-from scripts.core.identifiers import section_chunk_id
-from scripts.core.database.source_versioning import (
-    build_mongo_set_fields,
-    enrich_source_document,
-    is_complete_chunk_save,
-    sha256_content,
-)
+from scripts.core.database.section_chunks import save_section_chunks
 logger = get_logger(__name__, scraper_type='case')
 
 def clean_spaces(text: str) -> str:
@@ -246,220 +238,24 @@ def save_to_file(data, filename):
     logger.info(f"데이터 {len(data)}건을 '{filename}' 파일로 성공적으로 저장했습니다.")
 
 
-def save_case_to_mongodb(doc_id: str, title: str, subtitle: str, url: str, content: str = "") -> bool:
-    """판례를 MongoDB에 저장합니다 (동기 함수) - 메타데이터용"""
-    try:
-        from scripts.core.database.mongo_client import get_mongo_db
-        db = get_mongo_db()
-        collection = db['case']
-        
-        case_doc = {
-            "doc_id": doc_id,
-            "doc_type": "case",
-            "title": title,
-            "sub_title": subtitle,
-            "content": content,
-            "metadata.source_url": url,
-            "metadata.source_type": "web",
-            "metadata.updated_at": datetime.now().isoformat(),
-            "metadata.is_active": True,
-        }
-
-        # doc_id 기준으로 upsert (created_at은 최초 insert 시에만 설정)
-        result = collection.update_one(
-            {"doc_id": doc_id},
-            {
-                "$set": case_doc,
-                "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
-            },
-            upsert=True
-        )
-        
-        if result.upserted_id:
-            logger.info(f"✅ 새 판례 생성: {doc_id}")
-        elif result.modified_count > 0:
-            logger.info(f"🔄 판례 업데이트: {doc_id}")
-        else:
-            logger.info(f"⏭️  판례 변경 없음: {doc_id}")
-        
-        return True
-    except Exception as e:
-        logger.error(f"MongoDB 저장 실패: {str(e)}")
-        return False
-
-
 def save_case_chunks_to_mongodb(
-    base_doc_id: str, 
-    doc_title: str, 
-    doc_subtitle: str, 
-    url: str, 
+    base_doc_id: str,
+    doc_title: str,
+    doc_subtitle: str,
+    url: str,
     chunks: list
 ) -> bool:
-    """판례 청크들을 MongoDB에 저장합니다 (동기 함수) - 토큰 기반 청킹 적용"""
-    try:
-        from scripts.core.database.mongo_client import get_mongo_db
-        
-        db = get_mongo_db()
-        collection = db['case']
-        
-        # chunks가 비어있으면 경고하고 메타데이터 청크 생성
-        if not chunks:
-            logger.warning(f"⚠️  {base_doc_id}: 청크가 없습니다. 메타데이터 청크 생성")
-            chunks = [{
-                "chunk_id": section_chunk_id("case", base_doc_id, "metadata", 1),
-                "doc_id": base_doc_id,
-                "title": "메타데이터",
-                "text": f"제목: {doc_title}\n출처: {url}",
-                "metadata": {"source_url": url, "is_metadata_only": True},
-            }]
-        
-        saved_count = 0
-        no_change_count = 0
-        failed_count = 0
-        judgment_date = extract_judgment_date(doc_subtitle)
-        current_keys = set()
-        # 같은 제목의 섹션이 같은 키(doc_id, 제목, seq)로 덮어쓰지 않도록 제목별로 seq 를 이어서 매긴다.
-        # 제목이 겹치지 않는 문서는 예전과 같이 1부터 시작한다.
-        seq_used = {}
+    """판례 청크를 공용 섹션 저장으로 저장한다(동기 함수).
 
-        for chunk_idx, chunk in enumerate(chunks, 1):
-            try:
-                chunk_title = chunk.get('title', '')
-                content = chunk.get('text', '')
-
-                # 8000토큰이 넘으면 나눈다. 분할 실패는 이 섹션 실패로 센다(통째로 넣으면 임베딩 한도 초과).
-                parts = split_section(content)
-                sub_chunks = [part for part, _ in parts]
-                token_counts = [count for _, count in parts]
-                seq_base = seq_used.get(chunk_title, 0)
-                seq_used[chunk_title] = seq_base + len(sub_chunks)
-
-                # 각 서브청크를 개별 문서로 저장
-                for part_no, sub_content in enumerate(sub_chunks, 1):
-                    seq = seq_base + part_no
-                    # content_hash로 변경 여부 판단 — 동일하면 last_check_at만 갱신
-                    content_hash = sha256_content(sub_content)
-                    existing = collection.find_one(
-                        {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
-                        {"content_hash": 1}
-                    )
-                    if existing and existing.get("content_hash") == content_hash:
-                        collection.update_one(
-                            {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
-                            {"$set": {
-                                "chunk_id": section_chunk_id("case", base_doc_id, chunk_title, seq),
-                                "title": doc_title,
-                                "sub_title": doc_subtitle,
-                                "article_number": str(seq),
-                                "article_title": chunk_title,
-                                "metadata.last_check_at": datetime.now().isoformat(),
-                                "metadata.is_active": True,
-                            }, "$unset": {"metadata.save_incomplete": ""}}
-                        )
-                        no_change_count += 1
-                        current_keys.add((chunk_title, seq))
-                        continue
-
-                    token_cnt = token_counts[part_no - 1]
-
-                    chunk_meta = {
-                        "source_url": url,
-                        "source_type": "web",
-                        "updated_at": datetime.now().isoformat(),
-                        "is_active": True,
-                        "chunk_index": chunk_idx,
-                        "total_chunks": len(chunks),
-                        "total_sub_chunks": len(sub_chunks),
-                        "effective": judgment_date,
-                        **chunk.get('metadata', {})
-                    }
-                    chunk_meta["token_count"] = token_cnt
-
-                    chunk_doc = {
-                        "chunk_id": section_chunk_id("case", base_doc_id, chunk_title, seq),
-                        "doc_id": base_doc_id,
-                        "doc_type": chunk_title,
-                        "title": doc_title,
-                        "sub_title": doc_subtitle,
-                        "article_number": str(seq),
-                        "article_title": chunk_title,
-                        "chunk_seq": seq,
-                        "content": sub_content,
-                        "content_hash": content_hash,
-                    }
-                    chunk_doc = enrich_source_document(chunk_doc, "case")
-                    set_fields = build_mongo_set_fields(chunk_doc, chunk_meta)
-
-                    collection.update_one(
-                        {"doc_id": base_doc_id, "doc_type": chunk_title, "chunk_seq": seq},
-                        {
-                            "$set": set_fields,
-                            "$setOnInsert": {"metadata.created_at": datetime.now().isoformat()},
-                            "$unset": {"metadata.save_incomplete": ""},
-                        },
-                        upsert=True
-                    )
-                    saved_count += 1
-                    current_keys.add((chunk_title, seq))
-
-                    if len(sub_chunks) > 1:
-                        logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title} (seq: {seq}/{len(sub_chunks)})")
-                    else:
-                        logger.debug(f"   ✅ 청크 저장: {base_doc_id} - {chunk_title}")
-
-            except Exception as e:
-                logger.error(f"   ❌ 청크 저장 실패 ({chunk.get('title', 'Unknown')}): {str(e)}")
-                failed_count += 1
-                continue
-
-        if failed_count:
-            mark_doc_save_incomplete(collection, base_doc_id)
-
-        if failed_count == 0 and current_keys:
-            deactivated = 0
-            for existing_chunk in collection.find(
-                {"doc_id": base_doc_id, "metadata.is_active": {"$ne": False}},
-                {"doc_type": 1, "chunk_seq": 1},
-            ):
-                key = (existing_chunk.get("doc_type"), existing_chunk.get("chunk_seq"))
-                if key not in current_keys:
-                    collection.update_one(
-                        {"doc_id": base_doc_id, "doc_type": key[0], "chunk_seq": key[1]},
-                        {"$set": {
-                            "metadata.is_active": False,
-                            "metadata.deactivated_at": datetime.now().isoformat(),
-                        }}
-                    )
-                    deactivated += 1
-            if deactivated:
-                logger.info(f"🗑️  {base_doc_id}: {deactivated}개 청크 비활성화(is_active=False) — 최신 크롤에서 더 이상 발견되지 않음")
-
-        if saved_count > 0 or no_change_count > 0:
-            logger.info(f"✅ {base_doc_id}: {saved_count}개 저장, {no_change_count}개 변경없음 (실패: {failed_count})")
-        else:
-            logger.error(f"❌ {base_doc_id}: 청크 저장 완전 실패 (시도: {len(chunks)}, 성공: {saved_count})")
-        
-        return is_complete_chunk_save(
-            saved=saved_count,
-            unchanged=no_change_count,
-            failed=failed_count,
-        )
-        
-    except Exception as e:
-        logger.error(f"MongoDB 청크 저장 실패: {str(e)}", exc_info=True)
-        return False
-
-
-async def save_case_to_mongodb_async(doc_id: str, title: str, subtitle: str, url: str, content: str = "", executor=None) -> bool:
-    """MongoDB 저장을 async로 처리 (event loop blocking 방지) - 메타데이터용"""
-    loop = asyncio.get_running_loop()
-    
-    try:
-        result = await loop.run_in_executor(executor, save_case_to_mongodb, doc_id, title, subtitle, url, content)
-        return result
-    except Exception as e:
-        logger.error(f"MongoDB 비동기 저장 실패: {e}")
-        return False
+    판례만의 규칙: 본문 해시가 같으면 건너뛰고, effective 에 부제의 선고일을 넣고,
+    is_active 필드가 없는 옛 행도 비활성화 대상으로 본다.
+    """
+    return save_section_chunks(
+        "case", base_doc_id, doc_title, doc_subtitle, url, chunks,
+        hash_skip=True,
+        extra_chunk_meta={"effective": extract_judgment_date(doc_subtitle)},
+        include_unflagged_rows=True,
+    )
 
 
 async def save_case_chunks_to_mongodb_async(
@@ -472,9 +268,9 @@ async def save_case_chunks_to_mongodb_async(
 ) -> bool:
     """MongoDB 청크 저장을 async로 처리"""
     loop = asyncio.get_running_loop()
-    
+
     try:
-        result = await loop.run_in_executor(
+        return await loop.run_in_executor(
             executor,
             save_case_chunks_to_mongodb,
             base_doc_id,
@@ -483,7 +279,6 @@ async def save_case_chunks_to_mongodb_async(
             url,
             chunks
         )
-        return result
     except Exception as e:
         logger.error(f"MongoDB 비동기 청크 저장 실패: {e}")
         return False

@@ -8,7 +8,7 @@ import os
 from urllib.parse import urlparse, parse_qs
 import sys
 from datetime import datetime
-from typing import Optional, Dict, List, Tuple
+from typing import Optional, Dict, List
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)

@@ -1,12 +1,14 @@
 """
 PDF 파일 → MongoDB 삽입 스크립트
 
-DB/판례/   → case 컬렉션
-DB/행정해석/ → interpretation 컬렉션
-DB/결정례/  → decision 컬렉션
+<PDF 디렉터리>/판례/   → case 컬렉션
+<PDF 디렉터리>/행정해석/ → interpretation 컬렉션
+<PDF 디렉터리>/결정례/  → decision 컬렉션
+
+PDF 디렉터리는 --pdf-dir 인자 또는 환경변수 PDF_DB_DIR 로 정한다(둘 다 없으면 종료).
 
 실행:
-  python3 scripts/pdf_ingest/pdf_to_mongo.py --type all
+  python3 scripts/pdf_ingest/pdf_to_mongo.py --pdf-dir <PDF 디렉터리> --type all
   python3 scripts/pdf_ingest/pdf_to_mongo.py --type 판례
   python3 scripts/pdf_ingest/pdf_to_mongo.py --type 행정해석 --dry-run
 """
@@ -25,14 +27,30 @@ from scripts.core.database.mongo_client import MongoClientSingleton
 from scripts.utils.document_extraction import call_extract_text, usable_document
 from scripts.core.database.source_versioning import enrich_source_document
 
-# PDF 파일 디렉토리 (Mac Mini 경로)
-PDF_BASE = Path("/Users/loum/loum/pdf_db")
-
-PDF_DIRS = {
-    "판례":   (PDF_BASE / "판례",   "case"),
-    "행정해석": (PDF_BASE / "행정해석", "interpretation"),
-    "결정례":  (PDF_BASE / "결정례",  "decision"),
+# 유형 이름 → (PDF 하위 폴더, 컬렉션). PDF 를 둔 상위 디렉터리는 실행할 때 정한다.
+PDF_TYPES = {
+    "판례":   ("판례",   "case"),
+    "행정해석": ("행정해석", "interpretation"),
+    "결정례":  ("결정례",  "decision"),
 }
+
+PDF_BASE_ENV = "PDF_DB_DIR"
+
+# 유형 이름 → (PDF 디렉터리, 컬렉션). main() 이 resolve_pdf_base() 결과로 채운다.
+PDF_DIRS = {}
+
+
+def resolve_pdf_base(cli_value=None) -> Path:
+    """PDF 상위 디렉터리: --pdf-dir 인자, 없으면 환경변수 PDF_DB_DIR. 둘 다 없으면 종료."""
+    value = cli_value or os.getenv(PDF_BASE_ENV)
+    if not value:
+        raise SystemExit(f"PDF 디렉터리를 --pdf-dir 또는 환경변수 {PDF_BASE_ENV} 로 지정해야 한다")
+    return Path(value).expanduser()
+
+
+def build_pdf_dirs(base: Path) -> dict:
+    return {name: (base / sub, collection) for name, (sub, collection) in PDF_TYPES.items()}
+
 
 # 청크 최대 크기 (문자 수)
 MAX_CHUNK_CHARS = 3000
@@ -336,7 +354,9 @@ def main():
     parser = argparse.ArgumentParser(description="PDF → MongoDB 삽입")
     parser.add_argument("--type", choices=["판례", "행정해석", "결정례", "all"], default="all")
     parser.add_argument("--dry-run", action="store_true", help="삽입 없이 미리 보기")
+    parser.add_argument("--pdf-dir", help=f"PDF 상위 디렉터리(하위: 판례·행정해석·결정례). 없으면 환경변수 {PDF_BASE_ENV}")
     args = parser.parse_args()
+    PDF_DIRS.update(build_pdf_dirs(resolve_pdf_base(args.pdf_dir)))
 
     db = MongoClientSingleton.get_db()
 

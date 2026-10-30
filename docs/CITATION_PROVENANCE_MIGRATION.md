@@ -1,5 +1,7 @@
 # Citation Provenance Migration
 
+> 이행은 끝났고 `scripts/migrations/backfill_source_provenance.py` 는 삭제했다(2026-10-30). 아래 명령은 git 이력에서 그 스크립트를 꺼내야 실행할 수 있다. 새 수집 경로는 이 필드를 처음부터 채운다.
+
 ## Purpose
 
 The citation resolver compares the source saved with a chat answer against the

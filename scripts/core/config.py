@@ -9,6 +9,9 @@ import os
 from dataclasses import dataclass
 from typing import Optional
 
+# 국가법령 Open API 식별자(비밀 아님). 정의는 여기 한 곳이고 운영은 LAWGO_OC 환경변수로 덮어쓴다.
+LAWGO_OC = os.getenv("LAWGO_OC", "inwoong100")
+
 # ============================================================================
 # SCRAPER 설정 정의
 # ============================================================================

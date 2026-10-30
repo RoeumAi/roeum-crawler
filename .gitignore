@@ -6,8 +6,7 @@ exports/
 .DS_Store
 
 # 크롤링 데이터 & 로그
-data/output/*.jsonl
-data/raw/
+data/
 logs/
 debug/
 mongodata/
@@ -15,9 +14,8 @@ mongodata/
 # OCR 캐시 (로컬 작업용, 재생성 가능)
 scripts/cache/
 
-# 작업 중 임시 분석 파일
-*.json
-!package.json
+# 로컬 임시 분석 파일(scratch/ 한 폴더에만 둔다)
+scratch/
 
 # Prefect 로컬 DB
 .prefect/
@@ -28,25 +26,4 @@ scripts/cache/
 *.swp
 *.swo
 
-
-# 일회성 분석/백필 스크립트
-backfill_*.py
-categorize_*.py
-check_*.py
-check*.py
-crawl_missing_*.py
-db_match.py
-final_*.py
-law_check.py
-process_crawlable.py
-quality_check.py
-recheck_*.py
-send_discord*.py
-timing_check.py
-verify_mongo.py
 /tmp/
-
-# 재사용 백필 (PDF 출처/파싱 흔적 제거) — 추적 대상
-!scripts/migrations/backfill_clean_pdf_artifacts.py
-# ECS 태스크 정의 템플릿은 추적한다(계정 번호·이미지는 자리표시자)
-!ecs/task-definition.json

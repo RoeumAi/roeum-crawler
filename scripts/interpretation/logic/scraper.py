@@ -1,12 +1,10 @@
 import asyncio
-from playwright.async_api import async_playwright, expect
+from playwright.async_api import async_playwright
 import json
 import re
 import os
 import sys
-import math
 from datetime import datetime
-import random
 
 # 프로젝트 루트 경로 설정
 # __file__이 정의되지 않은 환경(예: Jupyter notebook)을 위해 경로를 안전하게 설정합니다.

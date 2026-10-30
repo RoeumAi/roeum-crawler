@@ -10,14 +10,14 @@ import requests
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
+from scripts.core.config import LAWGO_OC
 from scripts.utils.logger_config import get_logger
 from scripts.core.run_report import call_with_retry, record_failure
 
 logger = get_logger(__name__, scraper_type='adrule')
 
 API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
-# 국가법령 Open API 식별자(비밀 아님). 운영은 LAWGO_OC 환경변수로 준다.
-OC = os.getenv("LAWGO_OC", "inwoong100")
+OC = LAWGO_OC  # 정의는 scripts/core/config.py
 PAGE_SIZE = 100
 # 고용노동부 소관 행정규칙 판별 함수
 # 부처명 변형 포함: 노동부(이전 명칭), 중앙노동위원회·노동위원회(고용노동부 산하),

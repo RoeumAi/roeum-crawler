@@ -1,6 +1,6 @@
+#!/usr/bin/env python3
 # 출처: RoeumAi/roeum-manage-server tools/batch-report/batch_report.py (e387b830) — 그 파일이 원본이다.
 # 고칠 때는 원본을 고치고 이 파일에 그대로 복사한다. 키는 환경변수(BATCH_REPORT_KEY)로만 받는다(공개 저장소).
-#!/usr/bin/env python3
 """배치 관리 시스템 외부 작업 보고 래퍼 (표준 라이브러리만, Python 3.9+).
 
 사용: batch_report.py <jobName> -- <명령> [인자...]

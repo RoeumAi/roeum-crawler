@@ -129,7 +129,9 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
         return None
     
     # 3. 효력일자 추출 (sub_title 또는 메타데이터에서)
-    effective_date = datetime.now().strftime('%Y-%m-%d')
+    # 못 읽으면 빈값으로 둔다. 오늘 날짜로 채우면 매일 시행일자가 바뀐 것으로 보여 조문 전체가 매일 새 버전이 된다.
+    # (비면 scrape_and_save 가 목록의 시행일자로 채운다.)
+    effective_date = ""
     try:
         # sub_title에서 먼저 시행일자 추출 시도
         if sub_title:
@@ -139,7 +141,7 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
                 effective_date = f"{match.group(1)}-{match.group(2).zfill(2)}-{match.group(3).zfill(2)}"
         
         # sub_title에서 없으면 다른 메타데이터 태그 확인
-        if effective_date == datetime.now().strftime('%Y-%m-%d'):
+        if not effective_date:
             effective_tag = soup.select_one('.law-info .effective-date, .ct_info')
             if effective_tag:
                 effective_text = effective_tag.get_text(strip=True)
@@ -147,9 +149,9 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
                 match = re.search(r'(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})', effective_text)
                 if match:
                     effective_date = f"{match.group(1)}-{match.group(2).zfill(2)}-{match.group(3).zfill(2)}"
-    except:
-        pass
-    
+    except Exception as e:
+        logger.warning(f"효력일자 추출 중 오류: {e}")
+
     # 4. sub_title 정제
     if sub_title:
         # 대괄호 제거: [고용노동부령 ...] → 고용노동부령 ...
@@ -238,6 +240,20 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
     }
     
     return unified_doc
+
+def apply_list_effective(unified_doc: Dict, list_effective: Optional[str]) -> None:
+    """본문에서 시행일자를 못 읽은 문서는 목록의 시행일자(YYYYMMDD)로 채운다.
+
+    update 모드 필터가 비교하는 값과 같아서, 비워 두면 매 실행 '시행일자가 바뀜'으로 보고 다시 수집한다.
+    99991231(시행일 미정)이나 형식이 다른 값은 쓰지 않고 빈값으로 둔다.
+    """
+    metadata = unified_doc.setdefault("metadata", {})
+    if metadata.get("effective"):
+        return
+    digits = str(list_effective or "").replace("-", "")
+    if re.fullmatch(r"\d{8}", digits) and digits != "99991231":
+        metadata["effective"] = f"{digits[:4]}-{digits[4:6]}-{digits[6:]}"
+
 
 def save_to_file(data, filename):
     if not isinstance(data, list): data = [data]
@@ -430,7 +446,9 @@ async def scrape_and_save(
     dept_name = None
     law_id = None
     is_upcoming = False
+    list_effective = None
     if isinstance(url, dict):
+        list_effective = url.get("effective")
         dept_name = url.get("dept_name", "")
         law_id = url.get("law_id", "")
         is_upcoming = bool(url.get("is_upcoming", False))
@@ -456,6 +474,7 @@ async def scrape_and_save(
             logger.info("데이터 파싱 중...")
             unified_doc = parse_law_html(html, url)
             if unified_doc:
+                apply_list_effective(unified_doc, list_effective)
                 if dept_name:
                     unified_doc["dept_name"] = dept_name
                 if law_id:

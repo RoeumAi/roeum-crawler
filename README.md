@@ -47,7 +47,7 @@ run_daily.sh (일일 실행, ECS 진입점 docker/entrypoint.sh 가 호출)
 
 1. `scripts/core/config.py`의 `SCRAPERS`에 `ScraperConfig` 추가
 2. `scripts/<이름>/logic/list_scraper.py`(`fetch_urls`)와 `scraper.py`(`scrape_and_save`) 작성 — 실패 보고 규칙을 지킨다
-3. `crawl.py`의 `get_list_page_url`과 update 모드 필터 분기에 추가
+3. 같은 `ScraperConfig` 항목에 목록 참조 URL(`list_page_url`)·update 방식(`update_strategy`)·재수집 필터(`retry_filter`, `retry_save_incomplete`)를 채운다 — `crawl.py` 는 고치지 않는다
 
 ## 환경 변수
 

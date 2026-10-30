@@ -31,7 +31,9 @@ from typing import Dict, Optional, List, Set
 project_root = str(Path(__file__).parent)
 sys.path.insert(0, project_root)
 
-from scripts.core.config import get_scraper_config, get_scraper_list, ENV
+from scripts.core.config import (
+    ENV, SCRAPERS, UPDATE_BY_DOC_ID, UPDATE_BY_EFFECTIVE_DATE, get_scraper_config, get_scraper_list,
+)
 from scripts.core.run_report import OTHER, classify_failure, note_reason, start_run_report
 from scripts.report.batch_result import is_listing_failure
 
@@ -97,65 +99,28 @@ def note_document_failure(error) -> None:
 
 
 # ============================================================================
-# URL 아이템에서 리스트 페이지 URL 반환 (스크래퍼별 분기)
-# ============================================================================
-
-def get_list_page_url(scraper_type: str, config) -> str:
-    """스크래퍼 타입에 맞는 목록 페이지 URL 반환"""
-    if scraper_type == "case":
-        return f"https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd={config.dept_code}"
-    elif scraper_type == "adrule":
-        return f"https://www.law.go.kr/LSW/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd={config.dept_code}"
-    elif scraper_type == "interpretation":
-        return "https://www.law.go.kr/cgmExpcAstSc.do?menuId=391&subMenuId=397&tabMenuId=741&query="
-    elif scraper_type == "judgment":
-        return "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
-    elif scraper_type == "mediation_case":
-        return "https://nlrc.go.kr/nlrc/mainCase/mediatioin/index.do"
-    elif scraper_type == "decision":
-        return "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do"
-    elif scraper_type == "constitutional_decc":
-        return f"https://www.law.go.kr/LSW/detcAstScListR.do"
-    elif scraper_type == "legislation_expc":
-        return f"https://www.law.go.kr/LSW/expcAstScListR.do"
-    elif scraper_type == "admin_decc":
-        return f"https://www.law.go.kr/LSW/deccAstScListR.do"
-    else:
-        # law, decision 등 나머지
-        return f"https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd={config.dept_code}"
-
-
-# ============================================================================
 # UPDATE 모드: 이미 크롤링된 URL 조회
 # ============================================================================
+# 컬렉션마다 다른 점(목록 참조 URL·update 필터 방식·재수집 필터)은 scripts/core/config.py 의
+# SCRAPERS 항목에 있다. 여기서는 그 값을 읽기만 한다.
 
-def get_retry_doc_id_filter(collection_name: str) -> Optional[dict]:
-    """첨부 추출을 다시 해야 하는 doc_id 를 고르는 필터. 해당 없으면 None.
-
-    판단은 현재(active) 레코드로만 한다. 같은 doc_id 의 이전 버전(inactive)에는
-    재시도 표시가 없어서, 레코드 단위로 거르면 이전 버전 때문에 doc_id 전체가
-    "완료"로 보여 재시도가 멈춘다(조정사건례 34·41).
-    """
-    if collection_name in {"judgment", "mediation_case"}:
-        return {"metadata.is_active": True, "metadata.pdf_retry_needed": True}
-    if collection_name in METADATA_ONLY_RETRY_COLLECTIONS:
-        # 본문을 못 읽어 제목·출처만 남긴 문서(메타데이터 청크)는 매일 다시 확인한다.
-        # 원문에 정말 본문이 없는 문서(헌재 지정재판부 각하 등)도 있지만 요청 한 번이라 싸고,
-        # 그때 파싱만 실패했던 문서(판례 618235)는 다음 실행에서 채워진다.
-        return {"metadata.is_active": True, "metadata.is_metadata_only": True}
+def _config_by_collection(collection_name: str):
+    for config in SCRAPERS.values():
+        if config.collection_name == collection_name:
+            return config
     return None
 
 
-METADATA_ONLY_RETRY_COLLECTIONS = {"case", "admin_decc", "constitutional_decc", "legislation_expc"}
-
-# 섹션 일부만 저장된 문서(metadata.save_incomplete)를 다시 수집하는 컬렉션.
-# 법령·행정규칙은 get_crawled_effective_dates 가 같은 표시를 쓴다.
-SAVE_INCOMPLETE_RETRY_COLLECTIONS = METADATA_ONLY_RETRY_COLLECTIONS | {"interpretation"}
+def get_retry_doc_id_filter(collection_name: str) -> Optional[dict]:
+    """첨부 추출·본문 확인을 다시 해야 하는 doc_id 를 고르는 필터. 해당 없으면 None."""
+    config = _config_by_collection(collection_name)
+    return dict(config.retry_filter) if config and config.retry_filter else None
 
 
 def get_save_incomplete_filter(collection_name: str) -> Optional[dict]:
     """일부 섹션만 저장된 현재(active) 문서를 고르는 필터. 해당 없으면 None."""
-    if collection_name in SAVE_INCOMPLETE_RETRY_COLLECTIONS:
+    config = _config_by_collection(collection_name)
+    if config and config.retry_save_incomplete:
         return {"metadata.is_active": True, "metadata.save_incomplete": True}
     return None
 
@@ -382,16 +347,16 @@ async def run_single_scraper(
 
     total_discovered = 0
     try:
-        list_scraper_module = import_module(f"scripts.{scraper_type}.logic.list_scraper")
-        scraper_module = import_module(f"scripts.{scraper_type}.logic.scraper")
+        list_scraper_module = import_module(config.list_module)
+        scraper_module = import_module(config.scraper_module)
 
         fetch_urls = getattr(list_scraper_module, "fetch_urls")
         scrape_and_save = getattr(scraper_module, "scrape_and_save")
 
-        list_page_url = get_list_page_url(scraper_type, config)
+        list_page_url = config.resolve_list_page_url()
 
         # Step 1: URL 수집
-        print(f"📍 Step 1: URL 수집 시작...")
+        print("📍 Step 1: URL 수집 시작...")
         try:
             urls = await fetch_urls(
                 start_url=list_page_url,
@@ -429,21 +394,19 @@ async def run_single_scraper(
         total_discovered = len(urls)
         skipped_count = 0
         if mode == "update":
-            # law/adrule: 시행일자 기반 변경 감지 (더 정확)
-            # 스크래퍼별 필터 전략
-            # - law/adrule: 시행일자 기반 변경 감지 (개정 여부 정확 판별)
-            # - case/mediation_case/judgment/interpretation: URL/ID 존재 여부 (내용 불변)
-            # - decision: 날짜 기반 (건수 적고 신규 위주)
-            if scraper_type in ("law", "adrule"):
-                print(f"📍 Step 1.5: update 모드 — 시행일자 기반 변경 감지 중...")
+            # 필터 방식은 컬렉션 설정(config.update_strategy)이 정한다.
+            # - 시행일자(law/adrule): 개정 여부를 정확히 판별한다.
+            # - doc_id(나머지): 이미 있는 문서는 건너뛴다(내용 불변). 재수집 대상은 설정의 retry 필터가 뺀다.
+            if config.update_strategy == UPDATE_BY_EFFECTIVE_DATE:
+                print("📍 Step 1.5: update 모드 — 시행일자 기반 변경 감지 중...")
                 url_str_list = [
                     (item.get("url") if isinstance(item, dict) else item)
                     for item in urls if item
                 ]
                 effective_map = get_crawled_effective_dates(config.collection_name, url_list=url_str_list)
                 urls = filter_new_urls(urls, set(), effective_map=effective_map)
-            elif scraper_type in ("case", "mediation_case", "judgment", "interpretation", "decision", "constitutional_decc", "legislation_expc", "admin_decc"):
-                print(f"📍 Step 1.5: update 모드 — 기존 URL/ID 존재 여부로 신규 항목만 필터링 중...")
+            elif config.update_strategy == UPDATE_BY_DOC_ID:
+                print("📍 Step 1.5: update 모드 — 기존 URL/ID 존재 여부로 신규 항목만 필터링 중...")
                 crawled_urls = get_all_crawled_urls(config.collection_name, url_items=urls)
                 urls = filter_new_urls(urls, crawled_urls)
             else:
@@ -452,7 +415,7 @@ async def run_single_scraper(
             print(f"✅ Step 1.5 완료: {total_discovered}개 중 {len(urls)}개 신규/변경 크롤링 대상\n")
 
             if not urls:
-                print(f"ℹ️  신규/변경 항목이 없습니다. 건너뜁니다.")
+                print("ℹ️  신규/변경 항목이 없습니다. 건너뜁니다.")
                 return {
                     "status": "success",
                     "total_urls": total_discovered,
@@ -592,14 +555,14 @@ def print_results(results):
         total_failed += result.get('total_failed', 0)
 
     print(f"\n{'='*80}")
-    print(f"📈 전체 통계")
+    print("📈 전체 통계")
     print(f"{'='*80}")
     print(f"   - 전체 발견 URL: {total_urls:,}개")
     print(f"   - 전체 성공: {total_success:,}개")
     print(f"   - 전체 실패: {total_failed:,}개")
     if total_urls > 0:
         print(f"   - 성공률: {total_success / total_urls * 100:.1f}%")
-    print(f"\n💾 저장 위치: MongoDB (original_db)")
+    print("\n💾 저장 위치: MongoDB (original_db)")
     print("="*80 + "\n")
 
 
@@ -703,7 +666,7 @@ def main():
         scrapers = args.scraper
         print(f"\n📌 옵션: {', '.join(scrapers)} 실행")
 
-    print(f"\n🔧 크롤링 설정:")
+    print("\n🔧 크롤링 설정:")
     print(f"   - 모드: {args.mode}")
     print(f"   - 동시 수: {args.concurrent}")
     print(f"   - 최대 페이지: {args.pages or '무제한'}")

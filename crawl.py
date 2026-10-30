@@ -32,14 +32,15 @@ project_root = str(Path(__file__).parent)
 sys.path.insert(0, project_root)
 
 from scripts.core.config import get_scraper_config, get_scraper_list, ENV
-from scripts.core.run_report import start_run_report
+from scripts.core.run_report import OTHER, classify_failure, note_reason, start_run_report
+from scripts.report.batch_result import is_listing_failure
 
 
 # ============================================================================
 # 종료 코드 (run_daily.sh 의 재시도 판단에 사용)
 # ============================================================================
 
-EXIT_OK = 0                 # 정상 (개별 문서·목록 페이지 일부 실패는 결과의 failed 로 보고)
+EXIT_OK = 0                 # 정상 (개별 문서·목록 페이지 일부 실패, 스크래퍼 내부 예상 밖 오류는 결과의 failed 로 보고)
 EXIT_FATAL = 1              # 실행 자체가 중단됨 (예외/사용자 중단)
 EXIT_LISTING_FAILURE = 2    # URL 목록조차 수집 못한 스크래퍼 존재 → 외부 수집원 일시 장애 가능성, 재시도 대상
 
@@ -53,13 +54,46 @@ def compute_exit_code(results: Dict[str, dict]) -> int:
 
     개별 문서 단위 실패(목록은 정상 수집)만 있는 경우는 이미 문서 단위로 재시도되고
     다음 실행에서 자연히 따라잡히므로 전체 재시도 대상으로 보지 않는다(EXIT_OK).
+
+    스크래퍼 안에서 목록 수집 밖의 예상 밖 오류(DB 인증 실패·코드 오류 등)가 난 경우
+    (error_kind == "unexpected")는 15분 뒤 다시 해도 같은 오류라 목록 실패로 보지 않는다.
+    결과의 failed(1건, `<스크래퍼>:run`)로 보고되어 일일 요약에 드러난다.
     """
     for result in results.values():
         if not isinstance(result, dict):
             continue
-        if result.get("status") == "failed" and not result.get("total_urls"):
+        if is_listing_failure(result):
             return EXIT_LISTING_FAILURE
     return EXIT_OK
+
+
+ERROR_KIND_UNEXPECTED = "unexpected"
+
+
+def unexpected_error_result(scraper_type: str, error, total_urls: int = 0, reasons: dict | None = None) -> Dict:
+    """목록 수집 밖에서 난 예상 밖 오류의 결과. 목록 실패(재시도 대상)와 구분되도록 error_kind 를 단다."""
+    result = {
+        "status": "failed",
+        "error": str(error),
+        "error_kind": ERROR_KIND_UNEXPECTED,
+        "total_urls": total_urls,
+        "total_success": 0,
+        "total_failed": 1,
+        "failed_targets": [f"{scraper_type}:run"],
+    }
+    if reasons:
+        result["failure_reasons"] = reasons
+    return result
+
+
+def note_document_failure(error) -> None:
+    """문서 하나가 실패한 원인을 실행 보고의 원인별 건수에 센다.
+
+    원인을 분류할 수 없는 실패는 세지 않는다. 일일 요약이 '기타 저장 실패'로 따로 세기 때문이다.
+    """
+    reason = classify_failure(error)
+    if reason != OTHER:
+        note_reason(reason)
 
 
 # ============================================================================
@@ -346,6 +380,7 @@ async def run_single_scraper(
     print(f"🚀 {config.display_name} 크롤링 시작 (모드: {mode}, 동시 처리: {max_concurrent})")
     print(f"{'='*80}\n")
 
+    total_discovered = 0
     try:
         list_scraper_module = import_module(f"scripts.{scraper_type}.logic.list_scraper")
         scraper_module = import_module(f"scripts.{scraper_type}.logic.scraper")
@@ -357,10 +392,24 @@ async def run_single_scraper(
 
         # Step 1: URL 수집
         print(f"📍 Step 1: URL 수집 시작...")
-        urls = await fetch_urls(
-            start_url=list_page_url,
-            max_pages_arg=max_pages
-        )
+        try:
+            urls = await fetch_urls(
+                start_url=list_page_url,
+                max_pages_arg=max_pages
+            )
+        except Exception as e:
+            # 목록 수집 중 예외는 외부 수집원 일시 장애로 본다(재시도 대상). 목록 밖의 오류와 구분한다.
+            print(f"❌ 목록 수집 오류: {e}")
+            import traceback
+            traceback.print_exc()
+            return {
+                "status": "failed",
+                "error": f"목록 수집 실패: {e}",
+                "total_urls": 0,
+                "total_success": 0,
+                "total_failed": 0,
+                "failed_targets": [f"{scraper_type}:listing"],
+            }
         print(f"✅ Step 1 완료: {len(urls)}개의 URL 발견\n")
 
         if not urls:
@@ -436,14 +485,17 @@ async def run_single_scraper(
                         save_jsonl=save_jsonl
                     )
                     if not result or result.get("status") in ("failed", "error"):
+                        error = (result or {}).get("error") or "scrape_and_save returned None or failed"
+                        note_document_failure(error)
                         return {
                             "status": "failed",
-                            "error": (result or {}).get("error") or "scrape_and_save returned None or failed",
+                            "error": error,
                             "target": failed_doc_target(url_item, result),
                         }
                     action = result.get("action", "insert")
                     return {"status": "success", "doc_id": result.get("doc_id"), "action": action}
                 except Exception as e:
+                    note_document_failure(e)
                     return {"status": "failed", "error": str(e), "target": failed_doc_target(url_item, None)}
 
         tasks = [scrape_with_semaphore(url) for url in urls]
@@ -473,14 +525,8 @@ async def run_single_scraper(
         print(f"❌ 오류 발생: {e}")
         import traceback
         traceback.print_exc()
-        return {
-            "status": "failed",
-            "error": str(e),
-            "total_urls": 0,
-            "total_success": 0,
-            "total_failed": 0,
-            "failed_targets": [f"{scraper_type}:run"],
-        }
+        # 목록 수집 밖의 오류(DB 조회·import·코드 오류)는 목록 실패가 아니다 → 종료코드 2(재시도)로 보내지 않는다.
+        return unexpected_error_result(scraper_type, e, total_discovered, dict(run_report.reason_counts))
 
 
 # 스크래퍼 시작 간격(초). 00:00:00에 10개가 한꺼번에 law.go.kr에 붙으면
@@ -509,8 +555,7 @@ async def run_multiple_scrapers(scrapers, max_concurrent, max_pages, mode):
     results = {}
     for scraper_type, result in zip(scrapers, task_results):
         if isinstance(result, Exception):
-            results[scraper_type] = {"status": "failed", "error": str(result), "total_urls": 0, "total_success": 0,
-                                     "total_failed": 0, "failed_targets": [f"{scraper_type}:run"]}
+            results[scraper_type] = unexpected_error_result(scraper_type, result)
         else:
             results[scraper_type] = result
     return results

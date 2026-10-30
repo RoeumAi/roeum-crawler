@@ -486,7 +486,7 @@ async def scrape_and_save(
                 f.write(await page.content())
             logger.info(f"에러 발생 시점의 스크린샷: {screenshot_path}")
             logger.info(f"에러 발생 시점의 HTML: {html_path}")
-            return {"doc_id": None, "status": "failed"}
+            return {"doc_id": None, "status": "failed", "error": f"{type(e).__name__}: {e}"}
         finally:
             await browser.close()
         

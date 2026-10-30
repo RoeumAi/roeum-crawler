@@ -235,7 +235,7 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
 
     except Exception as e:
         logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
-        return {"doc_id": None, "status": "failed"}
+        return {"doc_id": None, "status": "failed", "error": f"{type(e).__name__}: {e}"}
 def save_to_file(data, filename):
     """파싱된 데이터를 JSONL 형식으로 파일에 저장합니다."""
     if not isinstance(data, list): data = [data]

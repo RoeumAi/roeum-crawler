@@ -66,7 +66,8 @@ class BuildMessageTest(unittest.TestCase):
         ])
         text = embed["description"]
         self.assertIn("**실패 원인**\n• 문서 추출 서버(chat_generation) 연결 실패 49건\n• 국가법령 Open API 일시 오류 3건", text)
-        self.assertIn("다음 실행에서 자동으로 다시 수집", text)
+        self.assertIn("추출 서버가 실행 중 멈췄습니다", text)
+        self.assertIn("실패한 문서는 다음 실행에서 다시 시도합니다.", text)
         self.assertIn("로그: CloudWatch /ecs/roeum-crawler", text)
         self.assertTrue(text.endswith("🔢 전체 업데이트 162건 · 변경없음 7건"))
         self.assertTrue(embed["footer"]["text"].startswith("[ERROR] 데이터 수집"))

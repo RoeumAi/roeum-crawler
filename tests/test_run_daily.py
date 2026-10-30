@@ -50,6 +50,7 @@ class RunDailyTest(unittest.TestCase):
                         ignore=shutil.ignore_patterns("__pycache__"))
         (self.dir / "scripts/core").mkdir(parents=True, exist_ok=True)
         shutil.copy(REPO / "scripts/core/config.py", self.dir / "scripts/core/config.py")
+        shutil.copy(REPO / "scripts/core/run_report.py", self.dir / "scripts/core/run_report.py")
         for pkg in ("scripts", "scripts/core", "scripts/report"):
             (self.dir / pkg / "__init__.py").touch()
         (self.dir / "scripts/core/flows").mkdir(parents=True, exist_ok=True)

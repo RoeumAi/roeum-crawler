@@ -11,6 +11,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import retry_detail_fetch_async
 from scripts.utils import nlrc_detail
 from scripts.utils.nlrc_pdf import extract_attachment_text, preserve_existing_after_failure
 from scripts.utils.reference_sub_title import (
@@ -128,7 +129,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
     logger.info(f"상세 페이지 스크레이핑 시작: {detail_url}")
 
     try:
-        html = await asyncio.to_thread(_fetch_detail_html, detail_url)
+        html = await retry_detail_fetch_async(lambda: asyncio.to_thread(_fetch_detail_html, detail_url))
         parsed = _parse_detail(html)
         
         parsed_url = urlparse(detail_url)

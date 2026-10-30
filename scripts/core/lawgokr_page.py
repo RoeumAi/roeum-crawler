@@ -1,6 +1,8 @@
 """law.go.kr 상세 페이지 Playwright 공통 동작 — 로딩 마스크를 기다려 HTML 을 얻고, 실패 시 화면·HTML 을 남긴다."""
 import os
 
+from scripts.core.run_report import retry_detail_fetch_async
+
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 
@@ -8,7 +10,8 @@ async def load_rendered_page(page, url: str, logger, *, goto_timeout: int,
                              mask_visible_timeout: int, mask_hidden_timeout: int) -> str:
     """페이지로 이동해 로딩 마스크가 사라질 때까지 기다린 뒤 렌더링된 HTML 을 돌려준다(마스크가 안 보여도 계속 진행)."""
     logger.info(f"페이지로 이동 중: {url}")
-    await page.goto(url, wait_until='domcontentloaded', timeout=goto_timeout)
+    await retry_detail_fetch_async(
+        lambda: page.goto(url, wait_until='domcontentloaded', timeout=goto_timeout))
     try:
         logger.info("로딩 마스크가 나타나기를 기다리는 중...")
         await page.wait_for_selector(".loadmask-msg", state="visible", timeout=mask_visible_timeout)

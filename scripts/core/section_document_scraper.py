@@ -14,6 +14,7 @@ from urllib.parse import urlparse, parse_qs
 import requests
 from bs4 import BeautifulSoup, NavigableString
 
+from scripts.core.run_report import retry_detail_fetch_async
 from scripts.utils.html_text import block_text
 from scripts.core.database.section_chunks import save_section_chunks
 
@@ -139,11 +140,14 @@ async def scrape_and_save(spec: SectionScraperSpec, url, save_to_db: bool = True
 
     try:
         loop = asyncio.get_running_loop()
-        resp = await loop.run_in_executor(
-            None,
-            lambda: requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
-        )
-        resp.raise_for_status()
+
+        def fetch():
+            response = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+            response.raise_for_status()
+            return response
+
+        # 네트워크 오류·시간 초과·5xx 만 다시 시도한다(4xx 는 바로 실패).
+        resp = await retry_detail_fetch_async(lambda: loop.run_in_executor(None, fetch))
         soup = BeautifulSoup(resp.text, "html.parser")
 
         doc_id = get_doc_id_from_url(url, spec.id_param)

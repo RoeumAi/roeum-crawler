@@ -13,14 +13,12 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.core.run_report import record_failure
+from scripts.core.run_report import call_with_retry, record_failure
 
 logger = get_logger(__name__, scraper_type='case')
 
 AJAX_URL = "https://www.law.go.kr/LSW/precAstScListR.do"
 PAGE_SIZE = 50
-MAX_PAGE_RETRIES = 3
-RETRY_BACKOFF_SECONDS = 3
 
 _HEADERS = {
     "User-Agent": "Mozilla/5.0",
@@ -42,19 +40,11 @@ def _post_list_page(cpt_ofi_cd: str, page_index: int) -> BeautifulSoup:
 
 
 def _post_list_page_with_retry(cpt_ofi_cd: str, page_index: int) -> BeautifulSoup:
-    """법령정보센터 서버가 순간적으로 연결을 끊는 경우가 있어 재시도한다."""
-    last_exc = None
-    for attempt in range(1, MAX_PAGE_RETRIES + 1):
-        try:
-            return _post_list_page(cpt_ofi_cd, page_index)
-        except Exception as e:
-            last_exc = e
-            logger.warning(
-                f"{page_index}페이지 요청 실패 ({attempt}/{MAX_PAGE_RETRIES}): {e}"
-            )
-            if attempt < MAX_PAGE_RETRIES:
-                time.sleep(RETRY_BACKOFF_SECONDS * attempt)
-    raise last_exc
+    """법령정보센터 서버가 순간적으로 연결을 끊는 경우가 있어 재시도한다(공용: run_report.call_with_retry)."""
+    return call_with_retry(
+        lambda: _post_list_page(cpt_ofi_cd, page_index),
+        on_retry=lambda attempt, e: logger.warning(f"{page_index}페이지 요청 실패 ({attempt}/3): {e}"),
+    )
 
 
 def _get_total_pages(soup: BeautifulSoup) -> int | None:

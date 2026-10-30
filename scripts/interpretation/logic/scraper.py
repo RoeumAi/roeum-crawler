@@ -16,6 +16,7 @@ except NameError:
     project_root = os.path.abspath('.') # 현재 작업 디렉토리를 기준으로 설정
 sys.path.append(project_root)
 
+from scripts.core.run_report import retry_detail_fetch_async
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
 from scripts.core.database.source_versioning import enrich_source_document
@@ -464,7 +465,8 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
 
         try:
             logger.info(f"페이지로 이동 중: {detail_url}")
-            await page.goto(detail_url, wait_until='networkidle', timeout=60000)
+            await retry_detail_fetch_async(
+                lambda: page.goto(detail_url, wait_until='networkidle', timeout=60000))
 
             doc_seq = doc_seq or _doc_seq_from_url(detail_url)
             if not doc_seq:

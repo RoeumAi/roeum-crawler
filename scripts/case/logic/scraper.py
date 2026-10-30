@@ -13,6 +13,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 # --- 로거 설정 ---
+from scripts.core.run_report import retry_detail_fetch_async
 from scripts.utils.html_text import block_text
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.section_chunks import save_section_chunks
@@ -160,11 +161,14 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
     try:
         logger.info(f"페이지 요청 중: {url}")
         loop = asyncio.get_running_loop()
-        resp = await loop.run_in_executor(
-            None,
-            lambda: requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
-        )
-        resp.raise_for_status()
+
+        def fetch():
+            response = requests.get(url, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
+            response.raise_for_status()
+            return response
+
+        # 네트워크 오류·시간 초과·5xx 만 다시 시도한다(4xx 는 바로 실패).
+        resp = await retry_detail_fetch_async(lambda: loop.run_in_executor(None, fetch))
         soup = BeautifulSoup(resp.text, "html.parser")
 
         doc_id = get_doc_id_from_url(url)

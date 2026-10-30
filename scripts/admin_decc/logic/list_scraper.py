@@ -85,7 +85,7 @@ async def fetch_urls(start_url: str = '', max_pages_arg: Optional[int] = None) -
     loop = asyncio.get_event_loop()
 
     # 1페이지로 총 건수 파악
-    first_items, total = await loop.run_in_executor(None, _fetch_page, 1)
+    first_items, total = await loop.run_in_executor(None, lambda: call_with_retry(lambda: _fetch_page(1)))
     total_pages = (total + DISPLAY - 1) // DISPLAY
     if max_pages_arg:
         total_pages = min(total_pages, max_pages_arg)

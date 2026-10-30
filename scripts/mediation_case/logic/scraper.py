@@ -11,6 +11,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.run_report import retry_detail_fetch_async
 from scripts.utils import nlrc_detail
 from scripts.utils.nlrc_pdf import extract_attachment_text, preserve_existing_after_failure
 from scripts.utils.reference_sub_title import extract_nlrc_case_number
@@ -134,7 +135,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
             logger.error(f"URL에 jgmtSn 파라미터가 없습니다: {detail_url}")
             return {"doc_id": None, "status": "failed"}
         
-        html = await asyncio.to_thread(_fetch_detail_html, jgmt_sn, jgmt_dcsn_se_cd)
+        html = await retry_detail_fetch_async(lambda: asyncio.to_thread(_fetch_detail_html, jgmt_sn, jgmt_dcsn_se_cd))
         parsed = _parse_detail(html)
         
         doc_id = jgmt_sn  # 숫자만 사용

@@ -22,7 +22,7 @@ def save_section(db, chunks, collection="constitutional_decc"):
 
 def save_case(db, chunks):
     with patch("scripts.core.database.mongo_client.get_mongo_db", return_value=db), \
-         patch.object(case_scraper, "split_section", lambda text: [(text, 1)]):
+         patch.object(section_chunks, "split_section", lambda text: [(text, 1)]):
         return case_scraper.save_case_chunks_to_mongodb("900", "제목", "부제", URL, chunks)
 
 

@@ -58,7 +58,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
 
     # 1페이지 → 총 건수 파악
     logger.info("1페이지 요청 중...")
-    soup1 = _post_list_page(1)
+    soup1 = call_with_retry(lambda: _post_list_page(1))
     total_count = _get_total_count(soup1)
     if total_count is None:
         first_page_links = len(soup1.select('a[href*="expcInfoP"]'))
@@ -74,7 +74,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None):
         logger.info(f"최대 {total_pages}페이지로 제한")
 
     def extract_from_soup(s):
-        for a in s.select(f'a[href*="expcInfoP"]'):
+        for a in s.select('a[href*="expcInfoP"]'):
             href = a.get('href', '')
             if 'expcInfoP' not in href:
                 continue

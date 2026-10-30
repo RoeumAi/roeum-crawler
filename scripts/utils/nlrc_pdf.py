@@ -14,6 +14,8 @@ from scripts.utils.document_extraction import call_extract_text as _call_extract
 NLRC_BASE_URL = "https://nlrc.go.kr"
 DOWNLOAD_PATH = "/nlrc/cmmn/file/download.do"
 SUPPORTED_EXTENSIONS = {".pdf", ".hwp", ".hwpx"}
+# 첨부 추출이 이만큼 연속 실패하면 매일 밤 다시 추출하지 않는다(추출 비용·서버 부하). 새 문서 저장(nlrc_detail)과 기존 본문 보존이 같이 쓴다.
+MAX_PDF_RETRIES = 3
 
 
 def pdf_retry_needed(result: dict) -> bool:
@@ -56,8 +58,11 @@ def preserve_existing_after_failure(collection, existing: dict, document: dict) 
             return False
     count = existing.get('metadata', {}).get('pdf_retry_count', 0) + 1
     selector = {'_id': existing['_id']} if '_id' in existing else {'doc_id': document['doc_id']}
+    # 상한에 닿으면 재시도 표시를 끈다. 끄지 않으면 같은 첨부를 매일 밤 다시 추출한다.
+    # 옛 본문은 그대로 두고, 실패한 마지막 시도(pdf_last_attempt_*)와 횟수는 남겨 눈으로 확인할 수 있게 한다.
+    exhausted = count >= MAX_PDF_RETRIES
     collection.update_one(selector, {'$set': {
-        'metadata.pdf_retry_needed': True,
+        'metadata.pdf_retry_needed': not exhausted,
         'metadata.pdf_retry_count': count,
         'metadata.pdf_error': metadata.get('pdf_error', ''),
         'metadata.pdf_last_attempt_status': metadata.get('pdf_extraction_status') or 'failed',

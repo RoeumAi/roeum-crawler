@@ -1,13 +1,10 @@
 import asyncio
-import contextvars
 from playwright.async_api import Page, async_playwright
 from bs4 import BeautifulSoup
-import json
 import re
 import os
 from urllib.parse import urlparse, parse_qs
 import sys
-import requests
 from datetime import datetime
 
 
@@ -15,10 +12,13 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.utils.document_extraction import call_extract_text, usable_document
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
-from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles
+from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles, download_and_extract
+from scripts.core.lawgokr_document_saver import (  # noqa: F401 - split_articles_by_number 는 기존 import 경로 유지
+    run_in_executor_with_context, save_articles, save_to_file as save_json_lines, split_articles_by_number,
+)
+from scripts.core.lawgokr_page import dump_error_artifacts, load_rendered_page
 from scripts.core.lawgokr_stable_id import fetch_record, stable_adrule_id
 
 logger = get_logger(__name__, scraper_type='adrule')
@@ -114,12 +114,7 @@ def viewer_file_keys(html: str) -> list[str]:
 
 def _download_and_extract(key: str) -> dict:
     """원본 파일을 받아 chat_generation 으로 파싱한다(표는 Markdown 표로 남는다). 실패는 예외로 올린다."""
-    response = requests.get(FILE_DOWNLOAD_URL.format(key=key), headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
-    response.raise_for_status()
-    disposition = response.headers.get("Content-Disposition", "")
-    match = re.search(r'filename="?([^";]+)', disposition)
-    file_name = requests.utils.unquote(match.group(1)) if match else f"{key}.pdf"
-    return usable_document(call_extract_text(response.content, file_name))
+    return download_and_extract(FILE_DOWNLOAD_URL.format(key=key), fallback_name=f"{key}.pdf")
 
 
 async def _parse_pdf_viewer_content(page, doc_id: str, url: str, doc_title: str, output_name: str, debug: bool = False):
@@ -181,64 +176,7 @@ async def parse_law_html(page: 'Page', doc_id: str, doc_title: str, url: str, ou
         return _parse_unstructured_content(content_html, doc_id, url, doc_title)
 
 def save_to_file(data, filename):
-    if not isinstance(data, list): data = [data]
-    directory = os.path.dirname(filename)
-    if directory and not os.path.exists(directory):
-        os.makedirs(directory)
-        logger.info(f"'{directory}' 폴더를 생성했습니다.")
-    with open(filename, 'w', encoding='utf-8') as f:
-        for item in data:
-            f.write(json.dumps(item, ensure_ascii=False) + '\n')
-    logger.info(f"데이터 {len(data)}건을 '{filename}' 파일로 성공적으로 저장했습니다.")
-
-
-def split_articles_by_number(content: str) -> list:
-    """
-    통합 content를 조(Article)별로 분리 (law.py와 동일 로직)
-    
-    예: "[제1조(정의)]\n내용..." → [{"article_number": "1", "article_number_numeric": 1.0, "article_title": "제1조(정의)", "content": "내용..."}]
-    
-    Args:
-        content: 통합 content 텍스트
-    
-    Returns:
-        조별로 분리된 딕셔너리 리스트
-    """
-    articles = []
-    
-    # 정규표현식: [제X조(...)]\n내용... 패턴 매칭
-    pattern = r'\[제(\d+)(?:조(?:의(\d+))?)\(([^\)]+)\)\]\n((?:(?!\[제\d+).)*)'
-    
-    matches = re.finditer(pattern, content, re.DOTALL)
-    
-    for match in matches:
-        article_num = match.group(1)
-        sub_num = match.group(2)
-        article_topic = match.group(3)
-        article_content = match.group(4).strip()
-        
-        # article_number 포맷: "1", "5", "5.1" 등
-        if sub_num:
-            article_number = f"{article_num}.{sub_num}"
-            article_number_numeric = float(f"{article_num}.{sub_num}")
-        else:
-            article_number = article_num
-            article_number_numeric = float(article_num)
-        
-        # article_title 포맷: "제1조(정의)", "제5조의1(...)" 등
-        if sub_num:
-            article_title = f"제{article_num}조의{sub_num}({article_topic})"
-        else:
-            article_title = f"제{article_num}조({article_topic})"
-        
-        articles.append({
-            "article_number": article_number,
-            "article_number_numeric": article_number_numeric,
-            "article_title": article_title,
-            "content": article_content
-        })
-    
-    return articles
+    save_json_lines(data, filename, logger)
 
 
 def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
@@ -324,79 +262,57 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         annex_rows, annex_failed = collect_annex_articles("adrule", lawgokr_record, logger)
         articles = articles + annex_rows
         
-        # 각 조마다 독립 문서 생성 및 저장
-        saved_count = 0
-        failed_count = annex_failed
-        any_changed = False
-        
-        for idx, article in enumerate(articles, 1):
-            try:
-                # 조별 문서 생성 (law.py와 동일한 스키마)
-                article_number = normalize_article_number(
-                    article['article_number'],
-                    fallback=str(idx),
-                )
+        # 각 조마다 독립 문서 생성 및 저장 (공통 루프: lawgokr_document_saver.save_articles)
+        def build_doc(idx, article, total):
+            # 조별 문서 생성 (law.py와 동일한 스키마)
+            article_number = normalize_article_number(
+                article['article_number'],
+                fallback=str(idx),
+            )
 
-                meta = {
-                    "source_url": url,
-                    "source_type": "web",
-                    "effective": effective_date,
-                    "created_at": datetime.now().strftime('%Y-%m-%d'),
-                    "article_index": idx,
-                    "total_articles": len(articles),
-                    "is_upcoming": is_upcoming,
-                }
-                if dept_code:
-                    meta["dept_code"] = dept_code
-                if dept_name:
-                    meta["dept_name"] = dept_name
-                if adrule_id:
-                    meta["adrule_id"] = adrule_id
-                meta.update(source_file_meta)
-                meta.update(annex_metadata(article))
+            meta = {
+                "source_url": url,
+                "source_type": "web",
+                "effective": effective_date,
+                "created_at": datetime.now().strftime('%Y-%m-%d'),
+                "article_index": idx,
+                "total_articles": total,
+                "is_upcoming": is_upcoming,
+            }
+            if dept_code:
+                meta["dept_code"] = dept_code
+            if dept_name:
+                meta["dept_name"] = dept_name
+            if adrule_id:
+                meta["adrule_id"] = adrule_id
+            meta.update(source_file_meta)
+            meta.update(annex_metadata(article))
 
-                article_doc = {
-                    "chunk_id": article_chunk_id("adrule", doc_id, article_number),
-                    "doc_id": doc_id,
-                    "article_number": article_number,
-                    "article_title": article['article_title'],
-                    "title": doc_title,
-                    "sub_title": sub_title,
-                    "content": article['content'],
-                    "doc_type": "행정규칙",
-                    "metadata": meta,
-                }
+            return {
+                "chunk_id": article_chunk_id("adrule", doc_id, article_number),
+                "doc_id": doc_id,
+                "article_number": article_number,
+                "article_title": article['article_title'],
+                "title": doc_title,
+                "sub_title": sub_title,
+                "content": article['content'],
+                "doc_type": "행정규칙",
+                "metadata": meta,
+            }
 
-                # 변경 감지 포함 upsert (law.py와 동일한 버전관리 경로)
-                _, action_result = repo.upsert_with_change_detection(article_doc)
+        def log_action(_, action_result, article_doc):
+            article_number = article_doc["article_number"]
+            if action_result["action"] == "insert":
+                logger.info(f"💾 신규 저장: {doc_id} (article_number: {article_number})")
+            elif action_result["action"] == "new_version":
+                logger.info(f"✅ 새 버전 생성: {doc_id} (article_number: {article_number})")
+            elif action_result["action"] == "update_existing":
+                logger.info(f"🔄 기존 버전 유지: {doc_id} (article_number: {article_number})")
 
-                if action_result["action"] == "insert":
-                    logger.info(f"💾 신규 저장: {doc_id} (article_number: {article_number})")
-                elif action_result["action"] == "new_version":
-                    logger.info(f"✅ 새 버전 생성: {doc_id} (article_number: {article_number})")
-                elif action_result["action"] == "update_existing":
-                    logger.info(f"🔄 기존 버전 유지: {doc_id} (article_number: {article_number})")
+        # 변경 감지 포함 upsert (law.py와 동일한 버전관리 경로)
+        return save_articles(repo, articles, build_doc=build_doc, log_action=log_action,
+                             source_url=url, annex_failed=annex_failed, logger=logger)
 
-                if action_result["action"] in ("insert", "new_version"):
-                    any_changed = True
-                saved_count += 1
-
-            except Exception as e:
-                logger.error(f"❌ 조문 저장 실패 ({article['article_title']}): {str(e)}")
-                failed_count += 1
-                continue
-        
-        logger.info(f"📊 MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
-        try:
-            repo.mark_save_complete(url, complete=failed_count == 0)
-        except Exception as e:  # noqa: BLE001 - 표시 실패는 저장 결과로 판단한다
-            logger.error(f"저장 완료 표시 실패: {e}")
-            failed_count += 1
-        if failed_count > 0:
-            # 조문 하나라도 못 넣으면 실패로 돌려준다. save_incomplete 표시로 다음 실행이 다시 수집한다.
-            return ""
-        return "new_version" if any_changed else "update_existing"
-            
     except Exception as e:
         logger.error(f"MongoDB 저장 중 오류 발생: {str(e)}")
         return False
@@ -412,19 +328,14 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
                                 dept_name: str = None, is_upcoming: bool = False,
                                 adrule_id: str = None, lawgokr_record: dict = None) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
-    import functools
-    loop = asyncio.get_running_loop()
     try:
-        fn = functools.partial(
-            save_to_mongodb,
+        return await run_in_executor_with_context(
+            executor, save_to_mongodb,
             chunks, doc_title, doc_id, url,
             dept_code=dept_code, sub_title=sub_title, effective_date=effective_date,
             dept_name=dept_name, is_upcoming=is_upcoming, adrule_id=adrule_id,
             lawgokr_record=lawgokr_record,
         )
-        # 실행 보고(run_report)가 별표 실패 원인을 세도록 현재 컨텍스트를 스레드로 넘긴다.
-        result = await loop.run_in_executor(executor, contextvars.copy_context().run, fn)
-        return result
     except Exception as e:
         logger.error(f"MongoDB 비동기 저장 실패: {e}")
         return False
@@ -441,21 +352,9 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
         try:
-            logger.info(f"페이지로 이동 중: {url}")
-            await page.goto(url, wait_until='domcontentloaded', timeout=120000)
-
-            try:
-                logger.info("로딩 마스크가 나타나기를 기다리는 중...")
-                await page.wait_for_selector(".loadmask-msg", state="visible", timeout=1000)
-                logger.info("로딩 마스크가 사라지기를 기다리는 중...")
-                await page.wait_for_selector(".loadmask-msg", state="hidden", timeout=3000)
-            except Exception:
-                logger.warning("로딩 마스크가 감지되지 않았습니다. 페이지 로드가 완료된 것으로 간주하고 계속 진행합니다.")
-
-            logger.info("페이지 최종 렌더링을 잠시 대기합니다...")
-            await page.wait_for_timeout(1000)
-            logger.info("페이지 HTML 컨텐츠를 가져오는 중...")
-            html = await page.content()
+            # 최종 렌더링 HTML 은 아래에서 필요한 부분을 page 에서 직접 읽는다(반환값은 쓰지 않는다).
+            await load_rendered_page(page, url, logger, goto_timeout=120000,
+                                     mask_visible_timeout=1000, mask_hidden_timeout=3000)
             logger.info("데이터 파싱 중...")
 
             # ▼▼▼ 디버그 코드 추가 ▼▼▼
@@ -571,16 +470,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
 
         except Exception as e:
             logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
-            error_dir = os.path.join(project_root, 'debug')
-            if not os.path.exists(error_dir):
-                os.makedirs(error_dir)
-
-            screenshot_path = os.path.join(error_dir, f'{output_name}_error.png')
-            html_path = os.path.join(error_dir, f'{output_name}_error.html')
-
-            await page.screenshot(path=screenshot_path)
-            with open(html_path, 'w', encoding='utf-8') as f:
-                f.write(await page.content())
+            screenshot_path, html_path = await dump_error_artifacts(page, output_name, project_root)
 
             logger.info(f"에러 스크린샷: {screenshot_path}, HTML: {html_path}")
             

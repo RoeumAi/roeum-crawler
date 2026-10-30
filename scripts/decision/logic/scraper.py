@@ -180,4 +180,4 @@ async def scrape_and_save(
 
     except Exception as e:
         logger.error(f"심의결정례 저장 중 에러: {e}", exc_info=True)
-        return {"doc_id": jgmt_sn, "status": "failed"}
+        return {"doc_id": jgmt_sn, "status": "failed", "error": f"{type(e).__name__}: {e}"}

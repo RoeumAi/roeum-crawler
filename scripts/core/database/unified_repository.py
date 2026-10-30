@@ -12,11 +12,23 @@ doc_type: ["법령", "행정규칙", "행정해석", "판례"]
 from typing import Optional, List, Dict, Tuple
 from datetime import datetime
 import logging
+import threading
 
 from scripts.core.database.change_detector import ChangeDetector, VersionManager, ChangeLogger
 from scripts.core.database.source_versioning import enrich_source_document
 
 logger = logging.getLogger(__name__)
+
+# 인덱스는 컬렉션마다 프로세스당 한 번만 만든다. 저장소를 문서마다 새로 만드는 스크래퍼가 있어서,
+# 매번 만들면 문서 1건당 DB 왕복이 7번 늘어난다.
+_indexed_collections: set = set()
+_index_lock = threading.Lock()
+
+
+def reset_index_cache() -> None:
+    """인덱스를 이미 만들었다는 기록을 지운다(테스트용)."""
+    with _index_lock:
+        _indexed_collections.clear()
 
 
 class UnifiedDocumentRepository:
@@ -37,10 +49,15 @@ class UnifiedDocumentRepository:
         self.db_name = db_name or "original_db"
         self.collection_name = collection_name or "law"
         self.collection = db[self.collection_name]
-        self._ensure_indexes()
-    
-    def _ensure_indexes(self):
-        """인덱스 생성"""
+        key = (self.db_name, self.collection_name)
+        with _index_lock:
+            if key in _indexed_collections:
+                return
+            if self._ensure_indexes():
+                _indexed_collections.add(key)
+
+    def _ensure_indexes(self) -> bool:
+        """인덱스 생성. 끝까지 만들었으면 True(실패하면 다음 저장소 생성 때 다시 시도한다)."""
         try:
             # doc_id + is_active 인덱스 (유니크 제약 없음)
             # 여러 버전이 존재할 수 있으므로 unique=False
@@ -72,9 +89,11 @@ class UnifiedDocumentRepository:
             # law 의 텍스트 인덱스는 660MB 로 데이터보다 컸고 사용 0회라 2026-10-26 운영에서 지웠다.
 
             logger.info("✅ UnifiedDocumentRepository 인덱스 생성 완료")
-            
+            return True
+
         except Exception as e:
             logger.error(f"❌ 인덱스 생성 실패: {e}")
+            return False
     
     def upsert(self, doc: Dict) -> str:
         """
@@ -359,7 +378,7 @@ class UnifiedDocumentRepository:
                 
                 # 첫 저장인지 버전 생성인지 구분
                 action = "insert" if not existing_doc else "new_version"
-                version_number = metadata.get("current_version", 1)
+                version_number = metadata.get("version", 1)
                 
                 ChangeLogger.log_version_action(
                     doc_id,

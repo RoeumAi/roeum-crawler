@@ -69,7 +69,7 @@ cd "$CRAWLER_DIR"
 START_TIME=$(date +%s)
 
 # ── 외부 수집원(law.go.kr 등) 일시 장애 대비 재시도 설정 ──
-# crawl.py 는 URL 목록조차 못 모은 스크래퍼가 있으면 종료코드 2를 반환한다.
+# crawl.py 는 URL 목록조차 못 모은 스크래퍼가 있으면 종료코드 2를 반환한다(목록 밖의 예상 밖 오류는 해당 안 됨: 0, 결과의 failed 로 보고).
 # 2회차부터는 그 스크래퍼만 다시 돈다(판례 목록 20분을 다시 돌지 않게).
 MAX_ATTEMPTS=3            # 총 시도 횟수 (최초 1 + 재시도 2)
 RETRY_WAIT_SECONDS="${RETRY_WAIT_SECONDS:-900}"   # 재시도 전 대기 (15분) — law.go.kr 새벽 점검 창을 넘기기 위함

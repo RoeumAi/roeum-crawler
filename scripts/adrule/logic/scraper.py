@@ -402,6 +402,11 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         return False
 
 
+async def fetch_adrule_record(doc_id: str) -> dict | None:
+    """Open API 조회(동기 요청 + 재시도 대기 5·10초)가 이벤트 루프를 막지 않도록 스레드에서 돌린다."""
+    return await asyncio.to_thread(fetch_record, "admrul", doc_id)
+
+
 async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
                                 sub_title: str = "", effective_date: str = None, executor=None,
                                 dept_name: str = None, is_upcoming: bool = False,
@@ -502,7 +507,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 doc_id = re.sub(r'[^a-zA-Z0-9]', '', doc_title)
 
             # 행정규칙ID(안정 ID)·별표 첨부를 Open API 한 번으로 조회 — 안정 ID 는 실패해도 계속 진행
-            lawgokr_record = fetch_record("admrul", doc_id)
+            lawgokr_record = await fetch_adrule_record(doc_id)
             adrule_id = stable_adrule_id(lawgokr_record)
             if not adrule_id:
                 logger.warning(f"행정규칙ID API 조회 실패: doc_id={doc_id}")

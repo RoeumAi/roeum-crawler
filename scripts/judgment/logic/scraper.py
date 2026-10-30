@@ -246,4 +246,4 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
 
     except Exception as e:
         logger.error(f"스크레이핑 중 에러 발생: {e}", exc_info=True)
-        return {"doc_id": None, "status": "failed"}
+        return {"doc_id": None, "status": "failed", "error": f"{type(e).__name__}: {e}"}

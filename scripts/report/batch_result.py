@@ -6,7 +6,7 @@ run_daily.sh 가 시도마다 crawl.py --result-json 으로 남긴 파일과 재
 형식은 배치 관리 설계(2026-10-25) 4-3: processed·failed·failedTargets·summary.
 
 종료코드
-- 0: 끝까지 돌았다. 일부 문서·목록 페이지 실패는 failed 로 보고(→ 부분 실패)
+- 0: 끝까지 돌았다. 일부 문서·목록 페이지 실패, 스크래퍼 내부 예상 밖 오류(<이름>:run)는 failed 로 보고(→ 부분 실패)
 - 2: 재시도 뒤에도 목록 전체를 못 모은 스크래퍼가 있다
 - 1: 크롤러 비정상 종료, 결과 파일 없음, 현재 시행 버전 재계산 실패
 
@@ -39,7 +39,9 @@ def load_attempt(path: str) -> dict | None:
 
 
 def is_listing_failure(result: dict) -> bool:
-    return result.get("status") == "failed" and not result.get("total_urls")
+    """목록 전체를 못 모은 스크래퍼(재시도 대상). 목록 밖의 예상 밖 오류(error_kind=unexpected)는 제외한다."""
+    return (result.get("status") == "failed" and not result.get("total_urls")
+            and result.get("error_kind") != "unexpected")
 
 
 def merge_attempts(attempts: list[dict | None]) -> tuple[dict, bool]:

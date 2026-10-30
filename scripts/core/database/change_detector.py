@@ -142,6 +142,12 @@ class ChangeDetector:
 
 class VersionManager:
     """버전 관리 및 메타데이터 업데이트"""
+
+    @staticmethod
+    def version_of(doc: Optional[Dict]) -> int:
+        """문서의 현재 버전 번호. 예전에 `current_version` 키로만 저장된 문서도 읽는다."""
+        metadata = (doc or {}).get("metadata", {})
+        return int(metadata.get("version") or metadata.get("current_version") or 1)
     
     @staticmethod
     def prepare_version_update(current_doc: Dict, new_doc: Dict, 
@@ -159,11 +165,11 @@ class VersionManager:
         """
         metadata = new_doc.get("metadata", {})
         
-        # 버전 정보 추가
+        # 버전 정보 추가. 읽는 쪽은 `version` 이므로 둘 다 같은 값으로 쓴다(예전에는 current_version 만 써서 2에서 멈췄다).
+        new_version = VersionManager.version_of(current_doc) + 1 if current_doc else 1
         version_info = {
-            "current_version": current_doc.get("metadata", {}).get("version", 1) + 1
-            if current_doc 
-            else 1,
+            "version": new_version,
+            "current_version": new_version,
             "previous_version_id": current_doc.get("_id") if current_doc else None,
             "change_summary": {
                 "fields_changed": comparison.get("changed_fields", []),
@@ -198,7 +204,7 @@ class VersionManager:
         
         # 기존 버전 정보 유지
         if current_doc:
-            metadata["version"] = current_doc.get("metadata", {}).get("version", 1)
+            metadata["version"] = VersionManager.version_of(current_doc)
             # 기존 created_at이 None이면(과거 버그 데이터) 새 문서 값으로 백필
             metadata["created_at"] = (
                 current_doc.get("metadata", {}).get("created_at")

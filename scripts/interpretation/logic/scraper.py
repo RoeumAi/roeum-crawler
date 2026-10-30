@@ -17,6 +17,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
 from scripts.core.database.source_versioning import enrich_source_document
+from scripts.core.database.section_chunks import mark_doc_save_incomplete
 
 # 스크레이퍼 타입에 맞는 로거 생성
 logger = get_logger(__name__, scraper_type='interpretation')
@@ -147,6 +148,9 @@ def _parse_taxlaw_body(body_text: str) -> dict | None:
 
     return {
         "doc_title": doc_title,
+        "department": "국세청",
+        "doc_number": doc_number,
+        "doc_date": doc_date,
         "sub_title": ", ".join(part for part in ["국세청", doc_number, doc_date] if part),
         "effective_date": normalize_doc_date(doc_date) or datetime.now().strftime('%Y-%m-%d'),
         "sections_data": split_sections_by_header(sections),
@@ -230,6 +234,7 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                     {
                         "$set": set_fields,
                         "$setOnInsert": {"metadata.created_at": datetime.now().strftime('%Y-%m-%d')},
+                        "$unset": {"metadata.save_incomplete": ""},
                     },
                     upsert=True
                 )
@@ -247,7 +252,10 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                 continue
         
         logger.info(f"MongoDB 저장 완료: 성공 {saved_count}개, 실패 {failed_count}개")
-        return saved_count > 0
+        if failed_count:
+            # 일부만 저장된 문서는 실패로 돌려주고, 표시를 남겨 다음 실행이 다시 수집하게 한다.
+            mark_doc_save_incomplete(collection, doc_id)
+        return saved_count > 0 and failed_count == 0
     
     except Exception as e:
         logger.error(f"MongoDB 저장 중 오류: {e}")
@@ -310,6 +318,10 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
         ofi_cls_cd = '350101'  # 기본값
         logger.info(f"법령해석 문서를 스크래핑합니다 (URL): {url}")
     
+    # 부제 파싱 결과(JSONL 저장에서 쓴다). 국세청 본문 분기는 일부만 채운다.
+    department = doc_number = doc_date = ""
+    sections = {}
+
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page = await browser.new_page()
@@ -407,11 +419,18 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                 sub_title = parsed["sub_title"]
                 effective_date = parsed["effective_date"]
                 sections_data = parsed["sections_data"]
+                department, doc_number, doc_date = parsed["department"], parsed["doc_number"], parsed["doc_date"]
+                sections = {sec["article_title"]: sec["content"] for sec in sections_data}
 
             logger.info(f"문서 제목: {doc_title}, ID: {doc_seq}")
             
+            if not any(sec["content"] for sec in sections_data):
+                # 본문 구조가 바뀌어 섹션을 못 읽은 경우. 성공으로 세면 아무것도 저장 안 된 채 넘어간다.
+                logger.error(f"본문 섹션이 없습니다(페이지 구조 변경 가능): {doc_id}")
+                return {"status": "failed", "error": "본문 섹션 없음(페이지 구조 변경 가능)", "doc_id": doc_id}
+
             # MongoDB에 저장
-            if save_to_db and sections_data:
+            if save_to_db:
                 success = await save_to_mongodb_async(
                     sections_data,
                     doc_title=' '.join(doc_title.strip().split()),
@@ -424,7 +443,8 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
                 if success:
                     logger.info(f"✅ MongoDB 저장 완료: {doc_id}")
                 else:
-                    logger.warning(f"⚠️ MongoDB 저장 실패: {doc_id}")
+                    logger.error(f"❌ MongoDB 저장 실패: {doc_id}")
+                    return {"status": "failed", "error": "MongoDB 저장 실패", "doc_id": doc_id}
             
             # JSONL 파일로 저장 (옵션)
             if save_jsonl:

@@ -5,7 +5,7 @@
 """
 
 import logging
-from typing import List, Optional
+from typing import List
 from transformers import AutoTokenizer
 
 logger = logging.getLogger(__name__)

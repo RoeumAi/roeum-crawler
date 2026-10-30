@@ -5,7 +5,7 @@
     python3 manual.py pdf-reparse --apply                 # 저장
 
 대상: metadata.source_type=pdf 이고 지난 파싱이 완전하지 않은(pdf_retry_needed) 문서. `--include-complete`면 전부.
-원본 파일은 pdf_to_mongo.PDF_DIRS(맥미니 ~/loum/pdf_db)에서 metadata.source_file 로 찾는다.
+원본 파일은 pdf_to_mongo.PDF_DIRS(--pdf-dir 또는 환경변수 PDF_DB_DIR 아래)에서 metadata.source_file 로 찾는다.
 
 안전 규칙(scripts/pdf_ingest/reparse_existing.replacement_document)
 - 문서 ID·청크 ID·청크 수는 그대로 두고 본문만 바꾼다.
@@ -28,11 +28,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from scripts.pdf_ingest.pdf_to_mongo import PDF_DIRS  # noqa: E402
+from scripts.pdf_ingest.pdf_to_mongo import PDF_DIRS, PDF_TYPES, build_pdf_dirs, resolve_pdf_base  # noqa: E402
 from scripts.pdf_ingest.reparse_existing import replacement_document  # noqa: E402
 from scripts.utils.document_extraction import call_extract_text  # noqa: E402
 
-TYPE_COLLECTION = {name: collection for name, (_, collection) in PDF_DIRS.items()}
+TYPE_COLLECTION = {name: collection for name, (_, collection) in PDF_TYPES.items()}
 WHOLE_DOCUMENT_RECIPE = "title+whole@4096"
 
 
@@ -148,11 +148,13 @@ def parse_args(argv=None):
     parser.add_argument("--limit", type=int, default=0, help="유형별 최대 문서 수")
     parser.add_argument("--include-complete", action="store_true", help="지난 파싱이 complete 인 문서도 포함")
     parser.add_argument("--apply", action="store_true", help="실제로 저장한다(없으면 미리 보기)")
+    parser.add_argument("--pdf-dir", help="PDF 상위 디렉터리(하위: 판례·행정해석·결정례). 없으면 환경변수 PDF_DB_DIR")
     return parser.parse_args(argv)
 
 
 def main(argv=None) -> int:
     args = parse_args(argv)
+    PDF_DIRS.update(build_pdf_dirs(resolve_pdf_base(args.pdf_dir)))
     from scripts.core.database.mongo_client import MongoClientSingleton
     db = MongoClientSingleton.get_db()
     totals = reparse(args, db, db.client)

@@ -23,8 +23,8 @@ from scripts.report.batch_result import (
     EXIT_LISTING_FAILURE, EXIT_OK, is_listing_failure, load_attempt, merge_attempts,
 )
 
-# 로그 위치 안내. ECS 는 태스크 정의에서 CloudWatch 위치로 바꾼다.
-DEFAULT_LOG_LOCATION = "맥미니 loum@100.93.93.51 의 ~/loum/roeum-crawler/logs/daily_*.log"
+# 로그 위치 안내. 환경변수 CRAWLER_LOG_LOCATION 으로 정한다(ECS 는 Dockerfile 이 CloudWatch 위치를 넣는다).
+DEFAULT_LOG_LOCATION = "로그 위치 미설정(환경변수 CRAWLER_LOG_LOCATION)"
 TITLE = "법률 자료 일일 수집"
 COLORS = {"INFO": 0x2ECC71, "WARN": 0xE67E22, "ERROR": 0xE74C3C}
 DESCRIPTION_LIMIT = 4000  # Discord embed description 4096자 제한 여유

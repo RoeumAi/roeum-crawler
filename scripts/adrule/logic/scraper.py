@@ -1,11 +1,11 @@
 import asyncio
 import contextvars
-from playwright.async_api import async_playwright
+from playwright.async_api import Page, async_playwright
 from bs4 import BeautifulSoup
 import json
 import re
 import os
-from urllib.parse import urlparse, parse_qs, urljoin
+from urllib.parse import urlparse, parse_qs
 import sys
 import requests
 from datetime import datetime

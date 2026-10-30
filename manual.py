@@ -29,74 +29,47 @@ class Task:
     group: str
     safety: str
     summary: str
+    args: tuple = ()  # 모듈에 앞세워 넘기는 인자(범용 러너의 작업 종류)
 
 
 TASKS = [
-    # 목록·URL 점검 (사이트만 읽음)
-    Task("list:adrule", "scripts.adrule.runners.run_list_scraper", "목록·URL 점검", READ_ONLY,
-         "행정규칙 목록 URL 을 JSONL 로 뽑는다"),
-    Task("list:case", "scripts.case.runners.run_list_scraper", "목록·URL 점검", READ_ONLY,
-         "판례 목록 URL 을 JSONL 로 뽑는다"),
-    Task("list:judgment", "scripts.judgment.runners.run_list_scraper", "목록·URL 점검", READ_ONLY,
-         "주요판정사례 목록 URL 을 JSONL 로 뽑는다"),
-    Task("check-url:law", "scripts.law.runners.run_url_checker", "목록·URL 점검", READ_ONLY,
-         "법령 목록 페이지 URL 이 유효한지 확인"),
-    Task("check-url:adrule", "scripts.adrule.runners.run_url_checker", "목록·URL 점검", READ_ONLY,
-         "행정규칙 목록 페이지 URL 이 유효한지 확인"),
-    Task("check-url:case", "scripts.case.runners.run_url_checker", "목록·URL 점검", READ_ONLY,
-         "판례 목록 페이지 URL 이 유효한지 확인"),
-    Task("check-url:interpretation", "scripts.interpretation.runners.run_url_checker", "목록·URL 점검", READ_ONLY,
-         "해석례 상세 페이지가 정상으로 열리는지 확인"),
+    # 목록·URL 점검 (사이트만 읽음) — scripts/manual_runners.py 가 종류별 표로 처리한다
+    Task("list:adrule", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
+         "행정규칙 목록 URL 을 JSONL 로 뽑는다", ("list", "adrule")),
+    Task("list:case", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
+         "판례 목록 URL 을 JSONL 로 뽑는다", ("list", "case")),
+    Task("list:judgment", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
+         "주요판정사례 목록 URL 을 JSONL 로 뽑는다", ("list", "judgment")),
+    Task("check-url:law", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
+         "법령 목록 페이지 URL 이 유효한지 확인", ("check-url", "law")),
+    Task("check-url:interpretation", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
+         "해석례 상세 페이지가 정상으로 열리는지 확인", ("check-url", "interpretation")),
 
     # 문서 하나·지정 목록 다시 수집
-    Task("scrape:law", "scripts.law.runners.run_scraper", "지정 문서 수집", WRITES_DEFAULT,
-         "법령 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)"),
-    Task("scrape:adrule", "scripts.adrule.runners.run_scraper", "지정 문서 수집", WRITES_DEFAULT,
-         "행정규칙 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)"),
-    Task("scrape:case", "scripts.case.runners.run_scraper", "지정 문서 수집", WRITES_DEFAULT,
-         "판례 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)"),
-    Task("scrape:judgment", "scripts.judgment.runners.run_scraper", "지정 문서 수집", WRITES_DEFAULT,
-         "주요판정사례 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)"),
+    Task("scrape:law", "scripts.manual_runners", "지정 문서 수집", WRITES_DEFAULT,
+         "법령 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)", ("scrape", "law")),
+    Task("scrape:adrule", "scripts.manual_runners", "지정 문서 수집", WRITES_DEFAULT,
+         "행정규칙 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)", ("scrape", "adrule")),
+    Task("scrape:case", "scripts.manual_runners", "지정 문서 수집", WRITES_DEFAULT,
+         "판례 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)", ("scrape", "case")),
+    Task("scrape:judgment", "scripts.manual_runners", "지정 문서 수집", WRITES_DEFAULT,
+         "주요판정사례 상세 URL 하나를 수집해 저장(--no-db 로 미리 보기)", ("scrape", "judgment")),
     Task("cherry-pick:law", "scripts.law.runners.run_cherry_pick", "지정 문서 수집", WRITES_DEFAULT,
          "지정 법령(TARGET_LAWS)을 찾아 수집·저장"),
-    Task("cherry-pick:case", "scripts.case.runners.run_cherry_pick", "지정 문서 수집", WRITES_DEFAULT,
-         "ALL_DB 크롤링 가능 판례 목록을 수집·저장(--resume 로 이어서)"),
 
     # 자료 넣기
     Task("pdf-ingest", "scripts.pdf_ingest.pdf_to_mongo", "자료 넣기", WRITES_DEFAULT,
-         "맥미니 ~/loum/pdf_db 의 판례·행정해석·결정례 PDF 를 파싱해 넣기(--dry-run 로 미리 보기)"),
+         "PDF 디렉터리(--pdf-dir 또는 PDF_DB_DIR)의 판례·행정해석·결정례 PDF 를 파싱해 넣기(--dry-run 로 미리 보기)"),
     Task("pdf-reparse", "scripts.pdf_ingest.reparse", "자료 넣기", DRY_RUN_DEFAULT,
          "PDF 로 넣은 판례·행정해석·결정례를 지금 파서로 다시 파싱(--apply 로 저장)"),
-    Task("csv-import", "scripts.csv_import.run", "자료 넣기", DRY_RUN_DEFAULT,
-         "판례·행정해석·판정사례 CSV 넣기(10-25 완료분, --apply 로 저장)"),
 
-    # 데이터 정비(대부분 완료된 일회성 — 다시 필요할 때만)
-    Task("fix:clean-pdf-artifacts", "scripts.migrations.backfill_clean_pdf_artifacts", "데이터 정비", DRY_RUN_DEFAULT,
-         "PDF·인쇄 흔적(푸터·페이지 표시) 제거"),
-    Task("fix:judgment-case-numbers", "scripts.migrations.backfill_judgment_case_numbers", "데이터 정비", DRY_RUN_DEFAULT,
-         "주요판정사례 빈 사건번호(sub_title) 복구"),
-    Task("fix:source-provenance", "scripts.migrations.backfill_source_provenance", "데이터 정비", DRY_RUN_DEFAULT,
-         "인용 출처 필드 점검·보강"),
-    Task("fix:stable-ids", "scripts.migrations.backfill_stable_ids", "데이터 정비", DRY_RUN_DEFAULT,
-         "법령·행정규칙 안정 ID 정규화(--execute 로 저장)"),
-    Task("fix:chunk-identifiers", "scripts.migrations.migrate_chunk_identifiers", "데이터 정비", WRITES_DEFAULT,
-         "청크 식별자 보강(--dry-run 로 미리 보기)"),
-    Task("fix:constitutional-sub-titles", "scripts.migrations.migrate_constitutional_sub_titles", "데이터 정비",
-         DRY_RUN_DEFAULT, "헌재결정례 sub_title 복구"),
-    Task("fix:reference-sub-titles", "scripts.migrations.migrate_reference_sub_titles", "데이터 정비", DRY_RUN_DEFAULT,
-         "웹 참조용 sub_title 보강"),
-    Task("fix:prune-interpretation", "scripts.migrations.prune_interpretation_to_ministry", "데이터 정비",
-         WRITES_DEFAULT, "해석례를 고용노동부 관련만 남기고 삭제(--dry-run 로 미리 보기)"),
-    Task("fix:prune-law", "scripts.migrations.prune_law_to_ministry", "데이터 정비", WRITES_DEFAULT,
-         "법령을 고용노동부 소관만 남기고 삭제(--dry-run 로 미리 보기)"),
+    # 데이터 정비(문단·텍스트 정리 — 순서는 docs/manual-tasks.md)
     Task("fix:rescrape-paragraphs", "scripts.migrations.rescrape_paragraphs", "데이터 정비", DRY_RUN_DEFAULT,
          "문단 없이 한 줄로 저장된 재결례·결정례·판례를 원문에서 다시 받아 문단 살리기"),
     Task("fix:split-paragraphs", "scripts.migrations.split_flat_paragraphs", "데이터 정비", DRY_RUN_DEFAULT,
          "원문이 없는 한 줄 본문(CSV 판례 등)을 번호 앞에서 문단으로 나누기(글자 그대로)"),
     Task("fix:text-cleanup", "scripts.migrations.text_cleanup", "데이터 정비", DRY_RUN_DEFAULT,
          "깨진 가운뎃점(？)·HTML 흔적(<br>, &nbsp;)·법령 조문 제목 뒤 공백 정리(--apply 로 저장)"),
-    Task("fix:retry-judgment-pdf", "scripts.migrations.retry_judgment_pdf_extraction", "데이터 정비", DRY_RUN_DEFAULT,
-         "PDF 본문이 없는 주요판정사례 첨부 다시 추출"),
 ]
 
 BY_NAME = {task.name: task for task in TASKS}
@@ -133,7 +106,7 @@ def main(argv=None) -> int:
             return 2
     args = [a for a in args if a != "--yes"]
 
-    sys.argv = [task.module] + args
+    sys.argv = [task.module, *task.args, *args]
     runpy.run_module(task.module, run_name="__main__", alter_sys=True)
     return 0
 

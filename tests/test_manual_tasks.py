@@ -25,13 +25,40 @@ class ManualTasksTest(unittest.TestCase):
                 self.assertIn("usage:", proc.stdout)
 
     def test_write_default_task_requires_yes(self):
-        proc = run("fix:prune-law")
+        proc = run("scrape:law", "https://example.invalid/x", "-d", "1", "-o", "t")
         self.assertEqual(proc.returncode, 2)
         self.assertIn("--yes", proc.stderr)
 
+    def test_preview_flag_skips_yes_gate_but_help_does_not_run(self):
+        # --help 는 게이트를 통과해도 아무것도 실행하지 않는다.
+        self.assertEqual(run("scrape:judgment", "--help").returncode, 0)
+
     def test_list_and_unknown_task(self):
-        self.assertIn("fix:prune-law", run().stdout)
+        self.assertIn("scrape:law", run().stdout)
         self.assertEqual(run("nope").returncode, 2)
+
+    def test_removed_tasks_are_gone(self):
+        removed = [
+            "cherry-pick:case", "check-url:adrule", "check-url:case", "csv-import",
+            "fix:clean-pdf-artifacts", "fix:judgment-case-numbers", "fix:source-provenance", "fix:stable-ids",
+            "fix:chunk-identifiers", "fix:constitutional-sub-titles", "fix:reference-sub-titles",
+            "fix:prune-interpretation", "fix:prune-law", "fix:retry-judgment-pdf",
+        ]
+        for name in removed:
+            with self.subTest(task=name):
+                self.assertNotIn(name, manual.BY_NAME)
+                self.assertEqual(run(name, "--help").returncode, 2)
+
+    def test_list_and_scrape_do_not_require_ignored_args(self):
+        for name in ("list:adrule", "list:judgment"):
+            self.assertNotIn("start_url", run(name, "--help").stdout, name)
+        self.assertNotIn("--dept", run("scrape:judgment", "--help").stdout)
+        self.assertIn("--dept", run("scrape:law", "--help").stdout)
+
+    def test_every_task_module_is_importable_path(self):
+        for task in manual.TASKS:
+            with self.subTest(task=task.name):
+                self.assertTrue((REPO / (task.module.replace(".", "/") + ".py")).exists())
 
 
 if __name__ == "__main__":

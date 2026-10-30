@@ -5,19 +5,18 @@ law.go.kr 상세 API로 법령/행정규칙의 안정 ID(법령ID/행정규칙ID
 버전을 그룹핑하려면 이 안정 ID가 필요하다.
 """
 
-import os
 from typing import Optional
 
 import requests
 
 from scripts.core.run_report import call_with_retry
+from scripts.core.config import LAWGO_OC
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='lawgokr_stable_id')
 
 API_BASE = "https://www.law.go.kr/DRF/lawService.do"
-# 국가법령 Open API 식별자(비밀 아님). 운영은 LAWGO_OC 환경변수로 준다.
-OC = os.getenv("LAWGO_OC", "inwoong100")
+OC = LAWGO_OC  # 정의는 scripts/core/config.py
 TIMEOUT_SECONDS = 10
 
 

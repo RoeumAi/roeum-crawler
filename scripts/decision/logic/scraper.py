@@ -11,7 +11,6 @@ title과 registered_at을 직접 사용해 MongoDB에 저장합니다.
 import asyncio
 import json
 import os
-import re
 import sys
 from datetime import datetime
 from typing import Optional, Dict

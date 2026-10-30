@@ -11,9 +11,9 @@ from html import unescape
 from bs4 import BeautifulSoup
 
 from scripts.core.identifiers import document_chunk_id
-from scripts.utils.nlrc_pdf import attachment_body_heading, attachment_display_metadata, pdf_retry_needed
-
-MAX_PDF_RETRIES = 3
+from scripts.utils.nlrc_pdf import (
+    MAX_PDF_RETRIES, attachment_body_heading, attachment_display_metadata, pdf_retry_needed,
+)
 
 
 def clean_text(text: str) -> str:

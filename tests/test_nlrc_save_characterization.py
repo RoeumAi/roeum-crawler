@@ -123,12 +123,30 @@ class NlrcDocumentTest(unittest.TestCase):
                 run(kind, db=db, html=html, pdf=FAILED_WITH_ATTACHMENT)
                 meta = active(db, kind)[0]["metadata"]
                 counts.append((meta["pdf_retry_count"], meta["pdf_retry_needed"]))
-            # 첫 저장은 새 행이라 직접 세고, 이후 실패 재수집은 옛 본문을 지키는 경로가 세므로 상한(3)에서 멈추지 않는다.
-            self.assertEqual(counts, [(1, True), (2, True), (3, True)])
+            # 첫 저장은 새 행이라 직접 세고, 이후 실패 재수집은 옛 본문을 지키는 경로가 센다. 둘 다 3회째에 재시도를 끈다.
+            self.assertEqual(counts, [(1, True), (2, True), (3, False)])
             # 성공하면 0 으로 돌아간다
             run(kind, db=db, html=spec["html"].replace("요약", "요약성공"), pdf=extracted_pdf("본문"))
             meta = active(db, kind)[0]["metadata"]
             self.assertEqual((meta["pdf_retry_count"], meta["pdf_retry_needed"]), (0, False))
+
+    def test_retry_stops_after_limit_and_keeps_old_text_visible_as_failed(self):
+        """첨부 추출이 계속 실패해도 매일 밤 같은 첨부를 다시 추출하지 않는다(무한 재시도 방지)."""
+        for kind, spec in self.each():
+            db = FakeDB()
+            run(kind, db=db, pdf=extracted_pdf("전문 본문"))
+            old_content = active(db, kind)[0]["content"]
+            seen = []
+            for night in range(6):
+                run(kind, db=db, pdf=FAILED_WITH_ATTACHMENT)
+                meta = active(db, kind)[0]["metadata"]
+                seen.append((meta["pdf_retry_count"], meta["pdf_retry_needed"]))
+            # 3회째에 표시가 꺼지고 그 뒤로는 update 모드가 이 문서를 다시 고르지 않는다(꺼진 채 유지).
+            self.assertEqual(seen[:3], [(1, True), (2, True), (3, False)])
+            self.assertTrue(all(needed is False for _, needed in seen[3:]))
+            row = active(db, kind)[0]
+            self.assertEqual(row["content"], old_content)
+            self.assertEqual(row["metadata"]["pdf_last_attempt_status"], "failed")
 
 
 class JudgmentStorageTest(unittest.TestCase):

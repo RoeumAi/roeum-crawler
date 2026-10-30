@@ -9,4 +9,4 @@ def no_lawgokr_api(monkeypatch):
     monkeypatch.setattr(law_scraper, "fetch_record", lambda target, doc_id: {})
     monkeypatch.setattr(adrule_scraper, "fetch_record", lambda target, doc_id: {})
     from scripts.utils import document_extraction
-    monkeypatch.setattr(document_extraction, "_gate", document_extraction._ExtractGate(sleep=lambda seconds: None))
+    monkeypatch.setattr(document_extraction, "_gate", document_extraction._ExtractGate(sleep=lambda seconds: None, healthy=lambda url: True))

@@ -24,7 +24,7 @@ class ExtractGateTest(unittest.TestCase):
 
     def test_waits_for_server_to_come_back_then_continues(self):
         # 10-30: 서버가 00:05 에 재시작해 1분 만에 돌아왔는데, 10분 멈춤 때문에 남은 별표 49건이 모두 실패했다.
-        checks = iter([False, False, True])
+        checks = iter([False, False, False, True])  # 실패 직후 확인 + 기다리며 두 번 더
         self.gate._healthy = lambda url: next(checks)
         with self.assertRaises(requests.ConnectionError):
             self.gate.call(self._down, "http://x")
@@ -46,7 +46,9 @@ class ExtractGateTest(unittest.TestCase):
         sent.assert_not_called()
 
     def test_stops_after_repeated_server_failures_in_one_run(self):
-        self.gate._healthy = lambda url: True
+        # 실패 직후에는 내려가 있고, 기다리면 돌아온다 — 재시작이 거듭되는 경우
+        checks = iter([False, True] * extraction.EXTRACT_MAX_SERVER_FAILURES)
+        self.gate._healthy = lambda url: next(checks)
         for _ in range(extraction.EXTRACT_MAX_SERVER_FAILURES):
             with self.assertRaises(requests.ConnectionError):
                 self.gate.call(self._down)
@@ -70,6 +72,18 @@ class ExtractGateTest(unittest.TestCase):
             self.gate.call(status(503))
         self.gate.call(lambda: {"ok": 1})
         self.gate._healthy.assert_called_once()
+
+    def test_document_rejected_while_server_healthy_is_not_a_server_failure(self):
+        # 10-31: 서버가 무거운 별표 PDF 작업만 끝내고 503 을 줬는데(본체·/health 정상), 두 건 만에 멈춤으로 세어
+        # 남은 행정규칙 별표 49건을 보내지 않았다.
+        def rejected():
+            raise requests.HTTPError("503", response=Mock(status_code=503))
+        self.gate._healthy = Mock(return_value=True)
+        for _ in range(extraction.EXTRACT_MAX_SERVER_FAILURES + 1):
+            with self.assertRaises(requests.HTTPError):
+                self.gate.call(rejected, "http://x")
+        self.assertEqual(self.gate.call(lambda: {"ok": 1}, "http://x"), {"ok": 1})
+        self.assertNotIn(extraction.EXTRACT_HEALTH_POLL_SECONDS, self.slept)  # 기다리지도 않는다
 
     def test_call_extract_text_goes_through_gate(self):
         response = Mock(json=Mock(return_value={"is_success": True}), raise_for_status=Mock())

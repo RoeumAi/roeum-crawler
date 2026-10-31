@@ -69,7 +69,8 @@ class _ExtractGate:
             try:
                 return fn()
             except http_requests.RequestException as e:
-                if _is_server_failure(e):
+                # 서버가 그 문서만 거절하고(작업 프로세스 메모리 초과 등) 본체는 살아 있으면 문서 하나의 실패다
+                if _is_server_failure(e) and not self._healthy(service_url):
                     self._server_failures += 1
                     if self._server_failures >= EXTRACT_MAX_SERVER_FAILURES:
                         self._given_up = (f"추출 서버(chat_generation)가 이번 실행에서 {self._server_failures}번 멈춰 "

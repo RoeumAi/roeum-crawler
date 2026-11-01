@@ -128,7 +128,7 @@ def build_message(
             lines.append(f"• law.go.kr 등 외부 수집원 일시 오류로 {', '.join(listing)} 목록 미수집 — 데이터 유실 아님")
         if EXTRACT_SERVER_DOWN in reasons:
             # 10-29·10-30: 서버 쪽(운영 chat_generation 메모리 초과 재시작)이 그대로면 다음 실행에서도 같은 문서가 실패했다.
-            lines.append("추출 서버가 실행 중 멈췄습니다. 서버 쪽 원인이 남아 있으면 다음 실행에서도 같은 문서가 실패합니다.")
+            lines.append("추출 서버 연결 또는 응답 오류가 발생했습니다. 개별 문서 거절과 서버 종료 여부는 추출 로그에서 확인할 수 있습니다.")
         if reasons or listing:
             lines.append("실패한 문서는 다음 실행에서 다시 시도합니다.")
         lines.append(f"로그: {log_location}")

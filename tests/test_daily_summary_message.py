@@ -34,7 +34,7 @@ OCT29 = {
     "law": dict(ok(success=57, no_change=0, skipped=100, total=160), total_failed=2,
                 failure_reasons={"국가법령 Open API 일시 오류": 2}),
     "adrule": dict(ok(success=105, skipped=24_000, total=24_155), total_failed=50,
-                   failure_reasons={"문서 추출 서버(chat_generation) 연결 실패": 49, "국가법령 Open API 일시 오류": 1}),
+                   failure_reasons={"문서 추출 서버 연결 실패": 49, "국가법령 Open API 일시 오류": 1}),
     "case": ok(no_change=1, skipped=17_273, total=17_274),
     "constitutional_decc": ok(no_change=6, skipped=198, total=204),
 }
@@ -65,8 +65,9 @@ class BuildMessageTest(unittest.TestCase):
             "✅ 헌재결정례: 변경 없음 (재확인 6 · 건너뜀 198)",
         ])
         text = embed["description"]
-        self.assertIn("**실패 원인**\n• 문서 추출 서버(chat_generation) 연결 실패 49건\n• 국가법령 Open API 일시 오류 3건", text)
-        self.assertIn("추출 서버가 실행 중 멈췄습니다", text)
+        self.assertIn("**실패 원인**\n• 문서 추출 서버 연결 실패 49건\n• 국가법령 Open API 일시 오류 3건", text)
+        self.assertIn("추출 서버 연결 또는 응답 오류가 발생했습니다", text)
+        self.assertNotIn("추출 서버가 실행 중 멈췄습니다", text)
         self.assertIn("실패한 문서는 다음 실행에서 다시 시도합니다.", text)
         self.assertIn("로그: CloudWatch /ecs/roeum-crawler", text)
         self.assertTrue(text.endswith("🔢 전체 업데이트 162건 · 변경없음 7건"))
@@ -172,3 +173,13 @@ class AlertFormatTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DocumentRejectionMessageTest(unittest.TestCase):
+    def test_document_rejection_does_not_claim_server_stopped(self):
+        from scripts.core.run_report import EXTRACT_PROCESS_KILLED
+        result = {'law': dict(ok(),total_failed=1,failure_reasons={EXTRACT_PROCESS_KILLED:1})}
+        text = message(result)['description']
+        self.assertIn(EXTRACT_PROCESS_KILLED,text)
+        self.assertNotIn('추출 서버가 실행 중 멈췄습니다',text)
+        self.assertNotIn('추출 서버 연결 또는 응답 오류',text)

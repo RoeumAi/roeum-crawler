@@ -64,7 +64,11 @@ def record_failure(target: str, reason) -> None:
         report.fail(target, str(reason))
 
 
-EXTRACT_SERVER_DOWN = "문서 추출 서버(chat_generation) 연결 실패"
+EXTRACT_SERVER_DOWN = "문서 추출 서버 연결 실패"
+EXTRACT_DOCUMENT_FAILED = "문서 추출 처리 실패"
+EXTRACT_DOCUMENT_TIMEOUT = "문서 추출 처리시간 초과"
+EXTRACT_PROCESS_KILLED = "문서 추출 프로세스 종료"
+EXTRACT_BUSY = "문서 추출 대기열 포화"
 LAWGOKR_API_ERROR = "국가법령 Open API 일시 오류"
 TIMEOUT = "응답 시간 초과"
 OTHER = "기타 오류"
@@ -73,6 +77,14 @@ OTHER = "기타 오류"
 def classify_failure(reason) -> str:
     """실패 메시지를 사람이 읽을 원인 분류로 줄인다(요약에 원인별 건수로 보인다)."""
     text = str(reason)
+    if "document_extraction_rejected[" in text:
+        if "extraction_document_timeout" in text:
+            return EXTRACT_DOCUMENT_TIMEOUT
+        if "extraction_process_killed" in text:
+            return EXTRACT_PROCESS_KILLED
+        if "extraction_queue_" in text:
+            return EXTRACT_BUSY
+        return EXTRACT_DOCUMENT_FAILED
     if any(k in text for k in ("chat-generation", "chat_generation", "extract-text", "추출 서버")):
         return EXTRACT_SERVER_DOWN
     if "law.go.kr" in text or "Open API" in text:

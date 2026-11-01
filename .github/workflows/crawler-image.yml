@@ -101,7 +101,9 @@ jobs:
           ACCOUNT: ${{ vars.AWS_ACCOUNT_ID }}
           IMAGE: ${{ steps.push.outputs.image }}
         run: |
-          sed -e "s|__AWS_ACCOUNT_ID__|$ACCOUNT|g" -e "s|__IMAGE__|$IMAGE|g" ecs/task-definition.json > /tmp/taskdef.json
+          EXTRACTION_IMAGE="$ACCOUNT.dkr.ecr.$AWS_REGION.amazonaws.com/$(cat ecs/extraction-image.txt)"
+          sed -e "s|__AWS_ACCOUNT_ID__|$ACCOUNT|g" -e "s|__IMAGE__|$IMAGE|g" \
+            -e "s|__EXTRACTION_IMAGE__|$EXTRACTION_IMAGE|g" ecs/task-definition.json > /tmp/taskdef.json
           TASK_DEF_ARN=$(aws ecs register-task-definition --cli-input-json file:///tmp/taskdef.json \
             --query 'taskDefinition.taskDefinitionArn' --output text)
           echo "registered $TASK_DEF_ARN"

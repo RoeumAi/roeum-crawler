@@ -98,3 +98,42 @@ class ExtractGateTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WorkerErrorsTest(unittest.TestCase):
+    def response(self, status, detail):
+        response = requests.Response()
+        response.status_code = status
+        import json
+        response._content = json.dumps({'detail': detail}).encode()
+        response.headers['Retry-After'] = '5'
+        return response
+
+    def test_document_failure_preserves_code_and_is_not_retried(self):
+        response = self.response(422, {'code':'extraction_process_killed','retryable':False})
+        with patch.object(extraction.http_requests, 'post', return_value=response) as post:
+            with self.assertRaises(extraction.DocumentExtractionError) as caught:
+                extraction._post_extract_text('http://worker',b'pdf','a.pdf')
+        self.assertIn('extraction_process_killed', str(caught.exception))
+        post.assert_called_once()
+        from scripts.core.run_report import classify_failure, EXTRACT_PROCESS_KILLED
+        self.assertEqual(classify_failure(caught.exception), EXTRACT_PROCESS_KILLED)
+
+    def test_busy_retry_is_bounded_and_does_not_trigger_server_circuit(self):
+        response = self.response(429, {'code':'extraction_queue_full','retryable':True})
+        gate = extraction._ExtractGate(healthy=Mock(return_value=True))
+        with patch.object(extraction.http_requests, 'post', return_value=response) as post, \
+             patch.object(extraction.time, 'sleep') as sleep:
+            with self.assertRaises(extraction.DocumentExtractionError):
+                gate.call(lambda: extraction._post_extract_text('http://worker',b'pdf','a.pdf'))
+        self.assertEqual(post.call_count,3)
+        self.assertEqual(sleep.call_count,2)
+        gate._healthy.assert_not_called()
+        self.assertEqual(gate._server_failures,0)
+
+    def test_dedicated_url_takes_precedence_over_legacy_chat_url(self):
+        with patch.dict('os.environ',{'DOCUMENT_EXTRACTION_URL':'http://worker:8000','CHAT_GENERATION_URL':'http://chat:8000'}), \
+             patch.object(extraction, '_post_extract_text', return_value={}) as post, \
+             patch.object(extraction, '_gate', extraction._ExtractGate()):
+            extraction.call_extract_text(b'pdf','a.pdf')
+        self.assertEqual(post.call_args.args[0],'http://worker:8000')

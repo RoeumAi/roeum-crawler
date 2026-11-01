@@ -1,11 +1,7 @@
-"""Shared extraction client with separate text availability and quality status.
+"""Shared extraction client; production uses the crawler-only sidecar.
 
-파서(chat_generation)는 운영 AI 채팅과 같은 서버다. 10-29·10-30 00시 일일 실행에서 별표 PDF 를 읽다
-그 서버가 메모리 상한에 걸려 재시작했다. 그래서 이 프로세스의 모든 추출 호출은 한 번에 하나씩·간격을 두고
-보낸다(_ExtractGate). 서버가 응답하지 않으면(연결 실패·시간 초과·5xx) 그 파일은 실패로 두고, 다음 호출 전에
-서버가 다시 살아날 때까지(/health) 기다렸다가 이어 보낸다. 예전에는 10분 동안 무조건 보내지 않아, 1분 만에
-돌아온 서버를 두고 남은 별표 전부가 실패로 남았다(10-30 행정규칙 49건).
-같은 실행에서 서버가 여러 번 멈추면 사용자 채팅을 지키려고 그 실행에서는 더 보내지 않는다.
+One document at a time. Document rejection does not trip the server circuit;
+retryable admission failures have a bounded retry budget. No fallback to chat.
 """
 import os
 import threading
@@ -31,6 +27,12 @@ EXTRACT_MAX_SERVER_FAILURES = int(os.getenv("EXTRACT_MAX_SERVER_FAILURES", "2"))
 
 class ExtractServerUnavailable(RuntimeError):
     """추출 서버가 응답하지 않아 이번 파일을 보내지 않았다."""
+
+
+class DocumentExtractionError(http_requests.HTTPError):
+    def __init__(self, response, code: str):
+        self.code = code
+        super().__init__(f"document_extraction_rejected[{code}] HTTP {response.status_code}", response=response)
 
 
 def _is_server_failure(error: http_requests.RequestException) -> bool:
@@ -102,6 +104,7 @@ def call_extract_text(
 ) -> dict:
     service_url = (
         base_url
+        or os.getenv("DOCUMENT_EXTRACTION_URL")
         or os.getenv("CHAT_GENERATION_URL")
         or DEFAULT_CHAT_GENERATION_URL
     ).rstrip("/")
@@ -109,22 +112,32 @@ def call_extract_text(
 
 
 def _post_extract_text(service_url: str, pdf_bytes: bytes, filename: str) -> dict:
-    response = http_requests.post(
-        f"{service_url}/api/extract-text",
-        files={
-            "file": (
-                filename,
-                pdf_bytes,
-                CONTENT_TYPES.get(
-                    Path(filename).suffix.lower(),
-                    "application/octet-stream",
-                ),
-            )
-        },
-        timeout=900,
-    )
-    response.raise_for_status()
-    return response.json()
+    for attempt in range(3):
+        response = http_requests.post(
+            f"{service_url}/api/extract-text",
+            files={"file": (filename, pdf_bytes, CONTENT_TYPES.get(
+                Path(filename).suffix.lower(), "application/octet-stream"))},
+            timeout=900,
+        )
+        try:
+            response.raise_for_status()
+        except http_requests.HTTPError:
+            try:
+                detail = response.json().get("detail")
+            except (ValueError, AttributeError):
+                detail = None
+            if isinstance(detail, dict) and isinstance(detail.get("code"), str):
+                code = detail["code"]
+                if response.status_code in (429, 503) and detail.get("retryable") is True and attempt < 2:
+                    try:
+                        delay = min(30, max(1, float(response.headers.get("Retry-After", "5"))))
+                    except (ValueError, TypeError):
+                        delay = 5
+                    time.sleep(delay)
+                    continue
+                raise DocumentExtractionError(response, code) from None
+            raise
+        return response.json()
 
 
 def usable_document(extracted: dict) -> dict:

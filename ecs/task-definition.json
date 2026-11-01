@@ -1,10 +1,15 @@
 {
   "family": "roeum-crawler",
-  "requiresCompatibilities": ["FARGATE"],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
   "networkMode": "awsvpc",
-  "runtimePlatform": { "cpuArchitecture": "ARM64", "operatingSystemFamily": "LINUX" },
+  "runtimePlatform": {
+    "cpuArchitecture": "ARM64",
+    "operatingSystemFamily": "LINUX"
+  },
   "cpu": "2048",
-  "memory": "4096",
+  "memory": "8192",
   "executionRoleArn": "arn:aws:iam::__AWS_ACCOUNT_ID__:role/roeum-crawler-execution",
   "containerDefinitions": [
     {
@@ -12,19 +17,56 @@
       "image": "__IMAGE__",
       "essential": true,
       "environment": [
-        { "name": "TZ", "value": "Asia/Seoul" },
-        { "name": "ROEUM_ENV", "value": "prod" },
-        { "name": "MONGO_DB_NAME", "value": "original_db" },
-        { "name": "CHAT_GENERATION_URL", "value": "http://chat-generation.local:8000" },
-        { "name": "BATCH_REPORT_JOB", "value": "legaldata-law-crawl-daily" },
-        { "name": "BATCH_REPORT_URL", "value": "https://api.loumpartner.com" },
-        { "name": "BATCH_REPORT_HOST", "value": "ecs-fargate" }
+        {
+          "name": "TZ",
+          "value": "Asia/Seoul"
+        },
+        {
+          "name": "ROEUM_ENV",
+          "value": "prod"
+        },
+        {
+          "name": "MONGO_DB_NAME",
+          "value": "original_db"
+        },
+        {
+          "name": "BATCH_REPORT_JOB",
+          "value": "legaldata-law-crawl-daily"
+        },
+        {
+          "name": "BATCH_REPORT_URL",
+          "value": "https://api.loumpartner.com"
+        },
+        {
+          "name": "BATCH_REPORT_HOST",
+          "value": "ecs-fargate"
+        },
+        {
+          "name": "DOCUMENT_EXTRACTION_URL",
+          "value": "http://127.0.0.1:8000"
+        },
+        {
+          "name": "CHAT_GENERATION_URL",
+          "value": "http://127.0.0.1:8000"
+        }
       ],
       "secrets": [
-        { "name": "MONGODB_URI", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/MONGODB_URI" },
-        { "name": "BATCH_REPORT_KEY", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/java/INTERNAL_BATCH_REPORT_KEY" },
-        { "name": "DISCORD_WEBHOOK", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/DISCORD_WEBHOOK" },
-        { "name": "LEGALDB_DISPATCH_TOKEN", "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/LEGALDB_DISPATCH_TOKEN" }
+        {
+          "name": "MONGODB_URI",
+          "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/MONGODB_URI"
+        },
+        {
+          "name": "BATCH_REPORT_KEY",
+          "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/java/INTERNAL_BATCH_REPORT_KEY"
+        },
+        {
+          "name": "DISCORD_WEBHOOK",
+          "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/DISCORD_WEBHOOK"
+        },
+        {
+          "name": "LEGALDB_DISPATCH_TOKEN",
+          "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/crawler/LEGALDB_DISPATCH_TOKEN"
+        }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -32,6 +74,99 @@
           "awslogs-group": "/ecs/roeum-crawler",
           "awslogs-region": "ap-northeast-2",
           "awslogs-stream-prefix": "crawler"
+        }
+      },
+      "memory": 4096,
+      "cpu": 1024,
+      "dependsOn": [
+        {
+          "containerName": "extraction-worker",
+          "condition": "HEALTHY"
+        }
+      ]
+    },
+    {
+      "name": "extraction-worker",
+      "image": "__EXTRACTION_IMAGE__",
+      "cpu": 1024,
+      "memory": 4096,
+      "essential": false,
+      "restartPolicy": {
+        "enabled": true,
+        "ignoredExitCodes": [
+          0
+        ],
+        "restartAttemptPeriod": 60
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:8000/health || exit 1"
+        ],
+        "interval": 5,
+        "timeout": 3,
+        "retries": 3,
+        "startPeriod": 10
+      },
+      "stopTimeout": 30,
+      "environment": [
+        {
+          "name": "OCR_PROVIDER",
+          "value": "anthropic"
+        },
+        {
+          "name": "OCR_ANTHROPIC_MODEL_NAME",
+          "value": "claude-haiku-5-5"
+        },
+        {
+          "name": "OCR_PAGE_CONCURRENCY",
+          "value": "4"
+        },
+        {
+          "name": "PDF_NATIVE_ISOLATION",
+          "value": "false"
+        },
+        {
+          "name": "EXTRACTION_TIMEOUT_SECONDS",
+          "value": "840"
+        },
+        {
+          "name": "EXTRACTION_MAX_PENDING",
+          "value": "4"
+        },
+        {
+          "name": "PDF_MEMORY_BUDGET_MIB",
+          "value": "1152"
+        },
+        {
+          "name": "PDF_MEMORY_HEADROOM_MIB",
+          "value": "128"
+        },
+        {
+          "name": "LOUM_COST_ENV",
+          "value": "prod"
+        },
+        {
+          "name": "LANGCHAIN_TRACING_V2",
+          "value": "false"
+        },
+        {
+          "name": "LANGSMITH_TRACING",
+          "value": "false"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "valueFrom": "arn:aws:ssm:ap-northeast-2:__AWS_ACCOUNT_ID__:parameter/app/chat/ANTHROPIC_API_KEY"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/roeum-crawler",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "extraction"
         }
       }
     }

@@ -96,3 +96,10 @@ class CallWithRetryTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ExtractionClassificationTest(unittest.TestCase):
+    def test_resource_failure_and_timeout_are_not_server_outages(self):
+        from scripts.core.run_report import EXTRACT_DOCUMENT_TIMEOUT, EXTRACT_DOCUMENT_FAILED
+        self.assertEqual(classify_failure('document_extraction_rejected[extraction_document_timeout] HTTP 422'), EXTRACT_DOCUMENT_TIMEOUT)
+        self.assertEqual(classify_failure('document_extraction_rejected[extraction_process_failed] HTTP 422'), EXTRACT_DOCUMENT_FAILED)

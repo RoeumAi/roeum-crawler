@@ -110,7 +110,7 @@ class RunSingleScraperResultTest(unittest.TestCase):
 
         result = run(fetch_urls, scrape)
         self.assertEqual(result["total_failed"], 3)
-        self.assertEqual(result["failure_reasons"], {"응답 시간 초과": 1, "문서 추출 서버(chat_generation) 연결 실패": 1})
+        self.assertEqual(result["failure_reasons"], {"응답 시간 초과": 1, "문서 추출 서버 연결 실패": 1})
 
 if __name__ == "__main__":
     unittest.main()

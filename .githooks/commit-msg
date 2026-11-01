@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+import re
+import sys
+from pathlib import Path
+
+title = Path(sys.argv[1]).read_text().splitlines()[0].strip()
+if not re.fullmatch(r'(feat|fix|docs|refactor|chore|perf|build|test)(\([^\n()]+\))?: \S.*', title) or title.rstrip('.!。！').endswith(('다', '요')):
+    print('커밋 제목은 <유형>: 명사형이어야 합니다. 예: fix: PDF 파싱 동시 실행 수 제한', file=sys.stderr)
+    sys.exit(1)

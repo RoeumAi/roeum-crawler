@@ -14,7 +14,7 @@ import logging
 import threading
 import time
 from collections import Counter
-from typing import Awaitable, Callable, List, Optional, TypeVar
+from typing import Awaitable, Callable, Dict, List, Optional, TypeVar
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +32,8 @@ class RunReport:
         self.reasons: List[str] = []
         # 원인 분류별 건수 — 일일 요약의 "실패 원인" 줄. 문서 실패는 원인을 아는 곳(별표 등)에서 note_reason 으로 센다.
         self.reason_counts: Counter = Counter()
+        # 실패 문서별 설명(대상 → 문서명·원인·상세) — 일일 요약에 붙이는 실패 문서 목록 파일에 쓴다.
+        self.document_details: Dict[str, dict] = {}
         # 상세 페이지 재시도에 쓴 시간(초) — 스크래퍼 한 번 실행의 재시도 총량을 묶는 데 쓴다(call_with_retry 의 budgeted).
         self.retry_seconds_used = 0.0
         self._retry_lock = threading.Lock()
@@ -64,11 +66,20 @@ def record_failure(target: str, reason) -> None:
         report.fail(target, str(reason))
 
 
+def note_failed_document(target: str, title: str, reason: str, detail: str = "") -> None:
+    """실패한 문서의 이름·원인·상세를 남긴다(대상은 failed_targets 와 같은 `doc:<id>`). 보고가 없으면 무시."""
+    report = _current.get()
+    if report is not None:
+        report.document_details[f"{report.scraper_type}:{target}"] = {
+            "title": title or "", "reason": reason, "detail": detail[:500]}
+
+
 EXTRACT_SERVER_DOWN = "문서 추출 서버 연결 실패"
 EXTRACT_DOCUMENT_FAILED = "문서 추출 처리 실패"
 EXTRACT_DOCUMENT_TIMEOUT = "문서 추출 처리시간 초과"
 EXTRACT_PROCESS_KILLED = "문서 추출 프로세스 종료"
 EXTRACT_BUSY = "문서 추출 대기열 포화"
+EXTRACT_PARTIAL = "문서 일부 미판독"
 LAWGOKR_API_ERROR = "국가법령 Open API 일시 오류"
 TIMEOUT = "응답 시간 초과"
 OTHER = "기타 오류"

@@ -18,7 +18,9 @@ from typing import Callable, Optional
 
 import requests
 
-from scripts.core.run_report import EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, classify_failure, note_reason
+from scripts.core.run_report import (
+    EXTRACT_PARTIAL, EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, classify_failure, note_failed_document, note_reason,
+)
 from scripts.utils.document_extraction import ExtractServerUnavailable, call_extract_text, usable_document
 
 DOWNLOAD_BASE = "https://www.law.go.kr"
@@ -143,26 +145,50 @@ def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str]
             document = download_and_extract(annex.url, annex.file_name, extract=extract)
             content, status, source = document["structured_text"].strip(), document.get("extraction_status"), annex.file_name
             blocks = document.get("document_blocks") or []
+            failed_pages = (document.get("extraction_metadata") or {}).get("failed_page_numbers") or []
         else:
             # 원본 파일이 없는 별표: Open API 가 준 글(선 그림 표)을 그대로 쓴다.
-            content, status, source, blocks = annex.text.strip(), "api_text", "", []
+            content, status, source, blocks, failed_pages = annex.text.strip(), "api_text", "", [], []
         articles.append({
             "article_number": annex.article_number,
             "article_number_numeric": None,
             "article_title": annex.title,
             "content": content,
-            "annex": {"source_file": source, "pdf_extraction_status": status, "document_blocks": blocks},
+            "annex": {"source_file": source, "pdf_extraction_status": status, "document_blocks": blocks,
+                      "failed_pages": failed_pages},
         })
     return articles
 
 
+def record_title(kind: str, record: Optional[dict]) -> str:
+    """Open API 응답의 법령명·행정규칙명(실패 문서 목록에 쓴다)."""
+    if kind == "law":
+        info = ((record or {}).get("법령") or {}).get("기본정보") or {}
+        return info.get("법령명_한글") or info.get("법령명한글") or ""
+    info = ((record or {}).get("AdmRulService") or {}).get("행정규칙기본정보") or {}
+    return info.get("행정규칙명") or ""
+
+
+def _pages(numbers) -> str:
+    return ",".join(str(n) for n in numbers)
+
+
 def collect_annex_articles(kind: str, record: Optional[dict], logger,
-                           extract: Optional[Callable[[bytes, str], dict]] = None) -> tuple[list[dict], int]:
-    """(별표 행, 실패 수). Open API 를 못 읽었거나 별표 하나라도 못 읽으면 실패 1 —
-    조문은 그대로 저장하되 문서를 실패로 세어 save_incomplete 표시로 다음 실행이 다시 받게 한다."""
+                           extract: Optional[Callable[[bytes, str], dict]] = None,
+                           doc_id: Optional[str] = None, title: str = "") -> tuple[list[dict], int]:
+    """(별표 행, 실패 수). Open API 를 못 읽었거나, 별표 하나라도 못 읽었거나 일부 쪽만 읽혔으면(partial) 실패 1 —
+    조문(읽은 별표 포함)은 그대로 저장하되 문서를 실패로 세어 save_incomplete 표시로 다음 실행이 다시 받게 한다.
+    실패 문서는 이름·원인·상세를 실행 보고에 남겨 일일 요약의 실패 문서 목록에 나오게 한다."""
+    title = title or record_title(kind, record)
+
+    def failed(reason: str, detail: str) -> None:
+        note_reason(reason)
+        if doc_id:
+            note_failed_document(f"doc:{doc_id}", title, reason, detail)
+
     if record is None:
         logger.error("별표 목록 조회 실패(Open API) — 다음 실행에서 다시 시도")
-        note_reason(LAWGOKR_API_ERROR)
+        failed(LAWGOKR_API_ERROR, "별표 목록 조회 실패")
         return [], 1
     annexes = law_annexes(record) if kind == "law" else adrule_annexes(record)
     if not annexes:
@@ -171,13 +197,22 @@ def collect_annex_articles(kind: str, record: Optional[dict], logger,
         articles = annex_articles(annexes, extract=extract)
     except ExtractServerUnavailable as e:
         logger.warning(f"별표 파싱 건너뜀: {e} — 다음 실행에서 다시 시도")
-        note_reason(EXTRACT_SERVER_DOWN)
+        failed(EXTRACT_SERVER_DOWN, str(e))
         return [], 1
     except Exception as e:  # noqa: BLE001
         logger.error(f"별표 파싱 실패: {type(e).__name__}: {e}")
-        note_reason(classify_failure(f"{type(e).__name__}: {e}"))
+        failed(classify_failure(f"{type(e).__name__}: {e}"), f"{type(e).__name__}: {e}")
         return [], 1
     logger.info(f"📎 별표 {len(articles)}건 파싱")
+    # 일부 쪽을 못 읽은 별표(partial)도 실패다: 읽은 만큼은 저장하되 다음 실행에서 다시 읽는다(11-02 38건, 빠진 쪽 확인).
+    partial = [a for a in articles if a["annex"]["pdf_extraction_status"] == "partial"]
+    if partial:
+        detail = "; ".join(
+            f"{a['article_number']}" + (f"(못 읽은 쪽 {_pages(a['annex']['failed_pages'])})" if a["annex"]["failed_pages"] else "")
+            for a in partial)
+        logger.error(f"별표 일부 미판독 {len(partial)}건: {detail} — 다음 실행에서 다시 시도")
+        failed(EXTRACT_PARTIAL, detail)
+        return articles, 1
     return articles, 0
 
 

@@ -23,6 +23,7 @@ import argparse
 import json
 import os
 import urllib.request
+import uuid
 
 SEVERITIES = ("CRITICAL", "ERROR", "WARN", "INFO")
 KINDS = ("서버 오류", "배치", "배포", "데이터 수집", "외부 연동", "보고")
@@ -87,15 +88,32 @@ def send_discord(webhook_url: str, message: str) -> None:
     send_discord_payload(webhook_url, {"content": message})
 
 
-def send_discord_payload(webhook_url: str, payload: dict) -> None:
-    """웹훅 payload(content·embeds) 그대로 보낸다. 2xx 가 아니면 HTTPError."""
+def send_discord_payload(webhook_url: str, payload: dict, attachment: tuple[str, bytes] | None = None) -> None:
+    """웹훅 payload(content·embeds) 그대로 보낸다. attachment=(파일명, 내용)이면 파일을 붙인다(multipart). 2xx 가 아니면 HTTPError."""
+    if attachment is None:
+        data, content_type = json.dumps(payload).encode("utf-8"), "application/json"
+    else:
+        data, content_type = multipart_body(payload, *attachment)
     req = urllib.request.Request(
         webhook_url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json", "User-Agent": "DiscordBot (private, 1.0)"},
+        data=data,
+        headers={"Content-Type": content_type, "User-Agent": "DiscordBot (private, 1.0)"},
         method="POST",
     )
     urllib.request.urlopen(req, timeout=15)
+
+
+def multipart_body(payload: dict, file_name: str, content: bytes) -> tuple[bytes, str]:
+    """Discord 웹훅 파일 첨부 형식: payload_json + files[0]."""
+    boundary = uuid.uuid4().hex
+    parts = [
+        f'--{boundary}\r\nContent-Disposition: form-data; name="payload_json"\r\n'
+        f"Content-Type: application/json\r\n\r\n".encode() + json.dumps(payload).encode("utf-8") + b"\r\n",
+        f'--{boundary}\r\nContent-Disposition: form-data; name="files[0]"; filename="{file_name}"\r\n'
+        f"Content-Type: text/csv; charset=utf-8\r\n\r\n".encode() + content + b"\r\n",
+        f"--{boundary}--\r\n".encode(),
+    ]
+    return b"".join(parts), f"multipart/form-data; boundary={boundary}"
 
 
 def main():

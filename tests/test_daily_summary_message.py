@@ -110,6 +110,24 @@ class BuildMessageTest(unittest.TestCase):
         json.dumps(payload)
 
 
+class FailureAttachmentTest(unittest.TestCase):
+    def test_failed_documents_become_csv_rows_and_message_points_to_attachment(self):
+        from scripts.core.run_report import EXTRACT_PARTIAL
+        scrapers = {"law": {"status": "success", "total_urls": 3, "total_success": 1, "total_failed": 2,
+                            "failed_targets": ["law:doc:289523", "law:list-org:1"],
+                            "failure_reasons": {EXTRACT_PARTIAL: 1},
+                            "failed_documents": [{"target": "law:doc:289523", "title": "국가기술자격법 시행규칙",
+                                                  "reason": EXTRACT_PARTIAL, "detail": "별표8(못 읽은 쪽 3)"}]}}
+        rows = daily_summary.failed_document_rows(scrapers)
+        self.assertEqual([(r["kind"], r["target"], r["title"]) for r in rows],
+                         [("법령", "law:doc:289523", "국가기술자격법 시행규칙"), ("법령", "law:list-org:1", "")])
+        text = daily_summary.failure_csv(rows).decode("utf-8-sig")
+        self.assertIn("국가기술자격법 시행규칙,문서 일부 미판독,별표8(못 읽은 쪽 3)", text)
+        description = daily_summary.build_message(scrapers, duration_min=1, attempts=1, date_str="d")["embeds"][0]["description"]
+        self.assertIn("📎 실패 문서 2건", description)
+        self.assertIn("일부 쪽을 읽지 못한 별표", description)
+
+
 class MainTest(unittest.TestCase):
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
@@ -127,8 +145,9 @@ class MainTest(unittest.TestCase):
     def test_reads_result_json_and_sends_to_data_collect_channel(self):
         out, sent = self.run_main({"DISCORD_WEBHOOK": "https://example.invalid/old",
                                    "DISCORD_WEBHOOK_DATA_COLLECT": "https://example.invalid/data"})
-        url, payload = sent.call_args.args
+        url, payload, attachment = sent.call_args.args
         self.assertEqual(url, "https://example.invalid/data")
+        self.assertIsNone(attachment)  # 실패가 없으면 첨부 파일도 없다
         self.assertIn("전체 업데이트 3건", payload["embeds"][0]["description"])
         self.assertIn("전송 완료", out)
 

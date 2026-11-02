@@ -300,7 +300,8 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
             }]
 
         # 별표(표가 대부분)는 본문 HTML 에 없어 Open API 의 원본 파일로 따로 읽는다.
-        annex_rows, annex_failed = collect_annex_articles("law", record, logger)
+        annex_rows, annex_failed = collect_annex_articles("law", record, logger, doc_id=base_doc_id,
+                                                             title=unified_doc.get("title", ""))
         articles = articles + annex_rows
 
         # 2. 각 조마다 독립 문서 생성 및 저장

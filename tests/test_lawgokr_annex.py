@@ -76,6 +76,32 @@ class CollectTest(unittest.TestCase):
             self.assertEqual(annex.collect_annex_articles("law", LAW_RECORD, Mock()), ([], 1))
 
 
+class PartialAnnexTest(unittest.TestCase):
+    def test_partial_annex_is_saved_but_counts_as_failed_with_pages(self):
+        # 11-02: 일부 쪽을 못 읽은 별표 38건이 성공으로 저장돼 다시 읽히지 않았다(국가기술자격법 시행규칙 [별표 8] 시험과목 누락).
+        from scripts.core.run_report import EXTRACT_PARTIAL, start_run_report
+        parsed = {"is_success": True, "extraction_status": "partial", "structured_text": "읽은 쪽", "full_text": "읽은 쪽",
+                  "extraction_metadata": {"failed_page_numbers": [3, 14]}}
+        report = start_run_report("law")
+        with patch.object(annex.requests, "get", return_value=Mock(content=b"%PDF", raise_for_status=Mock())):
+            rows, failed = annex.collect_annex_articles("law", LAW_RECORD, Mock(), extract=lambda b, n: parsed,
+                                                        doc_id="289523", title="국가기술자격법 시행규칙")
+        self.assertEqual(failed, 1)
+        self.assertEqual([r["content"] for r in rows], ["읽은 쪽", "읽은 쪽"])  # 읽은 만큼은 저장한다
+        self.assertEqual(report.reason_counts[EXTRACT_PARTIAL], 1)
+        self.assertEqual(report.document_details["law:doc:289523"], {
+            "title": "국가기술자격법 시행규칙", "reason": EXTRACT_PARTIAL,
+            "detail": "별표1(못 읽은 쪽 3,14); 별표1의2(못 읽은 쪽 3,14)"})
+
+    def test_title_comes_from_record_when_not_given(self):
+        from scripts.core.run_report import start_run_report
+        report = start_run_report("adrule")
+        annex.collect_annex_articles("adrule", None, Mock(), doc_id="21")
+        self.assertEqual(report.document_details["adrule:doc:21"]["detail"], "별표 목록 조회 실패")
+        self.assertEqual(annex.record_title("law", {"법령": {"기본정보": {"법령명_한글": "근로기준법"}}}), "근로기준법")
+        self.assertEqual(annex.record_title("adrule", {"AdmRulService": {"행정규칙기본정보": {"행정규칙명": "고시"}}}), "고시")
+
+
 class PausedExtractTest(unittest.TestCase):
     def test_paused_server_counts_as_failed_with_reason(self):
         from scripts.core.run_report import EXTRACT_SERVER_DOWN, start_run_report

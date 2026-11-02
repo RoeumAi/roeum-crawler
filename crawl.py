@@ -323,6 +323,26 @@ def failed_doc_target(url_item, result) -> str:
     return f"doc:{m.group(1)}" if m else f"url:{url_str}"
 
 
+def failed_documents(scraper_type: str, results: list, run_report) -> list[dict]:
+    """실패 문서 목록(대상·문서명·원인·상세) — 일일 요약에 첨부 파일로 붙는다.
+
+    목록 페이지 실패는 run_report.reasons, 문서 실패는 결과의 오류와 run_report.document_details(별표 등 원인을 아는 곳)를 합친다.
+    """
+    rows = []
+    for target, reason in zip(run_report.failed_targets, run_report.reasons):
+        rows.append({"target": target, "title": "", "reason": classify_failure(reason), "detail": reason})
+    for r in results:
+        if is_success_result(r):
+            continue
+        target = f"{scraper_type}:{r['target']}" if isinstance(r, dict) and r.get("target") else f"{scraper_type}:doc:unknown"
+        error = r.get("error") if isinstance(r, dict) else repr(r)
+        known = run_report.document_details.get(target) or {}
+        rows.append({"target": target, "title": known.get("title", ""),
+                     "reason": known.get("reason") or classify_failure(error),
+                     "detail": known.get("detail") or str(error or "")[:500]})
+    return rows
+
+
 async def run_single_scraper(
     scraper_type: str,
     max_concurrent: int,
@@ -482,6 +502,7 @@ async def run_single_scraper(
             "skipped": skipped_count,
             "failed_targets": listing_failed_targets + doc_failed_targets,
             "failure_reasons": dict(run_report.reason_counts),
+            "failed_documents": failed_documents(scraper_type, results, run_report),
         }
 
     except Exception as e:

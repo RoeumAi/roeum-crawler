@@ -14,10 +14,12 @@ tests/test_daily_summary_message.py 로 검증한다.
     꼬리말: 환경·대상·심각도 같은 기술 정보
 """
 import argparse
+import csv
+import io
 import os
 
 from scripts.core.config import SCRAPERS
-from scripts.core.run_report import EXTRACT_SERVER_DOWN
+from scripts.core.run_report import EXTRACT_PARTIAL, EXTRACT_SERVER_DOWN
 from scripts.notify.alert_format import get_env_name, resolve_webhook, send_discord_payload
 from scripts.report.batch_result import (
     EXIT_LISTING_FAILURE, EXIT_OK, is_listing_failure, load_attempt, merge_attempts,
@@ -66,6 +68,30 @@ def failure_reasons(scrapers: dict) -> dict[str, int]:
         if unexplained > 0:
             totals[OTHER_REASON] = totals.get(OTHER_REASON, 0) + unexplained
     return dict(sorted(totals.items(), key=lambda item: -item[1]))
+
+
+def failed_document_rows(scrapers: dict) -> list[dict]:
+    """첨부할 실패 문서 목록. 상세가 없는 실패(예: 목록 전체 실패)는 대상만 남긴다."""
+    rows = []
+    for key, result in scrapers.items():
+        name = SCRAPERS[key].display_name if key in SCRAPERS else key
+        detailed = list(result.get("failed_documents") or [])
+        known = {row.get("target") for row in detailed}
+        detailed += [{"target": t, "title": "", "reason": "", "detail": ""}
+                     for t in result.get("failed_targets") or [] if t not in known]
+        rows += [dict(row, kind=name) for row in detailed]
+    return rows
+
+
+def failure_csv(rows: list[dict]) -> bytes:
+    """실패 문서 목록 CSV(엑셀에서 한글이 깨지지 않게 BOM)."""
+    out = io.StringIO()
+    writer = csv.writer(out)
+    writer.writerow(["자료 유형", "대상", "문서명", "원인", "상세"])
+    for row in rows:
+        writer.writerow([row["kind"], row.get("target", ""), row.get("title", ""),
+                         row.get("reason", ""), row.get("detail", "")])
+    return out.getvalue().encode("utf-8-sig")
 
 
 def build_message(
@@ -129,8 +155,13 @@ def build_message(
         if EXTRACT_SERVER_DOWN in reasons:
             # 10-29·10-30: 서버 쪽(운영 chat_generation 메모리 초과 재시작)이 그대로면 다음 실행에서도 같은 문서가 실패했다.
             lines.append("추출 서버 연결 또는 응답 오류가 발생했습니다. 개별 문서 거절과 서버 종료 여부는 추출 로그에서 확인할 수 있습니다.")
+        if EXTRACT_PARTIAL in reasons:
+            lines.append("일부 쪽을 읽지 못한 별표는 읽은 만큼 저장했지만 실패로 셉니다. 못 읽은 쪽은 첨부 파일 상세에 있습니다.")
         if reasons or listing:
             lines.append("실패한 문서는 다음 실행에서 다시 시도합니다.")
+        failed_count = len(failed_document_rows(scrapers))
+        if failed_count:
+            lines.append(f"📎 실패 문서 {failed_count:,}건의 문서명·원인·상세는 첨부 파일에 있습니다.")
         lines.append(f"로그: {log_location}")
 
     lines += ["", f"🔢 전체 업데이트 {total_updated:,}건 · 변경없음 {total_no_change:,}건"]
@@ -144,6 +175,11 @@ def build_message(
         "color": COLORS[severity],
         "footer": {"text": f"[{severity}] 데이터 수집 · {target} · 환경 {env}"},
     }]}
+
+
+def date_tag() -> str:
+    from datetime import datetime
+    return datetime.now().strftime("%Y%m%d")
 
 
 def main(argv=None):
@@ -174,7 +210,9 @@ def main(argv=None):
         print("Discord 알림 건너뜀: 웹훅 환경변수 없음")
         return
     try:
-        send_discord_payload(url, payload)
+        rows = failed_document_rows(scrapers)
+        attachment = (f"crawl-failures-{date_tag()}.csv", failure_csv(rows)) if rows else None
+        send_discord_payload(url, payload, attachment)
         print("Discord 알림 전송 완료")
     except Exception as e:  # noqa: BLE001 - 알림 실패가 크롤링을 막지 않도록 (URL 노출 방지로 타입만 출력)
         print(f"Discord 알림 전송 실패: {type(e).__name__}")

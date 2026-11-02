@@ -259,7 +259,8 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         # 별표 첨부(표가 대부분)를 원본 파일로 읽어 함께 저장한다. 못 읽으면 문서는 실패로 센다.
         if lawgokr_record is None:
             lawgokr_record = fetch_record("admrul", doc_id)
-        annex_rows, annex_failed = collect_annex_articles("adrule", lawgokr_record, logger)
+        annex_rows, annex_failed = collect_annex_articles("adrule", lawgokr_record, logger,
+                                                             doc_id=doc_id, title=doc_title)
         articles = articles + annex_rows
         
         # 각 조마다 독립 문서 생성 및 저장 (공통 루프: lawgokr_document_saver.save_articles)

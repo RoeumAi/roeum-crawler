@@ -475,6 +475,7 @@ async def run_single_scraper(
                             "status": "failed",
                             "error": error,
                             "target": failed_doc_target(url_item, result),
+                            "title": (result or {}).get("title") or "",
                         }
                     action = result.get("action", "insert")
                     return {"status": "success", "doc_id": result.get("doc_id"), "action": action}

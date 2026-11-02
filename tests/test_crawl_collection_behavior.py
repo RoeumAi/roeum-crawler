@@ -282,12 +282,12 @@ class ResultShapeTest(unittest.TestCase):
             if url["url"].endswith("1"):
                 note_failed_document("doc:1", "근로기준법 시행령", EXTRACT_PARTIAL, "별표7(못 읽은 쪽 2)")
                 return {"status": "failed", "doc_id": "1", "error": "save incomplete"}
-            return {"status": "failed", "doc_id": "2", "error": "law.go.kr 503"}
+            return {"status": "failed", "doc_id": "2", "title": "고시", "error": "law.go.kr 503"}
 
         result = run_scraper("case", fetch_urls, scrape)
         self.assertEqual(sorted(result["failed_documents"], key=lambda r: r["target"]), [
             {"target": "case:doc:1", "title": "근로기준법 시행령", "reason": EXTRACT_PARTIAL, "detail": "별표7(못 읽은 쪽 2)"},
-            {"target": "case:doc:2", "title": "", "reason": "국가법령 Open API 일시 오류", "detail": "law.go.kr 503"},
+            {"target": "case:doc:2", "title": "고시", "reason": "국가법령 Open API 일시 오류", "detail": "law.go.kr 503"},
         ])
 
     def test_all_documents_failed_is_failed_status_but_not_listing_failure(self):

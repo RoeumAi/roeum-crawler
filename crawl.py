@@ -337,7 +337,8 @@ def failed_documents(scraper_type: str, results: list, run_report) -> list[dict]
         target = f"{scraper_type}:{r['target']}" if isinstance(r, dict) and r.get("target") else f"{scraper_type}:doc:unknown"
         error = r.get("error") if isinstance(r, dict) else repr(r)
         known = run_report.document_details.get(target) or {}
-        rows.append({"target": target, "title": known.get("title", ""),
+        title = known.get("title") or (r.get("title") if isinstance(r, dict) else "") or ""
+        rows.append({"target": target, "title": title,
                      "reason": known.get("reason") or classify_failure(error),
                      "detail": known.get("detail") or str(error or "")[:500]})
     return rows

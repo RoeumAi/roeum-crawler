@@ -17,6 +17,8 @@ from scripts.utils.nlrc_pdf import extract_attachment_text, preserve_existing_af
 from scripts.utils.reference_sub_title import (
     extract_nlrc_case_number,
     extract_nlrc_case_number_from_body,
+    extract_nlrc_decision_date,
+    nlrc_judgment_sub_title,
 )
 from scripts.core.database.source_versioning import enrich_source_document, sha256_content
 
@@ -147,19 +149,25 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
         )
         content = nlrc_detail.merge_attachment_content(html_content, pdf_result, doc_id, logger)
 
+        # 제목에 사건번호가 없는 문서(구세대 312/411)가 다수라, 첨부 판정문
+        # 본문에서 한 번 더 추출한다. 상세 페이지에는 사건번호 필드가 없어
+        # (2026-08-19 실측) 본문이 유일한 폴백이다. sub_title 이 비면 FE 출처
+        # 라벨이 제목 문장으로 나가는 문제의 재발 방지.
+        case_number = (
+            extract_nlrc_case_number(parsed.get("title") or "")
+            or extract_nlrc_case_number_from_body(content)
+        )
+        # 상세 페이지의 날짜는 등록일뿐이라 판정일은 본문에서 읽어 부제에 싣는다(metadata.effective 는 등록일 그대로).
+        decision_date = extract_nlrc_decision_date(
+            content, case_number=case_number, registered_at=parsed.get("registered_at") or ""
+        )
+
         document_data = nlrc_detail.build_document(
             collection="judgment",
             doc_id=doc_id,
             doc_type="주요판정사례",
             title=parsed.get("title"),
-            # 제목에 사건번호가 없는 문서(구세대 312/411)가 다수라, 첨부 판정문
-            # 본문에서 한 번 더 추출한다. 상세 페이지에는 사건번호 필드가 없어
-            # (2026-08-19 실측) 본문이 유일한 폴백이다. sub_title 이 비면 FE 출처
-            # 라벨이 제목 문장으로 나가는 문제의 재발 방지.
-            sub_title=(
-                extract_nlrc_case_number(parsed.get("title") or "")
-                or extract_nlrc_case_number_from_body(content)
-            ),
+            sub_title=nlrc_judgment_sub_title(case_number, decision_date),
             content=content,
             html_content=html_content,
             pdf_result=pdf_result,

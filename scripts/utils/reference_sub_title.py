@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from datetime import date
 
 
 COURT_CASE_NUMBER = re.compile(
@@ -13,7 +14,7 @@ COURT_CASE_NUMBER = re.compile(
 NLRC_CASE_NUMBER = re.compile(
     r"((?:중앙|서울|부산|경기|충남|충북|전남|전북|경남|경북|강원|"
     r"제주|인천|대전|대구|광주|울산)\s*\d{4}\s*"
-    r"(?:부해|부노|교섭|공정|차별|단협|조정|사후|교원조정)\s*"
+    r"(?:재부해|부해|부노|교섭|공정|차별|단협|조정|사후|교원조정|재단위|단위|휴업)\s*"
     r"\d+(?:\s*[~～-]\s*\d+)?)"
 )
 
@@ -75,3 +76,56 @@ def legacy_pdf_case_sub_title(title: str) -> str:
     """Use a legacy PDF judgment title as its citation subtitle when numbered."""
     normalized = normalize_reference_text(title)
     return normalized if COURT_CASE_NUMBER.search(normalized) else ""
+
+
+_DATE = r"(\d{4})\s*[.년]\s*(\d{1,2})\s*[.월]\s*(\d{1,2})"
+# 판정일을 적는 꼴(실측 2026-11-04, 주요판정사례 417건). 앞선 것이 이 문서 자신의 날짜이므로 문서 순서로 본다.
+#   [2026. 3. 23. 판정 / 초심: 기각, …] · ■ 판정일자 : 2016. 11. 17. · 판 정 일 2018. 5. 25.
+#   결 정 일 2016. 7. 1.(단위 분리 사건) · 일 2018. 5. 23. 판 정 우리 위원회는(본문 추출로 '판 정' 이 밀린 꼴)
+_NLRC_DECISION_DATE = re.compile(
+    r"\[\s*" + _DATE + r"\s*\.*\s*판\s*정"
+    r"|[판결]\s*정\s*일(?:\s*자)?\s*[:：]?\s*" + _DATE
+    + r"|" + _DATE + r"\s*\.*\s*판\s*정\s*우리\s*위원회"
+)
+_FIRST_INSTANCE_TAIL = re.compile(r"초\s*심\s*$")
+_CASE_YEAR = re.compile(r"\d{4}")
+_REGION_PREFIX = re.compile(r"^(중앙|[가-힣]{2})(?=\d)")
+
+
+def extract_nlrc_decision_date(text: str, *, case_number: str = "", registered_at: str = "") -> str:
+    """판정문 본문에서 이 문서 자신의 판정일을 `YYYY-MM-DD` 로 돌려준다. 없으면 빈 문자열.
+
+    상세 페이지의 날짜는 게시판 등록일이라 판정일이 아니다(판정일보다 1~6개월 늦다). 초심 판정일은 건너뛰고,
+    등록일보다 늦거나 사건번호 연도보다 이른 값은 본문이 인용한 다른 날짜로 보고 다음 후보를 본다.
+    """
+    normalized = normalize_reference_text(text)
+    year_match = _CASE_YEAR.search(case_number)
+    earliest = f"{year_match.group(0)}-01-01" if year_match else ""
+
+    for match in _NLRC_DECISION_DATE.finditer(normalized):
+        if _FIRST_INSTANCE_TAIL.search(normalized[max(0, match.start() - 6):match.start()]):
+            continue
+        year, month, day = (int(part) for part in match.groups() if part)
+        try:
+            found = date(year, month, day).isoformat()
+        except ValueError:
+            continue
+        if registered_at and found > registered_at:
+            continue
+        if earliest and found < earliest:
+            continue
+        return found
+    return ""
+
+
+def nlrc_judgment_sub_title(case_number: str, decision_date: str) -> str:
+    """주요판정사례 부제. 판정일이 있으면 CSV 판정사례와 같은 꼴(`중앙노동위원회 2026. 3. 23. 판정 2025부해1`)로 쓴다."""
+    if not decision_date:
+        return case_number
+    year, month, day = (int(part) for part in decision_date.split("-"))
+    head = f"{year}. {month}. {day}. 판정"
+    region = _REGION_PREFIX.match(case_number)
+    if not region:
+        return f"{head} {case_number}".strip()
+    name = "중앙노동위원회" if region.group(1) == "중앙" else f"{region.group(1)}지방노동위원회"
+    return f"{name} {head} {case_number[region.end():]}"

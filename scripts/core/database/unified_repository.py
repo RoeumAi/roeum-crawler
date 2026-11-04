@@ -184,6 +184,7 @@ class UnifiedDocumentRepository:
     def find_by_article(self, doc_id: str, article_number, active_only: bool = True) -> Optional[Dict]:
         """doc_id + article_number 복합 키로 특정 조문 조회"""
         query = {"doc_id": doc_id, "article_number": article_number}
+        query["metadata.search_only"] = {"$ne": True}
         if active_only:
             query["metadata.is_active"] = True
         return self.collection.find_one(query)
@@ -297,6 +298,12 @@ class UnifiedDocumentRepository:
             .limit(limit)
         )
     
+    def retire_annex_search_parts(self, parent_chunk_id: str, active_chunk_ids: list[str]) -> None:
+        self.collection.update_many(
+            {'metadata.parent_chunk_id': parent_chunk_id, 'metadata.search_only': True,
+             'chunk_id': {'$nin': active_chunk_ids}, 'metadata.is_active': {'$ne': False}},
+            {'$set': {'metadata.is_active': False, 'metadata.is_searchable': False}})
+
     def upsert_with_change_detection(self, new_doc: Dict) -> Tuple[str, Dict]:
         """
         변경 감지 기능이 포함된 upsert
@@ -324,7 +331,9 @@ class UnifiedDocumentRepository:
             article_number = new_doc.get("article_number")
             
             # 1. 기존 활성 문서 조회 (article_number 있으면 복합키, 없으면 doc_id만)
-            if article_number is not None:
+            if new_doc.get('metadata', {}).get('search_only'):
+                existing_doc = self.collection.find_one({'chunk_id': new_doc['chunk_id'], 'metadata.is_active': {'$ne': False}})
+            elif article_number is not None:
                 existing_doc = self.find_by_article(doc_id, article_number, active_only=True)
             else:
                 existing_doc = self.find_by_id(doc_id, active_only=True)

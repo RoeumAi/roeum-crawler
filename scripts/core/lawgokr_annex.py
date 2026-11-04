@@ -19,7 +19,7 @@ from typing import Callable, Optional
 import requests
 
 from scripts.core.run_report import (
-    EXTRACT_PARTIAL, EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, classify_failure, note_failed_document, note_reason,
+    EXTRACT_SERVER_DOWN, LAWGOKR_API_ERROR, classify_failure, note_failed_document, note_reason,
 )
 from scripts.utils.document_extraction import ExtractServerUnavailable, call_extract_text, usable_document
 
@@ -145,17 +145,22 @@ def annex_articles(annexes: list[Annex], extract: Optional[Callable[[bytes, str]
             document = download_and_extract(annex.url, annex.file_name, extract=extract)
             content, status, source = document["structured_text"].strip(), document.get("extraction_status"), annex.file_name
             blocks = document.get("document_blocks") or []
-            failed_pages = (document.get("extraction_metadata") or {}).get("failed_page_numbers") or []
+            metadata = document.get('extraction_metadata') or {}
+            failed_pages = metadata.get('failed_page_numbers') or []
+            quality = {key: metadata[key] for key in (
+                'availability', 'native_text_fallback_page_numbers', 'visual_text_fallback_page_numbers',
+                'paragraph_projection', 'page_recovery', 'image_recovery', 'recovery_issues',
+                'source_sha256', 'native_warnings') if key in metadata}
         else:
             # 원본 파일이 없는 별표: Open API 가 준 글(선 그림 표)을 그대로 쓴다.
-            content, status, source, blocks, failed_pages = annex.text.strip(), "api_text", "", [], []
+            content, status, source, blocks, failed_pages, quality = annex.text.strip(), "api_text", "", [], [], {}
         articles.append({
             "article_number": annex.article_number,
             "article_number_numeric": None,
             "article_title": annex.title,
             "content": content,
             "annex": {"source_file": source, "pdf_extraction_status": status, "document_blocks": blocks,
-                      "failed_pages": failed_pages},
+                      "failed_pages": failed_pages, "extraction_quality": quality},
         })
     return articles
 
@@ -176,9 +181,7 @@ def _pages(numbers) -> str:
 def collect_annex_articles(kind: str, record: Optional[dict], logger,
                            extract: Optional[Callable[[bytes, str], dict]] = None,
                            doc_id: Optional[str] = None, title: str = "") -> tuple[list[dict], int]:
-    """(별표 행, 실패 수). Open API 를 못 읽었거나, 별표 하나라도 못 읽었거나 일부 쪽만 읽혔으면(partial) 실패 1 —
-    조문(읽은 별표 포함)은 그대로 저장하되 문서를 실패로 세어 save_incomplete 표시로 다음 실행이 다시 받게 한다.
-    실패 문서는 이름·원인·상세를 실행 보고에 남겨 일일 요약의 실패 문서 목록에 나오게 한다."""
+    """텍스트가 있는 fallback은 성공, 실제 추출 불가는 실패. 품질 정보는 별도 보존한다."""
     title = title or record_title(kind, record)
 
     def failed(reason: str, detail: str) -> None:
@@ -193,27 +196,24 @@ def collect_annex_articles(kind: str, record: Optional[dict], logger,
     annexes = law_annexes(record) if kind == "law" else adrule_annexes(record)
     if not annexes:
         return [], 0
-    try:
-        articles = annex_articles(annexes, extract=extract)
-    except ExtractServerUnavailable as e:
-        logger.warning(f"별표 파싱 건너뜀: {e} — 다음 실행에서 다시 시도")
-        failed(EXTRACT_SERVER_DOWN, str(e))
-        return [], 1
-    except Exception as e:  # noqa: BLE001
-        logger.error(f"별표 파싱 실패: {type(e).__name__}: {e}")
-        failed(classify_failure(f"{type(e).__name__}: {e}"), f"{type(e).__name__}: {e}")
-        return [], 1
+    articles, failures = [], []
+    for item in annexes:
+        try:
+            articles.extend(annex_articles([item], extract=extract))
+        except Exception as e:
+            reason = EXTRACT_SERVER_DOWN if isinstance(e, ExtractServerUnavailable) else classify_failure(f"{type(e).__name__}: {e}")
+            detail = f"{item.article_number}: {type(e).__name__}: {e}"
+            failures.append((reason, detail))
+            logger.error(f"별표 파싱 실패: {detail}")
     logger.info(f"📎 별표 {len(articles)}건 파싱")
-    # 일부 쪽을 못 읽은 별표(partial)도 실패다: 읽은 만큼은 저장하되 다음 실행에서 다시 읽는다(11-02 38건, 빠진 쪽 확인).
-    partial = [a for a in articles if a["annex"]["pdf_extraction_status"] == "partial"]
+    partial = [a for a in articles if a['annex']['pdf_extraction_status'] in {'partial', 'failed'}]
     if partial:
-        detail = "; ".join(
-            f"{a['article_number']}" + (f"(못 읽은 쪽 {_pages(a['annex']['failed_pages'])})" if a["annex"]["failed_pages"] else "")
-            for a in partial)
-        logger.error(f"별표 일부 미판독 {len(partial)}건: {detail} — 다음 실행에서 다시 시도")
-        failed(EXTRACT_PARTIAL, detail)
-        return articles, 1
-    return articles, 0
+        detail = '; '.join(f"{a['article_number']}(미판독 쪽 {_pages(a['annex']['failed_pages'])})" for a in partial)
+        logger.warning(f"별표 fallback 저장 {len(partial)}건: {detail} — 사용 가능한 본문 저장, 품질 경고 별도 기록")
+    if failures:
+        # One upper document failure, while every successful annex is retained.
+        failed(failures[0][0], '; '.join(detail for _, detail in failures))
+    return articles, int(bool(failures))
 
 
 def annex_metadata(article: dict) -> dict:
@@ -221,7 +221,9 @@ def annex_metadata(article: dict) -> dict:
     if not annex:
         return {}
     meta = {"is_annex": True, "annex_source_file": annex["source_file"],
-            "pdf_extraction_status": annex.get("pdf_extraction_status")}
+            "pdf_extraction_status": annex.get("pdf_extraction_status"),
+            "extraction_quality": annex.get("extraction_quality", {}),
+            "unread_page_numbers": annex.get("failed_pages", [])}
     if annex.get("document_blocks"):
         # 법률 DB 화면은 행에 document_blocks 가 있으면 표를 표로 그린다(없으면 본문을 평문으로).
         # document_blocks_scope 는 두지 않는다('section'이면 문서 전체를 이 행 하나로 접는다).

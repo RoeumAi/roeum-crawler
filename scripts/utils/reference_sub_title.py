@@ -89,7 +89,8 @@ _NLRC_DECISION_DATE = re.compile(
 )
 _FIRST_INSTANCE_TAIL = re.compile(r"초\s*심\s*$")
 _CASE_YEAR = re.compile(r"\d{4}")
-_REGION_PREFIX = re.compile(r"^(중앙|[가-힣]{2})(?=\d)")
+_NLRC_CENTRAL = "중앙"
+_NLRC_PREFIX = re.compile(r"^(중앙|서울|부산|경기|충남|충북|전남|전북|경남|경북|강원|제주|인천|대전|대구|광주|울산)(?=\d)")
 
 
 def extract_nlrc_decision_date(text: str, *, case_number: str = "", registered_at: str = "") -> str:
@@ -119,13 +120,16 @@ def extract_nlrc_decision_date(text: str, *, case_number: str = "", registered_a
 
 
 def nlrc_judgment_sub_title(case_number: str, decision_date: str) -> str:
-    """주요판정사례 부제. 판정일이 있으면 CSV 판정사례와 같은 꼴(`중앙노동위원회 2026. 3. 23. 판정 2025부해1`)로 쓴다."""
+    """주요판정사례 부제. 판정일이 있으면 위원회·판정일을 앞에 붙인다(`중앙노동위원회 2026. 3. 23. 판정 중앙2025부해1`).
+
+    번호는 지역을 뗀 꼴로 바꾸지 않는다. chat_generation 의 인용 조회가 `중앙2025부해1` 로 부제를 찾는다.
+    """
     if not decision_date:
         return case_number
     year, month, day = (int(part) for part in decision_date.split("-"))
     head = f"{year}. {month}. {day}. 판정"
-    region = _REGION_PREFIX.match(case_number)
-    if not region:
+    prefix = _NLRC_PREFIX.match(case_number)
+    if not prefix:
         return f"{head} {case_number}".strip()
-    name = "중앙노동위원회" if region.group(1) == "중앙" else f"{region.group(1)}지방노동위원회"
-    return f"{name} {head} {case_number[region.end():]}"
+    name = "중앙노동위원회" if prefix.group(1) == _NLRC_CENTRAL else f"{prefix.group(1)}지방노동위원회"
+    return f"{name} {head} {case_number}"

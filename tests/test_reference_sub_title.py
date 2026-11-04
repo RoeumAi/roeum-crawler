@@ -64,15 +64,26 @@ class ReferenceSubTitleTest(unittest.TestCase):
     def test_judgment_sub_title_forms(self):
         self.assertEqual(
             nlrc_judgment_sub_title("중앙2025부해1459", "2026-01-07"),
-            "중앙노동위원회 2026. 1. 7. 판정 2025부해1459",
+            "중앙노동위원회 2026. 1. 7. 판정 중앙2025부해1459",
         )
         self.assertEqual(
             nlrc_judgment_sub_title("경기2025부해2683", "2025-10-15"),
-            "경기지방노동위원회 2025. 10. 15. 판정 2025부해2683",
+            "경기지방노동위원회 2025. 10. 15. 판정 경기2025부해2683",
         )
         self.assertEqual(nlrc_judgment_sub_title("", "2026-03-23"), "2026. 3. 23. 판정")
         self.assertEqual(nlrc_judgment_sub_title("중앙2025부해1459", ""), "중앙2025부해1459")
         self.assertEqual(nlrc_judgment_sub_title("", ""), "")
+
+    def test_judgment_sub_title_unknown_prefix_gets_no_commission(self):
+        self.assertEqual(
+            nlrc_judgment_sub_title("사건2018부해12", "2018-05-25"),
+            "2018. 5. 25. 판정 사건2018부해12",
+        )
+
+    def test_judgment_sub_title_keeps_number_searchable(self):
+        # chat_generation 인용 조회는 공백을 지운 부제에서 `중앙2018부해303` 을 찾는다.
+        compact = "".join(nlrc_judgment_sub_title("중앙2018부해303", "2018-05-25").split())
+        self.assertIn("중앙2018부해303", compact)
 
     def test_normalizes_legacy_pdf_case_title(self):
         title = "대구고등법원-2019나23597"

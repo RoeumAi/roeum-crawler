@@ -24,7 +24,7 @@ from scripts.utils.reference_sub_title import (  # noqa: E402
 )
 
 BATCH = 200
-TARGET = {"doc_id": {"$regex": r"^\d+$"}, "metadata.source_type": {"$ne": "csv"}}
+TARGET = {"metadata.source_url": {"$regex": r"^https://(?:www\.)?nlrc\.go\.kr/nlrc/mainCase/judgment/"}}
 PROJECTION = {"doc_id": 1, "title": 1, "sub_title": 1, "content": 1, "metadata.effective": 1}
 _HAS_DATE = re.compile(r"\d{4}\.\s*\d{1,2}\.\s*\d{1,2}\.\s*판정")
 

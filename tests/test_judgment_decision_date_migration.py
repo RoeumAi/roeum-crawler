@@ -21,7 +21,7 @@ class NewSubTitleTest(unittest.TestCase):
     def test_adds_date_to_stored_case_number(self):
         doc = row(sub_title="중앙2018부해303", content="판 정 일 2018. 5. 25. 우리 위원회는",
                   metadata={"effective": "2018-08-15"})
-        self.assertEqual(new_sub_title(doc), "중앙노동위원회 2018. 5. 25. 판정 2018부해303")
+        self.assertEqual(new_sub_title(doc), "중앙노동위원회 2018. 5. 25. 판정 중앙2018부해303")
 
     def test_date_only_when_no_number(self):
         doc = row(content="사례 3 [2026. 3. 23. 판정 / 초심: 기각]")
@@ -36,7 +36,7 @@ class NewSubTitleTest(unittest.TestCase):
         self.assertEqual(new_sub_title(doc), "중앙2025부해749")
 
     def test_idempotent_when_date_exists(self):
-        stored = "중앙노동위원회 2018. 5. 25. 판정 2018부해303"
+        stored = "중앙노동위원회 2018. 5. 25. 판정 중앙2018부해303"
         self.assertEqual(new_sub_title(row(sub_title=stored, content="판정일 2010. 1. 1.")), stored)
 
 

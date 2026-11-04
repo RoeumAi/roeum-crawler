@@ -49,6 +49,11 @@ def active(db, kind):
 
 
 class NlrcDocumentTest(unittest.TestCase):
+    def test_judgment_sub_title_carries_decision_date_from_attachment(self):
+        body = "사 건 중앙2025부해12 판 정 일 2025. 3. 4. 우리 위원회는"
+        _, db = run("judgment", pdf=extracted_pdf(body))
+        self.assertEqual(db["judgment"].docs[0]["sub_title"], "중앙노동위원회 2025. 3. 4. 판정 중앙2025부해12")
+
     def each(self):
         for kind in KINDS:
             with self.subTest(kind=kind):

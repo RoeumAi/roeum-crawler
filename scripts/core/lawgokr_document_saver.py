@@ -74,6 +74,7 @@ def save_articles(repo, articles: list, *, build_doc: Callable[[int, dict, int],
     반환: 조문 하나라도 못 넣었거나 완료 표시에 실패하면 "" (save_incomplete 표시로 다음 실행이 다시 수집),
     아니면 새 버전·신규가 하나라도 있으면 "new_version", 없으면 "update_existing".
     """
+    from scripts.core.annex_search_chunks import search_documents
     saved_count = 0
     failed_count = annex_failed  # 별표를 못 읽었으면 조문은 넣되 문서는 실패로
     any_changed = False
@@ -81,10 +82,15 @@ def save_articles(repo, articles: list, *, build_doc: Callable[[int, dict, int],
     for idx, article in enumerate(articles, 1):
         try:
             article_doc = build_doc(idx, article, len(articles))
-            doc_id, action_result = repo.upsert_with_change_detection(article_doc)
-            log_action(doc_id, action_result, article_doc)
-            if action_result["action"] in ("insert", "new_version"):
-                any_changed = True
+            rows = search_documents(article_doc)
+            for row in rows:
+                doc_id, action_result = repo.upsert_with_change_detection(row)
+                log_action(doc_id, action_result, row)
+                if action_result["action"] in ("insert", "new_version"):
+                    any_changed = True
+            # Retire stale passages only after every replacement is saved.
+            if article_doc.get('metadata', {}).get('is_annex'):
+                repo.retire_annex_search_parts(article_doc['chunk_id'], [row['chunk_id'] for row in rows[1:]])
             saved_count += 1
         except Exception as e:
             logger.error(f"❌ 조문 저장 실패 ({article['article_title']}): {str(e)}")

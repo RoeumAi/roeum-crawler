@@ -313,7 +313,8 @@ class LawSaveLoopTest(unittest.TestCase):
         self.assertEqual(repo.marks, [(URL, True)])
         first, second = repo.saved
         self.assertEqual(first, {
-            "chunk_id": "law:law-1:article:1", "doc_id": "law-1", "doc_type": "법령",
+            # 처음 저장하는 예정본은 시행일을 붙인 doc_id 를 쓴다.
+            "chunk_id": "law:law-1-20260105:article:1", "doc_id": "law-1-20260105", "doc_type": "법령",
             "article_number": "1", "article_number_numeric": 1.0, "article_title": "제1조(목적)",
             "title": "테스트법", "sub_title": "부제", "content": "이 법은 목적을 정한다.",
             "metadata": {"source_url": URL, "source_type": "web", "effective": "2026-01-05",

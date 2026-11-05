@@ -17,7 +17,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from scripts.core.database.change_detector import ArticleDiffBuilder
-from scripts.core.database.refresh_promotion import group_active_documents_by_stable_id
+from scripts.core.database.refresh_promotion import group_active_documents_by_stable_id, version_selector
 
 
 def plan_upcoming_diff_pairs(doc_reps: Dict[str, Dict]) -> List[Tuple[str, str]]:
@@ -47,11 +47,12 @@ def sync_group_upcoming_diffs(collection, doc_reps: Dict[str, Dict]) -> int:
     """
     diff_count = 0
     for prev_id, next_id in plan_upcoming_diff_pairs(doc_reps):
+        next_selector = version_selector(next_id)
         old_articles = list(collection.find(
-            {"doc_id": prev_id}, {"article_number": 1, "content": 1}
+            version_selector(prev_id), {"article_number": 1, "content": 1}
         ))
         new_articles = list(collection.find(
-            {"doc_id": next_id}, {"article_number": 1, "content": 1}
+            next_selector, {"article_number": 1, "content": 1}
         ))
         diffs = ArticleDiffBuilder.build(old_articles, new_articles)
 
@@ -60,13 +61,13 @@ def sync_group_upcoming_diffs(collection, doc_reps: Dict[str, Dict]) -> int:
         for diff in diffs:
             if diff["article_number"] in new_article_numbers:
                 collection.update_one(
-                    {"doc_id": next_id, "article_number": diff["article_number"]},
+                    {**next_selector, "article_number": diff["article_number"]},
                     {"$set": {"metadata.update_summary": diff}},
                 )
                 written.append(diff["article_number"])
 
         collection.update_many(
-            {"doc_id": next_id, "article_number": {"$nin": written},
+            {**next_selector, "article_number": {"$nin": written},
              "metadata.update_summary": {"$exists": True}},
             {"$unset": {"metadata.update_summary": ""}},
         )

@@ -240,7 +240,7 @@ class FakeRepo:
         action = self.actions.pop(0) if self.actions else "insert"
         return f"saved-{n}", {"action": action, "version": 3, "changed_fields": ["content"] if action == "new_version" else []}
 
-    def retire_annex_search_parts(self, parent_chunk_id, active_chunk_ids):
+    def retire_annex_search_parts(self, parent_chunk_id, active_chunk_ids, is_upcoming=None):
         self.retired = (parent_chunk_id, active_chunk_ids)
 
     def mark_save_complete(self, source_url, complete):

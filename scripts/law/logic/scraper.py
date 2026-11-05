@@ -281,7 +281,8 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
         # 여기서는 법령ID(안정 ID)만 조회해서 저장해둔다.
         lsi_seq = unified_doc["doc_id"]
         metadata = unified_doc.get("metadata", {})
-        base_doc_id = resolve_version_doc_id(repo.collection, lsi_seq, metadata.get("source_url"), metadata.get("effective"))
+        base_doc_id = resolve_version_doc_id(repo.collection, lsi_seq, metadata.get("source_url"), metadata.get("effective"),
+                                             is_upcoming=bool(unified_doc.get("is_upcoming")))
         law_id = unified_doc.get("law_id", "")
         record = fetch_record("law", lsi_seq)  # 안정 ID·별표를 한 번에
         stable_law_id = read_stable_law_id(record)

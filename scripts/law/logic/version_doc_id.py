@@ -12,8 +12,13 @@ def version_doc_id(base_doc_id: str, effective: str) -> str:
     return f"{base_doc_id}-{effective.replace('-', '')}"
 
 
-def resolve_version_doc_id(collection, base_doc_id: str, source_url: Optional[str], effective: Optional[str]) -> str:
-    """이 버전을 저장할 doc_id. 같은 주소로 저장한 적이 있으면 그 doc_id, 다른 시행일이 먼저 쓰고 있으면 새 doc_id."""
+def resolve_version_doc_id(collection, base_doc_id: str, source_url: Optional[str], effective: Optional[str],
+                           is_upcoming: bool = False) -> str:
+    """이 버전을 저장할 doc_id. 같은 주소로 저장한 적이 있으면 그 doc_id.
+
+    처음 저장하는 예정본은 늘 시행일을 붙인다. 현행본과 같은 실행에서 동시에 저장돼도 DB 조회 순서와 상관없이 겹치지 않는다.
+    현행본은 다른 시행일이 이미 공포본 번호를 쓰고 있을 때만 붙인다.
+    """
     if source_url:
         saved = collection.find_one({"metadata.source_url": source_url, "metadata.search_only": {"$ne": True}},
                                     {"doc_id": 1})
@@ -21,5 +26,7 @@ def resolve_version_doc_id(collection, base_doc_id: str, source_url: Optional[st
             return saved["doc_id"]
     if (effective or "") in NO_DATE:
         return base_doc_id
+    if is_upcoming:
+        return version_doc_id(base_doc_id, effective)
     other = collection.find_one({"doc_id": base_doc_id, "metadata.effective": {"$ne": effective}}, {"_id": 1})
     return version_doc_id(base_doc_id, effective) if other else base_doc_id

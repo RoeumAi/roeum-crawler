@@ -72,6 +72,10 @@ class ResolveVersionDocIdTest(unittest.TestCase):
         collection = FakeCollection([row("287805", "2026-07-07", active=True), saved])
         self.assertEqual(resolve_version_doc_id(collection, "287805", self.URL, "2027-01-08"), "287805-20270108")
 
+    def test_first_upcoming_never_shares_lsi_seq_even_before_current_is_saved(self):
+        self.assertEqual(resolve_version_doc_id(FakeCollection([]), "287805", self.URL, "2027-01-08", is_upcoming=True),
+                         "287805-20270108")
+
     def test_undated_version_keeps_lsi_seq(self):
         collection = FakeCollection([row("287805", "2026-07-07", active=True)])
         self.assertEqual(resolve_version_doc_id(collection, "287805", None, "99991231"), "287805")

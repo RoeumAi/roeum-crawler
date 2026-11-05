@@ -90,10 +90,7 @@ def save_articles(repo, articles: list, *, build_doc: Callable[[int, dict, int],
                     any_changed = True
             # Retire stale passages only after every replacement is saved.
             if article_doc.get('metadata', {}).get('is_annex'):
-                is_upcoming = article_doc['metadata'].get('is_upcoming')
-                repo.retire_annex_search_parts(
-                    article_doc['chunk_id'], [row['chunk_id'] for row in rows[1:]],
-                    is_upcoming=None if is_upcoming is None else bool(is_upcoming))
+                repo.retire_annex_search_parts(article_doc['chunk_id'], [row['chunk_id'] for row in rows[1:]])
             saved_count += 1
         except Exception as e:
             logger.error(f"❌ 조문 저장 실패 ({article['article_title']}): {str(e)}")

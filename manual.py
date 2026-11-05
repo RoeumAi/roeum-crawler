@@ -69,7 +69,7 @@ TASKS = [
     Task("fix:split-paragraphs", "scripts.migrations.split_flat_paragraphs", "데이터 정비", DRY_RUN_DEFAULT,
          "원문이 없는 한 줄 본문(CSV 판례 등)을 번호 앞에서 문단으로 나누기(글자 그대로)"),
     Task("fix:law-current-version", "scripts.migrations.law_current_version", "데이터 정비", DRY_RUN_DEFAULT,
-         "시행 예정본 저장 때 함께 꺼진 현행본을 되살린다(현행본이 하나도 없는 법령만)"),
+         "같은 doc_id 를 쓰는 법령 버전을 나누고 그 때문에 꺼진 현행본을 되살린다"),
     Task("fix:judgment-decision-date", "scripts.migrations.judgment_decision_date", "데이터 정비", DRY_RUN_DEFAULT,
          "주요판정사례 부제에 본문의 판정일을 싣고 놓친 사건번호를 채운다"),
     Task("fix:text-cleanup", "scripts.migrations.text_cleanup", "데이터 정비", DRY_RUN_DEFAULT,

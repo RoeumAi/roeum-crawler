@@ -11,6 +11,7 @@ LAW_TEXT = "[제1조(목적)]\n이 법은 목적을 정한다.\n[제2조(정의)
 def repo_failing_on(call_number: int) -> Mock:
     """n번째 upsert 호출만 예외를 던지는 저장소."""
     repo = Mock()
+    repo.collection.find_one.return_value = None
     calls = {"n": 0}
 
     def upsert(doc):

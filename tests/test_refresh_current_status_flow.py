@@ -66,7 +66,7 @@ class ApplyPromotionTest(unittest.TestCase):
         self.assertEqual(len(collection.update_many_calls), 2)
 
         deactivate_call = collection.update_many_calls[0]
-        self.assertEqual(deactivate_call[0], {"doc_id": "old1", "metadata.is_active": True})
+        self.assertEqual(deactivate_call[0], {"doc_id": {"$in": ["old1"]}, "metadata.is_active": True})
         self.assertEqual(deactivate_call[1]["$set"]["metadata.is_active"], False)
         self.assertIn("metadata.updated_at", deactivate_call[1]["$set"])
 

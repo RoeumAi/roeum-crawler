@@ -25,13 +25,6 @@ _indexed_collections: set = set()
 _index_lock = threading.Lock()
 
 
-def _version_filter(is_upcoming: Optional[bool]) -> dict:
-    """같은 공포본이 시행일을 나눠 두면 현행본과 예정본의 doc_id·조문 번호가 같다. 서로를 새 버전으로 덮어 끄지 않게 가른다."""
-    if is_upcoming is None:
-        return {}
-    return {"metadata.is_upcoming": True if is_upcoming else {"$ne": True}}
-
-
 def reset_index_cache() -> None:
     """인덱스를 이미 만들었다는 기록을 지운다(테스트용)."""
     with _index_lock:
@@ -188,12 +181,10 @@ class UnifiedDocumentRepository:
                   else {"$set": {"metadata.save_incomplete": True}})
         self.collection.update_many({"metadata.source_url": source_url, "metadata.is_active": True}, update)
 
-    def find_by_article(self, doc_id: str, article_number, active_only: bool = True,
-                        is_upcoming: Optional[bool] = None) -> Optional[Dict]:
-        """doc_id + article_number 복합 키로 특정 조문 조회. is_upcoming 을 주면 현행본·시행 예정본 중 그쪽만 본다."""
+    def find_by_article(self, doc_id: str, article_number, active_only: bool = True) -> Optional[Dict]:
+        """doc_id + article_number 복합 키로 특정 조문 조회"""
         query = {"doc_id": doc_id, "article_number": article_number}
         query["metadata.search_only"] = {"$ne": True}
-        query.update(_version_filter(is_upcoming))
         if active_only:
             query["metadata.is_active"] = True
         return self.collection.find_one(query)
@@ -307,12 +298,10 @@ class UnifiedDocumentRepository:
             .limit(limit)
         )
     
-    def retire_annex_search_parts(self, parent_chunk_id: str, active_chunk_ids: list[str],
-                                  is_upcoming: Optional[bool] = None) -> None:
+    def retire_annex_search_parts(self, parent_chunk_id: str, active_chunk_ids: list[str]) -> None:
         self.collection.update_many(
             {'metadata.parent_chunk_id': parent_chunk_id, 'metadata.search_only': True,
-             'chunk_id': {'$nin': active_chunk_ids}, 'metadata.is_active': {'$ne': False},
-             **_version_filter(is_upcoming)},
+             'chunk_id': {'$nin': active_chunk_ids}, 'metadata.is_active': {'$ne': False}},
             {'$set': {'metadata.is_active': False, 'metadata.is_searchable': False}})
 
     def upsert_with_change_detection(self, new_doc: Dict) -> Tuple[str, Dict]:
@@ -342,14 +331,10 @@ class UnifiedDocumentRepository:
             article_number = new_doc.get("article_number")
             
             # 1. 기존 활성 문서 조회 (article_number 있으면 복합키, 없으면 doc_id만)
-            new_meta = new_doc.get('metadata', {})
-            # 법령·행정규칙만 이 표시를 싣는다. 나머지 컬렉션은 예전처럼 doc_id·조문 번호로 찾는다.
-            is_upcoming = bool(new_meta['is_upcoming']) if 'is_upcoming' in new_meta else None
-            if new_meta.get('search_only'):
-                existing_doc = self.collection.find_one({'chunk_id': new_doc['chunk_id'], 'metadata.is_active': {'$ne': False},
-                                                         **_version_filter(is_upcoming)})
+            if new_doc.get('metadata', {}).get('search_only'):
+                existing_doc = self.collection.find_one({'chunk_id': new_doc['chunk_id'], 'metadata.is_active': {'$ne': False}})
             elif article_number is not None:
-                existing_doc = self.find_by_article(doc_id, article_number, active_only=True, is_upcoming=is_upcoming)
+                existing_doc = self.find_by_article(doc_id, article_number, active_only=True)
             else:
                 existing_doc = self.find_by_id(doc_id, active_only=True)
             

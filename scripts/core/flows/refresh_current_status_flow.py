@@ -20,7 +20,6 @@ from scripts.core.database.change_detector import ArticleDiffBuilder
 from scripts.core.database.refresh_promotion import (
     group_active_documents_by_stable_id,
     plan_group_transitions,
-    version_selector,
 )
 from scripts.core.database.upcoming_diff_sync import sync_collection_upcoming_diffs
 
@@ -29,34 +28,33 @@ logger = get_logger(__name__, scraper_type='refresh_current_status')
 
 def apply_promotion(collection, group_id: str, plan: Dict) -> None:
     """plan_group_transitions()의 결정을 실제 MongoDB에 반영한다."""
-    for version_key in plan["deactivate"]:
+    if plan["deactivate"]:
         collection.update_many(
-            {**version_selector(version_key), "metadata.is_active": True},
+            {"doc_id": {"$in": plan["deactivate"]}, "metadata.is_active": True},
             {"$set": {"metadata.is_active": False, "metadata.updated_at": datetime.now().isoformat()}},
         )
 
     if plan["promoted"] and plan["activate_current"]:
         new_current = plan["activate_current"]
-        new_selector = version_selector(new_current)
         collection.update_many(
-            new_selector,
+            {"doc_id": new_current},
             {"$set": {"metadata.is_active": True, "metadata.is_upcoming": False,
                       "metadata.updated_at": datetime.now().isoformat()}},
         )
 
         if plan["old_current"]:
             old_articles = list(collection.find(
-                version_selector(plan["old_current"]), {"article_number": 1, "content": 1}
+                {"doc_id": plan["old_current"]}, {"article_number": 1, "content": 1}
             ))
             new_articles = list(collection.find(
-                new_selector, {"article_number": 1, "content": 1}
+                {"doc_id": new_current}, {"article_number": 1, "content": 1}
             ))
             diffs = ArticleDiffBuilder.build(*comparable_articles(old_articles, new_articles))
             new_by_article = {a["article_number"]: a for a in new_articles}
             for diff in diffs:
                 if diff["article_number"] in new_by_article:
                     collection.update_one(
-                        {**new_selector, "article_number": diff["article_number"]},
+                        {"doc_id": new_current, "article_number": diff["article_number"]},
                         {"$set": {"metadata.update_summary": diff}},
                     )
             logger.info(f"[{group_id}] 승격: {plan['old_current']} → {new_current}, 조문 변경 {len(diffs)}건")

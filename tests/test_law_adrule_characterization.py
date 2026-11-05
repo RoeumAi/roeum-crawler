@@ -231,6 +231,8 @@ class FakeRepo:
         self.mark_raises = mark_raises
         self.saved = []
         self.marks = []
+        self.collection = Mock()
+        self.collection.find_one.return_value = None
 
     def upsert_with_change_detection(self, doc):
         n = len(self.saved) + 1
@@ -240,7 +242,7 @@ class FakeRepo:
         action = self.actions.pop(0) if self.actions else "insert"
         return f"saved-{n}", {"action": action, "version": 3, "changed_fields": ["content"] if action == "new_version" else []}
 
-    def retire_annex_search_parts(self, parent_chunk_id, active_chunk_ids, is_upcoming=None):
+    def retire_annex_search_parts(self, parent_chunk_id, active_chunk_ids):
         self.retired = (parent_chunk_id, active_chunk_ids)
 
     def mark_save_complete(self, source_url, complete):

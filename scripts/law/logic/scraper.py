@@ -15,6 +15,7 @@ from scripts.utils.text_cleanup import clean_text  # noqa: E402
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id
+from scripts.law.logic.version_doc_id import resolve_version_doc_id
 from scripts.core.lawgokr_document_saver import (  # noqa: E402,F401 - split_articles_by_number 는 기존 import 경로 유지
     run_in_executor_with_context, save_articles, save_to_file as save_json_lines, split_articles_by_number,
 )
@@ -278,9 +279,12 @@ def save_to_mongodb(unified_doc: Dict, dept_code: Optional[str] = None) -> str:
 
         # 구 현행 버전 비활성화/승격은 refresh_current_status_flow(일일 배치)가 전담한다.
         # 여기서는 법령ID(안정 ID)만 조회해서 저장해둔다.
-        base_doc_id = unified_doc["doc_id"]
+        lsi_seq = unified_doc["doc_id"]
+        metadata = unified_doc.get("metadata", {})
+        base_doc_id = resolve_version_doc_id(repo.collection, lsi_seq, metadata.get("source_url"), metadata.get("effective"),
+                                             is_upcoming=bool(unified_doc.get("is_upcoming")))
         law_id = unified_doc.get("law_id", "")
-        record = fetch_record("law", base_doc_id)  # 안정 ID·별표를 한 번에
+        record = fetch_record("law", lsi_seq)  # 안정 ID·별표를 한 번에
         stable_law_id = read_stable_law_id(record)
         if stable_law_id:
             law_id = stable_law_id

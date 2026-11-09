@@ -66,7 +66,7 @@ aws ecs run-task --cluster my-roum-cluster --task-definition roeum-crawler --lau
   --overrides '{"containerOverrides":[{"name":"crawler","command":["python3","manual.py","import:adrule-history","--adrule-id","2002374","--query","최저임금 고시","--apply"]}]}'
 ```
 
-추출에 실패한 버전(옛 HWP 첨부 등)은 `save_incomplete`로 남고 실패로 센다. 공개 페이지 생성은 본문이 온전한 버전만 쓴다.
+추출에 실패했거나 본문 일부를 못 읽은 버전(옛 HWP 첨부 등)은 그 행을 꺼 두고(`is_active: false`) 실패로 센다. 내보내기는 활성 행만 읽으므로 공개되지 않고, 다음 실행에서 다시 시도한다(이미 온전히 넣은 버전만 건너뛴다).
 
 #### PDF 다시 파싱 (`pdf-reparse`)
 

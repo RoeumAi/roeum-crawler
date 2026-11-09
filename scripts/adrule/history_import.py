@@ -118,14 +118,31 @@ def history_meta(version: dict) -> dict:
     }
 
 
-def _existing_doc_ids(db, adrule_id: str) -> set[str]:
-    ids: set[str] = set()
-    for name in ("adrule", HISTORY_COLLECTION):
-        ids.update(str(d) for d in db[name].distinct("doc_id", {"metadata.adrule_id": str(adrule_id)}))
+ACTIVE = {"metadata.is_active": {"$ne": False}}
+# 본문을 다 못 읽은 행 — 공개(내보내기는 활성 행만 읽는다)·완료 판정에서 뺀다.
+INCOMPLETE = {"$or": [{"metadata.save_incomplete": True}, {"metadata.pdf_extraction_status": "partial"}]}
+
+
+def existing_doc_ids(db, adrule_id: str) -> set[str]:
+    """다시 넣지 않을 doc_id. adrule(현행·시행예정)은 일일 크롤링이 맡으니 상태와 관계없이 빼고,
+    adrule_history 는 온전히 넣은(활성) 버전만 뺀다 — 추출 실패로 꺼 둔 버전은 다음 실행에서 다시 시도한다."""
+    key = {"metadata.adrule_id": str(adrule_id)}
+    ids = {str(d) for d in db["adrule"].distinct("doc_id", key)}
+    ids.update(str(d) for d in db[HISTORY_COLLECTION].distinct("doc_id", {**key, **ACTIVE}))
     return ids
 
 
-async def _import(planned: list[dict], dept_code: str | None) -> list[dict]:
+def settle_version(db, doc_id: str, status: str) -> str:
+    """저장 뒤 그 버전을 확정한다. 실패했거나 본문 일부를 못 읽었으면 그 doc_id 의 활성 행을 꺼서
+    공개되지 않게 하고(다음 실행에서 다시 시도) "incomplete" 를 돌려준다."""
+    collection = db[HISTORY_COLLECTION]
+    if status == "success" and collection.count_documents({"doc_id": doc_id, **ACTIVE, **INCOMPLETE}) == 0:
+        return "success"
+    collection.update_many({"doc_id": doc_id, **ACTIVE}, {"$set": {"metadata.is_active": False}})
+    return "incomplete" if status == "success" else status
+
+
+async def _import(db, planned: list[dict], dept_code: str | None) -> list[dict]:
     from scripts.adrule.logic.scraper import scrape_and_save
 
     results = []
@@ -136,7 +153,7 @@ async def _import(planned: list[dict], dept_code: str | None) -> list[dict]:
                 save_to_db=True, save_jsonl=False, dept_code=dept_code,
                 collection_name=HISTORY_COLLECTION, extra_meta=history_meta(version),
             )
-            status = (result or {}).get("status", "failed")
+            status = settle_version(db, version["doc_id"], (result or {}).get("status", "failed"))
             logger.info(f"{version['title']} ({version['doc_id']}): {status}")
             results.append({**version, "status": status, "error": (result or {}).get("error")})
     return results
@@ -157,14 +174,14 @@ def main(argv=None) -> int:
     from scripts.core.database.mongo_client import get_mongo_db
 
     db = get_mongo_db()
-    planned = plan_history(rows, args.adrule_id, _existing_doc_ids(db, args.adrule_id), args.since_year)
+    planned = plan_history(rows, args.adrule_id, existing_doc_ids(db, args.adrule_id), args.since_year)
     print(f"넣을 과거 버전 {len(planned)}건 (adrule_id={args.adrule_id}, 검색 결과 {len(rows)}건)")
     for v in planned:
         print(f"  {v['doc_id']}  {v['effective']}~{v['effective_to']}  제{v['promulgation_number']}호  {v['title']}")
     if not args.apply:
         print("미리보기만 했다. 저장하려면 --apply")
         return 0
-    results = asyncio.run(_import(planned, args.dept_code))
+    results = asyncio.run(_import(db, planned, args.dept_code))
     failed = [r for r in results if r["status"] != "success"]
     print(f"저장 {len(results) - len(failed)}건, 실패 {len(failed)}건")
     for r in failed:

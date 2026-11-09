@@ -155,3 +155,69 @@ class SaveMetaTest(unittest.TestCase):
         self.assertEqual("adrule_history", captured["collection"])
         self.assertTrue(captured["doc"]["metadata"]["history"])
         self.assertEqual("2026-12-31", captured["doc"]["metadata"]["effective_to"])
+
+
+class FakeHistoryCollection:
+    def __init__(self, rows):
+        self.rows = rows
+
+    def _match(self, row, flt):
+        for key, cond in flt.items():
+            if key == "$or":
+                if not any(self._match(row, c) for c in cond):
+                    return False
+                continue
+            value = row
+            for part in key.split("."):
+                value = (value or {}).get(part) if isinstance(value, dict) else None
+            if isinstance(cond, dict) and "$ne" in cond:
+                if value == cond["$ne"]:
+                    return False
+            elif value != cond:
+                return False
+        return True
+
+    def distinct(self, field, flt):
+        return sorted({r[field] for r in self.rows if self._match(r, flt)})
+
+    def count_documents(self, flt):
+        return sum(1 for r in self.rows if self._match(r, flt))
+
+    def update_many(self, flt, update):
+        for r in self.rows:
+            if self._match(r, flt):
+                for key, value in update["$set"].items():
+                    r.setdefault("metadata", {})[key.split(".", 1)[1]] = value
+
+
+def hist_row(doc_id, **meta):
+    return {"doc_id": doc_id, "metadata": {"adrule_id": "2002374", "is_active": True, **meta}}
+
+
+class RetryAndPublishTest(unittest.TestCase):
+    """추출에 실패한 과거 버전은 꺼 두어 공개되지 않고, 다음 실행에서 다시 넣는다(리뷰 지적 반영)."""
+
+    def db(self, history):
+        return {"adrule": FakeHistoryCollection([hist_row("2100000262710")]),
+                "adrule_history": FakeHistoryCollection(history)}
+
+    def test_only_complete_history_versions_are_skipped(self):
+        db = self.db([hist_row("A"), hist_row("B", is_active=False)])
+        self.assertEqual({"2100000262710", "A"}, hi.existing_doc_ids(db, "2002374"))
+
+    def test_incomplete_save_is_deactivated_and_reported(self):
+        db = self.db([hist_row("A", save_incomplete=True), hist_row("A")])
+        self.assertEqual("incomplete", hi.settle_version(db, "A", "success"))
+        self.assertEqual(0, db["adrule_history"].count_documents({"doc_id": "A", **hi.ACTIVE}))
+        self.assertNotIn("A", hi.existing_doc_ids(db, "2002374"))
+
+    def test_partial_pdf_and_failed_saves_are_deactivated(self):
+        db = self.db([hist_row("A", pdf_extraction_status="partial"), hist_row("B")])
+        self.assertEqual("incomplete", hi.settle_version(db, "A", "success"))
+        self.assertEqual("failed", hi.settle_version(db, "B", "failed"))
+        self.assertEqual(set(), set(db["adrule_history"].distinct("doc_id", hi.ACTIVE)))
+
+    def test_complete_save_stays_active(self):
+        db = self.db([hist_row("A", pdf_extraction_status="complete")])
+        self.assertEqual("success", hi.settle_version(db, "A", "success"))
+        self.assertEqual(["A"], db["adrule_history"].distinct("doc_id", hi.ACTIVE))

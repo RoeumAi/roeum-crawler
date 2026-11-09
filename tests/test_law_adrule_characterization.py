@@ -512,7 +512,8 @@ class AsyncWrapperTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result, "update_existing")
         save.assert_called_once_with([{"title": "t"}], "제목", "d", "u", dept_code="DC", sub_title="s",
                                      effective_date="2026-01-01", dept_name="부", is_upcoming=True,
-                                     adrule_id="A", lawgokr_record={"r": 1})
+                                     adrule_id="A", lawgokr_record={"r": 1},
+                                     collection_name="adrule", extra_meta=None)
 
     async def test_adrule_exception_returns_false(self):
         with patch.object(adrule_scraper, "save_to_mongodb", side_effect=RuntimeError("x")), \
@@ -730,7 +731,8 @@ class AdruleScrapeAndSaveTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(args[0]), 2)
         self.assertEqual(kwargs, {"sub_title": "고용노동부고시 제2025-121호, 2025. 12. 30., 일부개정",
                                   "effective_date": "2026-01-05", "dept_name": "고용노동부", "is_upcoming": True,
-                                  "adrule_id": "AID", "lawgokr_record": record})
+                                  "adrule_id": "AID", "lawgokr_record": record,
+                                  "collection_name": "adrule", "extra_meta": None})
 
     async def test_doc_id_fallback_from_title(self):
         result, *_ = await self.run_scrape(adrule_scrape_page(), url="https://www.law.go.kr/x")

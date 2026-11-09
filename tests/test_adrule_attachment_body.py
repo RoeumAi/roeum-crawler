@@ -181,7 +181,7 @@ class AttachmentBodyToolTest(unittest.TestCase):
                                               "metadata": {"is_active": True, "pdf_extraction_status": "partial"}})
             return {"status": "success"}
 
-        target = tool.plan(db, self.args(), self.fetch)[0]
+        target = tool.plan(db, self.args(), self.fetch).targets[0]
         with patch("scripts.adrule.logic.scraper.scrape_and_save", side_effect=scrape):
             import asyncio
             results = asyncio.run(tool._rescrape(db, [target], out=lambda *_: None))
@@ -209,7 +209,7 @@ class AttachmentBodyToolTest(unittest.TestCase):
         return types.SimpleNamespace(apply=apply, adrule_id=None, limit=0)
 
     def test_plan_picks_screen_saved_docs_whose_body_is_in_attachments(self):
-        targets = tool.plan(self.db(), self.args(), self.fetch)
+        targets = tool.plan(self.db(), self.args(), self.fetch).targets
         self.assertEqual([("adrule_history", "2200000010021")], [(t["collection"], t["doc_id"]) for t in targets])
         self.assertEqual(["(2015년도) 최저임금 고시.hwp"], [name for _, name in targets[0]["files"]])
 
@@ -221,7 +221,7 @@ class AttachmentBodyToolTest(unittest.TestCase):
         db["adrule_history"].docs.append({"doc_id": "2200000010021", "chunk_id": "new",
                                           "metadata": {"is_active": False, "source_file_keys": ["9"],
                                                        "pdf_extraction_status": "partial"}})
-        targets = tool.plan(db, self.args(), self.fetch)
+        targets = tool.plan(db, self.args(), self.fetch).targets
         self.assertEqual(["2200000010021"], [t["doc_id"] for t in targets])
         self.assertEqual("u2015", targets[0]["url"])
 
@@ -231,7 +231,7 @@ class AttachmentBodyToolTest(unittest.TestCase):
         async def scrape(*_args, **_kw):
             return {"status": "failed", "error": "추출 서버 멈춤"}
 
-        target = tool.plan(db, self.args(), self.fetch)[0]
+        target = tool.plan(db, self.args(), self.fetch).targets[0]
         with patch("scripts.adrule.logic.scraper.scrape_and_save", side_effect=scrape):
             import asyncio
             results = asyncio.run(tool._rescrape(db, [target], out=lambda *_: None))
@@ -247,22 +247,33 @@ class AttachmentBodyToolTest(unittest.TestCase):
                                                            "save_incomplete": True}})
             return {"status": "failed", "error": "별표 저장 실패"}
 
-        target = tool.plan(db, self.args(), self.fetch)[0]
+        target = tool.plan(db, self.args(), self.fetch).targets[0]
         with patch("scripts.adrule.logic.scraper.scrape_and_save", side_effect=scrape):
             import asyncio
             asyncio.run(tool._rescrape(db, [target], out=lambda *_: None))
         active = [d.get("chunk_id") for d in db["adrule_history"].docs
                   if d["doc_id"] == "2200000010021" and d["metadata"]["is_active"]]
         self.assertNotIn("new", active)
-        self.assertEqual(["2200000010021"], [t["doc_id"] for t in tool.plan(db, self.args(), self.fetch)])
+        self.assertEqual(["2200000010021"], [t["doc_id"] for t in tool.plan(db, self.args(), self.fetch).targets])
 
     def test_history_target_keeps_period_and_replaces_rows(self):
-        target = tool.plan(self.db(), self.args(), self.fetch)[0]
+        target = tool.plan(self.db(), self.args(), self.fetch).targets[0]
         save = tool.save_target(target)
         self.assertEqual("adrule_history", save.collection)
         self.assertTrue(save.replace_rows)
         self.assertEqual({"history": True, "is_upcoming": False, "effective_to": "2015-12-31",
                           "superseded_by": "2200000038564"}, dict(save.extra_meta))
+
+    def test_unreadable_detail_api_is_reported_as_failure(self):
+        fetch = lambda target, doc_id: None  # noqa: E731 - API 장애
+        planned = tool.plan(self.db(), self.args(), fetch)
+        self.assertEqual([], planned.targets)
+        self.assertIn(("adrule_history", "2200000010021"), planned.unreadable)
+        self.assertEqual(1, tool.run(self.args(), self.db(), fetch, AsyncMock(), out=lambda *_: None))
+
+    def test_image_without_notice_attachment_is_not_planned(self):
+        fetch = lambda target, doc_id: record("1. 최저임금액<img id=\"1\"></img>")  # noqa: E731
+        self.assertEqual([], tool.plan(self.db(), self.args(), fetch).targets)
 
     def test_preview_does_not_rescrape(self):
         rescrape = AsyncMock()

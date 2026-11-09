@@ -22,8 +22,9 @@ import asyncio
 import sys
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, field
 
-from scripts.adrule.logic.attachment_body import needs_attachment_body, notice_files
+from scripts.adrule.logic.attachment_body import POINTER, attachment_need, notice_files
 from scripts.core.lawgokr_stable_id import fetch_record
 
 COLLECTIONS = ("adrule", "adrule_history")
@@ -53,23 +54,35 @@ def representative_row(collection, doc_id: str) -> dict:
             or collection.find_one({"doc_id": doc_id}, projection) or {})
 
 
-def plan(db, args, fetch=fetch_record) -> list[dict]:
-    """다시 넣을 문서 [{collection, doc_id, title, url, meta, files}]. 상세 API 는 문서마다 한 번, 동시에 몇 개씩 부른다."""
+@dataclass
+class Plan:
+    targets: list[dict] = field(default_factory=list)       # 다시 넣을 문서
+    unreadable: list[tuple[str, str]] = field(default_factory=list)  # 상세 API 를 못 읽어 판정하지 못한 (컬렉션, doc_id)
+
+
+def plan(db, args, fetch=fetch_record) -> Plan:
+    """다시 넣을 문서 [{collection, doc_id, title, url, meta, files}]와 판정하지 못한 문서. 상세 API 는 문서마다 한 번,
+    동시에 몇 개씩 부른다. 수집기와 같은 규칙으로 고른다 — 첨부 안내 문구뿐이거나, 그림이 있고 원문 첨부가 있는 문서
+    (그림만 있고 원문 첨부가 없으면 수집기도 화면 글을 저장하므로 다시 넣지 않는다)."""
     candidates = [(name, doc_id) for name in COLLECTIONS
                   for doc_id in candidate_doc_ids(db[name], name, args.adrule_id)]
     with ThreadPoolExecutor(max_workers=API_WORKERS) as pool:
         records = list(pool.map(lambda c: fetch("admrul", c[1]), candidates))
-    targets = []
+    result = Plan()
     for (name, doc_id), record in zip(candidates, records):
-        if not needs_attachment_body(record):
+        if record is None:
+            result.unreadable.append((name, doc_id))
+            continue
+        need, files = attachment_need(record), notice_files(record)
+        if not (need == POINTER or (need and files)):
             continue
         row = representative_row(db[name], doc_id)
         meta = row.get("metadata") or {}
-        targets.append({"collection": name, "doc_id": doc_id, "title": row.get("title") or "",
-                        "url": meta.get("source_url") or "", "meta": meta, "files": notice_files(record)})
-        if args.limit and len(targets) >= args.limit:
+        result.targets.append({"collection": name, "doc_id": doc_id, "title": row.get("title") or "",
+                               "url": meta.get("source_url") or "", "meta": meta, "files": files})
+        if args.limit and len(result.targets) >= args.limit:
             break
-    return targets
+    return result
 
 
 HISTORY = "adrule_history"
@@ -121,20 +134,26 @@ async def _rescrape(db, targets: list[dict], out) -> list[dict]:
 
 
 def run(args, db, fetch=fetch_record, rescrape=_rescrape, out=print) -> int:
-    targets = plan(db, args, fetch)
+    planned = plan(db, args, fetch)
+    targets = planned.targets
     out(f"다시 넣을 문서 {len(targets)}건")
     for t in targets:
-        files = ", ".join(name for _, name in t["files"]) or "고를 원문 첨부 없음(실패로 남는다)"
+        files = ", ".join(name for _, name in t["files"]) or "원문 첨부 없음(첨부 안내뿐이라 실패로 남는다)"
         out(f"  {t['collection']} {t['doc_id']} {t['title']} ← {files}")
+    if planned.unreadable:
+        # API 장애로 판정 못 한 문서를 대상 0건·성공으로 덮지 않는다.
+        out(f"상세 API 를 읽지 못해 판정하지 못한 문서 {len(planned.unreadable)}건 — 다시 실행해야 한다")
+        for name, doc_id in planned.unreadable:
+            out(f"  판정 실패 {name} {doc_id}")
     if not args.apply:
         out("미리 보기만 했다. 다시 넣으려면 --apply")
-        return 0
+        return 1 if planned.unreadable else 0
     results = asyncio.run(rescrape(db, targets, out))
     failed = [r for r in results if r["status"] != "success"]
-    out(f"성공 {len(results) - len(failed)}건, 실패 {len(failed)}건")
+    out(f"성공 {len(results) - len(failed)}건, 실패 {len(failed)}건, 판정 실패 {len(planned.unreadable)}건")
     for r in failed:
         out(f"  실패 {r['collection']} {r['doc_id']} {r['title']}: {r['error']}")
-    return 1 if failed else 0
+    return 1 if failed or planned.unreadable else 0
 
 
 def main(argv=None) -> int:

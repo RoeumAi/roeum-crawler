@@ -213,6 +213,31 @@ class AttachmentBodyToolTest(unittest.TestCase):
         self.assertEqual([("adrule_history", "2200000010021")], [(t["collection"], t["doc_id"]) for t in targets])
         self.assertEqual(["(2015년도) 최저임금 고시.hwp"], [name for _, name in targets[0]["files"]])
 
+    def test_history_version_turned_off_by_partial_repair_is_planned_again(self):
+        db = self.db()
+        for row in db["adrule_history"].docs:
+            if row["doc_id"] == "2200000010021":
+                row["metadata"]["is_active"] = False
+        db["adrule_history"].docs.append({"doc_id": "2200000010021", "chunk_id": "new",
+                                          "metadata": {"is_active": False, "source_file_keys": ["9"],
+                                                       "pdf_extraction_status": "partial"}})
+        targets = tool.plan(db, self.args(), self.fetch)
+        self.assertEqual(["2200000010021"], [t["doc_id"] for t in targets])
+        self.assertEqual("u2015", targets[0]["url"])
+
+    def test_failed_rescrape_keeps_old_history_rows(self):
+        db = self.db()
+
+        async def scrape(*_args, **_kw):
+            return {"status": "failed", "error": "추출 서버 멈춤"}
+
+        target = tool.plan(db, self.args(), self.fetch)[0]
+        with patch("scripts.adrule.logic.scraper.scrape_and_save", side_effect=scrape):
+            import asyncio
+            results = asyncio.run(tool._rescrape(db, [target], out=lambda *_: None))
+        self.assertEqual("failed", results[0]["status"])
+        self.assertTrue(db["adrule_history"].docs[0]["metadata"]["is_active"])
+
     def test_history_target_keeps_period_and_replaces_rows(self):
         target = tool.plan(self.db(), self.args(), self.fetch)[0]
         save = tool.save_target(target)

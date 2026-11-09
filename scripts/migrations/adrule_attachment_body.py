@@ -4,8 +4,8 @@ law.go.kr 화면이 표를 그림으로 싣거나 "첨부를 보라"는 문구�
 (금액·기준표가 빠진 채 성공으로 기록). 수집기는 이제 이런 문서를 첨부 원문으로 읽지만(scripts/adrule/logic/attachment_body),
 일일 수집은 시행일이 같으면 다시 저장하지 않으므로 이미 저장된 문서는 이 도구로 한 번 다시 넣는다.
 
-- 대상: adrule·adrule_history 의 활성 문서 중 원본 파일에서 읽지 않은(metadata.source_file_keys 없음) 문서이면서
-  상세 API 가 본문이 첨부에 있다고 판정한 문서.
+- 대상: 원본 파일에서 읽은(metadata.source_file_keys) 활성 행이 없는 문서 중 상세 API 가 본문이 첨부에 있다고 판정한 문서.
+  현행(adrule)은 활성 문서만, 과거 버전(adrule_history)은 꺼 둔 문서까지 본다(일부만 읽어 꺼 둔 버전을 다시 시도).
 - 저장은 일일 수집과 같은 scrape_and_save 경로이고, 성공하면 이번에 쓰지 않은 옛 행을 끈다(SaveTarget.replace_rows).
   과거 버전은 원래 행의 적용 종료일·다음 버전 값을 그대로 다시 싣고, import:adrule-history 와 같이 일부만 읽은 버전은
   꺼 둔다(settle_version). 저장 전에 실패한 문서는 옛 행을 그대로 둔다.
@@ -31,25 +31,39 @@ HISTORY_KEYS = ("history", "is_upcoming", "effective_to", "superseded_by")
 API_WORKERS = 6
 
 
-def candidate_filter(adrule_id: str | None = None) -> dict:
-    """원본 파일에서 읽지 않은 활성 행."""
-    query = {"metadata.is_active": {"$ne": False}, "metadata.source_file_keys": {"$exists": False}}
-    if adrule_id:
-        query["metadata.adrule_id"] = str(adrule_id)
-    return query
+ACTIVE = {"metadata.is_active": {"$ne": False}}
+FILE_SOURCED = {**ACTIVE, "metadata.source_file_keys": {"$exists": True}}
+
+
+def candidate_doc_ids(collection, name: str, adrule_id: str | None = None) -> list[str]:
+    """원본 파일에서 읽은 활성 행이 없는 문서.
+
+    현행(adrule)은 활성 문서만 본다(꺼진 행은 지난 버전이다). 과거 버전(adrule_history)은 꺼진 문서도 본다 —
+    다시 넣다 일부만 읽어 꺼 둔(settle_version) 버전을 다음 실행에서 다시 시도하기 위해서다."""
+    scope = {"metadata.adrule_id": str(adrule_id)} if adrule_id else {}
+    seen = collection.distinct("doc_id", {**scope, **(ACTIVE if name == "adrule" else {})})
+    done = {str(d) for d in collection.distinct("doc_id", {**scope, **FILE_SOURCED})}
+    return sorted({str(d) for d in seen} - done)
+
+
+def representative_row(collection, doc_id: str) -> dict:
+    """제목·원본 주소·표시 값을 읽을 행. 활성 행이 있으면 그 행, 없으면(꺼 둔 과거 버전) 아무 행."""
+    projection = {"title": 1, "metadata": 1}
+    return (collection.find_one({"doc_id": doc_id, **ACTIVE}, projection)
+            or collection.find_one({"doc_id": doc_id}, projection) or {})
 
 
 def plan(db, args, fetch=fetch_record) -> list[dict]:
     """다시 넣을 문서 [{collection, doc_id, title, url, meta, files}]. 상세 API 는 문서마다 한 번, 동시에 몇 개씩 부른다."""
-    candidates = [(name, str(d)) for name in COLLECTIONS
-                  for d in sorted(db[name].distinct("doc_id", candidate_filter(args.adrule_id)))]
+    candidates = [(name, doc_id) for name in COLLECTIONS
+                  for doc_id in candidate_doc_ids(db[name], name, args.adrule_id)]
     with ThreadPoolExecutor(max_workers=API_WORKERS) as pool:
         records = list(pool.map(lambda c: fetch("admrul", c[1]), candidates))
     targets = []
     for (name, doc_id), record in zip(candidates, records):
         if not needs_attachment_body(record):
             continue
-        row = db[name].find_one({"doc_id": doc_id, **candidate_filter()}, {"title": 1, "metadata": 1}) or {}
+        row = representative_row(db[name], doc_id)
         meta = row.get("metadata") or {}
         targets.append({"collection": name, "doc_id": doc_id, "title": row.get("title") or "",
                         "url": meta.get("source_url") or "", "meta": meta, "files": notice_files(record)})
@@ -81,8 +95,9 @@ async def _rescrape(db, targets: list[dict], out) -> list[dict]:
                                            save_jsonl=False, dept_code=meta.get("dept_code"),
                                            target=save_target(target))
             status = (result or {}).get("status", "failed")
-            if target["collection"] == "adrule_history":
-                # 과거 버전 넣기와 같은 확정: 일부만 읽었으면 그 버전 행을 꺼 공개하지 않는다(다음 실행에서 다시 시도).
+            if target["collection"] == "adrule_history" and status == "success":
+                # 과거 버전 넣기와 같은 확정: 일부만 읽었으면 그 버전 행을 꺼 공개하지 않는다. 꺼 둔 버전은 원본 파일 활성 행이
+                # 없으므로 다음 실행의 대상에 다시 든다(candidate_doc_ids). 저장 전에 실패하면 옛 행을 그대로 둔다.
                 status = settle_version(db, target["doc_id"], status)
             out(f"  {target['collection']} {target['doc_id']} {target['title']}: {status}")
             results.append({**target, "status": status, "error": (result or {}).get("error")})

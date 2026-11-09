@@ -57,3 +57,31 @@ def fetch_stable_law_id(doc_id: str) -> Optional[str]:
 def fetch_stable_adrule_id(doc_id: str) -> Optional[str]:
     """ID(doc_id, 행정규칙일련번호)로 행정규칙ID(안정 ID)를 조회한다. 실패 시 None."""
     return stable_adrule_id(fetch_record("admrul", doc_id))
+
+
+def iso_date(value) -> Optional[str]:
+    """'20250805' → '2025-08-05'. 형식이 다르면 None(추측하지 않는다)."""
+    text = str(value or "").strip()
+    if len(text) == 8 and text.isdigit():
+        return f"{text[:4]}-{text[4:6]}-{text[6:]}"
+    return None
+
+
+def adrule_basic_meta(record: Optional[dict]) -> dict:
+    """행정규칙 상세 API 기본정보에서 인용·버전 판단에 쓰는 값만 꺼낸다(없는 값은 넣지 않는다).
+
+    - promulgation_date: 발령일자(고시일, YYYY-MM-DD)
+    - promulgation_number: 발령번호(예: 2025-47)
+    - dept_name: 소관부처명(예: 고용노동부)
+    - revision_kind: 제개정구분명(예: 제정·일부개정·폐지)
+    - rule_kind: 행정규칙종류(예: 고시·훈령·예규)
+    """
+    basic = ((record or {}).get("AdmRulService") or {}).get("행정규칙기본정보") or {}
+    meta = {
+        "promulgation_date": iso_date(basic.get("발령일자")),
+        "promulgation_number": str(basic.get("발령번호") or "").strip() or None,
+        "dept_name": str(basic.get("소관부처명") or "").strip() or None,
+        "revision_kind": str(basic.get("제개정구분명") or "").strip() or None,
+        "rule_kind": str(basic.get("행정규칙종류") or "").strip() or None,
+    }
+    return {k: v for k, v in meta.items() if v}

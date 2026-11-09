@@ -17,7 +17,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
-from scripts.adrule.logic.attachment_body import needs_attachment_body, notice_files, stated_period
+from scripts.adrule.logic.attachment_body import POINTER, attachment_need, notice_files, stated_period
 from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles, download_and_extract
 from scripts.core.lawgokr_document_saver import (  # noqa: F401 - split_articles_by_number 는 기존 import 경로 유지
     run_in_executor_with_context, save_articles, save_to_file as save_json_lines, split_articles_by_number,
@@ -215,9 +215,18 @@ async def parse_law_html(page: 'Page', doc_id: str, doc_title: str, url: str, ou
 
     content_selector = '#conScroll'
 
-    if not contains_pdf_iframe and needs_attachment_body(lawgokr_record):
-        logger.info("유형 4: 화면 본문이 표 그림·첨부 안내뿐 — 첨부 원문 파싱")
-        return await _parse_attachment_body(lawgokr_record, doc_id, url, doc_title, output_name, debug)
+    if not contains_pdf_iframe:
+        if lawgokr_record is None and not is_structured:
+            # 비정형 화면은 표가 그림으로 빠졌는지 상세 API 로만 안다. 모른 채 화면 글을 성공으로 저장하면
+            # 시행일이 같아 다시 읽지 않으므로 실패로 돌려 다음 실행에서 다시 시도한다.
+            raise ValueError("상세 API 조회 실패 — 본문이 첨부에 있는지 확인하지 못함")
+        need = attachment_need(lawgokr_record)
+        if need == POINTER or (need and notice_files(lawgokr_record)):
+            logger.info("유형 4: 화면 본문이 표 그림·첨부 안내뿐 — 첨부 원문 파싱")
+            return await _parse_attachment_body(lawgokr_record, doc_id, url, doc_title, output_name, debug)
+        if need:
+            # 그림은 있으나 원문 첨부가 없다(장식 그림이거나 원문을 올리지 않음). 화면 글이 가진 전부라 그대로 저장한다.
+            logger.warning(f"{doc_id}: 화면 본문에 그림이 있으나 고를 원문 첨부가 없어 화면 글을 저장")
     if is_structured:
         logger.info("유형 1: 정형화된 법령 구조 감지")
         content_html = await page.locator(content_selector).inner_html()

@@ -91,10 +91,23 @@ class ParseRoutingTest(unittest.IsolatedAsyncioTestCase):
         self.assertIn("9,160원", chunks[0]["text"])
         self.assertEqual("106220845", chunks[0]["metadata"]["source_file_key"])
 
-    async def test_no_notice_attachment_fails_instead_of_saving_the_screen_summary(self):
+    async def test_pointer_without_notice_attachment_fails_instead_of_saving_the_pointer(self):
         with self.assertRaises(ValueError):
             await adrule.parse_law_html(page_with("<div>본문</div>"), "d", "t", "u", "o",
-                                        lawgokr_record=record("<img id=\"1\"></img>"))
+                                        lawgokr_record=record("자세한 내용은 상단 메뉴 \"<img>\"버튼을 이용하십시오.",
+                                                              links=["a"], names=["개정이유서.hwp"]))
+
+    async def test_image_without_notice_attachment_keeps_screen_text(self):
+        # 장식 그림뿐이고 원문 첨부가 없으면 날마다 실패하지 않도록 화면 글을 저장한다.
+        with patch.object(adrule, "_download_attachment") as download:
+            chunks = await adrule.parse_law_html(page_with("<div>본문</div>"), "d", "t", "u", "o",
+                                                 lawgokr_record=record("1. 최저임금액 <img id=\"1\"></img>"))
+        download.assert_not_called()
+        self.assertIn("최저임금액", chunks[0]["text"])
+
+    async def test_unknown_record_fails_unstructured_page(self):
+        with self.assertRaises(ValueError):
+            await adrule.parse_law_html(page_with("<div>본문</div>"), "d", "t", "u", "o", lawgokr_record=None)
 
     async def test_plain_page_still_uses_screen_parser(self):
         with patch.object(adrule, "_download_attachment") as download:
@@ -160,6 +173,22 @@ class RetireRowsOutsideTest(unittest.TestCase):
 
 
 class AttachmentBodyToolTest(unittest.TestCase):
+    def test_partial_history_version_is_turned_off_after_rescrape(self):
+        db = self.db()
+
+        async def scrape(url, *_args, target=None, **_kw):
+            db["adrule_history"].docs.append({"doc_id": "2200000010021", "chunk_id": "new",
+                                              "metadata": {"is_active": True, "pdf_extraction_status": "partial"}})
+            return {"status": "success"}
+
+        target = tool.plan(db, self.args(), self.fetch)[0]
+        with patch("scripts.adrule.logic.scraper.scrape_and_save", side_effect=scrape):
+            import asyncio
+            results = asyncio.run(tool._rescrape(db, [target], out=lambda *_: None))
+        self.assertEqual("incomplete", results[0]["status"])
+        self.assertFalse([d for d in db["adrule_history"].docs
+                          if d["doc_id"] == "2200000010021" and d["metadata"].get("is_active")])
+
     def db(self):
         db = FakeDB()
         db["adrule_history"].docs += [
@@ -198,7 +227,7 @@ class AttachmentBodyToolTest(unittest.TestCase):
         rescrape.assert_not_called()
 
     def test_apply_reports_failures(self):
-        async def rescrape(targets, out):
+        async def rescrape(db, targets, out):
             return [{**t, "status": "failed", "error": "추출 실패"} for t in targets]
 
         self.assertEqual(1, tool.run(self.args(apply=True), self.db(), self.fetch, rescrape, out=lambda *_: None))

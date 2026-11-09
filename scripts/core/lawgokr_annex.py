@@ -99,22 +99,32 @@ def law_annexes(record: dict) -> list[Annex]:
 ANNEX_NAME = re.compile(r"\[?\s*별표\s*(\d+)?(?:\s*의\s*(\d+))?\s*\]?")
 
 
+def adrule_attachment_files(record: Optional[dict], keep: Callable[[str], bool]) -> dict[str, tuple[str, str]]:
+    """행정규칙 `첨부파일` 중 읽을 수 있는(PDF·HWP·HWPX) 파일 {이름(확장자 뺀) → (https 주소, 파일 이름)}.
+    keep(이름) 이 참인 것만, 첨부 순서대로 담는다. 같은 이름을 PDF·HWP 로 같이 올린 경우 PDF 하나만 남긴다.
+    별표 수집(adrule_annexes)과 본문 원문 고르기(scripts/adrule/logic/attachment_body.notice_files)가 함께 쓴다."""
+    files = ((record or {}).get("AdmRulService") or {}).get("첨부파일") or {}
+    links, names = _as_list(files.get("첨부파일링크")), _as_list(files.get("첨부파일명"))
+    by_stem: dict[str, tuple[str, str]] = {}
+    for link, name in zip(links, names):
+        name = str(name)
+        suffix = PurePosixPath(name).suffix.lower()
+        if suffix not in EXTRACTABLE:
+            continue
+        stem = name[: -len(suffix)]
+        if not keep(stem):
+            continue
+        if stem not in by_stem or suffix == ".pdf":
+            by_stem[stem] = (str(link).replace("http://", "https://"), name)
+    return by_stem
+
+
 def adrule_annexes(record: dict) -> list[Annex]:
     service = (record or {}).get("AdmRulService") or {}
     units = (service.get("별표") or {}).get("별표단위") if isinstance(service.get("별표"), dict) else None
     if units:
         return annexes_from_units(units)
-    files = service.get("첨부파일") or {}
-    links, names = _as_list(files.get("첨부파일링크")), _as_list(files.get("첨부파일명"))
-    by_stem: dict[str, tuple[str, str]] = {}
-    for link, name in zip(links, names):
-        suffix = PurePosixPath(name).suffix.lower()
-        if "별표" not in name or suffix not in EXTRACTABLE:
-            continue
-        stem = name[: -len(suffix)]
-        # 같은 별표를 PDF·HWP 로 같이 올린 경우 PDF 하나만 읽는다.
-        if stem not in by_stem or suffix == ".pdf":
-            by_stem[stem] = (link.replace("http://", "https://"), name)
+    by_stem = adrule_attachment_files(record, lambda stem: "별표" in stem)
     annexes = []
     for stem, (link, name) in by_stem.items():
         match = ANNEX_NAME.search(stem)

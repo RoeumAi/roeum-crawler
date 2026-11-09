@@ -7,7 +7,8 @@ law.go.kr 화면이 표를 그림으로 싣거나 "첨부를 보라"는 문구�
 - 대상: adrule·adrule_history 의 활성 문서 중 원본 파일에서 읽지 않은(metadata.source_file_keys 없음) 문서이면서
   상세 API 가 본문이 첨부에 있다고 판정한 문서.
 - 저장은 일일 수집과 같은 scrape_and_save 경로이고, 성공하면 이번에 쓰지 않은 옛 행을 끈다(SaveTarget.replace_rows).
-  과거 버전은 원래 행의 적용 종료일·다음 버전 값을 그대로 다시 싣는다. 실패한 문서는 옛 행을 그대로 둔다.
+  과거 버전은 원래 행의 적용 종료일·다음 버전 값을 그대로 다시 싣고, import:adrule-history 와 같이 일부만 읽은 버전은
+  꺼 둔다(settle_version). 저장 전에 실패한 문서는 옛 행을 그대로 둔다.
 - 첨부 파싱에 추출 서버(DOCUMENT_EXTRACTION_URL)가 필요하므로 운영에서는 크롤러 ECS 태스크로 돌린다(docs/manual-tasks.md).
 
     python3 manual.py fix:adrule-attachment-body                      # 미리 보기(대상과 읽을 첨부)
@@ -20,12 +21,14 @@ import argparse
 import asyncio
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 from scripts.adrule.logic.attachment_body import needs_attachment_body, notice_files
 from scripts.core.lawgokr_stable_id import fetch_record
 
 COLLECTIONS = ("adrule", "adrule_history")
 HISTORY_KEYS = ("history", "is_upcoming", "effective_to", "superseded_by")
+API_WORKERS = 6
 
 
 def candidate_filter(adrule_id: str | None = None) -> dict:
@@ -37,21 +40,21 @@ def candidate_filter(adrule_id: str | None = None) -> dict:
 
 
 def plan(db, args, fetch=fetch_record) -> list[dict]:
-    """다시 넣을 문서 [{collection, doc_id, title, url, meta, files}]."""
+    """다시 넣을 문서 [{collection, doc_id, title, url, meta, files}]. 상세 API 는 문서마다 한 번, 동시에 몇 개씩 부른다."""
+    candidates = [(name, str(d)) for name in COLLECTIONS
+                  for d in sorted(db[name].distinct("doc_id", candidate_filter(args.adrule_id)))]
+    with ThreadPoolExecutor(max_workers=API_WORKERS) as pool:
+        records = list(pool.map(lambda c: fetch("admrul", c[1]), candidates))
     targets = []
-    for name in COLLECTIONS:
-        collection = db[name]
-        doc_ids = sorted(str(d) for d in collection.distinct("doc_id", candidate_filter(args.adrule_id)))
-        for doc_id in doc_ids:
-            record = fetch("admrul", doc_id)
-            if not needs_attachment_body(record):
-                continue
-            row = collection.find_one({"doc_id": doc_id, **candidate_filter()}, {"title": 1, "metadata": 1}) or {}
-            meta = row.get("metadata") or {}
-            targets.append({"collection": name, "doc_id": doc_id, "title": row.get("title") or "",
-                            "url": meta.get("source_url") or "", "meta": meta, "files": notice_files(record)})
-            if args.limit and len(targets) >= args.limit:
-                return targets
+    for (name, doc_id), record in zip(candidates, records):
+        if not needs_attachment_body(record):
+            continue
+        row = db[name].find_one({"doc_id": doc_id, **candidate_filter()}, {"title": 1, "metadata": 1}) or {}
+        meta = row.get("metadata") or {}
+        targets.append({"collection": name, "doc_id": doc_id, "title": row.get("title") or "",
+                        "url": meta.get("source_url") or "", "meta": meta, "files": notice_files(record)})
+        if args.limit and len(targets) >= args.limit:
+            break
     return targets
 
 
@@ -64,7 +67,8 @@ def save_target(target: dict):
     return SaveTarget(target["collection"], extra, replace_rows=True)
 
 
-async def _rescrape(targets: list[dict], out) -> list[dict]:
+async def _rescrape(db, targets: list[dict], out) -> list[dict]:
+    from scripts.adrule.history_import import settle_version
     from scripts.adrule.logic.scraper import scrape_and_save
 
     results = []
@@ -77,6 +81,9 @@ async def _rescrape(targets: list[dict], out) -> list[dict]:
                                            save_jsonl=False, dept_code=meta.get("dept_code"),
                                            target=save_target(target))
             status = (result or {}).get("status", "failed")
+            if target["collection"] == "adrule_history":
+                # 과거 버전 넣기와 같은 확정: 일부만 읽었으면 그 버전 행을 꺼 공개하지 않는다(다음 실행에서 다시 시도).
+                status = settle_version(db, target["doc_id"], status)
             out(f"  {target['collection']} {target['doc_id']} {target['title']}: {status}")
             results.append({**target, "status": status, "error": (result or {}).get("error")})
     return results
@@ -91,7 +98,7 @@ def run(args, db, fetch=fetch_record, rescrape=_rescrape, out=print) -> int:
     if not args.apply:
         out("미리 보기만 했다. 다시 넣으려면 --apply")
         return 0
-    results = asyncio.run(rescrape(targets, out))
+    results = asyncio.run(rescrape(db, targets, out))
     failed = [r for r in results if r["status"] != "success"]
     out(f"성공 {len(results) - len(failed)}건, 실패 {len(failed)}건")
     for r in failed:

@@ -82,6 +82,9 @@ class FakeCollection:
         found = self.find(filter_)
         return found[0] if found else None
 
+    def count_documents(self, filter_=None):
+        return len(self.find(filter_))
+
     def distinct(self, field, filter_=None):
         return [_get(d, field) for d in self.find(filter_)]
 

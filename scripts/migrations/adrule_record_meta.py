@@ -79,6 +79,8 @@ def fill_stated_period(args, collection, out=print) -> int:
         period = stated_period("\n".join(doc["text"]))
         if not period or period[0] != doc["effective"]:
             continue
+        if args.limit and len(ops) >= args.limit:
+            break  # 시험 실행(--limit)은 이 단계도 같은 문서 수 상한을 지킨다
         if len(ops) < args.samples:
             out(f"  adrule {doc_id}: effective_to={period[1]}")
         ops.append(UpdateMany({"doc_id": doc_id, **period_filter()}, {"$set": {"metadata.effective_to": period[1]}}))

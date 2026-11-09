@@ -116,9 +116,9 @@ class RecordMetaBackfillTest(unittest.TestCase):
 class StatedPeriodBackfillTest(unittest.TestCase):
     """본문이 밝힌 적용 기간의 끝을 현행 행정규칙에 채운다(시작이 시행일과 같을 때만)."""
 
-    def run_fill(self, rows, apply=True):
+    def run_fill(self, rows, apply=True, limit=0):
         collection = FakeCollection([], rows)
-        args = types.SimpleNamespace(apply=apply, limit=0, samples=0)
+        args = types.SimpleNamespace(apply=apply, limit=limit, samples=0)
         return arm.fill_stated_period(args, collection, out=lambda *_: None), collection
 
     def test_end_of_stated_period_is_written(self):
@@ -135,6 +135,12 @@ class StatedPeriodBackfillTest(unittest.TestCase):
         rows = [{"doc_id": "a", "metadata": {"effective": "2026-03-01"}, "content": "적용 기간 : 2026. 1. 1. ~ 2026. 12. 31."},
                 {"doc_id": "b", "metadata": {"effective": "2026-01-01"}, "content": "기간 언급 없음"}]
         self.assertEqual(0, self.run_fill(rows)[0])
+
+    def test_limit_caps_documents(self):
+        rows = [{"doc_id": d, "metadata": {"effective": "2026-01-01"}, "content": "적용 기간 : 2026. 1. 1. ~ 2026. 12. 31."}
+                for d in ("a", "b")]
+        count, collection = self.run_fill(rows, limit=1)
+        self.assertEqual((1, ["a"]), (count, [op._filter["doc_id"] for op in collection.written]))
 
     def test_preview_writes_nothing(self):
         rows = [{"doc_id": "a", "metadata": {"effective": "2026-01-01"}, "content": "적용 기간 : 2026. 1. 1. ~ 2026. 12. 31."}]

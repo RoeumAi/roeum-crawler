@@ -238,6 +238,24 @@ class AttachmentBodyToolTest(unittest.TestCase):
         self.assertEqual("failed", results[0]["status"])
         self.assertTrue(db["adrule_history"].docs[0]["metadata"]["is_active"])
 
+    def test_partial_write_failure_turns_off_new_rows_and_is_retried(self):
+        db = self.db()
+
+        async def scrape(*_args, **_kw):
+            db["adrule_history"].docs.append({"doc_id": "2200000010021", "chunk_id": "new",
+                                              "metadata": {"is_active": True, "source_file_keys": ["9"],
+                                                           "save_incomplete": True}})
+            return {"status": "failed", "error": "별표 저장 실패"}
+
+        target = tool.plan(db, self.args(), self.fetch)[0]
+        with patch("scripts.adrule.logic.scraper.scrape_and_save", side_effect=scrape):
+            import asyncio
+            asyncio.run(tool._rescrape(db, [target], out=lambda *_: None))
+        active = [d.get("chunk_id") for d in db["adrule_history"].docs
+                  if d["doc_id"] == "2200000010021" and d["metadata"]["is_active"]]
+        self.assertNotIn("new", active)
+        self.assertEqual(["2200000010021"], [t["doc_id"] for t in tool.plan(db, self.args(), self.fetch)])
+
     def test_history_target_keeps_period_and_replaces_rows(self):
         target = tool.plan(self.db(), self.args(), self.fetch)[0]
         save = tool.save_target(target)

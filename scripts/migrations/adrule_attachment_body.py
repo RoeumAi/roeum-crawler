@@ -72,6 +72,19 @@ def plan(db, args, fetch=fetch_record) -> list[dict]:
     return targets
 
 
+HISTORY = "adrule_history"
+
+
+def quarantine_partial_write(collection, doc_id: str) -> int:
+    """다시 넣기가 실패했는데 일부 행은 이미 썼을 때(별표·조문 저장 실패 → save_incomplete) 이번에 쓴 행만 끈다.
+    끄면 원본 파일 활성 행이 없어져 다음 실행의 대상에 다시 들고, 저장 전에 실패한 경우처럼 옛 행은 그대로 남는다."""
+    result = collection.update_many(
+        {"doc_id": doc_id, **ACTIVE,
+         "$or": [{"metadata.save_incomplete": True}, {"metadata.source_file_keys": {"$exists": True}}]},
+        {"$set": {"metadata.is_active": False}})
+    return result.modified_count
+
+
 def save_target(target: dict):
     from scripts.adrule.logic.scraper import SaveTarget
 
@@ -95,10 +108,13 @@ async def _rescrape(db, targets: list[dict], out) -> list[dict]:
                                            save_jsonl=False, dept_code=meta.get("dept_code"),
                                            target=save_target(target))
             status = (result or {}).get("status", "failed")
-            if target["collection"] == "adrule_history" and status == "success":
-                # 과거 버전 넣기와 같은 확정: 일부만 읽었으면 그 버전 행을 꺼 공개하지 않는다. 꺼 둔 버전은 원본 파일 활성 행이
-                # 없으므로 다음 실행의 대상에 다시 든다(candidate_doc_ids). 저장 전에 실패하면 옛 행을 그대로 둔다.
-                status = settle_version(db, target["doc_id"], status)
+            if target["collection"] == "adrule_history":
+                if status == "success":
+                    # 과거 버전 넣기와 같은 확정: 일부만 읽었으면 그 버전 행을 꺼 공개하지 않는다. 꺼 둔 버전은 원본 파일 활성
+                    # 행이 없으므로 다음 실행의 대상에 다시 든다(candidate_doc_ids).
+                    status = settle_version(db, target["doc_id"], status)
+                else:
+                    quarantine_partial_write(db[HISTORY], target["doc_id"])
             out(f"  {target['collection']} {target['doc_id']} {target['title']}: {status}")
             results.append({**target, "status": status, "error": (result or {}).get("error")})
     return results

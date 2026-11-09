@@ -304,6 +304,15 @@ class UnifiedDocumentRepository:
              'chunk_id': {'$nin': active_chunk_ids}, 'metadata.is_active': {'$ne': False}},
             {'$set': {'metadata.is_active': False, 'metadata.is_searchable': False}})
 
+    def retire_rows_outside(self, doc_id: str, keep_chunk_ids: list[str]) -> int:
+        """한 문서(doc_id)를 통째로 다시 저장한 뒤, 이번에 쓰지 않은 활성 행(옛 조문 나눔·옛 검색 조각)을 끈다.
+        keep_chunk_ids 의 검색 조각(metadata.parent_chunk_id)은 남긴다. 끈 행 수를 돌려준다."""
+        result = self.collection.update_many(
+            {'doc_id': doc_id, 'metadata.is_active': {'$ne': False},
+             'chunk_id': {'$nin': keep_chunk_ids}, 'metadata.parent_chunk_id': {'$nin': keep_chunk_ids}},
+            {'$set': {'metadata.is_active': False, 'metadata.is_searchable': False}})
+        return result.modified_count
+
     def upsert_with_change_detection(self, new_doc: Dict) -> Tuple[str, Dict]:
         """
         변경 감지 기능이 포함된 upsert

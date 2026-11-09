@@ -48,6 +48,8 @@ def _match(filter_, doc):
             for op, arg in cond.items():
                 if op == "$in" and value not in arg:
                     return False
+                if op == "$nin" and value in arg:
+                    return False
                 if op == "$ne" and value == arg:
                     return False
                 if op == "$exists" and _has(doc, key) != bool(arg):
@@ -79,6 +81,9 @@ class FakeCollection:
     def find_one(self, filter_=None, projection=None):
         found = self.find(filter_)
         return found[0] if found else None
+
+    def count_documents(self, filter_=None):
+        return len(self.find(filter_))
 
     def distinct(self, field, filter_=None):
         return [_get(d, field) for d in self.find(filter_)]

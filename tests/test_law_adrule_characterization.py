@@ -133,6 +133,10 @@ def adrule_page(outer_html, inner_html=""):
     return page
 
 
+# 비정형 화면은 상세 API 로 본문이 첨부에 있는지 확인한다(없으면 실패). 그림·첨부 안내가 없는 평문 본문.
+PLAIN_RECORD = {"AdmRulService": {"행정규칙기본정보": {"조문형식여부": "N"}, "조문내용": "본문"}}
+
+
 class AdruleParseTest(unittest.IsolatedAsyncioTestCase):
     async def test_structured(self):
         outer = '<div class="pgroup"><span class="bl"><label>제1조(목적)</label></span></div>'
@@ -145,7 +149,8 @@ class AdruleParseTest(unittest.IsolatedAsyncioTestCase):
         ])
 
     async def test_unstructured(self):
-        chunks = await adrule_scraper.parse_law_html(adrule_page("<div>본문</div>", ADRULE_UNSTRUCTURED), "d2", "고시", URL, "o")
+        chunks = await adrule_scraper.parse_law_html(adrule_page("<div>본문</div>", ADRULE_UNSTRUCTURED), "d2", "고시", URL, "o",
+                                                     lawgokr_record=PLAIN_RECORD)
         self.assertEqual([(c["chunk_id"], c["title"], c["text"]) for c in chunks], [
             ("doc:d2:preamble", "고시", "서문 한 줄"),
             ("doc:d2:section_1", "Ⅰ. 개요", "개요 본문"),
@@ -750,7 +755,7 @@ class AdruleScrapeAndSaveTest(unittest.IsolatedAsyncioTestCase):
         page = adrule_scrape_page()
         page.html = "<div>본문 없음</div>"  # 구조·PDF 뷰어 없음 → 비정형 파서, 본문이 비어 청크 0개
         page.locators["#conScroll"] = ""
-        result, save, *_ = await self.run_scrape(page)
+        result, save, *_ = await self.run_scrape(page, record=PLAIN_RECORD)
         self.assertEqual(result, {"status": "failed", "doc_id": "555", "title": "최저임금 고시", "error": "조문(청크) 없음"})
         save.assert_not_called()
 

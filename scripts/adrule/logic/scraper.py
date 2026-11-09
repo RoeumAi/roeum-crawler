@@ -1,4 +1,5 @@
 import asyncio
+import functools
 from playwright.async_api import Page, async_playwright
 from bs4 import BeautifulSoup
 import re
@@ -16,6 +17,7 @@ sys.path.append(project_root)
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
+from scripts.adrule.logic.attachment_body import POINTER, attachment_need, notice_files, stated_period
 from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles, download_and_extract
 from scripts.core.lawgokr_document_saver import (  # noqa: F401 - split_articles_by_number 는 기존 import 경로 유지
     run_in_executor_with_context, save_articles, save_to_file as save_json_lines, split_articles_by_number,
@@ -33,9 +35,13 @@ class SaveTarget:
     collection: 저장할 컬렉션. adrule 에 과거 버전을 넣으면 매일 현행 판정(refresh_current_status_flow)이
         같은 행정규칙ID 의 옛 버전을 끈다.
     extra_meta: metadata 에 더할 값(과거 버전의 적용 종료일 등)
+    replace_rows: 저장에 성공하면 이번에 쓰지 않은 그 문서의 활성 행을 끈다. 이미 저장된 문서를 본문 출처가 바뀐 채
+        다시 넣을 때(fix:adrule-attachment-body) 쓴다 — 조문 나눔이 달라지면 옛 행이 활성으로 남기 때문이다.
+        일일 수집은 시행일이 같으면 다시 저장하지 않으므로 기본값(끄지 않음)을 쓴다.
     """
     collection: str = "adrule"
     extra_meta: Optional[Mapping] = None
+    replace_rows: bool = False
 
 
 CURRENT_ADRULE = SaveTarget()
@@ -134,6 +140,41 @@ def _download_and_extract(key: str) -> dict:
     return download_and_extract(FILE_DOWNLOAD_URL.format(key=key), fallback_name=f"{key}.pdf")
 
 
+def _download_attachment(url: str, file_name: str) -> dict:
+    """첨부 원문(HWP·PDF)을 받아 chat_generation 으로 파싱한다. 실패는 예외로 올린다."""
+    return download_and_extract(url, file_name)
+
+
+def _file_key(url: str) -> str:
+    match = re.search(r'[?&]flSeq=(\d+)', url)
+    return match.group(1) if match else url
+
+
+async def _file_chunks(files: list, doc_id: str, url: str, doc_title: str, output_name: str, debug: bool):
+    """원본 파일 [(파일 번호, 받기 함수)] 를 차례로 읽어 청크로 만든다. 하나라도 못 읽으면 예외를 올린다."""
+    chunks = []
+    for index, (key, fetch) in enumerate(files, 1):
+        extracted = await asyncio.to_thread(fetch)
+        text = extracted["structured_text"].strip()
+        if debug:
+            debug_dir = os.path.join(project_root, 'debug', output_name)
+            os.makedirs(debug_dir, exist_ok=True)
+            with open(os.path.join(debug_dir, f'{output_name}_file_{key}.md'), 'w', encoding='utf-8') as f:
+                f.write(text)
+        chunks.append({
+            "chunk_id": f"doc:{doc_id}:file_{index}", "doc_id": doc_id,
+            # 한 파일이면 제목 줄을 붙이지 않는다(파서 결과에 이미 제목이 있다). 여러 파일이면 구분용 번호만.
+            "title": "" if len(files) == 1 else f"첨부 {index}",
+            "text": text,
+            "metadata": {
+                "chapter": doc_title, "source_type": "pdf", "source_file_key": key,
+                "pdf_extraction_status": extracted.get("extraction_status"),
+            },
+            "source_url": url,
+        })
+    return chunks
+
+
 async def _parse_pdf_viewer_content(page, doc_id: str, url: str, doc_title: str, output_name: str, debug: bool = False):
     """PDF 뷰어(iframe)로만 본문을 보여 주는 문서(최저임금 고시 등).
 
@@ -144,31 +185,25 @@ async def _parse_pdf_viewer_content(page, doc_id: str, url: str, doc_title: str,
     keys = viewer_file_keys(await page.content())
     if not keys:
         raise ValueError("PDF 뷰어에서 원본 파일 번호(key)를 찾지 못함")
+    files = [(key, functools.partial(_download_and_extract, key)) for key in keys]
+    return await _file_chunks(files, doc_id, url, doc_title, output_name, debug)
 
-    chunks = []
-    for index, key in enumerate(keys, 1):
-        extracted = await asyncio.to_thread(_download_and_extract, key)
-        text = extracted["structured_text"].strip()
-        if debug:
-            debug_dir = os.path.join(project_root, 'debug', output_name)
-            os.makedirs(debug_dir, exist_ok=True)
-            with open(os.path.join(debug_dir, f'{output_name}_file_{key}.md'), 'w', encoding='utf-8') as f:
-                f.write(text)
-        chunks.append({
-            "chunk_id": f"doc:{doc_id}:file_{index}", "doc_id": doc_id,
-            # 한 파일이면 제목 줄을 붙이지 않는다(파서 결과에 이미 제목이 있다). 여러 파일이면 구분용 번호만.
-            "title": "" if len(keys) == 1 else f"첨부 {index}",
-            "text": text,
-            "metadata": {
-                "chapter": doc_title, "source_type": "pdf", "source_file_key": key,
-                "pdf_extraction_status": extracted.get("extraction_status"),
-            },
-            "source_url": url,
-        })
-    return chunks
 
-async def parse_law_html(page: 'Page', doc_id: str, doc_title: str, url: str, output_name: str, debug: bool = False):
-    """페이지 객체를 받아 유형을 판별하고 적절한 파서를 호출하는 컨트롤 타워."""
+async def _parse_attachment_body(lawgokr_record: dict, doc_id: str, url: str, doc_title: str,
+                                 output_name: str, debug: bool = False):
+    """화면 본문이 표 그림이거나 첨부를 가리키는 문구뿐인 문서: 첨부파일 중 고시 원문을 본문으로 읽는다
+    (판정·고르는 규칙은 attachment_body). 고를 원문이 없거나 하나라도 못 읽으면 예외 — 빈 본문을 성공으로 저장하지 않는다."""
+    notices = notice_files(lawgokr_record)
+    if not notices:
+        raise ValueError("본문이 첨부에 있는데 고시 원문 첨부를 찾지 못함")
+    files = [(_file_key(link), functools.partial(_download_attachment, link, name)) for link, name in notices]
+    return await _file_chunks(files, doc_id, url, doc_title, output_name, debug)
+
+async def parse_law_html(page: 'Page', doc_id: str, doc_title: str, url: str, output_name: str, debug: bool = False,
+                         lawgokr_record: Optional[dict] = None):
+    """페이지 객체를 받아 유형을 판별하고 적절한 파서를 호출하는 컨트롤 타워.
+
+    lawgokr_record(상세 Open API) 가 본문이 첨부에 있다고 알려 주면 화면 대신 첨부 원문을 읽는다(PDF 뷰어 문서 제외)."""
     outer_html = await page.content()
     soup = BeautifulSoup(outer_html, 'html.parser')
 
@@ -180,6 +215,18 @@ async def parse_law_html(page: 'Page', doc_id: str, doc_title: str, url: str, ou
 
     content_selector = '#conScroll'
 
+    if not contains_pdf_iframe:
+        if lawgokr_record is None and not is_structured:
+            # 비정형 화면은 표가 그림으로 빠졌는지 상세 API 로만 안다. 모른 채 화면 글을 성공으로 저장하면
+            # 시행일이 같아 다시 읽지 않으므로 실패로 돌려 다음 실행에서 다시 시도한다.
+            raise ValueError("상세 API 조회 실패 — 본문이 첨부에 있는지 확인하지 못함")
+        need = attachment_need(lawgokr_record)
+        if need == POINTER or (need and notice_files(lawgokr_record)):
+            logger.info("유형 4: 화면 본문이 표 그림·첨부 안내뿐 — 첨부 원문 파싱")
+            return await _parse_attachment_body(lawgokr_record, doc_id, url, doc_title, output_name, debug)
+        if need:
+            # 그림은 있으나 원문 첨부가 없다(장식 그림이거나 원문을 올리지 않음). 화면 글이 가진 전부라 그대로 저장한다.
+            logger.warning(f"{doc_id}: 화면 본문에 그림이 있으나 고를 원문 첨부가 없어 화면 글을 저장")
     if is_structured:
         logger.info("유형 1: 정형화된 법령 구조 감지")
         content_html = await page.locator(content_selector).inner_html()
@@ -282,8 +329,16 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                                                              doc_id=doc_id, title=doc_title)
         articles = articles + annex_rows
         
+        period = stated_period(unified_content)
+        written_chunk_ids: list[str] = []
+
         # 각 조마다 독립 문서 생성 및 저장 (공통 루프: lawgokr_document_saver.save_articles)
         def build_doc(idx, article, total):
+            article_doc = _build_doc(idx, article, total)
+            written_chunk_ids.append(article_doc["chunk_id"])
+            return article_doc
+
+        def _build_doc(idx, article, total):
             # 조별 문서 생성 (law.py와 동일한 스키마)
             article_number = normalize_article_number(
                 article['article_number'],
@@ -303,6 +358,10 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 meta["dept_code"] = dept_code
             # 고시일·고시번호·소관부처·제개정 구분은 상세 API 기본정보가 원천이다(목록은 소관부처명을 넘기지 않는다).
             meta.update(adrule_basic_meta(lawgokr_record))
+            # 본문이 이 버전의 적용 기간을 밝히면(최저임금 고시 등 해마다 고시) 끝나는 날을 남긴다. 과거 버전은 아래
+            # extra_meta 의 effective_to(다음 버전 시행일 전날)가 덮는다. 시행일과 시작일이 다르면 다른 기간이라 쓰지 않는다.
+            if period and period[0] == effective_date:
+                meta["effective_to"] = period[1]
             if dept_name:
                 meta["dept_name"] = dept_name
             if adrule_id:
@@ -334,8 +393,13 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 logger.info(f"🔄 기존 버전 유지: {doc_id} (article_number: {article_number})")
 
         # 변경 감지 포함 upsert (law.py와 동일한 버전관리 경로)
-        return save_articles(repo, articles, build_doc=build_doc, log_action=log_action,
-                             source_url=url, annex_failed=annex_failed, logger=logger)
+        action = save_articles(repo, articles, build_doc=build_doc, log_action=log_action,
+                               source_url=url, annex_failed=annex_failed, logger=logger)
+        if action and target.replace_rows:
+            retired = repo.retire_rows_outside(doc_id, written_chunk_ids)
+            if retired:
+                logger.info(f"🧹 {doc_id}: 이번에 쓰지 않은 옛 행 {retired}개 끔")
+        return action
 
     except Exception as e:
         logger.error(f"MongoDB 저장 중 오류 발생: {str(e)}")
@@ -449,7 +513,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 "is_active": True
             }
 
-            chunks = await parse_law_html(page, doc_id, doc_title, url, output_name, debug)
+            chunks = await parse_law_html(page, doc_id, doc_title, url, output_name, debug, lawgokr_record)
 
             # JSONL 파일로 저장 (save_jsonl=True인 경우에만)
             if save_jsonl:

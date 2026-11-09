@@ -47,6 +47,7 @@ python3 manual.py <작업> [인자...]    # 실행
 | `pdf-ingest` | 기본=쓰기 | PDF 디렉터리(`--pdf-dir` 또는 환경변수 `PDF_DB_DIR`, 하위 `판례`·`행정해석`·`결정례`)의 PDF를 chat_generation으로 파싱해 넣는다. `--type 판례 --dry-run`으로 먼저 확인 |
 | `pdf-reparse` | 기본=미리보기 | 이미 넣은 PDF 문서를 지금 파서로 다시 파싱(아래 "PDF 다시 파싱") |
 | `import:adrule-history` | 기본=미리보기 | 행정규칙 과거 버전을 `adrule_history`에 넣는다(아래 "행정규칙 과거 버전") |
+| `fix:adrule-attachment-body` | 기본=미리보기 | 화면 글만 저장된 행정규칙을 첨부 원문으로 다시 넣는다(아래 "본문이 첨부에 있는 행정규칙") |
 
 `pdf-ingest`는 DB에 이미 있는 파일(`metadata.source_file`)은 건너뛴다. 이미 넣은 문서를 고치려면 `pdf-reparse`를 쓴다.
 
@@ -67,6 +68,26 @@ aws ecs run-task --cluster my-roum-cluster --task-definition roeum-crawler --lau
 ```
 
 추출에 실패했거나 본문 일부를 못 읽은 버전(옛 HWP 첨부 등)은 그 행을 꺼 두고(`is_active: false`) 실패로 센다. 내보내기는 활성 행만 읽으므로 공개되지 않고, 다음 실행에서 다시 시도한다(이미 온전히 넣은 버전만 건너뛴다).
+
+#### 본문이 첨부에 있는 행정규칙 (`fix:adrule-attachment-body`)
+
+law.go.kr 화면이 표를 그림으로 싣거나("1. 최저임금액 [그림]") "자세한 내용은 상단 메뉴 … 버튼을 이용하십시오"만 보여 주는 행정규칙은
+화면 글만 저장하면 금액·기준표가 빠진다. 수집기는 상세 API로 이런 문서를 알아보고(조문 형식이 아닌 본문의 그림, 또는 첨부 안내 문구)
+첨부 중 고시 원문을 읽는다(별표·개정안·이유서·신구조문 대비표·검토 의견서는 뺀다, 같은 파일은 PDF 우선). 원문 첨부가 없거나 못 읽으면
+문서를 실패로 센다. 판정·고르기 규칙은 `scripts/adrule/logic/attachment_body.py`.
+
+일일 수집은 시행일이 같으면 다시 저장하지 않으므로, 이미 화면 글로 저장된 문서(`adrule`·`adrule_history`)는 이 도구로 한 번 다시 넣는다.
+저장은 일일 수집과 같은 경로이고, 성공한 문서는 이번에 쓰지 않은 옛 행을 끈다. 과거 버전은 원래 행의 적용 종료일·다음 버전을 그대로 싣는다.
+추출 서버가 필요하므로 운영에서는 ECS 태스크로 돌린다(위 `import:adrule-history`와 같은 `run-task`, 명령만 바꾼다).
+
+```bash
+python3 manual.py fix:adrule-attachment-body                       # 미리 보기: 대상 문서와 읽을 첨부
+python3 manual.py fix:adrule-attachment-body --adrule-id 2002374   # 최저임금 고시만
+python3 manual.py fix:adrule-attachment-body --apply
+```
+
+본문이 적용 기간을 밝히는 행정규칙("적용 기간 : 2027. 1. 1. ~ 2027. 12. 31.")은 저장할 때 끝나는 날(`metadata.effective_to`)을 싣는다
+(시작일이 시행일과 같을 때만). 이미 저장된 현행 문서는 `fix:adrule-record-meta`가 같은 규칙으로 채운다.
 
 #### PDF 다시 파싱 (`pdf-reparse`)
 
@@ -91,7 +112,7 @@ python3 manual.py pdf-reparse --include-complete --apply     # complete 였던 �
 | `fix:split-paragraphs` | 기본=미리보기 | 원문을 다시 받을 수 없는 한 줄 본문(옛 CSV로 넣은 판례 등)을 판결문 번호(1. 가. 1) 가) (1) ○) 앞에서 문단으로 나눈다. 공백만 빈 줄로 바꿔 임베딩은 그대로. `--collection case --samples 5`로 먼저 확인 |
 | `fix:law-current-version` | 기본=미리보기 | 같은 `doc_id`에 시행일이 둘 이상인 법령을 버전별 `doc_id`로 나누고(현행본은 유지), 그 때문에 꺼진 현행본을 되살린다. 본문·임베딩은 그대로. `--apply`에는 새 `--backup` 파일 필수. 적용 뒤 `refresh_current_status`가 겹친 현행본을 정리한다. | `python3 manual.py fix:law-current-version` |
 | `fix:judgment-decision-date` | 기본=미리보기 | 주요판정사례(nlrc.go.kr 수집분) `sub_title`에 본문의 판정일을 싣고 놓친 사건번호를 채운다. 본문·`metadata.effective`·임베딩은 그대로. | `python3 manual.py fix:judgment-decision-date --samples 5` |
-| `fix:adrule-record-meta` | 기본=미리보기 | 행정규칙(`adrule`·`adrule_history`) 활성 행에 고시일(`promulgation_date`)·고시번호(`promulgation_number`)·소관부처(`dept_name`)·제개정 구분·행정규칙 종류를 상세 API 기본정보로 채운다. 문서마다 API 1회, 본문·해시는 그대로. 새로 저장되는 행은 크롤링이 직접 싣는다 |
+| `fix:adrule-record-meta` | 기본=미리보기 | 행정규칙(`adrule`·`adrule_history`) 활성 행에 고시일(`promulgation_date`)·고시번호(`promulgation_number`)·소관부처(`dept_name`)·제개정 구분·행정규칙 종류를 상세 API 기본정보로 채운다. 본문이 적용 기간을 밝히는 현행 행정규칙에는 끝나는 날(`effective_to`)도 채운다. 문서마다 API 1회, 본문·해시는 그대로. 새로 저장되는 행은 크롤링이 직접 싣는다 |
 | `fix:text-cleanup` | 기본=미리보기 | 한글 사이 `？`→`ㆍ`, `<br>`→줄바꿈, `&nbsp;`→공백, 법령 `제N조(제목)` 뒤 공백→줄바꿈. 마크다운 표 행의 `<br>`은 그대로. 바뀐 행은 `content_hash`·`source_version_id` 재계산(공백만 바뀌어도). 판례·행정해석은 글자가 바뀐 문서의 대표 행 `embedding_hash`를 지워 재임베딩(공백만 바뀌면 그대로), 행마다 벡터인 컬렉션(법령 등)은 `content_hash`가 바뀐 행이 03:30에 재임베딩. **순서: 이 작업을 `--apply`(기본 컬렉션 전부)로 먼저 돌린 뒤 저장 경로 정리·법령 스크래퍼 변경이 든 크롤러 이미지를 배포** — 반대면 다음 크롤에서 영향받은 법령 조문·문서마다 새 버전이 생긴다. `--collections case law --samples 3`로 먼저 확인 |
 
 끝난 일회성 정비 도구(출처 필드·안정 ID·청크 식별자·prune·CSV 넣기 등)는 삭제했다. 필요하면 git 이력에서 꺼낸다. 실수로 타 부처 법령을 지울 수 있던 `prune-*`도 함께 없앴다.

@@ -48,6 +48,8 @@ def _match(filter_, doc):
             for op, arg in cond.items():
                 if op == "$in" and value not in arg:
                     return False
+                if op == "$nin" and value in arg:
+                    return False
                 if op == "$ne" and value == arg:
                     return False
                 if op == "$exists" and _has(doc, key) != bool(arg):

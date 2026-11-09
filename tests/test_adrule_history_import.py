@@ -75,9 +75,13 @@ class BasicMetaTest(unittest.TestCase):
 
 
 class FakeCollection:
-    def __init__(self, doc_ids):
+    def __init__(self, doc_ids, rows=()):
         self.doc_ids = doc_ids
+        self.rows = list(rows)
         self.written = []
+
+    def find(self, flt, projection=None):
+        return list(self.rows)
 
     def distinct(self, field, flt):
         return list(self.doc_ids)
@@ -96,7 +100,7 @@ class RecordMetaBackfillTest(unittest.TestCase):
 
     def test_preview_writes_nothing(self):
         stat, db = self.run_tool(apply=False)
-        self.assertEqual({"docs": 2, "updated_docs": 1, "no_record": 1, "written": 0}, stat)
+        self.assertEqual({"docs": 2, "updated_docs": 1, "no_record": 1, "written": 0, "effective_to": 0}, stat)
         self.assertEqual([], db["adrule"].written)
 
     def test_apply_sets_only_record_fields_on_rows_missing_them(self):
@@ -107,6 +111,35 @@ class RecordMetaBackfillTest(unittest.TestCase):
         self.assertEqual({"$exists": False}, op._filter["metadata.promulgation_date"])
         self.assertEqual("2025-08-05", op._doc["$set"]["metadata.promulgation_date"])
         self.assertEqual("고용노동부", op._doc["$set"]["metadata.dept_name"])
+
+
+class StatedPeriodBackfillTest(unittest.TestCase):
+    """본문이 밝힌 적용 기간의 끝을 현행 행정규칙에 채운다(시작이 시행일과 같을 때만)."""
+
+    def run_fill(self, rows, apply=True):
+        collection = FakeCollection([], rows)
+        args = types.SimpleNamespace(apply=apply, limit=0, samples=0)
+        return arm.fill_stated_period(args, collection, out=lambda *_: None), collection
+
+    def test_end_of_stated_period_is_written(self):
+        rows = [{"doc_id": "2100000283564", "metadata": {"effective": "2027-01-01"}, "content": "고시"},
+                {"doc_id": "2100000283564", "metadata": {"effective": "2027-01-01"},
+                 "content": "## 3. 최저임금 적용 기간: 2027. 1. 1. ~ 2027. 12. 31."}]
+        count, collection = self.run_fill(rows)
+        self.assertEqual(1, count)
+        op = collection.written[0]
+        self.assertEqual("2100000283564", op._filter["doc_id"])
+        self.assertEqual({"metadata.effective_to": "2027-12-31"}, op._doc["$set"])
+
+    def test_period_not_starting_on_effective_date_or_missing_is_skipped(self):
+        rows = [{"doc_id": "a", "metadata": {"effective": "2026-03-01"}, "content": "적용 기간 : 2026. 1. 1. ~ 2026. 12. 31."},
+                {"doc_id": "b", "metadata": {"effective": "2026-01-01"}, "content": "기간 언급 없음"}]
+        self.assertEqual(0, self.run_fill(rows)[0])
+
+    def test_preview_writes_nothing(self):
+        rows = [{"doc_id": "a", "metadata": {"effective": "2026-01-01"}, "content": "적용 기간 : 2026. 1. 1. ~ 2026. 12. 31."}]
+        count, collection = self.run_fill(rows, apply=False)
+        self.assertEqual((1, []), (count, collection.written))
 
 
 if __name__ == "__main__":

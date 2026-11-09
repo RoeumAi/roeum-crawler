@@ -24,6 +24,7 @@ from datetime import date, timedelta
 import requests
 
 from scripts.core.config import LAWGO_OC
+from scripts.core.lawgokr_stable_id import iso_date
 from scripts.core.run_report import call_with_retry
 from scripts.utils.logger_config import get_logger
 
@@ -36,13 +37,6 @@ PAGE_SIZE = 100
 TIMEOUT_SECONDS = 15
 # 결정 전 공고("2026년 적용 최저임금안 고시")는 확정 고시가 아니다.
 DRAFT_TITLE = re.compile(r"안\s*고시\s*$")
-
-
-def _iso(yyyymmdd: str | None) -> str | None:
-    text = str(yyyymmdd or "").strip()
-    if len(text) == 8 and text.isdigit():
-        return f"{text[:4]}-{text[4:6]}-{text[6:]}"
-    return None
 
 
 def search_versions(query: str, page_size: int = PAGE_SIZE) -> list[dict]:
@@ -81,7 +75,7 @@ def plan_history(rows: list[dict], adrule_id: str, existing_doc_ids: set[str],
         if str(row.get("행정규칙ID") or "") != str(adrule_id):
             continue
         title = str(row.get("행정규칙명") or "").strip()
-        effective = _iso(row.get("시행일자"))
+        effective = iso_date(row.get("시행일자"))
         doc_id = str(row.get("행정규칙일련번호") or "").strip()
         if not doc_id or not effective or DRAFT_TITLE.search(title):
             continue
@@ -89,7 +83,7 @@ def plan_history(rows: list[dict], adrule_id: str, existing_doc_ids: set[str],
             "doc_id": doc_id,
             "title": title,
             "effective": effective,
-            "promulgation_date": _iso(row.get("발령일자")),
+            "promulgation_date": iso_date(row.get("발령일자")),
             "promulgation_number": str(row.get("발령번호") or "").strip() or None,
         }
     versions = sorted(by_doc.values(), key=lambda v: (v["effective"], v["promulgation_date"] or "", v["doc_id"]))
@@ -143,7 +137,7 @@ def settle_version(db, doc_id: str, status: str) -> str:
 
 
 async def _import(db, planned: list[dict], dept_code: str | None) -> list[dict]:
-    from scripts.adrule.logic.scraper import scrape_and_save
+    from scripts.adrule.logic.scraper import SaveTarget, scrape_and_save
 
     results = []
     with tempfile.TemporaryDirectory() as tmp:
@@ -151,7 +145,7 @@ async def _import(db, planned: list[dict], dept_code: str | None) -> list[dict]:
             result = await scrape_and_save(
                 {"url": version["url"]}, tmp, f"history_{version['doc_id']}",
                 save_to_db=True, save_jsonl=False, dept_code=dept_code,
-                collection_name=HISTORY_COLLECTION, extra_meta=history_meta(version),
+                target=SaveTarget(HISTORY_COLLECTION, history_meta(version)),
             )
             status = settle_version(db, version["doc_id"], (result or {}).get("status", "failed"))
             logger.info(f"{version['title']} ({version['doc_id']}): {status}")

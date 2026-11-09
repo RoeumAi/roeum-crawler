@@ -3,6 +3,7 @@ import types
 import unittest
 
 from scripts.adrule import history_import as hi
+from scripts.adrule.logic.scraper import SaveTarget
 from scripts.core.lawgokr_stable_id import adrule_basic_meta
 from scripts.migrations import adrule_record_meta as arm
 
@@ -150,8 +151,8 @@ class SaveMetaTest(unittest.TestCase):
         self.assertNotIn("history", meta)
 
     def test_history_rows_go_to_their_own_collection(self):
-        captured = self.save(collection_name="adrule_history",
-                             extra_meta={"history": True, "effective_to": "2026-12-31"})
+        captured = self.save(target=SaveTarget("adrule_history",
+                                    {"history": True, "effective_to": "2026-12-31"}))
         self.assertEqual("adrule_history", captured["collection"])
         self.assertTrue(captured["doc"]["metadata"]["history"])
         self.assertEqual("2026-12-31", captured["doc"]["metadata"]["effective_to"])

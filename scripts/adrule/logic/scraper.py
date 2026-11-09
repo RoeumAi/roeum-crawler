@@ -5,7 +5,9 @@ import re
 import os
 from urllib.parse import urlparse, parse_qs
 import sys
+from dataclasses import dataclass
 from datetime import datetime
+from typing import Mapping, Optional
 
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
@@ -22,6 +24,21 @@ from scripts.core.lawgokr_page import dump_error_artifacts, load_rendered_page
 from scripts.core.lawgokr_stable_id import adrule_basic_meta, fetch_record, stable_adrule_id
 
 logger = get_logger(__name__, scraper_type='adrule')
+
+
+@dataclass(frozen=True)
+class SaveTarget:
+    """저장 대상. 일일 수집은 기본값(adrule)이고, 과거 버전 넣기(history_import)는 adrule_history 와 표시 값을 넘긴다.
+
+    collection: 저장할 컬렉션. adrule 에 과거 버전을 넣으면 매일 현행 판정(refresh_current_status_flow)이
+        같은 행정규칙ID 의 옛 버전을 끈다.
+    extra_meta: metadata 에 더할 값(과거 버전의 적용 종료일 등)
+    """
+    collection: str = "adrule"
+    extra_meta: Optional[Mapping] = None
+
+
+CURRENT_ADRULE = SaveTarget()
 
 def clean_spaces(s: str) -> str:
     s = (s or "").replace("\xa0", " ")
@@ -182,7 +199,7 @@ def save_to_file(data, filename):
 def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_code: str = None,
                    sub_title: str = "", effective_date: str = None, dept_name: str = None,
                    is_upcoming: bool = False, adrule_id: str = None, lawgokr_record: dict = None,
-                   collection_name: str = "adrule", extra_meta: dict = None) -> str:
+                   target: SaveTarget = CURRENT_ADRULE) -> str:
     """
     행정예규를 MongoDB에 조별로 분리하여 저장 (law.py와 동일)
     
@@ -200,9 +217,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         dept_code: 부처 코드 (옵션)
         sub_title: 부제 (시행일자 및 고시 정보)
         effective_date: 효력일자 (YYYY-MM-DD 형식)
-        collection_name: 저장할 컬렉션(기본 adrule). 과거 버전은 adrule_history 에 따로 둔다 —
-            adrule 에 넣으면 매일 현행 판정(refresh_current_status_flow)이 같은 행정규칙ID 의 옛 버전을 끈다.
-        extra_meta: metadata 에 더할 값(과거 버전의 적용 종료일 등)
+        target: 저장 대상(컬렉션·추가 metadata). 기본은 일일 수집의 adrule
     
     Returns:
         저장 성공 여부
@@ -217,7 +232,7 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
         
         from scripts.core.database.mongo_client import get_mongo_db
         db = get_mongo_db()
-        repo = UnifiedDocumentRepository(db, collection_name=collection_name)
+        repo = UnifiedDocumentRepository(db, collection_name=target.collection)
         
         # 모든 청크를 하나의 content로 통합
         content_parts = []
@@ -292,8 +307,8 @@ def save_to_mongodb(chunks: list, doc_title: str, doc_id: str, url: str, dept_co
                 meta["dept_name"] = dept_name
             if adrule_id:
                 meta["adrule_id"] = adrule_id
-            if extra_meta:
-                meta.update(extra_meta)
+            if target.extra_meta:
+                meta.update(target.extra_meta)
             meta.update(source_file_meta)
             meta.update(annex_metadata(article))
 
@@ -336,7 +351,7 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
                                 sub_title: str = "", effective_date: str = None, executor=None,
                                 dept_name: str = None, is_upcoming: bool = False,
                                 adrule_id: str = None, lawgokr_record: dict = None,
-                                collection_name: str = "adrule", extra_meta: dict = None) -> str:
+                                target: SaveTarget = CURRENT_ADRULE) -> str:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     try:
         return await run_in_executor_with_context(
@@ -344,17 +359,17 @@ async def save_to_mongodb_async(chunks: list, doc_title: str, doc_id: str, url: 
             chunks, doc_title, doc_id, url,
             dept_code=dept_code, sub_title=sub_title, effective_date=effective_date,
             dept_name=dept_name, is_upcoming=is_upcoming, adrule_id=adrule_id,
-            lawgokr_record=lawgokr_record, collection_name=collection_name, extra_meta=extra_meta,
+            lawgokr_record=lawgokr_record, target=target,
         )
     except Exception as e:
         logger.error(f"MongoDB 비동기 저장 실패: {e}")
         return False
 
 async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, debug: bool = False, save_to_db: bool = True, save_jsonl: bool = True, dept_code: str = None,
-                          collection_name: str = "adrule", extra_meta: dict = None):
+                          target: SaveTarget = CURRENT_ADRULE):
     """Playwright를 실행하여 웹페이지 컨텐츠를 가져오고 파일로 저장합니다.
 
-    collection_name·extra_meta 는 과거 버전 넣기(scripts/adrule/history_import.py)가 adrule_history 에 저장할 때 쓴다."""
+    target 은 과거 버전 넣기(scripts/adrule/history_import.py)가 adrule_history 에 저장할 때 쓴다."""
     dept_name = None
     is_upcoming = False
     if isinstance(url, dict):
@@ -463,8 +478,7 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                     is_upcoming=is_upcoming,
                     adrule_id=adrule_id,
                     lawgokr_record=lawgokr_record,
-                    collection_name=collection_name,
-                    extra_meta=extra_meta,
+                    target=target,
                 )
             
             if save_to_db and not chunks:

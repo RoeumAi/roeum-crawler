@@ -59,7 +59,7 @@ def fetch_stable_adrule_id(doc_id: str) -> Optional[str]:
     return stable_adrule_id(fetch_record("admrul", doc_id))
 
 
-def _dotted_date(value) -> Optional[str]:
+def iso_date(value) -> Optional[str]:
     """'20250805' → '2025-08-05'. 형식이 다르면 None(추측하지 않는다)."""
     text = str(value or "").strip()
     if len(text) == 8 and text.isdigit():
@@ -78,7 +78,7 @@ def adrule_basic_meta(record: Optional[dict]) -> dict:
     """
     basic = ((record or {}).get("AdmRulService") or {}).get("행정규칙기본정보") or {}
     meta = {
-        "promulgation_date": _dotted_date(basic.get("발령일자")),
+        "promulgation_date": iso_date(basic.get("발령일자")),
         "promulgation_number": str(basic.get("발령번호") or "").strip() or None,
         "dept_name": str(basic.get("소관부처명") or "").strip() or None,
         "revision_kind": str(basic.get("제개정구분명") or "").strip() or None,

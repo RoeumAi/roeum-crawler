@@ -52,6 +52,7 @@ class RunDailyTest(unittest.TestCase):
         (self.dir / "scripts/core").mkdir(parents=True, exist_ok=True)
         shutil.copy(REPO / "scripts/core/config.py", self.dir / "scripts/core/config.py")
         shutil.copy(REPO / "scripts/core/run_report.py", self.dir / "scripts/core/run_report.py")
+        shutil.copy(REPO / "scripts/core/lawgokr_maintenance.py", self.dir / "scripts/core/lawgokr_maintenance.py")
         for pkg in ("scripts", "scripts/core", "scripts/report"):
             (self.dir / pkg / "__init__.py").touch()
         (self.dir / "scripts/core/flows").mkdir(parents=True, exist_ok=True)

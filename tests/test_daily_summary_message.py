@@ -89,6 +89,26 @@ class BuildMessageTest(unittest.TestCase):
         self.assertIn("법령 목록 미수집 — 데이터 유실 아님", text)
         self.assertTrue(embed["footer"]["text"].startswith("[WARN]"))
 
+    def test_lawgokr_maintenance_names_window_on_lawgokr_sources_only(self):
+        # 11-14 00:02 재현: law.go.kr 점검(11-13 21:00 ~ 11-14 21:00)으로 법제처 자료 목록 실패, 노동위 자료는 정상
+        window = "11월 13일(금) 21:00 ~ 11월 14일(토) 21:00"
+        scrapers = dict(LISTING_FAILURE,
+                        judgment={"status": "failed", "total_urls": 0, "total_success": 0, "total_failed": 0})
+        embed = message(scrapers, attempts=3, exit_code=2, lawgokr_maintenance=window)
+        self.assertEqual(embed["title"], "⚠️ 법률 자료 일일 수집 — 법제처 점검")
+        text = embed["description"]
+        self.assertIn("⚠️ 법령: law.go.kr 점검 중 (목록을 못 받음)", text)
+        self.assertIn("⚠️ 주요판정사례: 수집원 일시 오류 (목록을 못 받음)", text)  # nlrc 는 점검과 무관
+        self.assertIn(f"• law.go.kr 시스템 점검({window})으로 법령 목록 미수집 — 데이터 유실 아님", text)
+        self.assertIn("• 외부 수집원 일시 오류로 주요판정사례 목록 미수집 — 데이터 유실 아님", text)
+        self.assertIn("점검이 끝난 뒤 다음 실행에서 다시 받습니다.", text)
+        self.assertTrue(embed["footer"]["text"].startswith("[WARN]"))
+
+    def test_maintenance_ignored_without_lawgokr_listing_failure(self):
+        embed = message(SUCCESS, lawgokr_maintenance="11월 13일(금) 21:00 ~ 11월 14일(토) 21:00")
+        self.assertEqual(embed["title"], "✅ 법률 자료 일일 수집 — 성공")
+        self.assertNotIn("점검", embed["description"])
+
     def test_crash_or_missing_result_is_error(self):
         embed = message({}, missing_attempt=True, exit_code=1)
         self.assertEqual(embed["title"], "🚨 법률 자료 일일 수집 — 실패")
@@ -150,6 +170,16 @@ class MainTest(unittest.TestCase):
         self.assertIsNone(attachment)  # 실패가 없으면 첨부 파일도 없다
         self.assertIn("전체 업데이트 3건", payload["embeds"][0]["description"])
         self.assertIn("전송 완료", out)
+
+    def test_probes_lawgokr_only_when_its_listing_failed(self):
+        probe = mock.Mock(return_value="11월 13일(금) 21:00 ~ 11월 14일(토) 21:00")
+        with mock.patch("scripts.notify.daily_summary.probe_maintenance", probe):
+            _, sent = self.run_main({"DISCORD_WEBHOOK": "https://example.invalid/data"})
+            probe.assert_not_called()  # SUCCESS 에는 목록 실패가 없다
+            self.result.write_text(json.dumps({"exit_code": 2, "scrapers": LISTING_FAILURE}))
+            _, sent = self.run_main({"DISCORD_WEBHOOK": "https://example.invalid/data"})
+        probe.assert_called_once()
+        self.assertIn("법제처 점검", sent.call_args.args[1]["embeds"][0]["title"])
 
     def test_skips_without_webhook(self):
         out, sent = self.run_main({})

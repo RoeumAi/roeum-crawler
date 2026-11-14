@@ -19,6 +19,7 @@ import io
 import os
 
 from scripts.core.config import SCRAPERS
+from scripts.core.lawgokr_maintenance import probe_maintenance
 from scripts.core.run_report import EXTRACT_PARTIAL, EXTRACT_SERVER_DOWN
 from scripts.notify.alert_format import get_env_name, resolve_webhook, send_discord_payload
 from scripts.report.batch_result import (
@@ -40,11 +41,25 @@ def _n(result: dict, key: str) -> int:
     return int(result.get(key) or 0)
 
 
-def describe_scraper(name: str, result: dict | None) -> tuple[str, str]:
+def is_lawgokr(key: str) -> bool:
+    """목록을 law.go.kr 에서 받는 스크래퍼인지(점검이면 함께 멈춘다)."""
+    config = SCRAPERS.get(key)
+    return bool(config and "law.go.kr" in (config.list_page_url or ""))
+
+
+def lawgokr_listing_failed(scrapers: dict) -> bool:
+    """law.go.kr 자료 중 목록을 못 받은 것이 있는지 — 있을 때만 점검 여부를 물어본다."""
+    return any(is_lawgokr(key) and isinstance(result, dict) and is_listing_failure(result)
+               for key, result in scrapers.items())
+
+
+def describe_scraper(name: str, result: dict | None, under_maintenance: bool = False) -> tuple[str, str]:
     """스크래퍼 한 줄과 상태(partial·listing·updated·unchanged·missing)."""
     if result is None:
         return f"⬜ {name}: 미실행", "missing"
     if is_listing_failure(result):
+        if under_maintenance:
+            return f"⚠️ {name}: law.go.kr 점검 중 (목록을 못 받음)", "listing"
         return f"⚠️ {name}: 수집원 일시 오류 (목록을 못 받음)", "listing"
     success, no_change = _n(result, "total_success"), _n(result, "total_no_change")
     skipped, failed = _n(result, "skipped"), _n(result, "total_failed")
@@ -106,10 +121,12 @@ def build_message(
     target: str = "roeum-crawler(daily)",
     env: str = "prod",
     log_location: str = DEFAULT_LOG_LOCATION,
+    lawgokr_maintenance: str | None = None,
 ) -> dict:
     """Discord 웹훅 payload(embed 한 장).
 
     심각도: 크롤러·재계산 비정상 종료나 문서 실패 → ERROR, 외부 수집원 목록 실패만 → WARN, 그 외 INFO.
+    lawgokr_maintenance: law.go.kr 점검 시간(점검 중일 때만). law.go.kr 자료의 목록 실패를 점검으로 적는다.
     """
     hours, mins = divmod(duration_min, 60)
     duration_str = f"{hours}시간 {mins}분" if hours else f"{mins}분"
@@ -117,12 +134,18 @@ def build_message(
     total_no_change = sum(_n(r, "total_no_change") for r in scrapers.values())
 
     rows = []
+    maintenance_names = set()
     for index, (key, config) in enumerate(SCRAPERS.items()):
-        line, state = describe_scraper(config.display_name, scrapers.get(key))
+        under_maintenance = bool(lawgokr_maintenance) and is_lawgokr(key)
+        line, state = describe_scraper(config.display_name, scrapers.get(key), under_maintenance)
+        if under_maintenance and state == "listing":
+            maintenance_names.add(config.display_name)
         rows.append((_ORDER[state], index, line, state, config.display_name))
     rows.sort()
     partial = [name for *_, state, name in rows if state == "partial"]
     listing = [name for *_, state, name in rows if state == "listing"]
+    listing_maintenance = [name for name in listing if name in maintenance_names]
+    listing_other = [name for name in listing if name not in maintenance_names]
 
     errors = []
     if missing_attempt or exit_code not in (EXIT_OK, EXIT_LISTING_FAILURE):
@@ -135,7 +158,8 @@ def build_message(
     elif partial:
         severity, status, icon = "ERROR", "일부 실패", "❌"
     elif listing:
-        severity, status, icon = "WARN", "수집원 일시 오류", "⚠️"
+        severity, icon = "WARN", "⚠️"
+        status = "법제처 점검" if listing_maintenance else "수집원 일시 오류"
     else:
         severity, status, icon = "INFO", "성공", "✅"
 
@@ -150,14 +174,20 @@ def build_message(
         lines += ["", "**실패 원인**"]
         lines += [f"• {e}" for e in errors]
         lines += [f"• {reason} {count:,}건" for reason, count in reasons.items()]
-        if listing:
-            lines.append(f"• law.go.kr 등 외부 수집원 일시 오류로 {', '.join(listing)} 목록 미수집 — 데이터 유실 아님")
+        if listing_maintenance:
+            lines.append(f"• law.go.kr 시스템 점검({lawgokr_maintenance})으로 {', '.join(listing_maintenance)} "
+                         "목록 미수집 — 데이터 유실 아님")
+        if listing_other:
+            source = "외부 수집원" if listing_maintenance else "law.go.kr 등 외부 수집원"
+            lines.append(f"• {source} 일시 오류로 {', '.join(listing_other)} 목록 미수집 — 데이터 유실 아님")
         if EXTRACT_SERVER_DOWN in reasons:
             # 10-29·10-30: 서버 쪽(운영 chat_generation 메모리 초과 재시작)이 그대로면 다음 실행에서도 같은 문서가 실패했다.
             lines.append("추출 서버 연결 또는 응답 오류가 발생했습니다. 개별 문서 거절과 서버 종료 여부는 추출 로그에서 확인할 수 있습니다.")
         if EXTRACT_PARTIAL in reasons:
             lines.append("일부 쪽을 읽지 못한 별표는 읽은 만큼 저장했지만 실패로 셉니다. 못 읽은 쪽은 첨부 파일 상세에 있습니다.")
-        if reasons or listing:
+        if listing_maintenance:
+            lines.append("점검이 끝난 뒤 다음 실행에서 다시 받습니다.")
+        if reasons or listing_other:
             lines.append("실패한 문서는 다음 실행에서 다시 시도합니다.")
         failed_count = len(failed_document_rows(scrapers))
         if failed_count:
@@ -195,6 +225,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     scrapers, missing = merge_attempts([load_attempt(path) for path in args.attempt_json])
+    # 점검 중이면 law.go.kr 자료가 한꺼번에 목록 실패한다. 그런 밤에만 한 번 물어 점검 시간을 보고에 넣는다.
+    maintenance = probe_maintenance() if lawgokr_listing_failed(scrapers) else None
     payload = build_message(
         scrapers,
         duration_min=args.duration, attempts=args.attempts, date_str=args.date,
@@ -202,6 +234,7 @@ def main(argv=None):
         exit_code=args.exit_code, refresh_exit_code=args.refresh_exit_code,
         target=args.target, env=args.env or get_env_name(),
         log_location=os.environ.get("CRAWLER_LOG_LOCATION") or DEFAULT_LOG_LOCATION,
+        lawgokr_maintenance=maintenance,
     )
 
     # 웹훅은 argv(ps 노출)가 아닌 환경변수로만 받는다: DISCORD_WEBHOOK_DATA_COLLECT → DISCORD_WEBHOOK

@@ -165,7 +165,8 @@ def build_message(
 
     when = f"🕛 {date_str} 실행 · {duration_str} 소요"
     if attempts > 1:
-        when += f" · 수집원 오류로 {attempts - 1}회 재시도"
+        cause = "법제처 점검으로" if listing_maintenance else "수집원 오류로"
+        when += f" · {cause} {attempts - 1}회 재시도"
     lines = [when, ""]
     lines += [line for _, _, line, _, _ in rows]
 
@@ -225,6 +226,11 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     scrapers, missing = merge_attempts([load_attempt(path) for path in args.attempt_json])
+    # 웹훅은 argv(ps 노출)가 아닌 환경변수로만 받는다: DISCORD_WEBHOOK_DATA_COLLECT → DISCORD_WEBHOOK
+    url = resolve_webhook('data_collect')
+    if not url:
+        print("Discord 알림 건너뜀: 웹훅 환경변수 없음")
+        return
     # 점검 중이면 law.go.kr 자료가 한꺼번에 목록 실패한다. 그런 밤에만 한 번 물어 점검 시간을 보고에 넣는다.
     maintenance = probe_maintenance() if lawgokr_listing_failed(scrapers) else None
     payload = build_message(
@@ -236,12 +242,6 @@ def main(argv=None):
         log_location=os.environ.get("CRAWLER_LOG_LOCATION") or DEFAULT_LOG_LOCATION,
         lawgokr_maintenance=maintenance,
     )
-
-    # 웹훅은 argv(ps 노출)가 아닌 환경변수로만 받는다: DISCORD_WEBHOOK_DATA_COLLECT → DISCORD_WEBHOOK
-    url = resolve_webhook('data_collect')
-    if not url:
-        print("Discord 알림 건너뜀: 웹훅 환경변수 없음")
-        return
     try:
         rows = failed_document_rows(scrapers)
         attachment = (f"crawl-failures-{date_tag()}.csv", failure_csv(rows)) if rows else None

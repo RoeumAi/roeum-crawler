@@ -27,6 +27,10 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(m.parse_maintenance("https://www.law.go.kr/DRF/lawSearch.do", SORRY_HTML),
                          "11월 13일(금) 21:00 ~ 11월 14일(토) 21:00")
 
+    def test_window_without_end_time_does_not_swallow_page_text(self):
+        html = SORRY_HTML.replace("11월 14일(토) 21:00", "11월 14일(토)까지") + "<p>" + "안내 " * 50 + "문의 09:00</p>"
+        self.assertEqual(m.parse_maintenance(SORRY_URL, html), m.UNKNOWN_WINDOW)
+
     def test_normal_response_is_not_maintenance(self):
         self.assertIsNone(m.parse_maintenance("https://www.law.go.kr/DRF/lawSearch.do",
                                               "<LawSearch><totalCnt>1</totalCnt></LawSearch>"))

@@ -102,6 +102,7 @@ class BuildMessageTest(unittest.TestCase):
         self.assertIn(f"• law.go.kr 시스템 점검({window})으로 법령 목록 미수집 — 데이터 유실 아님", text)
         self.assertIn("• 외부 수집원 일시 오류로 주요판정사례 목록 미수집 — 데이터 유실 아님", text)
         self.assertIn("점검이 끝난 뒤 다음 실행에서 다시 받습니다.", text)
+        self.assertIn("· 법제처 점검으로 2회 재시도", text)
         self.assertTrue(embed["footer"]["text"].startswith("[WARN]"))
 
     def test_maintenance_ignored_without_lawgokr_listing_failure(self):
@@ -182,7 +183,10 @@ class MainTest(unittest.TestCase):
         self.assertIn("법제처 점검", sent.call_args.args[1]["embeds"][0]["title"])
 
     def test_skips_without_webhook(self):
-        out, sent = self.run_main({})
+        self.result.write_text(json.dumps({"exit_code": 2, "scrapers": LISTING_FAILURE}))
+        with mock.patch("scripts.notify.daily_summary.probe_maintenance") as probe:
+            out, sent = self.run_main({})
+        probe.assert_not_called()  # 보낼 곳이 없으면 law.go.kr 에 묻지도 않는다
         sent.assert_not_called()
         self.assertIn("웹훅 환경변수 없음", out)
 

@@ -20,7 +20,8 @@ UNKNOWN_WINDOW = "점검 시간 미표시"
 
 _TITLE_RE = re.compile(r"<title>\s*시스템\s*점검\s*</title>")
 _TAG_RE = re.compile(r"<[^>]+>")
-_WINDOW_RE = re.compile(r"작업\s*\(중단\)\s*시간\s*:\s*(.+?~.+?\d{1,2}:\d{2})")
+# 양쪽을 40자로 묶어 시각이 없는 안내에서 페이지 본문까지 끌려오지 않게 한다.
+_WINDOW_RE = re.compile(r"작업\s*\(중단\)\s*시간\s*:\s*([^~]{1,40}?~[^~]{1,40}?\d{1,2}:\d{2})")
 
 
 def parse_maintenance(url: str, text: str) -> Optional[str]:

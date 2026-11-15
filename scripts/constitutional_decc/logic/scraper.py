@@ -38,6 +38,7 @@ SPEC = shared.SectionScraperSpec(
     section_keys=SECTION_KEY_MAP,
     logger=logger,
     missing_subtitle=("헌재결정례 부제 추출 실패", "Constitutional decision subtitle extraction failed"),
+    dept_name="헌법재판소",
 )
 
 

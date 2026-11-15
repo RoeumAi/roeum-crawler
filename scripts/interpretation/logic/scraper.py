@@ -78,7 +78,7 @@ def split_sections_by_header(sections: dict) -> list:
 
 def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                    sub_title: str = "", effective_date: str = None,
-                   ofi_cls_cd: str = "350101") -> bool:
+                   ofi_cls_cd: str = "350101", dept_name: str = "고용노동부") -> bool:
     """
     법령해석을 MongoDB에 섹션별로 분리하여 저장 (law/adrule와 동일한 스키마)
     
@@ -136,6 +136,8 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
                         "is_active": True,
                         "cpt_ofi_code": "1492000",
                         "cpt_ofi_name": "고용노동부",
+                        # 해석 기관(법률 DB 내보내기의 기관명 대체값). 기존 행과 같은 칸
+                        "dept_name": dept_name or "고용노동부",
                         "ofi_cls_cd": ofi_cls_cd,
                         "article_index": idx,
                         "total_articles": len(sections_data),
@@ -184,7 +186,7 @@ def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
 async def save_to_mongodb_async(sections_data: list, doc_title: str, doc_id: str, url: str,
                                 sub_title: str = "", effective_date: str = None,
                                 ofi_cls_cd: str = "350101",
-                                executor=None) -> bool:
+                                executor=None, dept_name: str = "고용노동부") -> bool:
     """MongoDB 저장을 async로 처리 (event loop blocking 방지)"""
     loop = asyncio.get_running_loop()
     
@@ -198,7 +200,8 @@ async def save_to_mongodb_async(sections_data: list, doc_title: str, doc_id: str
             url,
             sub_title,
             effective_date,
-            ofi_cls_cd
+            ofi_cls_cd,
+            dept_name,
         )
         return result
     except Exception as e:
@@ -277,6 +280,8 @@ def _clean_text(value) -> str:
     text = re.sub(r"<br\s*/?>", "\n", text, flags=re.I)
     # HTML 태그만 지운다. 법령 글의 <개정 2020. 7. 14.>·<신설> 같은 표시는 남긴다.
     text = re.sub(r"</?[A-Za-z][A-Za-z0-9]*(?:\s[^<>]*)?/?>", "", text)
+    # 원문 화면(기존 저장본)은 가운뎃점을 'ㆍ'(U+318D)로 쓰는데 Open API 는 '·'(U+00B7)로 준다 → 기존 행과 같게 맞춘다
+    text = text.replace("\u00b7", "\u318d")
     return "\n".join(line.rstrip() for line in text.replace("\r", "").split("\n")).strip()
 
 
@@ -373,7 +378,8 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
             url=detail_url,
             sub_title=parsed.sub_title,
             effective_date=parsed.effective_date,
-            ofi_cls_cd=ofi_cls_cd
+            ofi_cls_cd=ofi_cls_cd,
+            dept_name=parsed.department,
         )
         if success:
             logger.info(f"✅ MongoDB 저장 완료: {doc_id}")

@@ -334,28 +334,30 @@ class DetailSitesTest(unittest.TestCase):
 
 
 class ListScraperRetryTest(unittest.TestCase):
-    def test_case_and_constitutional_use_shared_helper(self):
-        from scripts.case.logic import list_scraper as case_list
-        from scripts.constitutional_decc.logic import list_scraper as const_list
-        with patch("scripts.core.run_report.time.sleep") as sleep, \
-             patch.object(case_list, "_post_list_page", side_effect=[ConnectionError("x"), "page"]), \
-             patch.object(const_list, "_post_list_page", side_effect=[ConnectionError("x"), ConnectionError("y"), "page"]):
-            self.assertEqual(case_list._post_list_page_with_retry("1492000", 3), "page")
-            self.assertEqual(const_list._post_list_page_with_retry(3, Mock()), "page")
-        self.assertEqual([c.args[0] for c in sleep.call_args_list], [5.0, 5.0, 10.0])
+    def test_open_api_list_pages_use_shared_retry(self):
+        # 법제처 자료 목록(Open API)은 쪽마다 공용 call_with_retry 로 5·10초 간격 다시 시도한다
+        from types import SimpleNamespace
+        from scripts.core import lawgokr_openapi as api
+        calls = {"n": 0}
 
-    def test_first_page_of_expc_and_admin_decc_is_retried(self):
-        from scripts.legislation_expc.logic import list_scraper as expc
+        def flaky_get(url, params=None, timeout=None):
+            calls["n"] += 1
+            if calls["n"] < 3:
+                raise ConnectionError("reset")
+            return SimpleNamespace(raise_for_status=lambda: None,
+                                   json=lambda: {"PrecSearch": {"totalCnt": "1", "prec": [{"판례일련번호": "1"}]}})
+
+        with patch("scripts.core.run_report.time.sleep") as sleep:
+            rows = list(api.search("prec", {"JO": "근로기준법"}, get=flaky_get))
+        self.assertEqual(rows, [{"판례일련번호": "1"}])
+        self.assertEqual([c.args[0] for c in sleep.call_args_list], [5.0, 10.0])
+
+    def test_first_page_of_admin_decc_is_retried(self):
         from scripts.admin_decc.logic import list_scraper as admin
-        empty_soup = Mock()
-        empty_soup.select_one.return_value = None
-        empty_soup.select.return_value = []
         with patch("scripts.core.run_report.time.sleep"), \
-             patch.object(expc, "_post_list_page", side_effect=[ConnectionError("x"), empty_soup]) as post, \
              patch.object(admin, "_fetch_page", side_effect=[ConnectionError("x"), ([], 0)]) as fetch:
-            asyncio.run(expc.fetch_urls("", None))
             asyncio.run(admin.fetch_urls("", None))
-        self.assertEqual((post.call_count, fetch.call_count), (2, 2))
+        self.assertEqual(fetch.call_count, 2)
 
 
 if __name__ == "__main__":

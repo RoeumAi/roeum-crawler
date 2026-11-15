@@ -19,15 +19,15 @@ ALL_SCRAPERS = [
 ]
 
 EXPECTED_START_URLS = {
-    "law": "https://www.law.go.kr/LSW/lsAstSc.do?tabMenuId=437&cptOfiCd=1492000",
+    "law": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&org=1492000",
     "adrule": "https://www.law.go.kr/LSW/admRulAstSc.do?menuId=391&subMenuId=397&tabMenuId=441&cptOfiCd=1492000",
-    "case": "https://www.law.go.kr/LSW/precAstSc.do?menuId=391&subMenuId=397&tabMenuId=443&cptOfiCd=1492000",
+    "case": "https://www.law.go.kr/DRF/lawSearch.do?target=prec",
     "decision": "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do",
-    "interpretation": "https://www.law.go.kr/cgmExpcAstSc.do?menuId=391&subMenuId=397&tabMenuId=741&query=",
+    "interpretation": "https://www.law.go.kr/DRF/lawSearch.do?target=moelCgmExpc",
     "mediation_case": "https://nlrc.go.kr/nlrc/mainCase/mediatioin/index.do",
     "judgment": "https://nlrc.go.kr/nlrc/mainCase/judgment/index.do",
-    "constitutional_decc": "https://www.law.go.kr/LSW/detcAstScListR.do",
-    "legislation_expc": "https://www.law.go.kr/LSW/expcAstScListR.do",
+    "constitutional_decc": "https://www.law.go.kr/DRF/lawSearch.do?target=detc",
+    "legislation_expc": "https://www.law.go.kr/DRF/lawSearch.do?target=expc",
     "admin_decc": "https://www.law.go.kr/LSW/deccAstScListR.do",
 }
 

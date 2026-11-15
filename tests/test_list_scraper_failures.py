@@ -1,9 +1,7 @@
-"""목록 수집: 페이지 하나 실패는 기록하고 계속, 페이지 수를 못 읽으면 드러낸다(nlrc 3종·해석례)."""
+"""목록 수집: 페이지 하나 실패는 기록하고 계속, 페이지 수를 못 읽으면 드러낸다(nlrc 3종). 법제처 자료는 test_lawgokr_list_scrapers."""
 import unittest
-from unittest.mock import patch
 
 from scripts.core.run_report import start_run_report
-from scripts.interpretation.logic import list_scraper as interpretation_list
 from scripts.utils import nlrc_list
 
 
@@ -71,35 +69,6 @@ class NlrcListTest(unittest.IsolatedAsyncioTestCase):
         items = await fetch({1: nlrc_page([7], pages=1)}, with_title_and_date=True)
         self.assertEqual(items[0]["title"], "사건 7")
         self.assertEqual(items[0]["registered_at"], "2026-10-01")
-
-
-def interpretation_page(seqs, total=None):
-    title = f'<div class="tit2">총 {total}건</div>' if total is not None else ""
-    links = "".join(f'<a href="cgmExpcInfoP.do?cgmExpcDatSeq={s}&amp;ofiClsCd=1">x</a>' for s in seqs)
-    return title + links
-
-
-class InterpretationListTest(unittest.IsolatedAsyncioTestCase):
-    async def test_failed_middle_page_is_recorded(self):
-        report = start_run_report("interpretation")
-        pages = {1: interpretation_page(range(50), total=120), 2: RuntimeError("timeout"),
-                 3: interpretation_page([500])}
-
-        def fake(n, dept_code=None):
-            if isinstance(pages[n], Exception):
-                raise pages[n]
-            return pages[n]
-
-        with patch.object(interpretation_list, "_fetch_page", side_effect=fake):
-            items = await interpretation_list.fetch_urls("https://x", retry_wait_seconds=0)
-        self.assertEqual(len(items), 51)
-        self.assertEqual(report.failed_targets, ["interpretation:list-page:2"])
-
-    async def test_unreadable_total_on_full_page_is_recorded(self):
-        report = start_run_report("interpretation")
-        with patch.object(interpretation_list, "_fetch_page", return_value=interpretation_page(range(50))):
-            await interpretation_list.fetch_urls("https://x", retry_wait_seconds=0)
-        self.assertEqual(report.failed_targets, ["interpretation:list-pages"])
 
 
 if __name__ == "__main__":

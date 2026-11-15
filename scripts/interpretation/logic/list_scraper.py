@@ -1,136 +1,48 @@
-import asyncio
-import math
-import os
-import re
-import sys
-from html import unescape
-from urllib.parse import urljoin
+"""중앙부처 1차 해석(고용노동부) 목록 — 국가법령정보 Open API(moelCgmExpc) 방식.
 
-import requests
-from bs4 import BeautifulSoup
+2026-11-15 law.go.kr 화면 개편으로 목록 화면(cgmExpcAstScListR.do)이 목록을 돌려주지 않아 Open API 로 바꿨다.
+moelCgmExpc 는 고용노동부 해석만 돌려준다(옛 화면 목록에는 환경부·국토교통부 해석이 섞여 들어왔다).
+Open API 의 법령해석일련번호는 화면의 cgmExpcDatSeq 와 같은 번호라 기존 문서(doc_id)와 그대로 이어진다.
+
+상세는 Open API 로 받는다(scraper.py). url 은 사람이 여는 원문 화면 주소로 남긴다.
+"""
+import asyncio
+import os
+import sys
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
-from scripts.core.run_report import call_with_retry, record_failure
+from scripts.core.lawgokr_openapi import search
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='interpretation')
 
-LIST_URL = "https://www.law.go.kr/LSW/cgmExpcAstScListR.do"
-DETAIL_BASE = "https://www.law.go.kr/LSW/"
-PAGE_SIZE = 50
-MOEL_CODE = "1492000"
+TARGET = "moelCgmExpc"
+# 화면 원문 주소. ofiClsCd=350101(중앙부처 1차 해석)이 있어야 열린다.
+DETAIL_URL = "https://www.law.go.kr/LSW/cgmExpcInfoP.do?mode=2&cgmExpcDatSeq={seq}&ofiClsCd=350101"
 
 
-def _fetch_page(page_index: int, dept_code: str = MOEL_CODE) -> str:
-    params = {
-        "lsNm": "",
-        "lsFdCd": "",
-        "lsClsCd": "",
-        "cptOfi": dept_code,
-        "chrIdx": "0",
-        "pageIndex": str(page_index),
-        "sortBy": "LS_NM_KO",
-        "sortType": "",
-        "mode": "",
-        "cptOfiDivCd": "",
-    }
-    resp = requests.post(LIST_URL, data=params, timeout=30)
-    resp.raise_for_status()
-    return resp.text
-
-
-def _parse_total(html: str) -> int:
-    soup = BeautifulSoup(html, "html.parser")
-    title = soup.select_one(".tit2")
-    text = title.get_text(" ", strip=True) if title else ""
-    match = re.search(r"([0-9,]+)", text)
-    return int(match.group(1).replace(",", "")) if match else 0
-
-
-def _parse_items(html: str) -> list[dict]:
-    soup = BeautifulSoup(html, "html.parser")
-    items = []
-    seen = set()
-
-    for anchor in soup.select("a[href*='cgmExpcInfoP.do']"):
-        href = unescape(anchor.get("href") or "")
-        match = re.search(r"cgmExpcDatSeq=(\d+).*?ofiClsCd=(\d+)", href)
-        if not match:
+def collect_items(max_pages_arg: int | None = None, get=None) -> list:
+    kwargs = {"get": get} if get else {}
+    items, seen = [], set()
+    for row in search(TARGET, row_keys=("cgmExpc",), max_pages=max_pages_arg, **kwargs):
+        seq = str(row.get("법령해석일련번호") or "")
+        if not seq.isdigit() or seq in seen:
             continue
-
-        doc_seq, ofi_cls_cd = match.groups()
-        if doc_seq in seen:
-            continue
-        seen.add(doc_seq)
-
-        detail_url = urljoin(DETAIL_BASE, href)
+        seen.add(seq)
         items.append({
-            "name": f"interpretation_{doc_seq}",
-            "url": detail_url,
-            "doc_seq": doc_seq,
-            "ofi_cls_cd": ofi_cls_cd,
+            "name": f"interpretation_{seq}",
+            "url": DETAIL_URL.format(seq=seq),
+            "doc_seq": seq,
+            "ofi_cls_cd": "350101",
         })
-
     return items
 
 
-async def fetch_urls(start_url: str, max_pages_arg: int | None = None, retry_wait_seconds: float = 3.0):
-    """Fetch MOEL-related central ministry interpretation detail URLs.
-
-    페이지마다 몇 번 더 시도한다. 첫 페이지를 끝내 못 받으면 예외를 올려 목록 전체 실패로 보고되고,
-    중간 페이지 실패는 record_failure 로 남긴 뒤 나머지 페이지를 계속 모은다.
-    """
-    logger.info(f"중앙부처 1차 해석 목록 수집 시작 (참조 URL: {start_url})")
-
-    def get(page_index: int) -> str:
-        return call_with_retry(lambda: _fetch_page(page_index), attempts=3, wait_seconds=retry_wait_seconds)
-
-    first_html = await asyncio.to_thread(get, 1)
-    total_items = _parse_total(first_html)
-    if not total_items and len(_parse_items(first_html)) >= PAGE_SIZE:
-        # 전체 건수를 못 읽었는데 첫 페이지가 꽉 찼다 → 사이트 구조 변경. 1페이지만 보고 넘어가지 않게 드러낸다.
-        record_failure("list-pages", "전체 건수를 읽지 못함(사이트 구조 변경 가능)")
-    total_pages = math.ceil(total_items / PAGE_SIZE) if total_items else 1
-    pages_to_crawl = total_pages
-    if max_pages_arg is not None and 0 < max_pages_arg < total_pages:
-        pages_to_crawl = max_pages_arg
-
-    urls_found = []
-    seen_doc_ids = set()
-
-    for page_num in range(1, pages_to_crawl + 1):
-        if page_num == 1:
-            html = first_html
-        else:
-            try:
-                html = await asyncio.to_thread(get, page_num)
-            except Exception as e:  # noqa: BLE001 - 한 페이지 실패는 기록하고 계속
-                logger.error(f"❌ 목록 {page_num}페이지 수집 실패: {e}")
-                record_failure(f"list-page:{page_num}", e)
-                continue
-        page_items = _parse_items(html)
-        for item in page_items:
-            if item["doc_seq"] in seen_doc_ids:
-                continue
-            seen_doc_ids.add(item["doc_seq"])
-            urls_found.append(item)
-        logger.info(f"페이지 {page_num}/{pages_to_crawl}: {len(page_items)}개, 누적 {len(urls_found)}개")
-        if page_num < pages_to_crawl:
-            await asyncio.sleep(0.1)
-
-    logger.info(f"✅ 중앙부처 1차 해석 URL 수집 완료: 목록 {total_items}행, 고유 문서 {len(urls_found)}개")
-    return urls_found
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="중앙부처 1차 해석 URL 수집기")
-    parser.add_argument("--max_pages", type=int, default=None, help="최대 페이지 수")
-    args = parser.parse_args()
-
-    urls = asyncio.run(fetch_urls("https://www.law.go.kr/cgmExpcAstSc.do", args.max_pages))
-    print(f"\n수집된 URL: {len(urls)}개")
-    for i, item in enumerate(urls[:5], 1):
-        print(f"{i}. {item['name']}: {item['url']}")
+async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
+    """고용노동부 1차 해석 목록. 첫 쪽을 끝내 못 받으면 예외를 올려 목록 전체 실패로 보고된다."""
+    logger.info("중앙부처 1차 해석 목록 수집 시작 (Open API moelCgmExpc)")
+    items = await asyncio.to_thread(collect_items, max_pages_arg)
+    logger.info(f"✅ 중앙부처 1차 해석 URL 수집 완료: 고유 문서 {len(items)}개")
+    return items

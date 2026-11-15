@@ -40,10 +40,6 @@ TASKS = [
          "판례 목록 URL 을 JSONL 로 뽑는다", ("list", "case")),
     Task("list:judgment", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
          "주요판정사례 목록 URL 을 JSONL 로 뽑는다", ("list", "judgment")),
-    Task("check-url:law", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
-         "법령 목록 페이지 URL 이 유효한지 확인", ("check-url", "law")),
-    Task("check-url:interpretation", "scripts.manual_runners", "목록·URL 점검", READ_ONLY,
-         "해석례 상세 페이지가 정상으로 열리는지 확인", ("check-url", "interpretation")),
 
     # 문서 하나·지정 목록 다시 수집
     Task("scrape:law", "scripts.manual_runners", "지정 문서 수집", WRITES_DEFAULT,

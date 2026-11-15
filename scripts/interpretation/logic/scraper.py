@@ -1,5 +1,4 @@
 import asyncio
-from playwright.async_api import async_playwright
 import json
 import re
 import os
@@ -16,7 +15,7 @@ except NameError:
     project_root = os.path.abspath('.') # 현재 작업 디렉토리를 기준으로 설정
 sys.path.append(project_root)
 
-from scripts.core.run_report import retry_detail_fetch_async
+from scripts.core import lawgokr_openapi
 from scripts.utils.logger_config import get_logger
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
 from scripts.core.database.source_versioning import enrich_source_document
@@ -105,59 +104,6 @@ def split_sections_by_header(sections: dict) -> list:
         })
     
     return section_list
-
-
-def _parse_taxlaw_body(body_text: str) -> dict | None:
-    """Parse NTS taxlaw-rendered interpretation pages exposed from law.go.kr."""
-    lines = [line.strip() for line in body_text.splitlines() if line.strip()]
-    try:
-        start_idx = lines.index("화면내 검색") + 1
-    except ValueError:
-        start_idx = 0
-
-    content_lines = lines[start_idx:]
-    if not content_lines:
-        return None
-
-    doc_title = content_lines[0]
-    doc_number = ""
-    doc_date = ""
-    for line in content_lines[1:8]:
-        if not doc_number and re.search(r"\d", line) and "：" not in line and ":" not in line:
-            doc_number = line
-        if "생산일자" in line or "등록일자" in line:
-            doc_date = re.sub(r"^.*?[：:]\s*", "", line).strip().rstrip(".")
-            if doc_date:
-                break
-
-    sections = {}
-    current_header = None
-    valid_headers = {"요지", "회신", "답변내용", "결정내용", "판결내용", "상세내용"}
-    stop_headers = {"PDF로 보기", "저장", "인쇄", "보관", "관련 주제어", "관련 법령"}
-
-    for line in content_lines[1:]:
-        if line in stop_headers:
-            continue
-        if line in valid_headers:
-            current_header = line
-            sections.setdefault(current_header, "")
-            continue
-        if current_header:
-            sections[current_header] += line + "\n"
-
-    sections = {header: content.strip() for header, content in sections.items() if content.strip()}
-    if not sections:
-        return None
-
-    return {
-        "doc_title": doc_title,
-        "department": "국세청",
-        "doc_number": doc_number,
-        "doc_date": doc_date,
-        "sub_title": ", ".join(part for part in ["국세청", doc_number, doc_date] if part),
-        "effective_date": normalize_doc_date(doc_date) or datetime.now().strftime('%Y-%m-%d'),
-        "sections_data": split_sections_by_header(sections),
-    }
 
 
 def save_to_mongodb(sections_data: list, doc_title: str, doc_id: str, url: str,
@@ -291,7 +237,7 @@ async def save_to_mongodb_async(sections_data: list, doc_title: str, doc_id: str
 
 @dataclass
 class ParsedDoc:
-    """상세 페이지에서 읽은 문서. 부제 파싱 결과(department 등)는 JSONL 출력에 쓰인다."""
+    """상세(Open API)에서 읽은 문서. department 등은 JSONL 출력에 쓰인다."""
     doc_title: str
     sub_title: str
     effective_date: str
@@ -302,8 +248,13 @@ class ParsedDoc:
     sections: dict = field(default_factory=dict)
 
 
+# 상세 Open API(moelCgmExpc)의 본문 칸 — 저장 순서이자 섹션 이름(옛 화면의 【질의요지】·【회답】·【이유】와 같다)
+SECTION_FIELDS = ("질의요지", "회답", "이유")
+OPENAPI_TARGET = "moelCgmExpc"
+
+
 def _resolve_item(url) -> tuple[str, str | None, str]:
-    """목록이 넘긴 항목(dict) 또는 문자열 URL 에서 (상세 URL, doc_seq, ofi_cls_cd) 를 꺼낸다."""
+    """목록이 넘긴 항목(dict) 또는 문자열 URL 에서 (원문 URL, doc_seq, ofi_cls_cd) 를 꺼낸다."""
     if isinstance(url, dict):
         detail_url = url.get('url')
         doc_seq = url.get('doc_seq')
@@ -342,60 +293,39 @@ def _resolve_effective_date(doc_date: str) -> str:
     return effective_date
 
 
-async def _read_standard_page(page) -> ParsedDoc:
-    """law.go.kr 해석례 화면(#contentBody)에서 제목·부제·섹션을 읽는다."""
-    doc_title = await page.locator('#contentBody h2').inner_text(timeout=30000)
-    subtitle_locator = page.locator('#contentBody div.subtit1')
-    subtitle = await subtitle_locator.inner_text() if await subtitle_locator.count() > 0 else ""
-    department, doc_number, doc_date = parse_subtitle(subtitle)
+def _display_date(yyyymmdd: str) -> str:
+    """'20060720' → '2006.7.20'(옛 화면 부제와 같은 표기). 형식이 다르면 빈 문자열."""
+    m = re.fullmatch(r"(\d{4})(\d{2})(\d{2})", (yyyymmdd or "").strip())
+    if not m:
+        return ""
+    year, month, day = m.groups()
+    return f"{year}.{int(month)}.{int(day)}"
 
+
+def _clean_text(value) -> str:
+    text = str(value or "")
+    text = re.sub(r"<br\s*/?>", "\n", text, flags=re.I)
+    text = re.sub(r"<[^>]+>", "", text)
+    return "\n".join(line.rstrip() for line in text.replace("\r", "").split("\n")).strip()
+
+
+def parse_openapi_body(body: dict) -> ParsedDoc:
+    """상세 Open API 응답(moelCgmExpc) → ParsedDoc. 부제는 '해석기관, 안건번호, 해석일자'(옛 화면 부제와 같은 모양)."""
+    department = (body.get("해석기관명") or "").strip()
+    doc_number = (body.get("안건번호") or "").strip()
+    doc_date = _display_date(body.get("해석일자"))
     sections = {}
-    content_elements = await page.locator('#contentBody h4, #contentBody .pty4').all()
-    current_header = None
-
-    for element in content_elements:
-        tag_name = await element.evaluate('el => el.tagName.toLowerCase()')
-        element_id = await element.get_attribute('id')
-
-        if tag_name == 'h4' and element_id != 'expcNotice':
-            header_text = await element.inner_text()
-            current_header = header_text.strip().replace('【', '').replace('】', '')
-            if current_header and current_header not in sections:
-                sections[current_header] = ""
-        elif tag_name == 'p' and current_header:
-            paragraph_text = await element.inner_text()
-            sections[current_header] += paragraph_text.strip() + "\n"
-
+    for name in SECTION_FIELDS:
+        text = _clean_text(body.get(name))
+        if text:
+            sections[name] = text
     return ParsedDoc(
-        doc_title=doc_title,
+        doc_title=_clean_text(body.get("안건명")),
         sub_title=_build_sub_title(department, doc_number, doc_date),
         effective_date=_resolve_effective_date(doc_date),
         sections_data=split_sections_by_header(sections),
         department=department, doc_number=doc_number, doc_date=doc_date, sections=sections,
     )
-
-
-async def _read_taxlaw_page(page) -> ParsedDoc | None:
-    """국세청 해석 본문이 law.go.kr 로 노출된 화면. 읽을 수 없으면 None."""
-    body_text = await page.locator('body').inner_text(timeout=30000)
-    parsed = _parse_taxlaw_body(body_text)
-    if not parsed:
-        return None
-    sections_data = parsed["sections_data"]
-    return ParsedDoc(
-        doc_title=parsed["doc_title"],
-        sub_title=parsed["sub_title"],
-        effective_date=parsed["effective_date"],
-        sections_data=sections_data,
-        department=parsed["department"], doc_number=parsed["doc_number"], doc_date=parsed["doc_date"],
-        sections={sec["article_title"]: sec["content"] for sec in sections_data},
-    )
-
-
-async def _read_page(page) -> ParsedDoc | None:
-    if await page.locator('#contentBody h2').count() > 0:
-        return await _read_standard_page(page)
-    return await _read_taxlaw_page(page)
 
 
 def _write_jsonl(parsed: ParsedDoc, doc_id: str, source_url: str, output_dir: str, output_name: str) -> None:
@@ -411,39 +341,23 @@ def _write_jsonl(parsed: ParsedDoc, doc_id: str, source_url: str, output_dir: st
     }
 
     safe_title = re.sub(r'[\\/*?:"<>|]', '_', parsed.doc_title)[:50]
+    os.makedirs(output_dir, exist_ok=True)
     individual_file_path = os.path.join(output_dir, f"{output_name}_{safe_title}.jsonl")
     with open(individual_file_path, 'w', encoding='utf-8') as f:
         f.write(json.dumps(scraped_data, ensure_ascii=False) + '\n')
     logger.info(f"JSONL 저장 완료: {os.path.basename(individual_file_path)}")
 
 
-async def _dump_error_artifacts(page, output_name: str) -> None:
-    """실패 원인 파악용 스크린샷·HTML 을 debug/ 에 남긴다."""
-    debug_dir = os.path.join(project_root, 'debug')
-    os.makedirs(debug_dir, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-    screenshot_path = os.path.join(debug_dir, f'{output_name}_error_{timestamp}.png')
-    html_path = os.path.join(debug_dir, f'{output_name}_error_{timestamp}.html')
-
-    try:
-        await page.screenshot(path=screenshot_path)
-        logger.info(f"에러 스크린샷 저장: {screenshot_path}")
-        with open(html_path, 'w', encoding='utf-8') as f:
-            f.write(await page.content())
-        logger.info(f"에러 HTML 저장: {html_path}")
-    except Exception as debug_e:
-        logger.error(f"디버그 파일 저장 중 추가 에러: {debug_e}")
-
-
 async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code: str = None,
                           save_to_db: bool = True, save_jsonl: bool = False):
     """
-    단일 법령해석 문서를 스크래핑하여 MongoDB에 저장합니다.
+    단일 법령해석 문서를 Open API(moelCgmExpc)로 받아 MongoDB에 저장합니다.
     crawl.py(run_single_scraper)에서 호출하는 표준 함수입니다.
 
+    2026-11-15 화면 개편 뒤 목록·상세를 Open API 로 받는다. 저장 행 모양·source_url(원문 화면 주소)은 그대로다.
+
     Args:
-        url: 목록이 넘긴 항목(dict: url, doc_seq, ofi_cls_cd) 또는 상세 URL 문자열
+        url: 목록이 넘긴 항목(dict: url, doc_seq, ofi_cls_cd) 또는 원문 URL 문자열
         output_dir: 출력 디렉토리
         output_name: 출력 파일명
         dept_code: 부처 코드
@@ -459,70 +373,50 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, dept_code
         logger.error(f"상세 URL이 없습니다: {url}")
         return {"status": "failed", "error": "No detail url"}
 
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
+    doc_seq = doc_seq or _doc_seq_from_url(detail_url)
+    if not doc_seq:
+        logger.error(f"문서 ID를 찾을 수 없습니다: {detail_url}")
+        return {"status": "failed", "error": "No doc_seq"}
+    doc_id = doc_seq  # doc_id는 doc_seq 사용 (Open API 법령해석일련번호 = 화면 cgmExpcDatSeq)
 
-        try:
-            logger.info(f"페이지로 이동 중: {detail_url}")
-            await retry_detail_fetch_async(
-                lambda: page.goto(detail_url, wait_until='networkidle', timeout=60000))
+    try:
+        body = await asyncio.to_thread(lawgokr_openapi.service, OPENAPI_TARGET, ID=doc_id)
+    except Exception as e:
+        logger.error(f"❌ 상세 Open API 조회 실패 {doc_id}: {e}")
+        return {"status": "failed", "error": f"{type(e).__name__}: {e}", "doc_id": doc_id}
 
-            doc_seq = doc_seq or _doc_seq_from_url(detail_url)
-            if not doc_seq:
-                logger.error(f"문서 ID를 찾을 수 없습니다: {detail_url}")
-                return {"status": "failed", "error": "No doc_seq"}
-            doc_id = doc_seq  # doc_id는 doc_seq 사용 (고유 ID)
+    parsed = parse_openapi_body(body)
+    doc_title = parsed.doc_title
+    sections_data = parsed.sections_data
+    logger.info(f"문서 제목: {doc_title}, ID: {doc_id}")
 
-            parsed = await _read_page(page)
-            if not parsed:
-                logger.error(f"문서 본문을 파싱할 수 없습니다: {detail_url}")
-                return {"status": "failed", "error": "No parseable content", "doc_id": doc_id}
-            doc_title = parsed.doc_title
-            sections_data = parsed.sections_data
-            logger.info(f"문서 제목: {doc_title}, ID: {doc_seq}")
+    if not any(sec["content"] for sec in sections_data):
+        logger.error(f"본문 섹션이 없습니다: {doc_id}")
+        return {"status": "failed", "error": "본문 섹션 없음", "doc_id": doc_id}
 
-            if not any(sec["content"] for sec in sections_data):
-                # 본문 구조가 바뀌어 섹션을 못 읽은 경우. 성공으로 세면 아무것도 저장 안 된 채 넘어간다.
-                logger.error(f"본문 섹션이 없습니다(페이지 구조 변경 가능): {doc_id}")
-                return {"status": "failed", "error": "본문 섹션 없음(페이지 구조 변경 가능)", "doc_id": doc_id}
+    if save_to_db:
+        success = await save_to_mongodb_async(
+            sections_data,
+            doc_title=' '.join(doc_title.strip().split()),
+            doc_id=doc_id,
+            url=detail_url,
+            sub_title=parsed.sub_title,
+            effective_date=parsed.effective_date,
+            ofi_cls_cd=ofi_cls_cd
+        )
+        if success:
+            logger.info(f"✅ MongoDB 저장 완료: {doc_id}")
+        else:
+            logger.error(f"❌ MongoDB 저장 실패: {doc_id}")
+            return {"status": "failed", "error": "MongoDB 저장 실패", "doc_id": doc_id}
 
-            if save_to_db:
-                success = await save_to_mongodb_async(
-                    sections_data,
-                    doc_title=' '.join(doc_title.strip().split()),
-                    doc_id=doc_id,
-                    url=detail_url,
-                    sub_title=parsed.sub_title,
-                    effective_date=parsed.effective_date,
-                    ofi_cls_cd=ofi_cls_cd
-                )
-                if success:
-                    logger.info(f"✅ MongoDB 저장 완료: {doc_id}")
-                else:
-                    logger.error(f"❌ MongoDB 저장 실패: {doc_id}")
-                    return {"status": "failed", "error": "MongoDB 저장 실패", "doc_id": doc_id}
+    if save_jsonl:
+        _write_jsonl(parsed, doc_id, detail_url, output_dir, output_name)
 
-            if save_jsonl:
-                _write_jsonl(parsed, doc_id, detail_url, output_dir, output_name)
-
-            logger.info(f"✅ 처리 완료: {doc_id}")
-
-            return {
-                "status": "success",
-                "doc_id": doc_id,
-                "title": doc_title,
-                "sections_count": len(sections_data)
-            }
-
-        except Exception as e:
-            logger.error(f"❌ 스크래핑 중 에러 발생: {e}", exc_info=True)
-            await _dump_error_artifacts(page, output_name)
-            return {
-                "status": "failed",
-                "error": str(e),
-                "doc_id": None
-            }
-
-        finally:
-            await browser.close()
+    logger.info(f"✅ 처리 완료: {doc_id}")
+    return {
+        "status": "success",
+        "doc_id": doc_id,
+        "title": doc_title,
+        "sections_count": len(sections_data)
+    }

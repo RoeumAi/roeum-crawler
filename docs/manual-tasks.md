@@ -28,10 +28,9 @@ python3 manual.py <작업> [인자...]    # 실행
 ### 목록·URL 점검 (조회만)
 | 작업 | 하는 일 | 예 |
 |---|---|---|
-| `list:adrule` · `list:case` · `list:judgment` | 목록 URL을 JSONL로 뽑는다. 행정규칙·판정사례는 Open API/목록을 바로 돌므로 URL 인자가 없다. 판례만 `cptOfiCd`가 든 시작 URL을 선택 인자로 받는다(없으면 기본 부처) | `python3 manual.py list:judgment -p 2 -o /tmp/j.jsonl` |
-| `check-url:law` · `check-url:interpretation` | 법령 목록·해석례 상세 페이지가 정상으로 열리는지(Playwright). 종료코드 0=정상, 1=실패 | `python3 manual.py check-url:law "<목록 URL>"` |
+| `list:adrule` · `list:case` · `list:judgment` | 목록 URL을 JSONL로 뽑는다. 모두 Open API/목록을 바로 돌므로 URL 인자가 없다(판례는 고용노동부 소관 법령을 참조한 판례) | `python3 manual.py list:judgment -p 2 -o /tmp/j.jsonl` |
 
-이 작업들(`list:*`·`check-url:*`·`scrape:*`)은 `scripts/manual_runners.py` 한 곳의 종류별 표로 처리한다. 행정규칙·판례는 수집이 Open API/POST로 바뀌어 웹 화면 셀렉터를 보던 `check-url:adrule`·`check-url:case`를 없앴다. 실제 수집 경로가 맞는지는 `crawl.py --pages 1 --concurrent 1 --scraper <이름>`(시험 실행)으로 본다.
+이 작업들(`list:*`·`scrape:*`)은 `scripts/manual_runners.py` 한 곳의 종류별 표로 처리한다. 목록이 Open API로 바뀌어 웹 화면 셀렉터를 보던 `check-url:*`(행정규칙·판례·법령·해석례)는 모두 없앴다. 실제 수집 경로가 맞는지는 `crawl.py --pages 1 --concurrent 1 --scraper <이름>`(시험 실행)으로 본다.
 
 ### 지정 문서 수집 (기본=쓰기)
 | 작업 | 하는 일 | 예 |

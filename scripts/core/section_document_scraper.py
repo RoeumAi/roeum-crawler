@@ -15,6 +15,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString
 
 from scripts.core.run_report import retry_detail_fetch_async
+from scripts.core.lawgokr_markup import content_html as lawgokr_content_html, subtitle_text
 from scripts.utils.html_text import block_text
 from scripts.core.database.section_chunks import save_section_chunks
 
@@ -42,8 +43,7 @@ def clean_spaces(text: str) -> str:
 
 def extract_sub_title(soup: BeautifulSoup) -> str:
     """바깥 대괄호를 뺀 부제 전체를 돌려준다. 없으면 빈 문자열."""
-    subtitle = soup.select_one(".subtit1, .subtit2, div.subtit2")
-    value = clean_spaces(subtitle.get_text()) if subtitle else ""
+    value = clean_spaces(subtitle_text(soup))
     return re.sub(r"^\[(.+)\]$", r"\1", value.strip())
 
 
@@ -167,8 +167,7 @@ async def scrape_and_save(spec: SectionScraperSpec, url, save_to_db: bool = True
             logger.error(f"{log_message}: {url}")
             return {"doc_id": doc_id, "status": "failed", "error": error_message}
 
-        con_scroll = soup.select_one("#conScroll")
-        content_html = con_scroll.decode_contents() if con_scroll else ""
+        content_html = lawgokr_content_html(soup)
         chunks = parse(content_html, doc_id, url, doc_title)
         logger.info(f"✅ {doc_id}: {len(chunks)}개 청크 파싱")
 

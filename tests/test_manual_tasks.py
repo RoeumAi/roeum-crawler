@@ -39,7 +39,8 @@ class ManualTasksTest(unittest.TestCase):
 
     def test_removed_tasks_are_gone(self):
         removed = [
-            "cherry-pick:case", "check-url:adrule", "check-url:case", "csv-import",
+            "cherry-pick:case", "check-url:adrule", "check-url:case", "check-url:law", "check-url:interpretation",
+            "csv-import",
             "fix:clean-pdf-artifacts", "fix:judgment-case-numbers", "fix:source-provenance", "fix:stable-ids",
             "fix:chunk-identifiers", "fix:constitutional-sub-titles", "fix:reference-sub-titles",
             "fix:prune-interpretation", "fix:prune-law", "fix:retry-judgment-pdf",

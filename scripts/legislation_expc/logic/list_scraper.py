@@ -1,120 +1,48 @@
 """
-legislation_expc 목록 크롤러
-POST API 기반, Playwright 불필요
+legislation_expc 목록 크롤러 — 국가법령정보 Open API(expc) 방식
+
+2026-11-15 law.go.kr 화면 개편으로 소관부처 분류 목록(expcAstScListR.do)이 목록을 돌려주지 않아
+Open API 로 바꿨다. expc 는 참조 법령(JO) 조건을 받지 않아, 소관 법령 이름 검색으로 후보를 모은 뒤
+안건명·질의요지에 소관 법령 이름이 나오는 해석만 남긴다(scripts.core.lawgokr_openapi).
+
+상세 수집은 그대로 화면(expcInfoP.do?expcSeq=…)을 읽으므로 URL 모양은 바꾸지 않는다.
 """
 import asyncio
-import requests
-from bs4 import BeautifulSoup
-import re
-import argparse
 import os
+import re
 import sys
-import json
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
-from scripts.core.run_report import call_with_retry, record_failure
+from scripts.core.lawgokr_openapi import jurisdiction_laws, scoped_candidates
+from scripts.core.run_report import record_failure
 
 logger = get_logger(__name__, scraper_type='legislation_expc')
 
-AJAX_URL = 'https://www.law.go.kr/LSW/expcAstScListR.do'
-CPT_OFI = '1492000'
-PAGE_SIZE = 50
-
-def _post_list_page(page_index: int) -> BeautifulSoup:
-    headers = {
-        'User-Agent': 'Mozilla/5.0',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Referer': 'https://www.law.go.kr/',
-    }
-    resp = requests.post(
-        AJAX_URL,
-        data={'cptOfi': CPT_OFI, 'chrIdx': '0', 'pageIndex': str(page_index)},
-        headers=headers,
-        timeout=30,
-    )
-    resp.raise_for_status()
-    return BeautifulSoup(resp.text, 'html.parser')
+DETAIL_URL = "https://www.law.go.kr/LSW/expcInfoP.do?mode=2&expcSeq={seq}"
 
 
-def _get_total_count(soup: BeautifulSoup) -> int | None:
-    """총 건수. 읽지 못하면 None(호출부가 1페이지만 보게 되는 것을 실패로 기록한다)."""
-    for sel in ['.tit2 strong', '#totalCount', '.total strong']:
-        el = soup.select_one(sel)
-        if el:
-            text = re.sub(r'[^\d]', '', el.get_text())
-            if text:
-                return int(text)
-    return None
+def collect_items(get=None, laws: dict | None = None, store=None) -> list:
+    kwargs = {"get": get} if get else {}
+    laws = laws or jurisdiction_laws(**kwargs)
+    rows = scoped_candidates(
+        target="expc", id_key="법령해석례일련번호", title_key="안건명",
+        detail_fields=("안건명", "질의요지"), collection_name="legislation_expc",
+        laws=laws, store=store, on_failure=record_failure, **kwargs)
+    items = []
+    for row in rows:
+        seq = str(row.get("법령해석례일련번호") or "")
+        if seq.isdigit():
+            name = re.sub(r'[\\/*?:"<>|]', '', (row.get("안건명") or "").strip()).strip()
+            items.append({"name": name or f"expc_{seq}", "url": DETAIL_URL.format(seq=seq)})
+    return sorted(items, key=lambda it: it["url"])
 
 
 async def fetch_urls(start_url: str, max_pages_arg: int | None):
-    """목록 API를 순회하며 상세 페이지 URL을 반환합니다."""
-    urls_found = []
-    seen_urls = set()
-
-    # 1페이지 → 총 건수 파악
-    logger.info("1페이지 요청 중...")
-    soup1 = call_with_retry(lambda: _post_list_page(1))
-    total_count = _get_total_count(soup1)
-    if total_count is None:
-        first_page_links = len(soup1.select('a[href*="expcInfoP"]'))
-        # 총 건수를 못 읽었는데 첫 페이지가 꽉 찼다면 사이트 구조가 바뀐 것이다 → 조용히 1페이지만 보지 않는다.
-        if first_page_links >= PAGE_SIZE:
-            record_failure("list-pages", "페이지 수를 읽지 못함(사이트 구조 변경 가능)")
-        total_count = first_page_links
-    total_pages = (total_count + PAGE_SIZE - 1) // PAGE_SIZE
-    logger.info(f"총 {total_count}건 / {total_pages}페이지")
-
-    if max_pages_arg:
-        total_pages = min(total_pages, max_pages_arg)
-        logger.info(f"최대 {total_pages}페이지로 제한")
-
-    def extract_from_soup(s):
-        for a in s.select('a[href*="expcInfoP"]'):
-            href = a.get('href', '')
-            if 'expcInfoP' not in href:
-                continue
-            if href.startswith('http'):
-                full_url = href
-            elif href.startswith('/'):
-                full_url = 'https://www.law.go.kr' + href
-            else:
-                full_url = 'https://www.law.go.kr/LSW/' + href
-            if full_url in seen_urls:
-                continue
-            seen_urls.add(full_url)
-            name = re.sub(r'[\\/*?:"<>|]', '', a.get_text(strip=True)).strip()
-            urls_found.append({'name': name, 'url': full_url})
-
-    extract_from_soup(soup1)
-
-    for page_idx in range(2, total_pages + 1):
-        logger.info(f"페이지 {page_idx} / {total_pages} 요청 중...")
-        try:
-            soup = call_with_retry(lambda: _post_list_page(page_idx))
-            extract_from_soup(soup)
-        except Exception as e:
-            logger.error(f"페이지 {page_idx} 오류: {e}")
-            record_failure(f"list-page:{page_idx}", e)
-
-    logger.info(f"총 {len(urls_found)}개 URL 수집 완료")
-    return urls_found
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("start_url", nargs="?", default=AJAX_URL)
-    parser.add_argument("-o", "--output", default="data/output/legislation_expc_urls.jsonl")
-    parser.add_argument("--max_pages", type=int, default=None)
-    args = parser.parse_args()
-
-    urls = asyncio.run(fetch_urls(args.start_url, args.max_pages))
-    os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
-    with open(args.output, "w", encoding="utf-8") as f:
-        for item in urls:
-            f.write(json.dumps(item, ensure_ascii=False) + "\n")
-    print(f"저장 완료: {len(urls)}건 → {args.output}")
+    """소관 법령을 다룬 법제처 법령해석례 상세 URL 목록. start_url·max_pages_arg 는 쓰지 않는다(호출 계약 유지용)."""
+    logger.info("법제처해석례 목록 수집 시작 (Open API expc, 소관 법령 이름)")
+    items = await asyncio.to_thread(collect_items)
+    logger.info(f"총 {len(items)}개 URL 수집 완료")
+    return items

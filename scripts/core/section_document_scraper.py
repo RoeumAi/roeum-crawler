@@ -28,6 +28,20 @@ class SectionScraperSpec:
     logger: object                       # 컬렉션 패키지의 로거(로그 파일이 컬렉션별로 나뉜다)
     # 부제가 없으면 문서를 실패로 돌려야 하는 컬렉션만 (로그 문구, error 문구)를 채운다.
     missing_subtitle: tuple | None = None
+    # metadata.dept_name(기관명). 문자열이면 그대로, 함수면 부제로 정한다. 법률 DB 내보내기가 기관명 대체값으로 읽는다
+    # (헌재 '헌법재판소', 법제처해석례 '법제처', 행정심판 부제 첫 낱말 — 기존 행과 같은 값).
+    dept_name: object = None
+
+
+def resolve_dept_name(spec: "SectionScraperSpec", doc_subtitle: str) -> str:
+    value = spec.dept_name(doc_subtitle or "") if callable(spec.dept_name) else spec.dept_name
+    return (value or "").strip()
+
+
+def first_word(text: str) -> str:
+    """부제 첫 낱말('국민권익위원회 2000-01715, …' → '국민권익위원회')."""
+    words = (text or "").strip().split()
+    return words[0].rstrip(",") if words else ""
 
 
 def clean_spaces(text: str) -> str:
@@ -122,7 +136,9 @@ def parse_content(spec: SectionScraperSpec, html: str, doc_id: str, url: str, do
 
 def save_to_mongodb(spec: SectionScraperSpec, doc_id: str, doc_title: str, doc_subtitle: str,
                     url: str, chunks: list) -> bool:
-    return save_section_chunks(spec.collection, doc_id, doc_title, doc_subtitle, url, chunks)
+    dept_name = resolve_dept_name(spec, doc_subtitle)
+    return save_section_chunks(spec.collection, doc_id, doc_title, doc_subtitle, url, chunks,
+                               extra_chunk_meta={"dept_name": dept_name} if dept_name else None)
 
 
 async def scrape_and_save(spec: SectionScraperSpec, url, save_to_db: bool = True,

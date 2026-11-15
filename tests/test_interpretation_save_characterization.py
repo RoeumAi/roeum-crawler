@@ -53,7 +53,7 @@ class InterpretationRowsTest(unittest.TestCase):
         self.assertEqual(
             {k: v for k, v in meta.items() if k != "updated_at"},
             {"source_url": DETAIL, "source_type": "web", "effective": "2026-09-01", "is_active": True,
-             "cpt_ofi_code": "1492000", "cpt_ofi_name": "고용노동부", "ofi_cls_cd": "350101",
+             "cpt_ofi_code": "1492000", "cpt_ofi_name": "고용노동부", "ofi_cls_cd": "350101", "dept_name": "고용노동부",
              "article_index": 1, "total_articles": 2, "created_at": today})
         self.assertEqual((second["article_title"], second["content"]), ("회답", "답변입니다\n둘째 줄"))
 
@@ -79,6 +79,12 @@ class InterpretationRowsTest(unittest.TestCase):
         body = dict(BODY, 회답="<p>답변</p>「근로기준법」 제2조 <개정 2020. 7. 14.><br/>다음 <신설>")
         _, db, _ = run({"url": DETAIL, "doc_seq": "555"}, body=body)
         self.assertEqual(db["interpretation"].docs[1]["content"], "답변「근로기준법」 제2조 <개정 2020. 7. 14.>\n다음 <신설>")
+
+    def test_middle_dot_matches_stored_web_text(self):
+        body = dict(BODY, 안건명="안전·보건 관리", 회답="기계·기구 및 설비")
+        _, db, _ = run({"url": DETAIL, "doc_seq": "555"}, body=body)
+        self.assertEqual(db["interpretation"].docs[0]["title"], "안전ㆍ보건 관리")
+        self.assertEqual(db["interpretation"].docs[1]["content"], "기계ㆍ기구 및 설비")
 
     def test_reason_section_is_kept_when_present(self):
         _, db, _ = run({"url": DETAIL, "doc_seq": "555"}, body=dict(BODY, 이유="이유입니다"))

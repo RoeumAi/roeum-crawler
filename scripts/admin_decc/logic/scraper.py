@@ -33,6 +33,7 @@ SPEC = shared.SectionScraperSpec(
     id_param="deccSeq",
     section_keys=SECTION_KEY_MAP,
     logger=logger,
+    dept_name=shared.first_word,  # 부제 '국민권익위원회 2000-01715, …' 의 재결 기관
 )
 
 

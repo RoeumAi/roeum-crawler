@@ -29,6 +29,7 @@ SPEC = shared.SectionScraperSpec(
     id_param="expcSeq",
     section_keys=SECTION_KEY_MAP,
     logger=logger,
+    dept_name="법제처",
 )
 
 

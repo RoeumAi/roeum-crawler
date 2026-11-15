@@ -8,8 +8,11 @@
 
 from bs4 import BeautifulSoup, Comment
 
+# 제목: 개편 전·후 모두 #conTop(#contentBody 안) 의 h2
+TITLE_SELECTOR = "#conTop h2, #contentBody h2"
 SUBTITLE_SELECTOR = "div.subtit1, div.subtit2, .subtit1, .subtit2, div.ct_sub"
-# Playwright 로케이터용(쉼표로 이은 CSS 도 그대로 받는다)
+# Playwright 로케이터용(쉼표로 이은 CSS 도 그대로 받는다). 여러 개면 .first 로 읽는다.
+TITLE_LOCATOR = TITLE_SELECTOR
 SUBTITLE_LOCATOR = "div.subtit1, div.subtit2, div.ct_sub"
 
 

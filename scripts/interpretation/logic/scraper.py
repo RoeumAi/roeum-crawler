@@ -27,7 +27,7 @@ logger = get_logger(__name__, scraper_type='interpretation')
 def normalize_doc_date(doc_date):
     """'2006.9.1' 같은 문서 날짜를 'YYYY-MM-DD' 로 정규화한다 (zero-padding 포함).
 
-    parse_subtitle 이 뽑아내는 날짜는 원문 표기를 그대로 따라가서 월·일이 한 자리일
+    해석일자(부제 표기 '2006.9.1')는 월·일이 한 자리일
     수 있다(`[고용노동부 임금근로시간정책팀-2534, 2006. 9. 1.]`). 기존에는
     `doc_date.replace(".", "-")` 로만 바꿔서 "2006-9-1" 이 그대로 저장됐다.
 
@@ -51,36 +51,6 @@ def normalize_doc_date(doc_date):
         return ""
     year, month, day = m.groups()
     return f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-
-
-def parse_subtitle(subtitle_text):
-    """부제목 text에서 부서, 문서번호, 날짜를 추출합니다."""
-    logger.debug(f"Subtitle 파싱 시도: {subtitle_text}")
-    date_pattern = r'(\d{4}\.\s*\d{1,2}\.\s*\d{1,2})\.'
-
-    match = re.search(r'\[\s*(.*?)\s+(.*?),\s*' + date_pattern + r'\s*\]', subtitle_text)
-    if match:
-        department = match.group(1).strip()
-        doc_number = match.group(2).strip()
-        doc_date = match.group(3).strip().replace(" ", "")
-        logger.debug(f"패턴 1로 파싱 성공: 부서='{department}', 번호='{doc_number}', 날짜='{doc_date}'")
-        return department, doc_number, doc_date
-
-    match = re.search(r'\[\s*(.*?),\s*' + date_pattern + r'\s*\]', subtitle_text)
-    if match:
-        department = match.group(1).strip()
-        doc_date = match.group(2).strip().replace(" ", "")
-        logger.debug(f"패턴 2로 파싱 성공: 부서='{department}', 번호='정보 없음', 날짜='{doc_date}'")
-        return department, "정보 없음", doc_date
-
-    match = re.search(r'\[(.*?)\]', subtitle_text)
-    if match:
-        department = match.group(1).strip()
-        logger.debug(f"패턴 3(Fallback)으로 파싱 성공: 부서='{department}', 번호/날짜 없음")
-        return department, "정보 없음", "정보 없음"
-
-    logger.warning(f"Subtitle 파싱 실패: {subtitle_text}")
-    return "정보 없음", "정보 없음", "정보 없음"
 
 
 def split_sections_by_header(sections: dict) -> list:

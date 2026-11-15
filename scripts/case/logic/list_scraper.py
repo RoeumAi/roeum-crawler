@@ -35,11 +35,10 @@ def _item(row: dict) -> dict | None:
 
 
 def collect_items(max_pages_arg: int | None = None, get=None, laws: dict | None = None) -> list:
-    kwargs = {"get": get} if get else {}
-    laws = laws or jurisdiction_laws(**kwargs)
+    laws = laws or jurisdiction_laws(get=get)
 
     def by_law(name: str) -> list:
-        return list(search("prec", {"JO": name}, max_pages=max_pages_arg, **kwargs))
+        return list(search("prec", {"JO": name}, max_pages=max_pages_arg, get=get))
 
     items, seen = [], set()
     with cf.ThreadPoolExecutor(MAX_WORKERS) as pool:

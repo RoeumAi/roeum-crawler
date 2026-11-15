@@ -352,12 +352,24 @@ class ListScraperRetryTest(unittest.TestCase):
         self.assertEqual(rows, [{"판례일련번호": "1"}])
         self.assertEqual([c.args[0] for c in sleep.call_args_list], [5.0, 10.0])
 
-    def test_first_page_of_admin_decc_is_retried(self):
+    def test_admin_decc_middle_page_failure_is_recorded(self):
+        from types import SimpleNamespace
         from scripts.admin_decc.logic import list_scraper as admin
-        with patch("scripts.core.run_report.time.sleep"), \
-             patch.object(admin, "_fetch_page", side_effect=[ConnectionError("x"), ([], 0)]) as fetch:
-            asyncio.run(admin.fetch_urls("", None))
-        self.assertEqual(fetch.call_count, 2)
+        from scripts.core.run_report import start_run_report
+        report = start_run_report("admin_decc")
+
+        def get(url, params=None, timeout=None):
+            if params["page"] == 2:
+                raise ConnectionError("x")
+            rows = [{"행정심판재결례일련번호": str(params["page"] * 1000 + i), "사건명": "부당해고 구제", "재결구분명": ""}
+                    for i in range(100 if params["page"] == 1 else 2)]
+            return SimpleNamespace(raise_for_status=lambda: None,
+                                   json=lambda: {"Decc": {"totalCnt": "202", "decc": rows}})
+
+        with patch("scripts.core.run_report.time.sleep"):
+            items = admin.collect_items(get=get)
+        self.assertEqual(len(items), 102)
+        self.assertEqual(report.failed_targets, ["admin_decc:list-page:2"])
 
 
 if __name__ == "__main__":

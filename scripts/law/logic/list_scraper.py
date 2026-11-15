@@ -46,13 +46,12 @@ def _item(row: dict, dept_name: str, today: str) -> dict | None:
 
 def collect_items(max_pages_arg: int | None = None, get=None) -> list:
     today = date.today().strftime("%Y%m%d")
-    kwargs = {"get": get} if get else {}
     urls_found, seen = [], set()
     for org_code, dept_name in ORG_CODES:
         for nw, label in VERSION_KINDS:
             try:
                 rows = list(search("eflaw", {"org": org_code, "nw": nw}, row_keys=("law",),
-                                   max_pages=max_pages_arg, **kwargs))
+                                   max_pages=max_pages_arg, get=get))
             except Exception as e:  # noqa: BLE001 - 한 부처·종류 실패는 기록하고 나머지를 모은다
                 logger.error(f"[{dept_name}] {label} 목록 실패: {e}")
                 record_failure(f"list-org:{org_code}:{label}", e)

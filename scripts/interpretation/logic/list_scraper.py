@@ -25,7 +25,6 @@ DETAIL_URL = "https://www.law.go.kr/LSW/cgmExpcInfoP.do?mode=2&cgmExpcDatSeq={se
 
 
 def collect_items(max_pages_arg: int | None = None, get=None) -> list:
-    kwargs = {"get": get} if get else {}
     items, seen = [], set()
 
     def page_failed(page: int, exc: Exception) -> None:
@@ -33,7 +32,7 @@ def collect_items(max_pages_arg: int | None = None, get=None) -> list:
         logger.error(f"❌ 목록 {page}페이지 수집 실패: {exc}")
         record_failure(f"list-page:{page}", exc)
 
-    for row in search(TARGET, row_keys=("cgmExpc",), max_pages=max_pages_arg, on_page_error=page_failed, **kwargs):
+    for row in search(TARGET, row_keys=("cgmExpc",), max_pages=max_pages_arg, on_page_error=page_failed, get=get):
         seq = str(row.get("법령해석일련번호") or "")
         if not seq.isdigit() or seq in seen:
             continue

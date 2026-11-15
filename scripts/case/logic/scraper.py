@@ -14,7 +14,7 @@ sys.path.append(project_root)
 
 # --- 로거 설정 ---
 from scripts.core.run_report import retry_detail_fetch_async
-from scripts.core.lawgokr_markup import content_html as lawgokr_content_html, subtitle_text
+from scripts.core.lawgokr_markup import TITLE_SELECTOR, content_html as lawgokr_content_html, subtitle_text
 from scripts.utils.html_text import block_text
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.section_chunks import save_section_chunks
@@ -177,9 +177,9 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
             logger.error("URL에서 doc_id(precSeq)를 추출하지 못했습니다.")
             return {"doc_id": None, "status": "failed"}
 
-        h2 = soup.select_one("#contentBody h2")
+        h2 = soup.select_one(TITLE_SELECTOR)
         if not h2:
-            logger.error(f"{doc_id}: #contentBody h2 없음 — 파싱 실패")
+            logger.error(f"{doc_id}: 제목(h2) 없음 — 파싱 실패")
             return {"doc_id": None, "status": "failed"}
         doc_title = clean_spaces(h2.get_text())
 

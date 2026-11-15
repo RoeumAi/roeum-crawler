@@ -21,6 +21,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 import requests  # noqa: E402
 from bs4 import BeautifulSoup  # noqa: E402
 
+from scripts.core.lawgokr_markup import content_html  # noqa: E402
+
 COLLECTIONS = {
     "admin_decc": "parse_content",
     "constitutional_decc": "parse_content",
@@ -50,8 +52,8 @@ def target_docs(collection, limit: int) -> list[tuple[str, str]]:
 
 def preview(module, parser_name: str, doc_id: str, url: str) -> int:
     html = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=30).text
-    con = BeautifulSoup(html, "html.parser").select_one("#conScroll")
-    chunks = getattr(module, parser_name)(con.decode_contents() if con else "", doc_id, url, "")
+    # 본문 자리는 화면 개편 전·후 모두 lawgokr_markup 한 곳에서 찾는다
+    chunks = getattr(module, parser_name)(content_html(BeautifulSoup(html, "html.parser")), doc_id, url, "")
     return sum(chunk.get("text", "").count("\n\n") + 1 for chunk in chunks)
 
 

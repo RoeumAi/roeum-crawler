@@ -21,46 +21,25 @@ import sys
 import tempfile
 from datetime import date, timedelta
 
-import requests
-
-from scripts.core.config import LAWGO_OC
+from scripts.core.lawgokr_openapi import search
 from scripts.core.lawgokr_stable_id import iso_date
-from scripts.core.run_report import call_with_retry
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type="adrule_history")
 
-SEARCH_API = "https://www.law.go.kr/DRF/lawSearch.do"
 DETAIL_URL = "https://www.law.go.kr/admRulInfoP.do?admRulSeq={doc_id}"
 HISTORY_COLLECTION = "adrule_history"
-PAGE_SIZE = 100
-TIMEOUT_SECONDS = 15
 # 결정 전 공고("2026년 적용 최저임금안 고시")는 확정 고시가 아니다.
 DRAFT_TITLE = re.compile(r"안\s*고시\s*$")
 
 
-def search_versions(query: str, page_size: int = PAGE_SIZE) -> list[dict]:
-    """law.go.kr 행정규칙 연혁 검색(nw=2) 결과 전체. 현행(nw=1)도 함께 받아 버전 줄을 끊기지 않게 잇는다."""
+def search_versions(query: str, get=None) -> list[dict]:
+    """law.go.kr 행정규칙 연혁 검색(nw=2) 결과 전체. 현행(nw=1)도 함께 받아 버전 줄을 끊기지 않게 잇는다.
+
+    요청·재시도·오류 판정은 Open API 공통(lawgokr_openapi.search)."""
     rows: list[dict] = []
     for nw in (1, 2):
-        page = 1
-        while True:
-            params = {"OC": LAWGO_OC, "target": "admrul", "type": "JSON", "query": query,
-                      "display": page_size, "page": page, "nw": nw}
-
-            def fetch():
-                resp = requests.get(SEARCH_API, params=params, timeout=TIMEOUT_SECONDS)
-                resp.raise_for_status()
-                return resp.json()
-
-            body = call_with_retry(fetch).get("AdmRulSearch") or {}
-            items = body.get("admrul") or []
-            items = items if isinstance(items, list) else [items]
-            rows.extend(items)
-            total = int(body.get("totalCnt") or 0)
-            if page * page_size >= total or not items:
-                break
-            page += 1
+        rows.extend(search("admrul", {"query": query, "nw": nw}, row_keys=("admrul",), get=get))
     return rows
 
 

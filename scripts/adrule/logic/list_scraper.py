@@ -1,24 +1,26 @@
-import math
-import re
-import time
+"""행정규칙 목록 — 국가법령정보 Open API(admrul).
+
+전체 행정규칙을 쪽마다 받아 고용노동부 소관만 남긴다(Open API 에 부처 조건이 없다).
+요청·재시도·오류 판정은 scripts.core.lawgokr_openapi.search 를 쓴다(법제처 자료 목록 공통).
+"""
+import asyncio
 import os
+import re
 import sys
 from datetime import date
-
-import requests
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
-from scripts.core.config import LAWGO_OC
 from scripts.utils.logger_config import get_logger
-from scripts.core.run_report import call_with_retry, record_failure
+from scripts.core.lawgokr_openapi import search
+from scripts.core.run_report import record_failure
 
 logger = get_logger(__name__, scraper_type='adrule')
 
-API_BASE = "https://www.law.go.kr/DRF/lawSearch.do"
-OC = LAWGO_OC  # 정의는 scripts/core/config.py
-PAGE_SIZE = 100
+DETAIL_URL = "https://www.law.go.kr/admRulInfoP.do?admRulSeq={seq}"
+
+
 # 고용노동부 소관 행정규칙 판별 함수
 # 부처명 변형 포함: 노동부(이전 명칭), 중앙노동위원회·노동위원회(고용노동부 산하),
 # 고용노동부고객상담센터, 복수 부처 공동 고시(소관부처명에 "고용노동부" 포함)
@@ -27,38 +29,35 @@ def _is_valid_dept(dept: str) -> bool:
     return "고용노동부" in dept or dept in {"노동부", "중앙노동위원회", "노동위원회"}
 
 
-def _fetch_page(page: int) -> list:
-    params = {
-        "OC": OC,
-        "target": "admrul",
-        "type": "JSON",
-        "page": page,
-        "display": PAGE_SIZE,
-        "query": "",
-    }
-    resp = requests.get(API_BASE, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
-    items = data.get("AdmRulSearch", {}).get("admrul", [])
-    return [item for item in items if _is_valid_dept(item.get("소관부처명", ""))]
+def collect_items(max_pages_arg: int | None = None, get=None) -> list:
+    today = date.today().strftime("%Y%m%d")
 
+    def page_failed(page: int, exc: Exception) -> None:
+        logger.error(f"페이지 {page} 조회 실패: {exc}")
+        record_failure(f"list-page:{page}", exc)
 
-def _total_pages() -> int:
-    # API의 totalCnt는 전체 행정규칙 수이므로, 실제 페이지 수를 그대로 사용.
-    # 각 페이지에서 소관부처명 필터 후 수집하므로 전체 페이지를 순회해야 한다.
-    params = {
-        "OC": OC,
-        "target": "admrul",
-        "type": "JSON",
-        "page": 1,
-        "display": PAGE_SIZE,
-        "query": "",
-    }
-    resp = requests.get(API_BASE, params=params, timeout=30)
-    resp.raise_for_status()
-    data = resp.json()
-    total = int(data.get("AdmRulSearch", {}).get("totalCnt", 0))
-    return math.ceil(total / PAGE_SIZE)
+    urls_found, seen = [], set()
+    for item in search("admrul", {"query": ""}, row_keys=("admrul",), max_pages=max_pages_arg,
+                       get=get, on_page_error=page_failed):
+        if not _is_valid_dept(item.get("소관부처명", "")):
+            continue
+        seq = item.get("행정규칙일련번호", "")
+        if not seq:
+            continue
+        url = DETAIL_URL.format(seq=seq)
+        if url in seen:
+            continue
+        seen.add(url)
+        efy = item.get("시행일자", "")
+        name = item.get("행정규칙명", "").strip()
+        safe_name = re.sub(r'[\\/*?:"<>|]', "", name).strip() if name else f"adrule_{seq}"
+        urls_found.append({
+            "name": safe_name,
+            "url": url,
+            "effective": efy,  # 시행일자 — update 모드 변경 감지에 사용
+            "is_upcoming": bool(efy) and efy > today,
+        })
+    return urls_found
 
 
 async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
@@ -71,53 +70,7 @@ async def fetch_urls(start_url: str, max_pages_arg: int | None = None):
         - effective: 시행일자 (YYYYMMDD)
         - is_upcoming: 시행일자가 오늘보다 미래인지 여부 (law list_scraper와 동일 기준)
     """
-    logger.info(f"행정규칙 목록 API 수집 시작 (참조 URL: {start_url})")
-    today = date.today().strftime("%Y%m%d")
-
-    total_pages = _total_pages()
-    logger.info(f"총 {total_pages} 페이지 확인")
-
-    pages_to_crawl = total_pages
-    if max_pages_arg is not None and 0 < max_pages_arg < total_pages:
-        pages_to_crawl = max_pages_arg
-        logger.info(f"최대 {pages_to_crawl} 페이지로 제한")
-
-    urls_found = []
-    seen = set()
-
-    for page_num in range(1, pages_to_crawl + 1):
-        logger.info(f"--- 페이지 {page_num} / {pages_to_crawl} 처리 중 ---")
-        try:
-            items = call_with_retry(lambda: _fetch_page(page_num))
-        except Exception as e:
-            logger.error(f"페이지 {page_num} 조회 실패: {e}")
-            record_failure(f"list-page:{page_num}", e)
-            continue
-
-        logger.info(f"페이지 {page_num}: {len(items)}개 항목 발견")
-
-        for item in items:
-            seq = item.get("행정규칙일련번호", "")
-            efy = item.get("시행일자", "")
-            name = item.get("행정규칙명", "").strip()
-            if not seq:
-                continue
-
-            url = f"https://www.law.go.kr/admRulInfoP.do?admRulSeq={seq}"
-            if url in seen:
-                continue
-            seen.add(url)
-
-            safe_name = re.sub(r'[\\/*?:"<>|]', "", name).strip() if name else f"adrule_{seq}"
-            urls_found.append({
-                "name": safe_name,
-                "url": url,
-                "effective": efy,  # 시행일자 — update 모드 변경 감지에 사용
-                "is_upcoming": bool(efy) and efy > today,
-            })
-
-        if page_num < pages_to_crawl:
-            time.sleep(0.3)
-
+    logger.info("행정규칙 목록 API 수집 시작 (Open API admrul)")
+    urls_found = await asyncio.to_thread(collect_items, max_pages_arg)
     logger.info(f"✅ 행정규칙 URL 수집 완료: {len(urls_found)}개")
     return urls_found

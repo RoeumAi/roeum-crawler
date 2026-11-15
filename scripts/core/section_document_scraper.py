@@ -15,7 +15,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString
 
 from scripts.core.run_report import retry_detail_fetch_async
-from scripts.core.lawgokr_markup import content_html as lawgokr_content_html, subtitle_text
+from scripts.core.lawgokr_markup import TITLE_SELECTOR, content_html as lawgokr_content_html, subtitle_text
 from scripts.utils.html_text import block_text
 from scripts.core.database.section_chunks import save_section_chunks
 
@@ -155,7 +155,7 @@ async def scrape_and_save(spec: SectionScraperSpec, url, save_to_db: bool = True
             logger.error(f"doc_id 추출 실패: {url}")
             return {"doc_id": None, "status": "failed"}
 
-        h2 = soup.select_one("#contentBody h2")
+        h2 = soup.select_one(TITLE_SELECTOR)
         doc_title = clean_spaces(h2.get_text()) if h2 else ""
         if not doc_title:
             title_el = soup.select_one(".tit_doc, h2, h3")

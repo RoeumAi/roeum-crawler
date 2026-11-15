@@ -18,6 +18,7 @@ import logging
 import re
 import threading
 from datetime import datetime
+from dataclasses import dataclass
 from typing import Callable, Dict, Iterable, Iterator, List, Optional
 
 import requests
@@ -44,8 +45,12 @@ class OpenApiError(RuntimeError):
     """law.go.kr Open API 가 결과 대신 오류·안내를 돌려줌(요약의 원인 분류가 'Open API' 로 잡는다)."""
 
 
-def _get_body(url: str, params: dict, get: Callable = requests.get) -> dict:
-    resp = get(url, params={**params, "OC": LAWGO_OC, "type": "JSON"}, timeout=TIMEOUT_SECONDS)
+def request_json(url: str, params: dict, get: Optional[Callable] = None, timeout: float = TIMEOUT_SECONDS) -> dict:
+    """Open API 한 번 호출(OC·type=JSON 을 붙인다). 응답 전체 JSON 을 돌려준다.
+
+    결과 대신 안내 문구(문자열)나 HTML 이 오면 OpenApiError — 요약의 원인 분류가 'Open API' 로 잡는다.
+    """
+    resp = (get or requests.get)(url, params={**params, "OC": LAWGO_OC, "type": "JSON"}, timeout=timeout)
     resp.raise_for_status()
     try:
         data = resp.json()
@@ -54,7 +59,11 @@ def _get_body(url: str, params: dict, get: Callable = requests.get) -> dict:
     body = next(iter(data.values()), None) if isinstance(data, dict) and data else None
     if not isinstance(body, dict):
         raise OpenApiError(f"law.go.kr Open API 오류 응답({params.get('target')}): {str(body)[:120]}")
-    return body
+    return data
+
+
+def _get_body(url: str, params: dict, get: Optional[Callable] = None) -> dict:
+    return next(iter(request_json(url, params, get).values()))
 
 
 def _rows(body: dict, row_keys: Iterable[str]) -> list:
@@ -71,7 +80,7 @@ def _total(body: dict) -> Optional[int]:
 
 
 def search(target: str, params: Optional[dict] = None, *, row_keys: Iterable[str] = (),
-           max_pages: Optional[int] = None, get: Callable = requests.get,
+           max_pages: Optional[int] = None, get: Optional[Callable] = None,
            on_page_error: Optional[Callable[[int, Exception], None]] = None) -> Iterator[dict]:
     """목록 검색 결과 행을 쪽마다 받아 차례로 내놓는다. 쪽마다 몇 번 더 시도한다.
 
@@ -106,7 +115,7 @@ def search(target: str, params: Optional[dict] = None, *, row_keys: Iterable[str
         page += 1
 
 
-def service(target: str, get: Callable = requests.get, **params) -> dict:
+def service(target: str, get: Optional[Callable] = None, **params) -> dict:
     """상세 한 건. 없거나 오류면 OpenApiError(다시 해도 같으므로 네트워크 오류만 다시 시도한다)."""
     return call_with_retry(lambda: _get_body(SERVICE_URL, {"target": target, **params}, get),
                            retry_if=lambda exc: not isinstance(exc, OpenApiError))
@@ -120,12 +129,12 @@ _laws_cache: Dict[str, Dict[str, List[str]]] = {}
 _laws_lock = threading.Lock()
 
 
-def jurisdiction_laws(get: Callable = requests.get) -> Dict[str, List[str]]:
+def jurisdiction_laws(get: Optional[Callable] = None) -> Dict[str, List[str]]:
     """{"current": 지금 이름, "all": 지금 이름 + 지난 이름}. 판례 JO 검색은 현행 이름, 대조는 모든 이름을 쓴다.
 
     한 실행에서 판례·헌재·법제처해석례가 함께 쓰므로 같은 날에는 한 번만 받는다(가짜 get 을 넘기면 매번 받는다).
     """
-    if get is not requests.get:
+    if get is not None:
         return _fetch_jurisdiction_laws(get)
     day = datetime.now().strftime("%Y%m%d")
     with _laws_lock:
@@ -135,7 +144,7 @@ def jurisdiction_laws(get: Callable = requests.get) -> Dict[str, List[str]]:
         return _laws_cache[day]
 
 
-def _fetch_jurisdiction_laws(get: Callable) -> Dict[str, List[str]]:
+def _fetch_jurisdiction_laws(get: Optional[Callable]) -> Dict[str, List[str]]:
     current, history = set(), set()
     for org in SCOPE_ORG_CODES:
         current |= {r["법령명한글"] for r in search("law", {"org": org}, get=get) if r.get("법령명한글")}
@@ -216,7 +225,7 @@ class ScopeCheckStore:
 
 def scoped_candidates(*, target: str, id_key: str, title_key: str, detail_fields: Iterable[str],
                       collection_name: str, laws: Dict[str, List[str]], store: Optional[ScopeCheckStore] = None,
-                      get: Callable = requests.get, on_failure: Optional[Callable[[str, Exception], None]] = None,
+                      get: Optional[Callable] = None, on_failure: Optional[Callable[[str, Exception], None]] = None,
                       max_workers: int = MAX_WORKERS) -> List[dict]:
     """법령 이름 검색(제목·본문)으로 후보를 모으고 소관 법령을 인용하는 것만 돌려준다(헌재결정례·법제처해석례).
 
@@ -272,3 +281,32 @@ def scoped_candidates(*, target: str, id_key: str, title_key: str, detail_fields
                 target, len(candidates), len(candidates) - len(undecided), len(known), len(decisions),
                 sum(decisions.values()), len(kept))
     return list(kept.values())
+
+
+@dataclass(frozen=True)
+class ScopedTarget:
+    """법령 이름으로 범위를 정하는 자료(헌재결정례·법제처해석례)의 Open API 칸과 원문 화면 주소."""
+    target: str
+    collection: str
+    id_key: str
+    title_key: str
+    detail_fields: tuple
+    detail_url: str          # "{seq}" 자리에 일련번호
+    name_prefix: str
+
+
+def collect_scoped_items(spec: ScopedTarget, *, get: Optional[Callable] = None, laws: Optional[dict] = None,
+                         store: Optional[ScopeCheckStore] = None,
+                         on_failure: Optional[Callable[[str, Exception], None]] = None) -> List[dict]:
+    """scoped_candidates 결과를 목록 항목({"name", "url"})으로. 상세 수집은 화면을 읽으므로 원문 주소를 쓴다."""
+    laws = laws or jurisdiction_laws(get)
+    rows = scoped_candidates(target=spec.target, id_key=spec.id_key, title_key=spec.title_key,
+                             detail_fields=spec.detail_fields, collection_name=spec.collection,
+                             laws=laws, store=store, get=get, on_failure=on_failure)
+    items = []
+    for row in rows:
+        seq = str(row.get(spec.id_key) or "")
+        if seq.isdigit():
+            name = re.sub(r'[\\/*?:"<>|]', "", str(row.get(spec.title_key) or "").strip()).strip()
+            items.append({"name": name or f"{spec.name_prefix}_{seq}", "url": spec.detail_url.format(seq=seq)})
+    return sorted(items, key=lambda it: it["url"])

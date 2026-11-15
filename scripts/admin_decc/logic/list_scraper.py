@@ -1,10 +1,9 @@
 """
 admin_decc 목록 크롤러 (법제처 DRF Open API 기반)
 구형 deccAstScListR.do 대신 target=decc DRF API 사용 — 2026년까지 최신 데이터 포함
+요청·재시도·오류 판정은 scripts.core.lawgokr_openapi.search 를 쓴다(법제처 자료 목록 공통).
 """
 import asyncio
-import requests
-import xml.etree.ElementTree as ET
 import os
 import sys
 import json
@@ -13,15 +12,12 @@ from typing import Optional
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 sys.path.append(project_root)
 
-from scripts.core.config import LAWGO_OC
 from scripts.utils.logger_config import get_logger
-from scripts.core.run_report import call_with_retry, record_failure
+from scripts.core.lawgokr_openapi import search
+from scripts.core.run_report import record_failure
 
 logger = get_logger(__name__, scraper_type='admin_decc')
 
-DRF_URL = 'https://www.law.go.kr/DRF/lawSearch.do'
-OC = LAWGO_OC  # 정의는 scripts/core/config.py
-DISPLAY = 100
 BASE_DETAIL_URL = 'https://www.law.go.kr/LSW/deccInfoP.do'
 
 # 고용노동부 소관 법령 영역 키워드 (사건명 + 재결구분명 대상)
@@ -42,39 +38,33 @@ def _is_labor_related(case_name: str, category: str) -> bool:
     return any(kw in text for kw in LABOR_KEYWORDS)
 
 
-def _fetch_page(page: int) -> tuple[list, int]:
-    """DRF API 한 페이지 조회 → (항목 리스트, 총건수)"""
-    resp = requests.get(
-        DRF_URL,
-        params={
-            'OC': OC,
-            'target': 'decc',
-            'type': 'XML',
-            'query': '',
-            'display': DISPLAY,
-            'page': page,
-        },
-        headers={'User-Agent': 'Mozilla/5.0', 'Referer': 'https://www.law.go.kr/'},
-        timeout=30,
-    )
-    resp.raise_for_status()
-    root = ET.fromstring(resp.text)
-    total = int(root.findtext('totalCnt') or 0)
-    items = []
-    for decc in root.findall('decc'):
-        seq = decc.findtext('행정심판재결례일련번호', '')
-        if not seq:
-            continue
-        items.append({
-            'seq': seq,
-            'name': decc.findtext('사건명', ''),
-            'case_num': decc.findtext('사건번호', ''),
-            'date': decc.findtext('의결일자', ''),
-            'authority': decc.findtext('재결청', ''),
-            'category': decc.findtext('재결구분명', ''),
-            'url': f'{BASE_DETAIL_URL}?deccSeq={seq}&mode=3',
-        })
-    return items, total
+def _item(row: dict) -> dict | None:
+    seq = str(row.get('행정심판재결례일련번호') or '')
+    if not seq:
+        return None
+    return {
+        'seq': seq,
+        'name': row.get('사건명', ''),
+        'case_num': row.get('사건번호', ''),
+        'date': row.get('의결일자', ''),
+        'authority': row.get('재결청', ''),
+        'category': row.get('재결구분명', ''),
+        'url': f'{BASE_DETAIL_URL}?deccSeq={seq}&mode=3',
+    }
+
+
+def collect_items(max_pages_arg: Optional[int] = None, get=None) -> list:
+    def page_failed(page: int, exc: Exception) -> None:
+        logger.error(f'페이지 {page} 수집 실패: {exc}')
+        record_failure(f"list-page:{page}", exc)
+
+    result = []
+    for row in search('decc', {'query': ''}, row_keys=('decc',), max_pages=max_pages_arg,
+                      get=get, on_page_error=page_failed):
+        item = _item(row)
+        if item and _is_labor_related(item['name'], item['category']):
+            result.append(item)
+    return result
 
 
 async def fetch_urls(start_url: str = '', max_pages_arg: Optional[int] = None) -> list:
@@ -82,39 +72,8 @@ async def fetch_urls(start_url: str = '', max_pages_arg: Optional[int] = None) -
     DRF API로 고용노동부 관련 행정심판재결례 URL 목록 수집
     노동 관련 키워드 필터링만 수행; 기존 DB 중복 제거는 crawl.py Step 1.5에서 처리
     """
-    loop = asyncio.get_event_loop()
-
-    # 1페이지로 총 건수 파악
-    first_items, total = await loop.run_in_executor(None, lambda: call_with_retry(lambda: _fetch_page(1)))
-    total_pages = (total + DISPLAY - 1) // DISPLAY
-    if max_pages_arg:
-        total_pages = min(total_pages, max_pages_arg)
-
-    logger.info(f'DRF 행정심판재결례 총 {total}건 / {total_pages}페이지 — 노동 관련 필터링 시작')
-
-    result = []
-
-    def _process_items(items: list) -> list:
-        return [item for item in items if _is_labor_related(item['name'], item['category'])]
-
-    result.extend(_process_items(first_items))
-
-    for page in range(2, total_pages + 1):
-        try:
-            items, _ = await loop.run_in_executor(
-                None, lambda: call_with_retry(lambda: _fetch_page(page)))
-            result.extend(_process_items(items))
-        except Exception as e:
-            logger.error(f'페이지 {page} 수집 실패: {e}')
-            record_failure(f"list-page:{page}", e)
-            await asyncio.sleep(5)
-            continue
-
-        if page % 50 == 0:
-            logger.info(f'  {page}/{total_pages}페이지 완료, 노동 관련 누적: {len(result)}건')
-        # DRF API 부하 방지 (50ms)
-        await asyncio.sleep(0.05)
-
+    logger.info('DRF 행정심판재결례 목록 수집 시작 — 노동 관련 필터링')
+    result = await asyncio.to_thread(collect_items, max_pages_arg)
     logger.info(f'✅ {len(result)}건 노동 관련 URL 수집 완료 (기존 DB 중복은 crawl.py Step 1.5에서 제거)')
     return result
 

@@ -12,7 +12,7 @@ from datetime import datetime
 from unittest.mock import AsyncMock, Mock, patch
 
 from scripts.adrule.logic import scraper as adrule_scraper
-from scripts.core.lawgokr_markup import SUBTITLE_LOCATOR
+from scripts.core.lawgokr_markup import SUBTITLE_LOCATOR, TITLE_LOCATOR
 from scripts.adrule.logic.scraper import CURRENT_ADRULE
 from scripts.law.logic import scraper as law_scraper
 
@@ -694,7 +694,7 @@ ADRULE_PAGE_HTML = ('<div class="pgroup"><span class="bl"><label>제1조(목적)
 
 def adrule_scrape_page(**kwargs):
     locators = {
-        "#conTop h2": " 최저임금  고시 ",
+        TITLE_LOCATOR: " 최저임금  고시 ",
         # 부제 칸은 개편 전(subtit1)·후(ct_sub) 어느 쪽이든 읽는다(scripts.core.lawgokr_markup.SUBTITLE_LOCATOR)
         SUBTITLE_LOCATOR: "[시행 2026. 1. 5.] [고용노동부고시 제2025-121호, 2025. 12. 30., 일부개정]",
         "#conScroll": ADRULE_STRUCTURED,

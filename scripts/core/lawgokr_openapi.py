@@ -17,6 +17,7 @@ import hashlib
 import logging
 import re
 import threading
+import time
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Callable, Dict, Iterable, Iterator, List, Optional
@@ -81,11 +82,13 @@ def _total(body: dict) -> Optional[int]:
 
 def search(target: str, params: Optional[dict] = None, *, row_keys: Iterable[str] = (),
            max_pages: Optional[int] = None, get: Optional[Callable] = None,
-           on_page_error: Optional[Callable[[int, Exception], None]] = None) -> Iterator[dict]:
+           on_page_error: Optional[Callable[[int, Exception], None]] = None,
+           pause_seconds: float = 0.0) -> Iterator[dict]:
     """목록 검색 결과 행을 쪽마다 받아 차례로 내놓는다. 쪽마다 몇 번 더 시도한다.
 
     첫 쪽을 끝내 못 받으면 예외를 올린다. 2쪽부터는 on_page_error 가 있으면 그 쪽을 알리고 다음 쪽으로 넘어간다
     (없으면 예외). 전체 건수(totalCnt)를 못 읽으면 꽉 찬 쪽이 이어지는 동안 계속 받는다(조용히 1쪽에서 멈추지 않게).
+    pause_seconds: 쪽 사이 쉬는 시간(전체 목록을 수백 쪽 도는 행정규칙·행정심판이 서버 부하를 덜려고 쓴다).
     """
     keys = tuple(row_keys) or (target, target[:1].upper() + target[1:])
     page, total = 1, None
@@ -113,6 +116,8 @@ def search(target: str, params: Optional[dict] = None, *, row_keys: Iterable[str
         if rows is not None and not rows:
             return
         page += 1
+        if pause_seconds:
+            time.sleep(pause_seconds)
 
 
 def service(target: str, get: Optional[Callable] = None, **params) -> dict:

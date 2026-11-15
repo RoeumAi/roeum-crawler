@@ -7,7 +7,7 @@ law.go.kr 상세 API로 법령/행정규칙의 안정 ID(법령ID/행정규칙ID
 
 from typing import Optional
 
-from scripts.core.lawgokr_openapi import SERVICE_URL, request_json
+from scripts.core.lawgokr_openapi import SERVICE_URL, OpenApiError, request_json
 from scripts.core.run_report import call_with_retry
 from scripts.utils.logger_config import get_logger
 
@@ -24,7 +24,9 @@ def fetch_record(target: str, doc_id: str) -> Optional[dict]:
     params = {"target": target, key: doc_id}
     try:
         # 요청·오류 판정은 Open API 공통(lawgokr_openapi.request_json). 응답 전체를 돌려준다(호출부가 최상위 키를 본다).
-        return call_with_retry(lambda: request_json(SERVICE_URL, params, timeout=TIMEOUT_SECONDS))
+        # 잠깐 나는 404·네트워크 오류만 다시 시도한다. '없는 문서' 안내(OpenApiError)는 다시 해도 같다.
+        return call_with_retry(lambda: request_json(SERVICE_URL, params, timeout=TIMEOUT_SECONDS),
+                               retry_if=lambda exc: not isinstance(exc, OpenApiError))
     except Exception as e:
         logger.warning(f"Open API 조회 실패 ({target} {key}={doc_id}): {e}")
         return None

@@ -60,7 +60,7 @@ def collect_items(max_pages_arg: Optional[int] = None, get=None) -> list:
 
     result = []
     for row in search('decc', {'query': ''}, row_keys=('decc',), max_pages=max_pages_arg,
-                      get=get, on_page_error=page_failed):
+                      get=get, on_page_error=page_failed, pause_seconds=0.05):  # DRF API 부하 방지
         item = _item(row)
         if item and _is_labor_related(item['name'], item['category']):
             result.append(item)

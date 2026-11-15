@@ -38,7 +38,7 @@ def collect_items(max_pages_arg: int | None = None, get=None) -> list:
 
     urls_found, seen = [], set()
     for item in search("admrul", {"query": ""}, row_keys=("admrul",), max_pages=max_pages_arg,
-                       get=get, on_page_error=page_failed):
+                       get=get, on_page_error=page_failed, pause_seconds=0.3):
         if not _is_valid_dept(item.get("소관부처명", "")):
             continue
         seq = item.get("행정규칙일련번호", "")

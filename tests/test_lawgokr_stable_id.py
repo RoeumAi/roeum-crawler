@@ -61,5 +61,18 @@ class FetchStableAdruleIdTest(unittest.TestCase):
         self.assertIsNone(fetch_stable_adrule_id("2100000229118"))
 
 
+class FetchRecordErrorTest(unittest.TestCase):
+    @patch("scripts.core.run_report.time.sleep")
+    @patch("scripts.core.lawgokr_openapi.requests.get")
+    def test_not_found_notice_returns_none_without_retry(self, mock_get, sleep):
+        mock_response = MagicMock()
+        mock_response.json.return_value = {"Law": "일치하는 법령이 없습니다."}
+        mock_response.raise_for_status.return_value = None
+        mock_get.return_value = mock_response
+
+        self.assertIsNone(fetch_stable_law_id("1"))
+        self.assertEqual((mock_get.call_count, sleep.call_count), (1, 0))
+
+
 if __name__ == "__main__":
     unittest.main()

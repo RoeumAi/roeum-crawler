@@ -73,6 +73,14 @@ class SearchTest(unittest.TestCase):
         rows = list(api.search("prec", get=FakeGet(route), on_page_error=lambda pg, e: failed.append(pg)))
         self.assertEqual((len(rows), failed), (110, [2]))
 
+    def test_pause_between_pages(self):
+        def route(url, p):
+            n = 100 if p["page"] == 1 else 1
+            return {"PrecSearch": {"totalCnt": "101", "prec": [{"id": i} for i in range(n)]}}
+        with mock.patch.object(api.time, "sleep") as sleep:
+            list(api.search("prec", get=FakeGet(route), pause_seconds=0.3))
+        self.assertEqual([c.args[0] for c in sleep.call_args_list], [0.3])
+
     def test_first_page_failure_always_raises(self):
         get = FakeGet(lambda u, p: (_ for _ in ()).throw(RuntimeError("down")))
         with self.assertRaises(RuntimeError):

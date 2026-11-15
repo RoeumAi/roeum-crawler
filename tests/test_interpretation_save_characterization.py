@@ -75,6 +75,11 @@ class InterpretationRowsTest(unittest.TestCase):
         self.assertEqual(result, {"status": "failed", "error": "No doc_seq"})
         self.assertEqual((dict(db), calls), ({}, []))
 
+    def test_html_tags_go_but_legal_angle_notes_stay(self):
+        body = dict(BODY, 회답="<p>답변</p>「근로기준법」 제2조 <개정 2020. 7. 14.><br/>다음 <신설>")
+        _, db, _ = run({"url": DETAIL, "doc_seq": "555"}, body=body)
+        self.assertEqual(db["interpretation"].docs[1]["content"], "답변「근로기준법」 제2조 <개정 2020. 7. 14.>\n다음 <신설>")
+
     def test_reason_section_is_kept_when_present(self):
         _, db, _ = run({"url": DETAIL, "doc_seq": "555"}, body=dict(BODY, 이유="이유입니다"))
         self.assertEqual([d["article_title"] for d in db["interpretation"].docs], ["질의요지", "회답", "이유"])

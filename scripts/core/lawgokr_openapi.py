@@ -65,25 +65,51 @@ def _rows(body: dict, row_keys: Iterable[str]) -> list:
     return []
 
 
+def _total(body: dict) -> Optional[int]:
+    text = str(body.get("totalCnt") or "").replace(",", "").strip()
+    return int(text) if text.isdigit() else None
+
+
 def search(target: str, params: Optional[dict] = None, *, row_keys: Iterable[str] = (),
-           max_pages: Optional[int] = None, get: Callable = requests.get) -> Iterator[dict]:
-    """목록 검색 결과 행을 쪽마다 받아 차례로 내놓는다. 쪽마다 몇 번 더 시도하고, 끝내 못 받으면 예외를 올린다."""
+           max_pages: Optional[int] = None, get: Callable = requests.get,
+           on_page_error: Optional[Callable[[int, Exception], None]] = None) -> Iterator[dict]:
+    """목록 검색 결과 행을 쪽마다 받아 차례로 내놓는다. 쪽마다 몇 번 더 시도한다.
+
+    첫 쪽을 끝내 못 받으면 예외를 올린다. 2쪽부터는 on_page_error 가 있으면 그 쪽을 알리고 다음 쪽으로 넘어간다
+    (없으면 예외). 전체 건수(totalCnt)를 못 읽으면 꽉 찬 쪽이 이어지는 동안 계속 받는다(조용히 1쪽에서 멈추지 않게).
+    """
     keys = tuple(row_keys) or (target, target[:1].upper() + target[1:])
-    page = 1
+    page, total = 1, None
     while True:
         query = {"target": target, "display": PAGE_SIZE, "page": page, **(params or {})}
-        body = call_with_retry(lambda: _get_body(SEARCH_URL, query, get))
-        rows = _rows(body, keys)
-        yield from rows
-        total = int(str(body.get("totalCnt") or "0").replace(",", "") or 0)
-        if len(rows) < PAGE_SIZE or page * PAGE_SIZE >= total or (max_pages and page >= max_pages):
+        try:
+            body = call_with_retry(lambda: _get_body(SEARCH_URL, query, get))
+        except Exception as exc:
+            if page == 1 or on_page_error is None or total is None:
+                raise
+            on_page_error(page, exc)
+            rows = None
+        else:
+            rows = _rows(body, keys)
+            yield from rows
+            if page == 1:
+                total = _total(body)
+        if max_pages and page >= max_pages:
+            return
+        if total is not None:
+            if page * PAGE_SIZE >= total:
+                return
+        elif rows is None or len(rows) < PAGE_SIZE:
+            return
+        if rows is not None and not rows:
             return
         page += 1
 
 
 def service(target: str, get: Callable = requests.get, **params) -> dict:
-    """상세 한 건. 없거나 오류면 OpenApiError."""
-    return call_with_retry(lambda: _get_body(SERVICE_URL, {"target": target, **params}, get))
+    """상세 한 건. 없거나 오류면 OpenApiError(다시 해도 같으므로 네트워크 오류만 다시 시도한다)."""
+    return call_with_retry(lambda: _get_body(SERVICE_URL, {"target": target, **params}, get),
+                           retry_if=lambda exc: not isinstance(exc, OpenApiError))
 
 
 # ---------------------------------------------------------------------------
@@ -229,6 +255,8 @@ def scoped_candidates(*, target: str, id_key: str, title_key: str, detail_fields
             body = service(target, get=get, ID=doc_id)
         except Exception as exc:  # noqa: BLE001 - 판정 못 한 문서는 기록하지 않고 다음 날 다시 본다
             logger.warning("%s 상세 판정 실패(%s): %s", target, doc_id, exc)
+            if on_failure:
+                on_failure(f"scope-check:{doc_id}", exc)
             return None
         return matcher.cites(" ".join(str(body.get(f) or "") for f in detail_fields))
 

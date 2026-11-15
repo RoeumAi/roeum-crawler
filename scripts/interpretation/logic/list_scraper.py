@@ -14,6 +14,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..
 sys.path.append(project_root)
 
 from scripts.core.lawgokr_openapi import search
+from scripts.core.run_report import record_failure
 from scripts.utils.logger_config import get_logger
 
 logger = get_logger(__name__, scraper_type='interpretation')
@@ -26,7 +27,13 @@ DETAIL_URL = "https://www.law.go.kr/LSW/cgmExpcInfoP.do?mode=2&cgmExpcDatSeq={se
 def collect_items(max_pages_arg: int | None = None, get=None) -> list:
     kwargs = {"get": get} if get else {}
     items, seen = [], set()
-    for row in search(TARGET, row_keys=("cgmExpc",), max_pages=max_pages_arg, **kwargs):
+
+    def page_failed(page: int, exc: Exception) -> None:
+        # 중간 쪽 하나 실패는 기록하고 나머지 쪽을 모은다(첫 쪽 실패는 목록 전체 실패로 올라간다)
+        logger.error(f"❌ 목록 {page}페이지 수집 실패: {exc}")
+        record_failure(f"list-page:{page}", exc)
+
+    for row in search(TARGET, row_keys=("cgmExpc",), max_pages=max_pages_arg, on_page_error=page_failed, **kwargs):
         seq = str(row.get("법령해석일련번호") or "")
         if not seq.isdigit() or seq in seen:
             continue

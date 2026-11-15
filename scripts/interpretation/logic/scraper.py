@@ -305,7 +305,8 @@ def _display_date(yyyymmdd: str) -> str:
 def _clean_text(value) -> str:
     text = str(value or "")
     text = re.sub(r"<br\s*/?>", "\n", text, flags=re.I)
-    text = re.sub(r"<[^>]+>", "", text)
+    # HTML 태그만 지운다. 법령 글의 <개정 2020. 7. 14.>·<신설> 같은 표시는 남긴다.
+    text = re.sub(r"</?[A-Za-z][A-Za-z0-9]*(?:\s[^<>]*)?/?>", "", text)
     return "\n".join(line.rstrip() for line in text.replace("\r", "").split("\n")).strip()
 
 

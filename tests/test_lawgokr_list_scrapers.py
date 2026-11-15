@@ -100,6 +100,18 @@ class InterpretationListTest(Base):
                          "https://www.law.go.kr/LSW/cgmExpcInfoP.do?mode=2&cgmExpcDatSeq=314616&ofiClsCd=350101")
         self.assertEqual(get.calls[0][1]["target"], "moelCgmExpc")
 
+    def test_failed_middle_page_is_recorded_and_others_kept(self):
+        report = start_run_report("interpretation")
+
+        def route(url, p):
+            if p["page"] == 2:
+                raise RuntimeError("timeout")
+            rows = [{"법령해석일련번호": str(p["page"] * 1000 + i)} for i in range(100 if p["page"] == 1 else 3)]
+            return {"CgmExpc": {"totalCnt": "203", "cgmExpc": rows}}
+        items = interp_list.collect_items(get=FakeGet(route))
+        self.assertEqual(len(items), 103)
+        self.assertEqual(report.failed_targets, ["interpretation:list-page:2"])
+
     def test_error_body_raises_so_the_listing_fails(self):
         get = FakeGet(lambda u, p: {"CgmExpc": "점검 중"})
         with self.assertRaises(api.OpenApiError):

@@ -56,10 +56,46 @@ class SearchTest(unittest.TestCase):
             api.service("moelCgmExpc", get=get, ID="1")
         self.assertIn("Open API", str(ctx.exception))
 
+    def test_missing_total_keeps_paging_while_pages_are_full(self):
+        def route(url, p):
+            n = 100 if p["page"] < 3 else 5
+            return {"PrecSearch": {"prec": [{"판례일련번호": f"{p['page']}-{i}"} for i in range(n)]}}
+        self.assertEqual(len(list(api.search("prec", get=FakeGet(route)))), 205)
+
+    def test_middle_page_failure_is_reported_and_paging_continues(self):
+        failed = []
+
+        def route(url, p):
+            if p["page"] == 2:
+                raise RuntimeError("timeout")
+            n = 100 if p["page"] < 3 else 10
+            return {"PrecSearch": {"totalCnt": "210", "prec": [{"id": f"{p['page']}-{i}"} for i in range(n)]}}
+        rows = list(api.search("prec", get=FakeGet(route), on_page_error=lambda pg, e: failed.append(pg)))
+        self.assertEqual((len(rows), failed), (110, [2]))
+
+    def test_first_page_failure_always_raises(self):
+        get = FakeGet(lambda u, p: (_ for _ in ()).throw(RuntimeError("down")))
+        with self.assertRaises(RuntimeError):
+            list(api.search("prec", get=get, on_page_error=lambda pg, e: None))
+
     def test_html_page_raises_open_api_error(self):
         get = lambda url, params=None, timeout=None: fake_response(ValueError("no json"))
         with self.assertRaises(api.OpenApiError):
             list(api.search("law", get=get))
+
+
+class ServiceRetryTest(unittest.TestCase):
+    def test_not_found_is_not_retried_but_network_error_is(self):
+        from unittest.mock import patch as _patch
+        calls = {"n": 0}
+
+        def get(url, params=None, timeout=None):
+            calls["n"] += 1
+            return fake_response({"Law": "일치하는 법령해석이 없습니다."})
+        with _patch("scripts.core.run_report.time.sleep") as sleep:
+            with self.assertRaises(api.OpenApiError):
+                api.service("moelCgmExpc", get=get, ID="1")
+        self.assertEqual((calls["n"], sleep.call_count), (1, 0))
 
 
 class MatcherTest(unittest.TestCase):
@@ -139,6 +175,21 @@ class ScopedCandidatesTest(unittest.TestCase):
             store=FakeStore(), get=get, on_failure=lambda t, e: failures.append(t), max_workers=1)
         self.assertEqual([r["헌재결정례일련번호"] for r in kept], ["1"])
         self.assertEqual(failures, ["list-query:근로기준법"])
+
+    def test_failed_detail_check_is_reported_not_recorded(self):
+        failures = []
+
+        def route(url, p):
+            if url == api.SERVICE_URL:
+                raise RuntimeError("down")
+            return {"DetcSearch": {"totalCnt": "1", "Detc": [{"헌재결정례일련번호": "9", "사건명": "기본권 침해"}]}}
+        store = FakeStore()
+        kept = api.scoped_candidates(
+            target="detc", id_key="헌재결정례일련번호", title_key="사건명", detail_fields=("사건명",),
+            collection_name="constitutional_decc", laws={"current": ["근로기준법"], "all": ["근로기준법"]},
+            store=store, get=FakeGet(route), on_failure=lambda t, e: failures.append(t), max_workers=1)
+        self.assertEqual((kept, store.saved), ([], {}))  # 판정 못 한 문서는 기록하지 않아 다음 날 다시 본다
+        self.assertEqual(sorted(set(failures)), ["scope-check:9"])
 
 
 class JurisdictionLawsTest(unittest.TestCase):

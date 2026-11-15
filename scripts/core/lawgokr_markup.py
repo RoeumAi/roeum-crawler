@@ -16,7 +16,7 @@ SUBTITLE_LOCATOR = "div.subtit1, div.subtit2, div.ct_sub"
 def subtitle_text(soup: BeautifulSoup) -> str:
     """부제 칸의 글. 없으면 빈 문자열."""
     el = soup.select_one(SUBTITLE_SELECTOR)
-    return el.get_text(" ", strip=True) if el else ""
+    return el.get_text().strip() if el else ""  # 옛 파서와 같이 구분자 없이 이어 붙인다(저장된 부제와 같게)
 
 
 def _only_child_wrapper(el):

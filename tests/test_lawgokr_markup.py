@@ -23,6 +23,10 @@ class SubtitleTest(unittest.TestCase):
                          "[전원재판부 2022헌바79, 2026. 8. 27.]")
         self.assertEqual(mk.subtitle_text(BeautifulSoup(OLD_PAGE, "html.parser")), "[부제]")
 
+    def test_nested_subtitle_is_joined_like_before(self):
+        soup = BeautifulSoup('<div class="ct_sub">[전원재판부 <span>2022헌바79</span>, 2026. 8. 27.]</div>', "html.parser")
+        self.assertEqual(mk.subtitle_text(soup), "[전원재판부 2022헌바79, 2026. 8. 27.]")
+
     def test_missing_subtitle_is_empty(self):
         self.assertEqual(mk.subtitle_text(BeautifulSoup("<div></div>", "html.parser")), "")
 

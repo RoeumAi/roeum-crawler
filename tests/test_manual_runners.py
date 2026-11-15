@@ -24,17 +24,18 @@ class ManualRunnersTest(unittest.TestCase):
         self.assertEqual(rows, [{"url": "u1"}, {"url": "u2"}])
         self.assertEqual(calls, [("", 2)])
 
-    def test_list_case_passes_optional_start_url(self):
+    def test_list_case_takes_no_start_url(self):
+        # 판례 목록도 Open API(참조 법령 조건)라 시작 URL 을 받지 않는다
         calls = []
 
         async def fake_fetch(start_url, max_pages):
-            calls.append(start_url)
+            calls.append((start_url, max_pages))
             return []
 
         with tempfile.TemporaryDirectory() as tmp, \
                 patch("scripts.case.logic.list_scraper.fetch_urls", fake_fetch):
-            manual_runners.main(["list", "case", "https://x/?cptOfiCd=1492000", "-o", str(Path(tmp) / "c.jsonl")])
-        self.assertEqual(calls, ["https://x/?cptOfiCd=1492000"])
+            manual_runners.main(["list", "case", "-p", "1", "-o", str(Path(tmp) / "c.jsonl")])
+        self.assertEqual(calls, [("", 1)])
 
     def test_scrape_keeps_each_kinds_save_options(self):
         seen = {}
@@ -60,7 +61,7 @@ class ManualRunnersTest(unittest.TestCase):
 
     def test_unknown_kind_is_usage_error(self):
         self.assertEqual(manual_runners.main(["scrape", "nope"]), 2)
-        self.assertEqual(manual_runners.main(["check-url", "case", "u"]), 2)
+        self.assertEqual(manual_runners.main(["check-url", "law", "u"]), 2)  # check-url 작업은 없앴다
 
 
 if __name__ == "__main__":

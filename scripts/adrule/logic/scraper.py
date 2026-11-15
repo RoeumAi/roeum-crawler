@@ -16,6 +16,7 @@ sys.path.append(project_root)
 
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
+from scripts.core.lawgokr_markup import SUBTITLE_LOCATOR, TITLE_LOCATOR
 from scripts.core.identifiers import article_chunk_id, normalize_article_number
 from scripts.adrule.logic.attachment_body import POINTER, attachment_need, notice_files, stated_period
 from scripts.core.lawgokr_annex import annex_metadata, collect_annex_articles, download_and_extract
@@ -462,8 +463,8 @@ async def scrape_and_save(url: str | dict, output_dir: str, output_name: str, de
                 logger.info(f"디버그용 HTML 소스 저장됨: {html_path}")
                 # ▲▲▲ 디버그 코드 추가 ▲▲▲
 
-            doc_title = clean_spaces(await page.locator('#conTop h2').text_content())
-            doc_subtitle = clean_spaces(await page.locator('div.subtit1').text_content())
+            doc_title = clean_spaces(await page.locator(TITLE_LOCATOR).first.text_content())
+            doc_subtitle = clean_spaces(await page.locator(SUBTITLE_LOCATOR).first.text_content())
 
             # ■■■ 효력일자 추출 (law.py와 동일 로직) ■■■
             effective_date = ""  # 추출 실패 시 빈값 유지 (datetime.now 쓰면 매일 false-positive 발생)

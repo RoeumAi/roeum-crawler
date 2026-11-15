@@ -1,9 +1,9 @@
-"""수동 실행용 범용 러너 — 종류(kind)별 표 하나로 `scrape` / `list` / `check-url` 을 처리한다.
+"""수동 실행용 범용 러너 — 종류(kind)별 표 하나로 `scrape` / `list` 를 처리한다.
 
 `manual.py` 가 `scrape:law` 같은 작업 이름을 `scrape law ...` 로 바꿔 이 모듈에 넘긴다.
 직접 쓰려면: `python3 -m scripts.manual_runners scrape law <URL> -d <부처코드> -o <이름> --no-db`
 
-새 종류를 더하려면 아래 표(SCRAPE_KINDS, LIST_KINDS, CHECK_URL_KINDS)에 한 줄을 넣고
+새 종류를 더하려면 아래 표(SCRAPE_KINDS, LIST_KINDS)에 한 줄을 넣고
 manual.py 의 TASKS 와 docs/manual-tasks.md 에도 한 줄 적는다.
 """
 import argparse
@@ -37,29 +37,12 @@ SCRAPE_KINDS = {
     "judgment": ScrapeKind("주요판정사례", False, False, {"save_jsonl": True}),
 }
 
-# 목록 수집: 판례만 start_url 에서 cptOfiCd 를 읽는다(없으면 기본 부처). 나머지는 Open API 라 URL 이 필요 없다.
+# 목록 수집: 모두 Open API·목록을 바로 돌아 시작 URL 이 필요 없다(판례도 11-15 부터 Open API).
+# 웹 화면을 열어 보던 check-url 작업은 목록·상세가 Open API·고친 파서로 바뀌어 없앴다. 실제 경로 확인은 crawl.py 시험 실행.
 LIST_KINDS = {
     "adrule": ("행정규칙", False),
-    "case": ("판례", True),
+    "case": ("판례", False),
     "judgment": ("주요판정사례", False),
-}
-
-
-@dataclass(frozen=True)
-class CheckUrlKind:
-    label: str
-    wait_until: str
-    goto_timeout_ms: int
-    selector: str
-    selector_timeout_ms: int
-    wait_loadmask: bool = False
-
-
-CHECK_URL_KINDS = {
-    "law": CheckUrlKind("법령 목록", "domcontentloaded", 20000,
-                        "#resultTableDiv a[onclick*='lsReturnSearch']", 10000, wait_loadmask=True),
-    "interpretation": CheckUrlKind("해석례 상세", "networkidle", 30000,
-                                   "#writeNumDiv > strong", 15000),
 }
 
 
@@ -122,48 +105,9 @@ async def run_list(kind: str, argv: list[str]) -> int:
     return 0
 
 
-async def check_url_validity(kind: str, url: str) -> bool:
-    """URL 에 접속해 기대하는 요소가 뜨는지 확인한다. 성공 True, 실패 False."""
-    from playwright.async_api import TimeoutError as PlaywrightTimeout
-    from playwright.async_api import async_playwright
-
-    spec = CHECK_URL_KINDS[kind]
-    logger = get_logger(__name__, scraper_type=kind)
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
-        try:
-            await page.goto(url, wait_until=spec.wait_until, timeout=spec.goto_timeout_ms)
-            if spec.wait_loadmask:
-                await page.wait_for_selector(".loadmask-msg", state="visible", timeout=10000)
-                await page.wait_for_selector(".loadmask-msg", state="hidden", timeout=30000)
-            await page.wait_for_selector(spec.selector, state="visible", timeout=spec.selector_timeout_ms)
-            logger.info(f"URL 유효성 검증 성공: {url}")
-            return True
-        except PlaywrightTimeout:
-            logger.error(f"URL 유효성 검증 실패: 지정된 시간 내에 {spec.label} 콘텐츠가 뜨지 않았습니다. URL: {url}")
-            return False
-        except Exception as e:
-            logger.error(f"URL 검증 중 알 수 없는 에러 발생: {e}", exc_info=True)
-            return False
-        finally:
-            await browser.close()
-
-
-async def run_check_url(kind: str, argv: list[str]) -> int:
-    label = CHECK_URL_KINDS[kind].label
-    parser = argparse.ArgumentParser(
-        prog=f"manual.py check-url:{kind}", description=f"{label} 페이지 URL 이 정상으로 열리는지 확인한다.")
-    parser.add_argument("url", help=f"검증할 {label} 페이지의 전체 URL")
-    args = parser.parse_args(argv)
-    # 쉘 스크립트가 판단할 수 있도록 종료 코드로 알린다(성공 0, 실패 1).
-    return 0 if await check_url_validity(kind, args.url) else 1
-
-
 ACTIONS = {
     "scrape": (SCRAPE_KINDS, run_scrape),
     "list": (LIST_KINDS, run_list),
-    "check-url": (CHECK_URL_KINDS, run_check_url),
 }
 
 

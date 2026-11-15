@@ -14,6 +14,7 @@ sys.path.append(project_root)
 
 # --- 로거 설정 ---
 from scripts.core.run_report import retry_detail_fetch_async
+from scripts.core.lawgokr_markup import TITLE_SELECTOR, content_html as lawgokr_content_html, subtitle_text
 from scripts.utils.html_text import block_text
 from scripts.utils.logger_config import get_logger
 from scripts.core.database.section_chunks import save_section_chunks
@@ -176,18 +177,16 @@ async def scrape_and_save(url: str, output_dir: str, output_name: str, process_c
             logger.error("URL에서 doc_id(precSeq)를 추출하지 못했습니다.")
             return {"doc_id": None, "status": "failed"}
 
-        h2 = soup.select_one("#contentBody h2")
+        h2 = soup.select_one(TITLE_SELECTOR)
         if not h2:
-            logger.error(f"{doc_id}: #contentBody h2 없음 — 파싱 실패")
+            logger.error(f"{doc_id}: 제목(h2) 없음 — 파싱 실패")
             return {"doc_id": None, "status": "failed"}
         doc_title = clean_spaces(h2.get_text())
 
-        subtit = soup.select_one(".subtit1") or soup.select_one("div.subtit2")
-        doc_subtitle = clean_spaces(subtit.get_text()) if subtit else ""
+        doc_subtitle = clean_spaces(subtitle_text(soup))
         doc_subtitle = re.sub(r'^\[(.+)\]$', r'\1', doc_subtitle.strip())
 
-        con_scroll = soup.select_one("#conScroll")
-        content_html = con_scroll.decode_contents() if con_scroll else ""
+        content_html = lawgokr_content_html(soup)
         chunks = parse_case_law_content(content_html, doc_id, url, doc_title)
         logger.info(f"✅ {doc_id}: {len(chunks)}개 청크 파싱 완료")
 

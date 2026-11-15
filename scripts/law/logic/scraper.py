@@ -13,6 +13,7 @@ sys.path.append(project_root)
 from scripts.utils.text_cleanup import clean_text  # noqa: E402
 
 from scripts.utils.logger_config import get_logger
+from scripts.core.lawgokr_markup import SUBTITLE_SELECTOR, TITLE_SELECTOR
 from scripts.core.database.unified_repository import UnifiedDocumentRepository
 from scripts.core.identifiers import article_chunk_id
 from scripts.law.logic.version_doc_id import resolve_version_doc_id
@@ -59,10 +60,10 @@ def parse_law_html(html: str, url: str) -> Optional[Dict]:
         return None
     
     # 2. 기본 정보 추출
-    doc_title_tag = soup.select_one('#conTop h2')
+    doc_title_tag = soup.select_one(TITLE_SELECTOR)
     title = doc_title_tag.get_text(strip=True) if doc_title_tag else ""
     
-    doc_subtitle_tag = soup.select_one('div.ct_sub')
+    doc_subtitle_tag = soup.select_one(SUBTITLE_SELECTOR)
     sub_title = doc_subtitle_tag.get_text(strip=True) if doc_subtitle_tag else ""
     
     if not title:

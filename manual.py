@@ -74,6 +74,8 @@ TASKS = [
          "행정규칙에 고시일·고시번호·소관부처·제개정 구분을 상세 API 로 채우기(--apply 로 저장)"),
     Task("fix:adrule-attachment-body", "scripts.migrations.adrule_attachment_body", "데이터 정비", DRY_RUN_DEFAULT,
          "화면에 표 그림·첨부 안내만 있던 행정규칙을 첨부 원문으로 다시 넣기(--apply 로 저장)"),
+    Task("fix:dept-name", "scripts.migrations.fill_dept_name", "데이터 정비", DRY_RUN_DEFAULT,
+         "빠진 기관명(metadata.dept_name)을 기존 행과 같은 값으로 채우기 — 헌재·법제처·행정심판·조정·행정규칙(--apply 로 저장)"),
     Task("fix:text-cleanup", "scripts.migrations.text_cleanup", "데이터 정비", DRY_RUN_DEFAULT,
          "깨진 가운뎃점(？)·HTML 흔적(<br>, &nbsp;)·법령 조문 제목 뒤 공백 정리(--apply 로 저장)"),
 ]

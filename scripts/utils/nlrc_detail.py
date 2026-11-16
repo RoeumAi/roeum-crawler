@@ -10,6 +10,7 @@ from html import unescape
 
 from bs4 import BeautifulSoup
 
+from scripts.utils.nlrc_commission import commission
 from scripts.core.identifiers import document_chunk_id
 from scripts.utils.nlrc_pdf import (
     MAX_PDF_RETRIES, attachment_body_heading, attachment_display_metadata, pdf_retry_needed,
@@ -59,6 +60,15 @@ def merge_attachment_content(html_content: str, pdf_result: dict, doc_id: str, l
     return html_content
 
 
+def _dept_name(collection: str, sub_title: str, title: str, content: str) -> dict:
+    if collection == "mediation_case":
+        return {"dept_name": "중앙노동위원회"}
+    if collection == "judgment":
+        name = commission(sub_title, title, content)
+        return {"dept_name": name} if name else {}
+    return {}
+
+
 def build_document(*, collection: str, doc_id: str, doc_type: str, title: str, sub_title: str,
                    content: str, html_content: str, pdf_result: dict, detail_url: str,
                    registered_at: str) -> dict:
@@ -75,9 +85,9 @@ def build_document(*, collection: str, doc_id: str, doc_type: str, title: str, s
             **attachment_display_metadata(html_content, pdf_result),
             "source_url": detail_url,
             "source_type": "web",
-            # 기관명(법률 DB 내보내기 대체값). 조정사건례는 모두 중앙노동위원회 게시(옛 행과 같은 값).
-            # 주요판정사례는 중앙·지방 위원회가 섞여 한 값으로 채우지 않는다(위원회는 부제에서 읽는다).
-            **({"dept_name": "중앙노동위원회"} if collection == "mediation_case" else {}),
+            # 기관명(법률 DB 내보내기 대체값). 조정사건례는 모두 중앙노동위원회 게시(옛 행과 같은 값),
+            # 주요판정사례는 부제·사건번호·본문에서 읽은 판정 위원회(못 읽으면 넣지 않는다).
+            **_dept_name(collection, sub_title, title, content),
             "created_at": datetime.now().isoformat(),
             "updated_at": datetime.now().isoformat(),
             "is_active": True,

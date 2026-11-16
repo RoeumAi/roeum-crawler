@@ -256,7 +256,8 @@ def save_case_chunks_to_mongodb(
     return save_section_chunks(
         "case", base_doc_id, doc_title, doc_subtitle, url, chunks,
         hash_skip=True,
-        extra_chunk_meta={"effective": extract_judgment_date(doc_subtitle)},
+        # dept_name: 고용노동부 소관 법령을 참조한 판례(목록 범위)라는 표시 — 기존 판례 행과 같은 값
+        extra_chunk_meta={"effective": extract_judgment_date(doc_subtitle), "dept_name": "고용노동부"},
         include_unflagged_rows=True,
     )
 

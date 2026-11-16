@@ -37,6 +37,12 @@ class FillDeptNameTest(unittest.TestCase):
                                        row("5", "경기도행정심판위원회 2017-982, 2017. 7. 31."), row("6", "")]
         self.db["mediation_case"].docs += [row("7", dept="중앙노동위원회", is_active=False), row("7"), row("8")]
         self.db["adrule"].docs += [row("9", dept="노동위원회"), row("9"), row("10")]
+        self.db["case"].docs += [row("11"), row("12", dept="고용노동부")]
+        self.db["judgment"].docs += [row("13", "노동위원회(중앙) 2008. 9. 4. 판정 2008부해486"),
+                                     row("14", "지방노동위원회(서울) 2026. 7. 14. 판정 2026부해1628"),
+                                     row("15", "2025. 8. 11. 판정")]
+        for i, r in enumerate(self.db["case"].docs + self.db["judgment"].docs):
+            r["_id"] = f"id{i}"
 
     def run_tool(self, apply):
         fetch = lambda target, doc_id: {"AdmRulService": {"행정규칙기본정보": {"소관부처명": "고용노동부"}}}
@@ -57,6 +63,8 @@ class FillDeptNameTest(unittest.TestCase):
         self.assertEqual(self.dept("admin_decc"), [("4", "국민권익위원회"), ("5", "경기도행정심판위원회"), ("6", None)])
         self.assertEqual(self.dept("mediation_case"), [("7", "중앙노동위원회"), ("7", "중앙노동위원회"), ("8", "중앙노동위원회")])
         self.assertEqual(self.dept("adrule"), [("9", "노동위원회"), ("9", "노동위원회"), ("10", "고용노동부")])
+        self.assertEqual(self.dept("case"), [("11", "고용노동부"), ("12", "고용노동부")])
+        self.assertEqual(self.dept("judgment"), [("13", "중앙노동위원회"), ("14", "서울지방노동위원회"), ("15", None)])
 
     def test_content_and_updated_at_untouched(self):
         self.run_tool(apply=True)

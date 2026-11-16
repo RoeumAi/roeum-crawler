@@ -75,6 +75,9 @@ def build_document(*, collection: str, doc_id: str, doc_type: str, title: str, s
             **attachment_display_metadata(html_content, pdf_result),
             "source_url": detail_url,
             "source_type": "web",
+            # 기관명(법률 DB 내보내기 대체값). 조정사건례는 모두 중앙노동위원회 게시(옛 행과 같은 값).
+            # 주요판정사례는 중앙·지방 위원회가 섞여 한 값으로 채우지 않는다(위원회는 부제에서 읽는다).
+            **({"dept_name": "중앙노동위원회"} if collection == "mediation_case" else {}),
             "created_at": datetime.now().isoformat(),
             "updated_at": datetime.now().isoformat(),
             "is_active": True,

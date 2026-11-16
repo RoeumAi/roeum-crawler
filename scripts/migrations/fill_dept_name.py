@@ -41,11 +41,18 @@ ID_BATCH = 5000
 def plan_by_row(name: str, collection) -> tuple[dict[str, list], int]:
     """({값: [_id, ...]}, 빈 행 수) — 행마다 값이 정해지는 큰 컬렉션(판례·판정사례).
 
-    판례는 51만 행이라 count_documents 가 소켓 시간 제한(60초)에 걸린다 → 커서로 읽으며 센다."""
+    판례는 51만 행이라 '빈 칸' 조건으로 찾으면 맞는 행이 적을 때 첫 결과가 나오기 전에 소켓 시간 제한(60초)에
+    걸린다(색인 없는 칸이라 전체를 훑는다). 그래서 모든 행을 가볍게(빈 칸 여부만) 읽으며 거른다 — 결과가 계속 흘러
+    시간 제한에 걸리지 않는다. 판정사례는 본문까지 읽어야 해서 빈 행만 다시 읽는다."""
     groups: dict[str, list] = {}
     missing = 0
+    missing_ids = [r["_id"] for r in collection.find({}, {"_id": 1, "metadata.dept_name": 1})
+                   if "dept_name" not in (r.get("metadata") or {})]
     projection = {"_id": 1} if name == "case" else {"sub_title": 1, "title": 1, "content": 1}
-    for r in collection.find(MISSING, projection):
+    rows = ({"_id": i} for i in missing_ids) if name == "case" else (
+        r for start in range(0, len(missing_ids), ID_BATCH)
+        for r in collection.find({"_id": {"$in": missing_ids[start:start + ID_BATCH]}}, projection))
+    for r in rows:
         missing += 1
         if name == "case":
             value = "고용노동부"
